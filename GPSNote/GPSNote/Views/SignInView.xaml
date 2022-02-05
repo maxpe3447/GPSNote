@@ -10,7 +10,7 @@
         <StackLayout>
             <Label Text="Enter e-mail:"
                    FontSize="25"
-                   Margin="30, 150, 10, 0"/>
+                   Margin="30, 100, 10, 0"/>
 
             <Entry Margin="30, 0, 30, 10"
                    FontSize="24"/>
@@ -25,7 +25,8 @@
 
             <Button Text="Enter"
                     FontSize="25"
-                    Margin="50, 10"/>
+                    Margin="50, 10"
+                    Command="{Binding SigninCommand}"/>
             
         </StackLayout>
     </ContentPage.Content>
