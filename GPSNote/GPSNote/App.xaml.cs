@@ -16,16 +16,13 @@ namespace GPSNote
             :base(initializer)
         {
             
-
-            //MainPage = new MainPage();
-           
         }
 
         
         protected override async void OnInitialized()
         {
             InitializeComponent();
-            await NavigationService.NavigateAsync("NavigationPage/MainPage");
+            await NavigationService.NavigateAsync("NavigationPage/SignInView");
         }
         protected override void RegisterTypes(IContainerRegistry containerRegistry)
         {
@@ -34,6 +31,7 @@ namespace GPSNote
             //
             containerRegistry.RegisterForNavigation<NavigationPage>();
             containerRegistry.RegisterForNavigation<Views.MainPage>();
+            containerRegistry.RegisterForNavigation<Views.SignInView, ViewModels.SignInViewModel>();
         }
 
     }

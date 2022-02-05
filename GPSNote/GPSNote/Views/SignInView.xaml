@@ -1,0 +1,32 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<ContentPage xmlns="http://xamarin.com/schemas/2014/forms"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             xmlns:prism ="http://prismlibrary.com"
+             prism:ViewModelLocator.AutowireViewModel="True"
+             x:Class="GPSNote.Views.SignInView"
+             Title="{Binding Title}">
+    
+    <ContentPage.Content>
+        <StackLayout>
+            <Label Text="Enter e-mail:"
+                   FontSize="25"
+                   Margin="30, 150, 10, 0"/>
+
+            <Entry Margin="30, 0, 30, 10"
+                   FontSize="24"/>
+
+            <Label Text="Password:"
+                   FontSize="25"
+                   Margin="30, 10, 10,10"/>
+
+            <Entry Margin="30, 0, 30, 10"
+                   FontSize="24"
+                   IsPassword="True"/>
+
+            <Button Text="Enter"
+                    FontSize="25"
+                    Margin="50, 10"/>
+            
+        </StackLayout>
+    </ContentPage.Content>
+</ContentPage>
