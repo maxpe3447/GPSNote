@@ -2,13 +2,16 @@
 <ContentPage xmlns="http://xamarin.com/schemas/2014/forms"
              xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
              xmlns:prism ="http://prismlibrary.com"
+             xmlns:maps="clr-namespace:Xamarin.Forms.Maps;assembly=Xamarin.Forms.Maps"
              prism:ViewModelLocator.AutowireViewModel="True"
              x:Class="GPSNote.Views.MapView">
     <ContentPage.Content>
         <StackLayout>
-            <Label Text="MAP"
-                VerticalOptions="CenterAndExpand" 
-                HorizontalOptions="CenterAndExpand" />
+            
+            <maps:Map Margin="10"
+                      IsShowingUser="True"/>
         </StackLayout>
     </ContentPage.Content>
 </ContentPage>
+
+<!--xmlns:maps="clr-namespace:Xamarin.Forms.Maps;assembly=Xamarin.Forms.Maps"-->

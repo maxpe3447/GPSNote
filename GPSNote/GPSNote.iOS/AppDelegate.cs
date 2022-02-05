@@ -3,6 +3,8 @@ using System.Collections.Generic;
 using System.Linq;
 
 using Foundation;
+using Prism;
+using Prism.Ioc;
 using UIKit;
 
 namespace GPSNote.iOS
@@ -23,9 +25,17 @@ namespace GPSNote.iOS
         public override bool FinishedLaunching(UIApplication app, NSDictionary options)
         {
             global::Xamarin.Forms.Forms.Init();
-            LoadApplication(new App());
+            Xamarin.FormsMaps.Init();
+            LoadApplication(new App(new AndroidInitializer()));
 
             return base.FinishedLaunching(app, options);
+        }
+    }
+    public class AndroidInitializer : IPlatformInitializer
+    {
+        public void RegisterTypes(IContainerRegistry containerRegistry)
+        {
+            // Register any platform specific implementations
         }
     }
 }
