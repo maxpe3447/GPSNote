@@ -4,12 +4,53 @@
              xmlns:prism ="http://prismlibrary.com"
              xmlns:maps="clr-namespace:Xamarin.Forms.Maps;assembly=Xamarin.Forms.Maps"
              prism:ViewModelLocator.AutowireViewModel="True"
-             x:Class="GPSNote.Views.MapView">
+             x:Class="GPSNote.Views.MapView"
+             Title="{Binding Title}">
     <ContentPage.Content>
         <StackLayout>
-            
-            <maps:Map Margin="10"
-                      IsShowingUser="True"/>
+
+            <maps:Map IsShowingUser="True"
+                      MapType="Street"
+                      TrafficEnabled="True"
+                      ItemsSource="{Binding PinsList}">
+                
+                <x:Arguments>
+                    <maps:MapSpan >
+                        <x:Arguments>
+                            <maps:Position>
+                                <x:Arguments>
+                                    <x:Double>47.842725</x:Double>
+                                    <x:Double>35.131675</x:Double>
+                                </x:Arguments>
+                            </maps:Position>
+                            <x:Double>0.1</x:Double>
+                            <x:Double>0.1</x:Double>
+                        </x:Arguments>
+                    </maps:MapSpan>
+                </x:Arguments>
+                <maps:Map.ItemTemplate>
+                    <DataTemplate>
+                        <maps:Pin Position="{Binding Position}"
+                                  Address="{Binding Address}"
+                                  Label="{Binding Description}"/>
+                    </DataTemplate>
+                </maps:Map.ItemTemplate>
+                <!--<maps:Map.Pins>
+                    <maps:Pin Label="Test label"
+                              Address="Test adderss"
+                              Type="Place">
+                        <maps:Pin.Position>
+                            <maps:Position>
+                                <x:Arguments>
+                                    <x:Double>47.8352926</x:Double>
+                                    <x:Double>35.1045473</x:Double>
+                                </x:Arguments>
+                            </maps:Position>
+                        </maps:Pin.Position>
+                    </maps:Pin>
+                    
+                </maps:Map.Pins>-->
+            </maps:Map>
         </StackLayout>
     </ContentPage.Content>
 </ContentPage>
