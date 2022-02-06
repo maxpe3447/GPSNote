@@ -11,6 +11,6 @@ namespace GPSNote.Services.Repository
         Task<int> InsertAsync<T>(T entity);
         Task<int> UpdateAsync<T>(T entity);
         Task <int> DeleteAsync<T>(T entity);
-        Task<ObservableCollection<T>> GetAllAsync<T>();
+        Task<List<T>> GetAllAsync<T>() where T : new();
     }
 }
