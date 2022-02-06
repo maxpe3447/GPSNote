@@ -1,18 +1,25 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Text;
+using SQLite;
 
 namespace GPSNote.Models
 {
     public class PinModel
     {
+        public PinModel()
+        {
+
+        }
         public PinModel(string address, string description, Xamarin.Forms.Maps.Position position)
         {
             Address = address;
             Description = description;
             Position = position;
         }
-
+        
+        [PrimaryKey, AutoIncrement]
+        public int Id { get; set; }
         public double Latitude { get => position.Latitude; }
         public double Longitude { get => position.Longitude; }
         public string Address { get; set; }
