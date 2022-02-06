@@ -1,12 +1,8 @@
-﻿using System;
-using Xamarin.Forms;
-using Xamarin.Forms.Xaml;
-//using Xamarin.Essentials.Implementation;
-//using Xamarin.Essentials.Interfaces;
+﻿using Xamarin.Forms;
 using Prism;
-using Prism.Navigation;
 using Prism.Ioc;
-
+using GPSNote.Services.Repository;
+using Xamarin.Essentials;
 
 namespace GPSNote
 {
@@ -26,13 +22,17 @@ namespace GPSNote
         }
         protected override void RegisterTypes(IContainerRegistry containerRegistry)
         {
-            //containerRegistry.RegisterSingleton<IAppInfo>
+            //containerRegistry.RegisterSingleton<AppInfo, AppInfoImplementation>();
 
-            //
+            //Services
+            containerRegistry.RegisterInstance<IRepository>(Container.Resolve<Repository>());
+
+            //Navigarion
             containerRegistry.RegisterForNavigation<NavigationPage>();
-            containerRegistry.RegisterForNavigation<Views.MainPage>();
+            containerRegistry.RegisterForNavigation<Views.MainPage, ViewModels.MainPageViewModel>();
             containerRegistry.RegisterForNavigation<Views.SignInView, ViewModels.SignInViewModel>();
-            containerRegistry.RegisterForNavigation<Views.MapView, ViewModels.MapViewModal>();
+            containerRegistry.RegisterForNavigation<Views.MapView, ViewModels.MapViewModel>();
+            containerRegistry.RegisterForNavigation<Views.SignUpView, ViewModels.SignUpViewModel>();
         }
 
     }

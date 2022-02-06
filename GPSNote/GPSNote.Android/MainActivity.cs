@@ -1,5 +1,5 @@
 ﻿using System;
-
+using Acr.UserDialogs;
 using Android.App;
 using Android.Content.PM;
 using Android.Runtime;
@@ -18,6 +18,8 @@ namespace GPSNote.Droid
             base.OnCreate(savedInstanceState);
 
             Xamarin.FormsMaps.Init(this, savedInstanceState);//for maps
+            UserDialogs.Init(this);
+
 
             Xamarin.Essentials.Platform.Init(this, savedInstanceState);
             global::Xamarin.Forms.Forms.Init(this, savedInstanceState);

@@ -13,7 +13,9 @@
                    Margin="30, 100, 10, 0"/>
 
             <Entry Margin="30, 0, 30, 10"
-                   FontSize="24"/>
+                   Placeholder="E-mail"
+                   FontSize="24"
+                   Text="{Binding UserEmail}"/>
 
             <Label Text="Password:"
                    FontSize="25"
@@ -21,13 +23,18 @@
 
             <Entry Margin="30, 0, 30, 10"
                    FontSize="24"
-                   IsPassword="True"/>
+                   Placeholder="Password"
+                   IsPassword="True"
+                   Text="{Binding UserPassword}"/>
 
             <Button Text="Enter"
                     FontSize="25"
                     Margin="50, 10"
                     Command="{Binding SigninCommand}"/>
-            
+
+            <Button Text="Sign Up"
+                    Margin="30, 10"
+                    Command="{Binding SignUpCommand}"/>
         </StackLayout>
     </ContentPage.Content>
 </ContentPage>

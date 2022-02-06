@@ -8,7 +8,7 @@ using GPSNote.Models;
 
 namespace GPSNote.Services.Repository
 {
-    internal class Repository : IRepository
+    public class Repository : IRepository
     {
         private Lazy<SQLiteAsyncConnection> database;
         public Repository()
@@ -41,10 +41,14 @@ namespace GPSNote.Services.Repository
         {
             return database.Value.UpdateAsync(entity);
         }
-        public async Task<bool> IsExistAsync<T>(UserModel model)
+        public async Task<bool> IsExistAsync(UserModel model)
         {
-            var table = database.Value.FindAsync<UserModel>(model);
-            return await table != null;
+            var table = database.Value.QueryAsync<int?>(
+                $"SELECT Id FROM {nameof(UserModel)} WHERE {nameof(UserModel.Email)} = ? AND {nameof(UserModel.Password)} = ?;",
+                model.Email, model.Password);
+            var all = database.Value.Table<UserModel>().ToListAsync().Result ;
+            int count = table.Result.Count;
+            return table.Result.Count > 0;//await table != null;
         }
 
     }
