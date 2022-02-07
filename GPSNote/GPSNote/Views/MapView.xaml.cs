@@ -1,4 +1,5 @@
-﻿using System;
+﻿using GPSNote.ViewModels;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -15,6 +16,8 @@ namespace GPSNote.Views
         public MapView()
         {
             InitializeComponent();
+            MapViewModel.MapPins = this.map;
+           
         }
     }
 }

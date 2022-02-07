@@ -43,19 +43,21 @@ namespace GPSNote.ViewModels
         public ICommand SigninCommand { get; }
         private async void SignInRelease()
         {
-            if(userModel == null)
-            {
-                userModel = new UserModel
-                {
-                    Email = UserEmail,
-                    Password = UserPassword
-                };
-            }
 
-            if (!string.IsNullOrEmpty(UserPassword) && !string.IsNullOrEmpty(UserEmail) && Repository.IsExistAsync(userModel).Result)
+            userModel = new UserModel
+            {
+                Email = UserEmail,
+                Password = UserPassword
+            };
+
+            //if (!string.IsNullOrEmpty(UserPassword) && !string.IsNullOrEmpty(UserEmail) && Repository.IsExistAsync(userModel, out int id))
+            {
+                NavigationParameters pairs = new NavigationParameters();
+                pairs.Add(nameof(PinModel.UserId), 0/*id*/);
                 await NavigationService.NavigateAsync("/MainPage");
-            else
-                Acr.UserDialogs.UserDialogs.Instance.AlertAsync($"oops(((");
+            }
+            //else
+            //    await Acr.UserDialogs.UserDialogs.Instance.AlertAsync($"Login or password invalid!");
         }
 
         public ICommand SignUpCommand { get; }
@@ -70,7 +72,10 @@ namespace GPSNote.ViewModels
         {
             if (parameters.ContainsKey("userModel"))
             {
-                userModel = parameters.GetValue<UserModel>("userModel");
+                var userModel = parameters.GetValue<UserModel>("userModel");
+
+                UserEmail = userModel.Email;
+                UserPassword = userModel.Password;
 
             }
         }

@@ -13,6 +13,6 @@ namespace GPSNote.Services.Repository
         Task<int> UpdateAsync<T>(T entity);
         Task <int> DeleteAsync<T>(T entity);
         Task<List<T>> GetAllAsync<T>() where T : new();
-        Task<bool> IsExistAsync(UserModel model);
+        bool IsExistAsync(UserModel model, out int id);
     }
 }

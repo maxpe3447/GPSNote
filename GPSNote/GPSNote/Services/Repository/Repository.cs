@@ -41,14 +41,15 @@ namespace GPSNote.Services.Repository
         {
             return database.Value.UpdateAsync(entity);
         }
-        public async Task<bool> IsExistAsync(UserModel model)
+        public bool IsExistAsync(UserModel model, out int id)
         {
-            var table = database.Value.QueryAsync<int?>(
+            var table = database.Value.QueryAsync<int>(
                 $"SELECT Id FROM {nameof(UserModel)} WHERE {nameof(UserModel.Email)} = ? AND {nameof(UserModel.Password)} = ?;",
                 model.Email, model.Password);
-            var all = database.Value.Table<UserModel>().ToListAsync().Result ;
-            int count = table.Result.Count;
-            return table.Result.Count > 0;//await table != null;
+
+            id = (table.Result.Count > 0) ? table.Result[0] : 0;
+            
+            return table.Result.Count > 0;
         }
 
     }

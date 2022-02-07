@@ -20,7 +20,10 @@ namespace GPSNote.Models
         
         [PrimaryKey, AutoIncrement]
         public int Id { get; set; }
+        public int UserId { get; set; }
+        [Ignore]
         public double Latitude { get => position.Latitude; }
+        [Ignore]
         public double Longitude { get => position.Longitude; }
         public string Address { get; set; }
         public string Description { get; set; }

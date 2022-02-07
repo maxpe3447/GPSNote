@@ -9,7 +9,8 @@
     <ContentPage.Content>
         <StackLayout>
 
-            <maps:Map IsShowingUser="True"
+            <maps:Map x:Name="map"
+                      IsShowingUser="True"
                       MapType="Street"
                       TrafficEnabled="True"
                       ItemsSource="{Binding PinsList}">
@@ -50,6 +51,7 @@
                     </maps:Pin>
                     
                 </maps:Map.Pins>-->
+                
             </maps:Map>
         </StackLayout>
     </ContentPage.Content>
