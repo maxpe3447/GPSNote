@@ -54,7 +54,8 @@ namespace GPSNote.ViewModels
             {
                 NavigationParameters pairs = new NavigationParameters();
                 pairs.Add(nameof(PinModel.UserId), 0/*id*/);
-                await NavigationService.NavigateAsync("/MainPage");
+                //await NavigationService.NavigateAsync("/MainPage");
+                await NavigationService.NavigateAsync("/MainPage?createTab=MapView&createTab=PinListView");
             }
             //else
             //    await Acr.UserDialogs.UserDialogs.Instance.AlertAsync($"Login or password invalid!");

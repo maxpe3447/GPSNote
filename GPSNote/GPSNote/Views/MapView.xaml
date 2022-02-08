@@ -2,19 +2,21 @@
 <ContentPage xmlns="http://xamarin.com/schemas/2014/forms"
              xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
              xmlns:prism ="http://prismlibrary.com"
-             xmlns:maps="clr-namespace:Xamarin.Forms.Maps;assembly=Xamarin.Forms.Maps"
+             xmlns:maps="clr-namespace:Xamarin.Forms.Maps;assembly=Xamarin.Forms.Maps" xmlns:controls="clr-namespace:GPSNote.Controls"
              prism:ViewModelLocator.AutowireViewModel="True"
              x:Class="GPSNote.Views.MapView"
              Title="{Binding Title}">
     <ContentPage.Content>
         <StackLayout>
 
-            <maps:Map x:Name="map"
-                      IsShowingUser="True"
-                      MapType="Street"
-                      TrafficEnabled="True"
-                      ItemsSource="{Binding PinsList}">
-                
+            <controls:BindMap IsShowingUser="True"
+                              MapType="Street"
+                              TrafficEnabled="True"
+                              ItemsSource="{Binding PinsList}"
+                              SelectedItem="{Binding SelectedItem}"
+                              TestPosition="{Binding ClickPos}"
+                              >
+                <!---->
                 <x:Arguments>
                     <maps:MapSpan >
                         <x:Arguments>
@@ -52,7 +54,9 @@
                     
                 </maps:Map.Pins>-->
                 
-            </maps:Map>
+            </controls:BindMap>
+            <Button Text="Test"
+                    Command="{Binding MapClickCommand}"/>
         </StackLayout>
     </ContentPage.Content>
 </ContentPage>

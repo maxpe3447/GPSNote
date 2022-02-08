@@ -16,7 +16,7 @@ namespace GPSNote.Views
         public MapView()
         {
             InitializeComponent();
-            MapViewModel.MapPins = this.map;
+            //MapViewModel.MapPins = this.map;
            
         }
     }

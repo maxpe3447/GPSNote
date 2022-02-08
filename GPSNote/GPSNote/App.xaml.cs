@@ -33,6 +33,7 @@ namespace GPSNote
             containerRegistry.RegisterForNavigation<Views.SignInView, ViewModels.SignInViewModel>();
             containerRegistry.RegisterForNavigation<Views.MapView, ViewModels.MapViewModel>();
             containerRegistry.RegisterForNavigation<Views.SignUpView, ViewModels.SignUpViewModel>();
+            containerRegistry.RegisterForNavigation<Views.PinListView, ViewModels.PinListViewModel>();
         }
 
     }

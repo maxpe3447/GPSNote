@@ -2,14 +2,19 @@
 <TabbedPage xmlns="http://xamarin.com/schemas/2014/forms"
             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
             xmlns:prism ="http://prismlibrary.com"
-            xmlns:local ="clr-namespace:GPSNote.Views;assembly=GPSNote"
+            xmlns:local ="clr-namespace:GPSNote.Views;assembly=GPSNote" 
+            xmlns:behaviors="clr-namespace:GPSNote.Behaviors"
             prism:ViewModelLocator.AutowireViewModel="True"
              x:Class="GPSNote.Views.MainPage"
              Title="{Binding Title}">
 
     <TabbedPage.Children>
-        <local:MapView/>
-        <local:PinListView/>
+        <!--<local:MapView />
+        <local:PinListView Title="Pins list"/>-->
     </TabbedPage.Children>
 
+    <TabbedPage.Behaviors>
+        <behaviors:TabbedPageNavigationBehavior />
+    </TabbedPage.Behaviors>
+    
 </TabbedPage>
