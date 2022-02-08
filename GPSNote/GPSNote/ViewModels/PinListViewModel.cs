@@ -1,5 +1,6 @@
 ﻿using GPSNote.Models;
 using Prism.Navigation;
+using Prism.Navigation.TabbedPages;
 using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
@@ -12,19 +13,28 @@ namespace GPSNote.ViewModels
     {
         public PinListViewModel(INavigationService navigationService) : base(navigationService)
         {
-            //PinsList = new ObservableCollection<PinModel>
-            //{
-            //    new PinModel("Addres1", "1", new Position(47.8431096, 35.0874433)),
-            //    new PinModel("Addres2", "2", new Position(47.846540, 35.087064)),
-            //    new PinModel("Addres3", "3", new Position(47.838393, 35.098817))
-            //};
+            Title = "Pins List";
         }
         #region -- Properties --
-        public ObservableCollection<PinModel> _pinsList;
+        private ObservableCollection<PinModel> _pinsList;
         public ObservableCollection<PinModel> PinsList
         {
             get => _pinsList;
             set => SetProperty(ref _pinsList, value);
+        }
+
+        private PinModel _selectedPin;
+        public PinModel SelectedPin
+        {
+            get => _selectedPin;
+            set
+            {
+                SetProperty(ref _selectedPin, value);
+
+                NavigationParameters keyValues = new NavigationParameters();
+                keyValues.Add(nameof(SelectedPin), SelectedPin);
+                NavigationService.SelectTabAsync("MapView", keyValues);
+            }
         }
         #endregion
 

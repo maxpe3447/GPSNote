@@ -17,14 +17,15 @@
                 
                 <ListView ItemsSource="{Binding PinsList, Mode=TwoWay}"
                           Margin="20, 10"
-                          HasUnevenRows="True">
+                          HasUnevenRows="True"
+                          SelectedItem="{Binding SelectedPin, Mode=TwoWay}">
                     <ListView.ItemTemplate>
                         <DataTemplate>
                             <ViewCell>
                                 <ViewCell.View>
                                     <StackLayout>
-                                        <Label Text="{Binding Position}"/>
                                         <Label Text="{Binding Address}"/>
+                                        <Label Text="{Binding Coordinate}"/>
                                         <Label Text="{Binding Description}"/>
                                     </StackLayout>
                                 </ViewCell.View>

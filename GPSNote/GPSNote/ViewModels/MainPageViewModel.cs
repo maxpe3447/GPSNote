@@ -13,11 +13,5 @@ namespace GPSNote.ViewModels
         public MainPageViewModel(INavigationService navigationService) : base(navigationService)
         {
         }
-        //public ObservableCollection<PinModel> PinsList { get; }
-        //async void SelectTab(object parameters)
-        //{
-        //    var result = await NavigationService.SelectTabAsync(nameof(Views.PinListView));
-        //}
-
     }
 }

@@ -57,7 +57,6 @@ namespace GPSNote.ViewModels
             set
             {
                 SetProperty(ref _clickPos, value);
-                Acr.UserDialogs.UserDialogs.Instance.Alert("Test pos");
             }
         }
 
@@ -68,7 +67,6 @@ namespace GPSNote.ViewModels
             set
             {
                 SetProperty(ref _selectedItem, value);
-                Acr.UserDialogs.UserDialogs.Instance.Alert("Test Pins");
             }
         }
         //static private Map mapPins;
@@ -121,6 +119,15 @@ namespace GPSNote.ViewModels
             if (parameters.TryGetValue<ObservableCollection<PinModel>>(nameof(this.PinsList), out var newCounterValue))
             {
                 PinsList = newCounterValue;
+            }
+            if (parameters.TryGetValue<PinModel>(nameof(PinListViewModel.SelectedPin), out var pin))
+            {
+                SelectedItem = new Pin
+                {
+                    Address = pin.Address,
+                    Position = pin.Position,
+                    Label = pin.Description
+                };
             }
         }
         #endregion
