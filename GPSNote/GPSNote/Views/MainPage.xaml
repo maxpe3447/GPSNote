@@ -10,7 +10,7 @@
 
     <TabbedPage.Children>
         <!--<local:MapView />
-        <local:PinListView Title="Pins list"/>-->
+        <local:PinListView/>-->
     </TabbedPage.Children>
 
     <TabbedPage.Behaviors>

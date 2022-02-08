@@ -12,7 +12,7 @@ namespace GPSNote.Services.Repository
         Task<int> InsertAsync<T>(T entity);
         Task<int> UpdateAsync<T>(T entity);
         Task <int> DeleteAsync<T>(T entity);
-        Task<List<T>> GetAllAsync<T>() where T : new();
+        Task<List<PinModel>> GetAllPinsAsync(int userId);
         bool IsExistAsync(UserModel model, out int id);
     }
 }

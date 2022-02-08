@@ -1,25 +1,52 @@
 ﻿<?xml version="1.0" encoding="utf-8" ?>
 <ContentPage xmlns="http://xamarin.com/schemas/2014/forms"
              xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
-             xmlns:prism ="http://prismlibrary.com"
-             xmlns:maps="clr-namespace:Xamarin.Forms.Maps;assembly=Xamarin.Forms.Maps" 
-             xmlns:controls="clr-namespace:GPSNote.Controls"
+             xmlns:prism="http://prismlibrary.com"
+             xmlns:controls="clr-namespace:GPSNote.Controls" xmlns:maps="clr-namespace:Xamarin.Forms.Maps;assembly=Xamarin.Forms.Maps"
              prism:ViewModelLocator.AutowireViewModel="True"
-             x:Class="GPSNote.Views.MapView"
+             x:Class="GPSNote.Views.CreatePinView"
              Title="{Binding Title}">
+    
+    <ContentPage.ToolbarItems>
+        <ToolbarItem Text="Save"
+                     Command="{Binding SaveCommand}"/>
+        <ToolbarItem Text="Cancel"
+                     Command="{Binding CancelCommand}"/>
+    </ContentPage.ToolbarItems>
+    
     <ContentPage.Content>
         <StackLayout>
-            <Entry Placeholder="Enter pin"
-                       Margin="20, 0"
-                       Text="{Binding FindPin}"/>
-            
+            <Label Text="Name:"
+                   FontSize="20"
+                   Margin="20, 0"/>
+
+            <Entry Placeholder="Name"
+                   Text="{Binding Name}"
+                   FontSize="20"/>
+
+            <Label Text="Description:"
+                   FontSize="20"
+                   Margin="20, 0"/>
+
+            <Entry Placeholder="Description"
+                   Text="{Binding Description}"
+                   FontSize="20"/>
+
+            <Label Text="Position:"
+                   FontSize="20"
+                   Margin="20, 0"/>
+
+            <Entry Placeholder="Position"
+                   Text="{Binding Position}"
+                   FontSize="20"/>
+
             <controls:BindMap IsShowingUser="True"
-                              MapType="Street"
                               TrafficEnabled="True"
-                              ItemsSource="{Binding PinsList}"
+                              MapType="Street"
+                              ClickPosition="{Binding SelectedPosition}"
                               SelectedItem="{Binding SelectedItem}"
-                              ClickPosition="{Binding ClickPos}">
-                
+                              ItemsSource="{Binding PinsList}">
+
                 <x:Arguments>
                     <maps:MapSpan >
                         <x:Arguments>
@@ -34,6 +61,7 @@
                         </x:Arguments>
                     </maps:MapSpan>
                 </x:Arguments>
+
                 <maps:Map.ItemTemplate>
                     <DataTemplate>
                         <maps:Pin Position="{Binding Position}"
@@ -41,9 +69,11 @@
                                   Label="{Binding Name}"/>
                     </DataTemplate>
                 </maps:Map.ItemTemplate>
+                
             </controls:BindMap>
+
+            
         </StackLayout>
     </ContentPage.Content>
+    
 </ContentPage>
-
-<!--xmlns:maps="clr-namespace:Xamarin.Forms.Maps;assembly=Xamarin.Forms.Maps"-->

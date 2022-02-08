@@ -50,15 +50,15 @@ namespace GPSNote.ViewModels
                 Password = UserPassword
             };
 
-            //if (!string.IsNullOrEmpty(UserPassword) && !string.IsNullOrEmpty(UserEmail) && Repository.IsExistAsync(userModel, out int id))
+            if (!string.IsNullOrEmpty(UserPassword) && !string.IsNullOrEmpty(UserEmail) && Repository.IsExistAsync(userModel, out int id))
             {
-                NavigationParameters pairs = new NavigationParameters();
-                pairs.Add(nameof(PinModel.UserId), 0/*id*/);
-                //await NavigationService.NavigateAsync("/MainPage");
-                await NavigationService.NavigateAsync("/MainPage?createTab=MapView&createTab=PinListView");
+                NavigationParameters parameters = new NavigationParameters();
+                parameters.Add(nameof(PinModel.UserId), id);
+                //await NavigationService.NavigateAsync("MapView");
+                await NavigationService.NavigateAsync("/MainPage?createTab=MapView&createTab=PinListView", parameters);
             }
-            //else
-            //    await Acr.UserDialogs.UserDialogs.Instance.AlertAsync($"Login or password invalid!");
+            else
+                await Acr.UserDialogs.UserDialogs.Instance.AlertAsync($"Login or password invalid!");
         }
 
         public ICommand SignUpCommand { get; }
@@ -71,9 +71,9 @@ namespace GPSNote.ViewModels
         #region -- Override --
         public override void OnNavigatedTo(INavigationParameters parameters)
         {
-            if (parameters.ContainsKey("userModel"))
+            if (parameters.ContainsKey(nameof(UserModel)))
             {
-                var userModel = parameters.GetValue<UserModel>("userModel");
+                var userModel = parameters.GetValue<UserModel>(nameof(UserModel));
 
                 UserEmail = userModel.Email;
                 UserPassword = userModel.Password;

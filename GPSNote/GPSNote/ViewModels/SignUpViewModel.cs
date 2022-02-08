@@ -17,7 +17,7 @@ namespace GPSNote.ViewModels
             :base(navigationService)
         {
             Title = "SignUP page";
-            Repository = repository;
+            _Repository = repository;
 
             SignUpCommand = new Command(SignUpCommandRelease);
         }
@@ -47,27 +47,29 @@ namespace GPSNote.ViewModels
         public ICommand SignUpCommand { get; }
         private void SignUpCommandRelease()
         {
-            if(!string.IsNullOrEmpty(UserPassword) && UserPassword == UserConfirmPassword && !string.IsNullOrEmpty(UserEmail))
+            UserModel userModel = new UserModel()
             {
-                UserModel userModel = new UserModel()
-                {
-                    Email = UserEmail,
-                    Password = UserPassword
-                };
-                userModel.Id = Repository.InsertAsync(userModel).Result;
+                Email = UserEmail,
+                Password = UserPassword
+            };
 
-                INavigationParameters keyValues = new NavigationParameters();
-                keyValues.Add(nameof(userModel), userModel);
-
-                NavigationService.GoBackAsync(keyValues);
+            if (string.IsNullOrEmpty(UserPassword) && UserPassword != UserConfirmPassword && string.IsNullOrEmpty(UserEmail) && _Repository.IsExistAsync(userModel, out int id))
+            {
+                Acr.UserDialogs.UserDialogs.Instance.AlertAsync("Password or Email invalid or User is exist");
                 return;
             }
-            Acr.UserDialogs.UserDialogs.Instance.AlertAsync("Pas Un valid");
+            userModel.Id = _Repository.InsertAsync(userModel).Result;
+
+            INavigationParameters keyValues = new NavigationParameters();
+            keyValues.Add(nameof(UserModel), userModel);
+
+            NavigationService.GoBackAsync(keyValues);
+
         }
         #endregion
 
         #region -- Private -- 
-        IRepository Repository { get; }
+        private IRepository _Repository { get; }
         #endregion
     }
 }

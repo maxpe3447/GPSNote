@@ -7,23 +7,28 @@ using System.Text;
 using System.Windows.Input;
 using Xamarin.Forms;
 using Xamarin.Forms.Maps;
+using GPSNote.Services.Repository;
 
 namespace GPSNote.ViewModels
 {
     internal class MapViewModel : ViewModelBase
     {
-        public MapViewModel(INavigationService navigationService) : base(navigationService)
+        public MapViewModel(INavigationService navigationService,
+                            IRepository repository) 
+            : base(navigationService)
         {
+            _Repository = repository;
+
             Title = "Map Page";
 
             MapClickCommand = new Command(MapClickCommandRelease);
             
-            PinsList = new ObservableCollection<PinModel>
-            {
-                new PinModel("Addres1", "1", new Position(47.8431096, 35.0874433)),
-                new PinModel("Addres2", "2", new Position(47.846540, 35.087064)),
-                new PinModel("Addres3", "3", new Position(47.838393, 35.098817))
-            };
+            //PinsList = new ObservableCollection<PinModel>
+            //{
+            //    new PinModel("Addres1", "1", new Position(47.8431096, 35.0874433)),
+            //    new PinModel("Addres2", "2", new Position(47.846540, 35.087064)),
+            //    new PinModel("Addres3", "3", new Position(47.838393, 35.098817))
+            //};
             
         }
         
@@ -31,7 +36,6 @@ namespace GPSNote.ViewModels
         public ICommand MapClickCommand { get; }
         private void MapClickCommandRelease()
         {
-            System.Diagnostics.Debug.WriteLine($"MapClick: !!!!!!!!!!!!!!!!!!!!!!!!!!!!");
             //SelectedItem = new Pin//"Addres3", "3", new Position(47.838393, 35.098817)
             //{
             //    Address = "Addres3",
@@ -39,12 +43,12 @@ namespace GPSNote.ViewModels
             //    Position = new Position(47.838393, 35.098817)
             //};
 
-            PinsList.Add(new PinModel("Address", "4", ClickPos));
+            //PinsList.Add(new PinModel("Address", "4", ClickPos));
         }
         #endregion
 
         #region -- Properties -- 
-        public ObservableCollection<PinModel> _pinsList;
+        private ObservableCollection<PinModel> _pinsList;
         public ObservableCollection<PinModel> PinsList 
         {
             get => _pinsList;
@@ -69,48 +73,29 @@ namespace GPSNote.ViewModels
                 SetProperty(ref _selectedItem, value);
             }
         }
-        //static private Map mapPins;
-
-        //static public Map MapPins
-        //{
-        //    get => mapPins;
-        //    set
-        //    {
-        //        mapPins = value;//SetProperty(ref mapPins, value); 
-        //        //mapPins.MapClicked += MapPins_MapClicked;
-
-
-        //    }
-        //}
-
 
         #endregion
 
-
+        #region -- Override --
         public override void Initialize(INavigationParameters parameters)
         {
             if (parameters.ContainsKey(nameof(PinModel.UserId)))
             {
-                UserId = parameters.GetValue<int>(nameof(PinModel.UserId));
+                _UserId = parameters.GetValue<int>(nameof(PinModel.UserId));
             }
+            
+            //var lst = _Repository.GetAllPinsAsync(_UserId).Result;
 
-            //mapPins.MapClicked += (s, e) =>
-            //{
-            //   // if (PinsList.Where(x => x.Position == e.Position).Count() > 0)
-            //    {
-            //        mapPins.MoveToRegion(MapSpan.FromCenterAndRadius(PinsList[1].Position, Distance.FromKilometers(1)));
-            //    }
-            //    //else
-            //       // Acr.UserDialogs.UserDialogs.Instance.AlertAsync("Test");
-            //};
+            PinsList = new ObservableCollection<PinModel>(_Repository.GetAllPinsAsync(_UserId).Result);
+            
         }
-        #region -- Override --
         
         public override void OnNavigatedFrom(INavigationParameters parameters)
         {
             base.OnNavigatedFrom(parameters);
             
             parameters.Add(nameof(PinsList), PinsList);
+            parameters.Add(nameof(PinModel.UserId), _UserId);
         }
 
         public override void OnNavigatedTo(INavigationParameters parameters)
@@ -124,7 +109,7 @@ namespace GPSNote.ViewModels
             {
                 SelectedItem = new Pin
                 {
-                    Address = pin.Address,
+                    Address = pin.Name,
                     Position = pin.Position,
                     Label = pin.Description
                 };
@@ -132,8 +117,8 @@ namespace GPSNote.ViewModels
         }
         #endregion
         #region -- Private --
-        private int UserId { get; set; }
-
+        private int _UserId { get; set; }
+        private IRepository _Repository { get; }
         #endregion
     }
 }

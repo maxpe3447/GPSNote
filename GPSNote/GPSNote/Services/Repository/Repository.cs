@@ -27,9 +27,11 @@ namespace GPSNote.Services.Repository
             return database.Value.DeleteAsync(entity);
         }
 
-        public Task<List<T>> GetAllAsync<T>() where T : new()
+        public Task<List<PinModel>> GetAllPinsAsync(int userId)
         {
-            return database.Value.Table<T>().ToListAsync();
+          var tables = database.Value.QueryAsync<PinModel>($"SELECT * FROM {nameof(PinModel)} WHERE {nameof(PinModel.UserId)} = ?;", userId);
+
+            return tables;
         }
 
         public Task<int> InsertAsync<T>(T entity)
@@ -43,11 +45,13 @@ namespace GPSNote.Services.Repository
         }
         public bool IsExistAsync(UserModel model, out int id)
         {
-            var table = database.Value.QueryAsync<int>(
-                $"SELECT Id FROM {nameof(UserModel)} WHERE {nameof(UserModel.Email)} = ? AND {nameof(UserModel.Password)} = ?;",
+            var table = database.Value.QueryAsync<UserModel>(
+                $"SELECT * FROM {nameof(UserModel)} WHERE {nameof(UserModel.Email)} = ? AND {nameof(UserModel.Password)} = ?;",
                 model.Email, model.Password);
 
-            id = (table.Result.Count > 0) ? table.Result[0] : 0;
+            //var lst = database.Value.Table<UserModel>();
+
+            id = (table.Result.Count > 0) ? table.Result[0].Id : 0;
             
             return table.Result.Count > 0;
         }

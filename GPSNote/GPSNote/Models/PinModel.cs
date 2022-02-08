@@ -11,9 +11,9 @@ namespace GPSNote.Models
         {
 
         }
-        public PinModel(string address, string description, Xamarin.Forms.Maps.Position position)
+        public PinModel(string name, string description, Xamarin.Forms.Maps.Position position)
         {
-            Address = address;
+            Name = name;
             Description = description;
             Position = position;
         }
@@ -21,14 +21,38 @@ namespace GPSNote.Models
         [PrimaryKey, AutoIncrement]
         public int Id { get; set; }
         public int UserId { get; set; }
-        public string Address { get; set; }
+        public string Name { get; set; }
         public string Description { get; set; }
+        public double Latitude
+        {
+            get => Position.Latitude;
+            set
+            {
+                if(Position.Latitude != value)
+                {
+                    Position = new Xamarin.Forms.Maps.Position(value, Position.Longitude);
+                }
+            }
+        }
+        public double Longitude
+        {
+            get => Position.Longitude;
+            set
+            {
+                if(position.Longitude != value)
+                {
+                    Position = new Xamarin.Forms.Maps.Position(Position.Latitude, value);
+                }
+            }
+        }
 
         [Ignore]
         public string Coordinate { 
             get => $"{position.Latitude} {position.Longitude}";
         }
+        [Ignore]
         public Xamarin.Forms.Maps.PinType  PinType { get; set; }
+        [Ignore]
         public Xamarin.Forms.Maps.Position Position
         {
             get => position;
@@ -40,6 +64,7 @@ namespace GPSNote.Models
                 }
             }
         }
+
         #region -- Private --
         private Xamarin.Forms.Maps.Position position;
         #endregion

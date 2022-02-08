@@ -13,36 +13,35 @@ namespace GPSNote.Controls
     {
         public BindMap(MapSpan region) : base(region)
         {
-            MapClicked += (s, e) => TestPosition = e.Position;
+            MapClicked += (s, e) => ClickPosition = e.Position;
         }
         public BindMap() : base()
         {
             
         }
-        public static readonly BindableProperty TestPositionProperty = 
+        public static readonly BindableProperty ClickPositionProperty = 
             BindableProperty.Create(
-            nameof(TestPosition),
+            nameof(ClickPosition),
             typeof(Position),
             typeof(BindMap),
             defaultValue: default(Position),
             defaultBindingMode: BindingMode.TwoWay,
-            propertyChanged: TestPosChang);
+            propertyChanged: ClickPositionChang);
         
-        public Position TestPosition
+        public Position ClickPosition
         {
-            get => (Position)GetValue(TestPositionProperty);
+            get => (Position)GetValue(ClickPositionProperty);
             set
             {
-                Acr.UserDialogs.UserDialogs.Instance.Alert(Pins.Count.ToString());
-                SetValue(TestPositionProperty, value); 
+                SetValue(ClickPositionProperty, value); 
             }
         }
 
-        private static void TestPosChang(BindableObject bindable, object oldValue, object newValue)
+        private static void ClickPositionChang(BindableObject bindable, object oldValue, object newValue)
         {
             var control = (BindMap)bindable;
             
-            control.TestPosition = (Position)newValue;
+            control.ClickPosition = (Position)newValue;
         }
 
         //////////////////////////////////////
@@ -70,6 +69,7 @@ namespace GPSNote.Controls
                 MapSpan region = MapSpan.FromCenterAndRadius(pin.Position, distance);
                 map.MoveToRegion(region);
             }
+            
         }
     }
 }
