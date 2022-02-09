@@ -130,10 +130,24 @@ namespace GPSNote.ViewModels
             }
 
             pin.UserId = _UserId;
-            await _Repository.InsertAsync<PinModel>(pin);
+            
 
             NavigationParameters parameters = new NavigationParameters();
             parameters.Add(nameof(PinModel), pin);
+
+            if(_oldPin != null)
+            {
+                pin.Id = _oldPin.Id;
+                pin.UserId = _oldPin.UserId;
+
+                await _Repository.UpdateAsync<PinModel>(pin);
+
+                parameters.Add($"{nameof(PinModel)}_del", _oldPin);
+            }
+            else
+            {
+                await _Repository.InsertAsync<PinModel>(pin);
+            }
 
             await NavigationService.GoBackAsync(parameters);
         }
@@ -150,10 +164,33 @@ namespace GPSNote.ViewModels
             if(parameters.TryGetValue<int>(nameof(PinModel.UserId), out int id)){
                 _UserId = id;
             }
+
+            string key = "purpose";
+            if (parameters.ContainsKey(key))
+            {
+                Title = parameters.GetValue<string>(key);
+
+                PinModel pin = parameters.GetValue<PinModel>(nameof(pin));
+                _oldPin = pin;
+                Name = pin.Name;
+                Description = pin.Description;
+                Position = pin.Coordinate;
+
+
+                PinsList.Add(new PinModel( Name, Description, pin.Position));
+
+                SelectedItem = new Pin
+                {
+                    Label = Name,
+                    Address = Description,
+                    Position = pin.Position
+                };
+            }
         }
         #endregion
 
         #region -- Private --
+        private PinModel _oldPin = null;
         private string _errorMsg { get; } = "NaN";
         private IRepository _Repository { get; }
         private int _UserId { get; set; }

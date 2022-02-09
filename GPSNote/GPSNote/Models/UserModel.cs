@@ -5,7 +5,7 @@ using SQLite;
 
 namespace GPSNote.Models
 {
-    public class UserModel
+    public class UserModel : IEntity
     {
         [PrimaryKey, AutoIncrement]
         public int Id { get; set; }

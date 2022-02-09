@@ -39,7 +39,7 @@ namespace GPSNote.Services.Repository
             return database.Value.InsertAsync(entity);
         }
 
-        public Task<int> UpdateAsync<T>(T entity)
+        public Task<int> UpdateAsync<T>(T entity) where T: IEntity
         {
             return database.Value.UpdateAsync(entity);
         }

@@ -48,7 +48,9 @@
                                                       Command="{Binding Path=BindingContext.DeletePinCommand, Source={x:Reference pinListView}}"
                                                       CommandParameter="{Binding .}"/>
                                             <MenuItem Text="Edit" 
-                                              IconImageSource="ic_edit.png"/>
+                                                      IconImageSource="ic_edit.png"
+                                                      Command ="{Binding Path=BindingContext.EditPinCommand, Source={x:Reference pinListView}}"
+                                                      CommandParameter="{Binding .}"/>
                                         </ViewCell.ContextActions>
                                     </ViewCell>
                                 </DataTemplate>

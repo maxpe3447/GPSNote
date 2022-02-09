@@ -5,7 +5,7 @@ using SQLite;
 
 namespace GPSNote.Models
 {
-    public class PinModel
+    public class PinModel : IEntity
     {
         public PinModel()
         {

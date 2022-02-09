@@ -26,6 +26,7 @@ namespace GPSNote.ViewModels
             CreatePinCommand = new Command(CreatePinCommandRelease);
             SearchCommand = new Command(SearchCommandRelease);
             DeletePinCommand = new Command(DeletePinCommandRelease);
+            EditPinCommand = new Command(EditPinCommandRelease);
         }
         #region -- Properties --
         private ObservableCollection<PinModel> _pinsList;
@@ -100,6 +101,21 @@ namespace GPSNote.ViewModels
 
             _Repository.DeleteAsync(pin);
         }
+
+        public ICommand EditPinCommand { get; }
+        private async void EditPinCommandRelease(object selectedpin)
+        {
+            var pin = selectedpin as PinModel;
+
+            string purpose = "ForEdit";
+
+            NavigationParameters parameters = new NavigationParameters();
+            parameters.Add(nameof(purpose), purpose);
+            parameters.Add(nameof(pin), pin);
+
+            await NavigationService.NavigateAsync($"NavigationPage/{nameof(Views.CreatePinView)}", parameters);
+
+        }
         #endregion
 
         #region -- Override --
@@ -125,11 +141,26 @@ namespace GPSNote.ViewModels
             {
                 PinsList = newCounterValue;
             }
+            int index = -1;
+            if(parameters.TryGetValue<PinModel>($"{nameof(PinModel)}_del", out var delPinModel))
+            {
+                index = PinsList.IndexOf(delPinModel);
+                PinsList.Remove(delPinModel);
 
+            }
             if(parameters.TryGetValue<PinModel>(nameof(PinModel), out var newPinModel))
             {
-                PinsList.Add(newPinModel);
+                if (index == -1)
+                {
+                    PinsList.Add(newPinModel);
+                }
+                else
+                {
+                    PinsList.Insert(index, newPinModel);
+                }
             }
+
+
             if (parameters.TryGetValue<int>(nameof(UserId), out var id))
             {
                 UserId = id;

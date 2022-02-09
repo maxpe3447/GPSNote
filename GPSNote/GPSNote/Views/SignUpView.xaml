@@ -20,11 +20,6 @@
                    Margin="30, 10, 30,0"
                    FontSize="25"/>
 
-            <!--<Entry Placeholder="Password"
-                   IsPassword="True"
-                   Margin="30, 10, 30,0"
-                   Text="{Binding UserPassword}"/>-->
-
             <controls:PasswordLine Placeholder="Password"
                        Margin="30, 10, 30, 0"
                        TextPassword="{Binding UserPassword}"/>
@@ -32,11 +27,6 @@
             <controls:PasswordLine Placeholder="Confirm password"
                                    Margin="30, 10, 30, 0"
                                    TextPassword="{Binding UserConfirmPassword}"/>
-
-            <!--<Entry Placeholder="Confirm password"
-                   IsPassword="True"
-                   Margin="30, 10, 30,0"
-                   Text="{Binding UserConfirmPassword}"/>-->
 
             <Button Text="Sign Up"
                     Margin="100, 40, 100, 0"

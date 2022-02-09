@@ -65,7 +65,7 @@ namespace GPSNote.Controls
             var pin = newValue as Pin;
             if (pin != null)
             {
-                Distance distance = map.VisibleRegion.Radius;
+                Distance distance = map.VisibleRegion?.Radius ?? new MapSpan(pin.Position, 0.1, 0.1).Radius;
                 MapSpan region = MapSpan.FromCenterAndRadius(pin.Position, distance);
                 map.MoveToRegion(region);
             }
