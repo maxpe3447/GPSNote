@@ -5,6 +5,7 @@ using Prism.Navigation.TabbedPages;
 using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
+using System.Linq;
 using System.Text;
 using System.Windows.Input;
 using Xamarin.Forms;
@@ -19,6 +20,7 @@ namespace GPSNote.ViewModels
         {
             Title = "Pins List";
             CreatePinCommand = new Command(CreatePinCommandRelease);
+            SearchCommand = new Command(SearchCommandRelease);
         }
         #region -- Properties --
         private ObservableCollection<PinModel> _pinsList;
@@ -40,7 +42,32 @@ namespace GPSNote.ViewModels
                 NavigationParameters keyValues = new NavigationParameters();
                 keyValues.Add(nameof(SelectedPin), SelectedPin);
 
-                NavigationService.SelectTabAsync("MapView", keyValues);
+                NavigationService.SelectTabAsync(nameof(Views.MapView), keyValues);
+            }
+        }
+
+        private string _searchPin;
+        public string SearchPin
+        {
+            get => _searchPin;
+            set => SetProperty(ref _searchPin, value);
+        }
+
+        private List<PinModel> _findedPins;
+        public List<PinModel> FindedPins
+        {
+            get => _findedPins;
+            set => SetProperty(ref _findedPins, value);
+        }
+
+        private PinModel _selectedSearchPin;
+        public PinModel SelectedSearchPin
+        {
+            get => _selectedSearchPin;
+            set
+            {
+                SetProperty(ref _selectedSearchPin, value);
+                
             }
         }
         #endregion
@@ -52,6 +79,16 @@ namespace GPSNote.ViewModels
             NavigationParameters parameters = new NavigationParameters();
             parameters.Add(nameof(UserId), UserId);
             await NavigationService.NavigateAsync($"NavigationPage/{nameof(Views.CreatePinView)}", parameters);
+        }
+
+        public ICommand SearchCommand { get; }
+        private void SearchCommandRelease()
+        {
+            if (string.IsNullOrEmpty(SearchPin))
+            {
+                return;
+            }
+            FindedPins = PinsList.Where(x => x.Name.Contains(SearchPin) || x.Description.Contains(SearchPin) || x.Coordinate.Contains(SearchPin)).ToList();
         }
         #endregion
 

@@ -65,6 +65,13 @@ namespace GPSNote.Models
             }
         }
 
+        #region -- Overrides
+        public override string ToString()
+        {
+            return $"{Name}\n{Description}\n{Coordinate}";
+        }
+        #endregion
+
         #region -- Private --
         private Xamarin.Forms.Maps.Position position;
         #endregion

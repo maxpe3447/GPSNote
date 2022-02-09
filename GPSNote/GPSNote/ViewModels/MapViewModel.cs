@@ -32,11 +32,67 @@ namespace GPSNote.ViewModels
 
         }
         
+        #region -- Properties -- 
+        private ObservableCollection<PinModel> _pinsList;
+        public ObservableCollection<PinModel> PinsList 
+        {
+            get => _pinsList;
+            set => SetProperty(ref _pinsList, value);
+        }
+        private Position _clickPos;
+        public Position ClickPos
+        {
+            get=> _clickPos;
+            set=> SetProperty(ref _clickPos, value);
+        }
+
+        private Pin _selectedItem;
+        public Pin SelectedItem
+        {
+            get => _selectedItem;
+            set=> SetProperty(ref _selectedItem, value);
+        }
+
+        private string _searchPin;
+        public string SearchPin
+        {
+            get => _searchPin;
+            set => SetProperty(ref _searchPin, value);
+        }
+       
+        private List<PinModel> _findedPins;
+        public List<PinModel> FindedPins
+        {
+            get => _findedPins;
+            set => SetProperty(ref _findedPins, value);
+        }
+
+        private PinModel _selectedSearchPin;
+        public PinModel SelectedSearchPin
+        {
+            get => _selectedSearchPin;
+            set
+            {
+                SetProperty(ref _selectedSearchPin, value);
+                SelectedItem = new Pin
+                {
+                    Label = SelectedSearchPin.Name,
+                    Address = SelectedSearchPin.Description,
+                    Position = SelectedSearchPin.Position
+                };
+            }
+        }
+        #endregion
+
         #region -- Command -- 
         public ICommand SearchCommand { get; }
         private void SearchCommandRelease()
         {
-            Acr.UserDialogs.UserDialogs.Instance.Alert(SearchPin);
+            if (string.IsNullOrEmpty(SearchPin))
+            {
+                return;
+            }
+            FindedPins = PinsList.Where(x => x.Name.Contains(SearchPin) || x.Description.Contains(SearchPin) || x.Coordinate.Contains(SearchPin)).ToList();
         }
         public ICommand MapClickCommand { get; }
         private void MapClickCommandRelease()
@@ -49,41 +105,6 @@ namespace GPSNote.ViewModels
             //};
 
             //PinsList.Add(new PinModel("Address", "4", ClickPos));
-        }
-        #endregion
-
-        #region -- Properties -- 
-        private ObservableCollection<PinModel> _pinsList;
-        public ObservableCollection<PinModel> PinsList 
-        {
-            get => _pinsList;
-            set => SetProperty(ref _pinsList, value);
-        }
-        private Position _clickPos;
-        public Position ClickPos
-        {
-            get=> _clickPos;
-            set
-            {
-                SetProperty(ref _clickPos, value);
-            }
-        }
-
-        private Pin _selectedItem;
-        public Pin SelectedItem
-        {
-            get => _selectedItem;
-            set
-            {
-                SetProperty(ref _selectedItem, value);
-            }
-        }
-
-        private string _searchPin;
-        public string SearchPin
-        {
-            get => _searchPin;
-            set => SetProperty(ref _searchPin, value);
         }
         #endregion
 

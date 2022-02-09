@@ -4,7 +4,7 @@
              x:Class="GPSNote.Controls.SearchLine">
     <ContentView.Content>
         <StackLayout>
-            <Grid >
+            <Grid>
                 <Grid.RowDefinitions>
                     <RowDefinition Height="40"/>
                 </Grid.RowDefinitions>
@@ -24,7 +24,12 @@
                     BackgroundColor="Transparent"/>
 
             </Grid>
-            <!--<ListView x:Name="listView"/>-->
+            <!--<ScrollView x:Name="scrollView">-->
+                    <ListView x:Name="listView">
+                    </ListView>
+            <!--</ScrollView>-->
+                
+            
         </StackLayout>
 
 
