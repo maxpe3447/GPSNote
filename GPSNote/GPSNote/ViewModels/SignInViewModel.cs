@@ -18,7 +18,7 @@ namespace GPSNote.ViewModels
         {
             Title = "Sign in page";
             Repository = repository;
-
+            //UserPassword = "q";
             SigninCommand = new Command(SignInRelease);
             SignUpCommand = new Command(SignUpRelease);
         }
@@ -43,7 +43,7 @@ namespace GPSNote.ViewModels
         public ICommand SigninCommand { get; }
         private async void SignInRelease()
         {
-
+            
             userModel = new UserModel
             {
                 Email = UserEmail,

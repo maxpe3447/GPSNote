@@ -1,7 +1,7 @@
 ﻿<?xml version="1.0" encoding="utf-8" ?>
 <ContentPage xmlns="http://xamarin.com/schemas/2014/forms"
              xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
-             xmlns:prism ="http://prismlibrary.com"
+             xmlns:prism ="http://prismlibrary.com" xmlns:controls="clr-namespace:GPSNote.Controls"
              prism:ViewModelLocator.AutowireViewModel="true"
              x:Class="GPSNote.Views.SignUpView"
              Title="{Binding Title}">
@@ -20,15 +20,23 @@
                    Margin="30, 10, 30,0"
                    FontSize="25"/>
 
-            <Entry Placeholder="Password"
+            <!--<Entry Placeholder="Password"
                    IsPassword="True"
                    Margin="30, 10, 30,0"
-                   Text="{Binding UserPassword}"/>
+                   Text="{Binding UserPassword}"/>-->
 
-            <Entry Placeholder="Confirm password"
+            <controls:PasswordLine Placeholder="Password"
+                       Margin="30, 10, 30, 0"
+                       TextPassword="{Binding UserPassword}"/>
+
+            <controls:PasswordLine Placeholder="Confirm password"
+                                   Margin="30, 10, 30, 0"
+                                   TextPassword="{Binding UserConfirmPassword}"/>
+
+            <!--<Entry Placeholder="Confirm password"
                    IsPassword="True"
                    Margin="30, 10, 30,0"
-                   Text="{Binding UserConfirmPassword}"/>
+                   Text="{Binding UserConfirmPassword}"/>-->
 
             <Button Text="Sign Up"
                     Margin="100, 40, 100, 0"

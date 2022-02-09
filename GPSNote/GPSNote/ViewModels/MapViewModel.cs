@@ -22,17 +22,22 @@ namespace GPSNote.ViewModels
             Title = "Map Page";
 
             MapClickCommand = new Command(MapClickCommandRelease);
-            
+            SearchCommand = new  Command(SearchCommandRelease);
             //PinsList = new ObservableCollection<PinModel>
             //{
             //    new PinModel("Addres1", "1", new Position(47.8431096, 35.0874433)),
             //    new PinModel("Addres2", "2", new Position(47.846540, 35.087064)),
             //    new PinModel("Addres3", "3", new Position(47.838393, 35.098817))
             //};
-            
+
         }
         
         #region -- Command -- 
+        public ICommand SearchCommand { get; }
+        private void SearchCommandRelease()
+        {
+            Acr.UserDialogs.UserDialogs.Instance.Alert(SearchPin);
+        }
         public ICommand MapClickCommand { get; }
         private void MapClickCommandRelease()
         {
@@ -74,6 +79,12 @@ namespace GPSNote.ViewModels
             }
         }
 
+        private string _searchPin;
+        public string SearchPin
+        {
+            get => _searchPin;
+            set => SetProperty(ref _searchPin, value);
+        }
         #endregion
 
         #region -- Override --
@@ -116,6 +127,7 @@ namespace GPSNote.ViewModels
             }
         }
         #endregion
+
         #region -- Private --
         private int _UserId { get; set; }
         private IRepository _Repository { get; }

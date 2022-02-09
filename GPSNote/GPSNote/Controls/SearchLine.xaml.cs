@@ -54,6 +54,8 @@ namespace GPSNote.Controls
         public SearchLine()
         {
             InitializeComponent();
+
+            line.TextChanged += (s, e) => TextLine = e.NewTextValue;
         }
     }
 }

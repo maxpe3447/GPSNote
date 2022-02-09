@@ -1,7 +1,7 @@
 ﻿<?xml version="1.0" encoding="utf-8" ?>
 <ContentPage xmlns="http://xamarin.com/schemas/2014/forms"
              xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
-             xmlns:prism ="http://prismlibrary.com"
+             xmlns:prism ="http://prismlibrary.com" xmlns:controls="clr-namespace:GPSNote.Controls"
              prism:ViewModelLocator.AutowireViewModel="True"
              x:Class="GPSNote.Views.SignInView"
              Title="{Binding Title}">
@@ -21,11 +21,10 @@
                    FontSize="25"
                    Margin="30, 10, 10,10"/>
 
-            <Entry Margin="30, 0, 30, 10"
-                   FontSize="24"
-                   Placeholder="Password"
-                   IsPassword="True"
-                   Text="{Binding UserPassword}"/>
+            <controls:PasswordLine FontSize="24"
+                                   TextPassword="{Binding UserPassword}"
+                                   Placeholder="Password"
+                                   Margin="30, 0, 30, 0"/>
 
             <Button Text="Enter"
                     FontSize="25"

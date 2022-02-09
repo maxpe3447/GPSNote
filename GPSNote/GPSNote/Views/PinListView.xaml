@@ -15,43 +15,47 @@
                                      CommandSearch="{Binding SearchCommand}"
                                      Padding="0,0,40,0"/>
 
-
+                
                 <Frame HeightRequest="0" 
                        Padding="5"
                        BackgroundColor="Azure"/>
-
-                <ListView ItemsSource="{Binding PinsList, Mode=TwoWay}"
-                          Margin="20, 10"
+                <ScrollView>
+                    <StackLayout>
+                        <ListView ItemsSource="{Binding PinsList, Mode=TwoWay}"
+                          Margin="20, 0, 20, 0"
                           HasUnevenRows="True"
                           SelectedItem="{Binding SelectedPin, Mode=TwoWay}"
                           SelectionMode="Single">
-                    
-                    
-                    <ListView.ItemTemplate>
-                        <DataTemplate>
-                            <ViewCell>
-                                <ViewCell.View>
-                                    <StackLayout>
-                                        <Label Text="{Binding Name}"
+
+
+                            <ListView.ItemTemplate>
+                                <DataTemplate>
+                                    <ViewCell>
+                                        <ViewCell.View>
+                                            <StackLayout>
+                                                <Label Text="{Binding Name}"
                                                FontSize="25"/>
-                                        <Label Text="{Binding Description}"
+                                                <Label Text="{Binding Description}"
                                                FontSize="20"/>
-                                        <Label Text="{Binding Coordinate}"/>
-                                    </StackLayout>
-                                    
-                                </ViewCell.View>
-                                
-                                <ViewCell.ContextActions>
-                                    <MenuItem Text="Delete"
+                                                <Label Text="{Binding Coordinate}"/>
+                                            </StackLayout>
+
+                                        </ViewCell.View>
+
+                                        <ViewCell.ContextActions>
+                                            <MenuItem Text="Delete"
                                               IconImageSource="ic_delete.png"/>
-                                    <MenuItem Text="Edit" 
+                                            <MenuItem Text="Edit" 
                                               IconImageSource="ic_edit.png"/>
-                                </ViewCell.ContextActions>
-                            </ViewCell>
-                        </DataTemplate>
-                    </ListView.ItemTemplate>
-                </ListView>
+                                        </ViewCell.ContextActions>
+                                    </ViewCell>
+                                </DataTemplate>
+                            </ListView.ItemTemplate>
+                        </ListView>
+                    </StackLayout>
+                </ScrollView>
             </StackLayout>
+                
             <Button ImageSource="ic_plus.png"
                     FontSize="35"
                     BackgroundColor="LightBlue"

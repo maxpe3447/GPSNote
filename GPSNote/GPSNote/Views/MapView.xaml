@@ -9,7 +9,7 @@
              Title="{Binding Title}">
     <ContentPage.Content>
         <StackLayout>
-            <controls:SearchLine TextLine="{Binding FindPin}" 
+            <controls:SearchLine TextLine="{Binding SearchPin}" 
                                  CommandSearch="{Binding SearchCommand}"/>
 
 
