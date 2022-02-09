@@ -48,7 +48,7 @@ namespace GPSNote.Models
 
         [Ignore]
         public string Coordinate { 
-            get => $"{position.Latitude} {position.Longitude}";
+            get => $"{position.Latitude:0.000000} {position.Longitude:0.000000}";
         }
         [Ignore]
         public Xamarin.Forms.Maps.PinType  PinType { get; set; }

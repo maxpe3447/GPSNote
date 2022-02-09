@@ -36,8 +36,10 @@ namespace GPSNote.ViewModels
             {
                 SetProperty(ref _selectedPin, value);
 
+
                 NavigationParameters keyValues = new NavigationParameters();
                 keyValues.Add(nameof(SelectedPin), SelectedPin);
+
                 NavigationService.SelectTabAsync("MapView", keyValues);
             }
         }

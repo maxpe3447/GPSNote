@@ -9,10 +9,14 @@
              Title="{Binding Title}">
     <ContentPage.Content>
         <StackLayout>
-            <Entry Placeholder="Enter pin"
-                       Margin="20, 0"
-                       Text="{Binding FindPin}"/>
-            
+            <controls:SearchLine TextLine="{Binding FindPin}" 
+                                 CommandSearch="{Binding SearchCommand}"/>
+
+
+            <Frame HeightRequest="0" 
+                   Padding="5"
+                   BackgroundColor="Azure"/>
+
             <controls:BindMap IsShowingUser="True"
                               MapType="Street"
                               TrafficEnabled="True"
@@ -36,9 +40,10 @@
                 </x:Arguments>
                 <maps:Map.ItemTemplate>
                     <DataTemplate>
-                        <maps:Pin Position="{Binding Position}"
+                        <maps:Pin Label="{Binding Name}"
                                   Address="{Binding Description}"
-                                  Label="{Binding Name}"/>
+                                  Position="{Binding Position}"
+                                  />
                     </DataTemplate>
                 </maps:Map.ItemTemplate>
             </controls:BindMap>

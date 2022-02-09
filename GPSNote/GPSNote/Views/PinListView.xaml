@@ -1,42 +1,60 @@
 ﻿<?xml version="1.0" encoding="utf-8" ?>
 <ContentPage xmlns="http://xamarin.com/schemas/2014/forms"
              xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
-             xmlns:prism ="http://prismlibrary.com"
+             xmlns:prism ="http://prismlibrary.com" 
+             xmlns:controls="clr-namespace:GPSNote.Controls"
              prism:ViewModelLocator.AutowireViewModel="True"
              x:Class="GPSNote.Views.PinListView"
              Title="{Binding Title}">
     <ContentPage.Content>
-        <AbsoluteLayout>
+        <AbsoluteLayout >
 
-
-            <StackLayout HorizontalOptions="Center"
-                         VerticalOptions="Center">
-                <Entry Placeholder="Enter pin"
-                       Margin="20, 0"
-                       Text="{Binding FindPin}"/>
+            <StackLayout >
                 
+                <controls:SearchLine TextLine="{Binding Text}" 
+                                     CommandSearch="{Binding SearchCommand}"
+                                     Padding="0,0,40,0"/>
+
+
+                <Frame HeightRequest="0" 
+                       Padding="5"
+                       BackgroundColor="Azure"/>
+
                 <ListView ItemsSource="{Binding PinsList, Mode=TwoWay}"
                           Margin="20, 10"
                           HasUnevenRows="True"
-                          SelectedItem="{Binding SelectedPin, Mode=TwoWay}">
+                          SelectedItem="{Binding SelectedPin, Mode=TwoWay}"
+                          SelectionMode="Single">
+                    
+                    
                     <ListView.ItemTemplate>
                         <DataTemplate>
                             <ViewCell>
                                 <ViewCell.View>
                                     <StackLayout>
-                                        <Label Text="{Binding Address}"/>
+                                        <Label Text="{Binding Name}"
+                                               FontSize="25"/>
+                                        <Label Text="{Binding Description}"
+                                               FontSize="20"/>
                                         <Label Text="{Binding Coordinate}"/>
-                                        <Label Text="{Binding Description}"/>
                                     </StackLayout>
+                                    
                                 </ViewCell.View>
+                                
+                                <ViewCell.ContextActions>
+                                    <MenuItem Text="Delete"
+                                              IconImageSource="ic_delete.png"/>
+                                    <MenuItem Text="Edit" 
+                                              IconImageSource="ic_edit.png"/>
+                                </ViewCell.ContextActions>
                             </ViewCell>
                         </DataTemplate>
                     </ListView.ItemTemplate>
                 </ListView>
             </StackLayout>
-            <Button Text="+"
+            <Button ImageSource="ic_plus.png"
                     FontSize="35"
-                    BackgroundColor="Blue"
+                    BackgroundColor="LightBlue"
                     TextColor ="White"
                     AbsoluteLayout.LayoutBounds="1,1"
                     AbsoluteLayout.LayoutFlags="PositionProportional"

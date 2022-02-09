@@ -1,0 +1,28 @@
+﻿<?xml version="1.0" encoding="UTF-8"?>
+<ContentView xmlns="http://xamarin.com/schemas/2014/forms" 
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             x:Class="GPSNote.Controls.SearchLine">
+    <ContentView.Content>
+        <Grid >
+            <Grid.RowDefinitions>
+                <RowDefinition Height="40"/>
+            </Grid.RowDefinitions>
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="*"/>
+                <ColumnDefinition Width="50"/>
+            </Grid.ColumnDefinitions>
+            <Entry x:Name="line"
+                   Grid.Column="0"
+                   Grid.Row="0"
+                   Margin="20, 0, 0, 0"/>
+            <Button x:Name="searchButton" Grid.Column="1"
+                    Grid.Row="0"
+                    Margin="0, 0, 10,0"
+                    ImageSource="ic_search.png"
+                    BackgroundColor="Transparent"/>
+
+            <ListView x:Name="listView"/>
+        </Grid>
+
+    </ContentView.Content>
+</ContentView>
