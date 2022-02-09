@@ -43,6 +43,8 @@ namespace GPSNote.ViewModels
                 keyValues.Add(nameof(SelectedPin), SelectedPin);
 
                 NavigationService.SelectTabAsync(nameof(Views.MapView), keyValues);
+
+                PinsList = new ObservableCollection<PinModel>(PinsList);
             }
         }
 
@@ -51,13 +53,6 @@ namespace GPSNote.ViewModels
         {
             get => _searchPin;
             set => SetProperty(ref _searchPin, value);
-        }
-
-        private List<PinModel> _findedPins;
-        public List<PinModel> FindedPins
-        {
-            get => _findedPins;
-            set => SetProperty(ref _findedPins, value);
         }
 
         private PinModel _selectedSearchPin;
@@ -88,7 +83,7 @@ namespace GPSNote.ViewModels
             {
                 return;
             }
-            FindedPins = PinsList.Where(x => x.Name.Contains(SearchPin) || x.Description.Contains(SearchPin) || x.Coordinate.Contains(SearchPin)).ToList();
+            PinsList = new ObservableCollection<PinModel>( PinsList.Where(x => x.Name.Contains(SearchPin) || x.Description.Contains(SearchPin) || x.Coordinate.Contains(SearchPin)).ToList());
         }
         #endregion
 
@@ -101,6 +96,11 @@ namespace GPSNote.ViewModels
             {
                 parameters.Add(nameof(this.PinsList), PinsList);
                
+            }
+
+            if (!string.IsNullOrEmpty(SearchPin))
+            {
+                SearchPin = string.Empty;
             }
         }
         public override void OnNavigatedTo(INavigationParameters parameters)
