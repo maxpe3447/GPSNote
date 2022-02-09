@@ -5,6 +5,7 @@
              xmlns:controls="clr-namespace:GPSNote.Controls"
              prism:ViewModelLocator.AutowireViewModel="True"
              x:Class="GPSNote.Views.PinListView"
+             x:Name="pinListView"
              Title="{Binding Title}">
     <ContentPage.Content>
         <AbsoluteLayout >
@@ -19,9 +20,8 @@
                 <Frame HeightRequest="0" 
                        Padding="5"
                        BackgroundColor="Azure"/>
-                <ScrollView>
-                    <StackLayout>
-                        <ListView ItemsSource="{Binding PinsList, Mode=TwoWay}"
+                <ScrollView Margin="0,0,0,30">
+                    <ListView ItemsSource="{Binding PinsList, Mode=TwoWay}"
                           Margin="20, 0, 20, 0"
                           HasUnevenRows="True"
                           SelectedItem="{Binding SelectedPin, Mode=TwoWay}"
@@ -44,7 +44,9 @@
 
                                         <ViewCell.ContextActions>
                                             <MenuItem Text="Delete"
-                                              IconImageSource="ic_delete.png"/>
+                                                      IconImageSource="ic_delete.png"
+                                                      Command="{Binding Path=BindingContext.DeletePinCommand, Source={x:Reference pinListView}}"
+                                                      CommandParameter="{Binding .}"/>
                                             <MenuItem Text="Edit" 
                                               IconImageSource="ic_edit.png"/>
                                         </ViewCell.ContextActions>
@@ -52,7 +54,6 @@
                                 </DataTemplate>
                             </ListView.ItemTemplate>
                         </ListView>
-                    </StackLayout>
                 </ScrollView>
             </StackLayout>
                 

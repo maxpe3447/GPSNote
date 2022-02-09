@@ -15,12 +15,17 @@ namespace GPSNote.ViewModels
 {
     public class PinListViewModel : ViewModelBase
     {
-        public PinListViewModel(INavigationService navigationService) 
+        public PinListViewModel(INavigationService navigationService,
+                                IRepository repository) 
             : base(navigationService)
         {
             Title = "Pins List";
+
+            _Repository = repository;
+
             CreatePinCommand = new Command(CreatePinCommandRelease);
             SearchCommand = new Command(SearchCommandRelease);
+            DeletePinCommand = new Command(DeletePinCommandRelease);
         }
         #region -- Properties --
         private ObservableCollection<PinModel> _pinsList;
@@ -85,6 +90,16 @@ namespace GPSNote.ViewModels
             }
             PinsList = new ObservableCollection<PinModel>( PinsList.Where(x => x.Name.Contains(SearchPin) || x.Description.Contains(SearchPin) || x.Coordinate.Contains(SearchPin)).ToList());
         }
+
+        public ICommand DeletePinCommand { get; }
+        private void DeletePinCommandRelease( object selectedpin)
+        {
+            var pin = selectedpin as PinModel;
+
+            PinsList.Remove(pin);
+
+            _Repository.DeleteAsync(pin);
+        }
         #endregion
 
         #region -- Override --
@@ -124,6 +139,7 @@ namespace GPSNote.ViewModels
 
         #region -- Private --
         private int UserId { get; set; }
+        IRepository _Repository { get; }
         #endregion
     }
 }
