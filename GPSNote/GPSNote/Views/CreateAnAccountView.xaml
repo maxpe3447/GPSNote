@@ -50,25 +50,30 @@
                 </Grid>
             </Grid>
 
+            <!--LABEL NAME-->
             <Label Text="{Binding TextResources[Name]}"
                    TextColor="{StaticResource LabelColor}"
                    Margin="30, 20, 10, 0"
                    FontSize="18"/>
 
+            <!--ENTRY ENTER NAME-->
             <controls:CancelLine Placeholder="{Binding TextResources[EnterName]}"
-                                 Margin="30, 0, 30,0"
+                                 Margin="28, 0, 30,0"
                                  FontSize="18"
                                  Text="{Binding UserName}"
                                  BorderColor ="{StaticResource StrokeColor}"
                                  TextColor="{StaticResource TextColor}"/>
 
+            <!--LABEL EMAIL-->
             <Label Text="{Binding TextResources[Email]}"
                    Margin="30, 10, 10,0"
                    TextColor="{StaticResource LabelColor}"
                    FontSize="18"/>
 
+            
+            <!--ENTRY ENTER EMAIL-->
             <controls:CancelLine Placeholder="{Binding TextResources[EnterEmail]}"
-                                 Margin="30, 0, 30,30"
+                                 Margin="28, 0, 30,30"
                                  TextColor="{StaticResource TextColor}"
                                  BorderColor ="{StaticResource StrokeColor}"
                                  FontSize="18"
