@@ -1,0 +1,52 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<ContentPage xmlns="http://xamarin.com/schemas/2014/forms"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             xmlns:prism ="http://prismlibrary.com"
+             prism:ViewModelLocator.AutowireViewModel="True"
+             x:Class="GPSNote.Views.StartPageView">
+    <ContentPage.Resources>
+        <Color x:Key="BaseColor">#596EFB</Color>
+        <Font x:Key="BaseFont">Montserrat</Font>
+    </ContentPage.Resources>
+    
+    <ContentPage.Content>
+        <StackLayout>
+            
+            <!--IMAGE-->
+            <Image HorizontalOptions="Center"
+                   VerticalOptions="Center"
+                   Source="pic_enter_page2x.png"/>
+            
+            <!--LABEL MAPNOTEPA-->
+            <Label Text="{Binding TextResources[MapNotepad]}"
+                   VerticalOptions="Center"
+                   HorizontalOptions="Center"
+                   FontFamily="{StaticResource BaseFont}"
+                   FontSize="Title"
+                   TextColor="{StaticResource BaseColor}"
+                   FontAttributes="Bold"/>
+            
+            <!--BUTTON LOG IN-->
+            <Button Margin="15, 150, 15, 10"
+                    HeightRequest="60"
+                    TextColor="White"
+                    BackgroundColor="{StaticResource BaseColor}"
+                    FontSize="14"
+                    Text="{Binding TextResources[LogIn]}"
+                    FontFamily="{StaticResource BaseFont}"
+                    Command="{Binding LogInCommand}">
+            </Button>
+            
+            <!--BUTTON CREAE ACCOUNT-->
+            <Button Margin="15, 0, 15, 10"
+                    HeightRequest="60"
+                    TextColor="{StaticResource BaseColor}"
+                    Text="{Binding TextResources[CreateAccount]}"
+                    BackgroundColor="White"
+                    BorderColor="{StaticResource BaseColor}"
+                    BorderWidth="2"
+                    FontSize="14"
+                    FontFamily="Montserrat"/>
+        </StackLayout>
+    </ContentPage.Content>
+</ContentPage>

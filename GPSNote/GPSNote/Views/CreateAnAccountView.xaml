@@ -1,0 +1,36 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<ContentPage xmlns="http://xamarin.com/schemas/2014/forms"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             xmlns:prism ="http://prismlibrary.com" xmlns:controls="clr-namespace:GPSNote.Controls"
+             prism:ViewModelLocator.AutowireViewModel="true"
+             x:Class="GPSNote.Views.CreateAnAccountView"
+             Title="{Binding Title}">
+    <ContentPage.Content>
+        <StackLayout>
+            
+            <Label Text="E-mail:"
+                   Margin="30, 100, 30, 0"
+                   FontSize="25"/>
+            
+            <Entry Placeholder="E-mail"
+                   Margin="30, 10, 30,0"
+                   Text="{Binding UserEmail}"/>
+
+            <Label Text="Password:"
+                   Margin="30, 10, 30,0"
+                   FontSize="25"/>
+
+            <controls:PasswordLine Placeholder="Password"
+                       Margin="30, 10, 30, 0"
+                       TextPassword="{Binding UserPassword}"/>
+
+            <controls:PasswordLine Placeholder="Confirm password"
+                                   Margin="30, 10, 30, 0"
+                                   TextPassword="{Binding UserConfirmPassword}"/>
+
+            <Button Text="Sign Up"
+                    Margin="100, 40, 100, 0"
+                    Command="{Binding SignUpCommand}"/>
+        </StackLayout>
+    </ContentPage.Content>
+</ContentPage>

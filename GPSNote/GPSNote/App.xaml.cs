@@ -18,7 +18,7 @@ namespace GPSNote
         protected override async void OnInitialized()
         {
             InitializeComponent();
-             await NavigationService.NavigateAsync("NavigationPage/SignInView");
+             await NavigationService.NavigateAsync(nameof(Views.StartPageView));
             //await NavigationService.NavigateAsync("NavigationPage/SearchLine");
         }
         protected override void RegisterTypes(IContainerRegistry containerRegistry)
@@ -30,10 +30,11 @@ namespace GPSNote
 
             //Navigarion
             containerRegistry.RegisterForNavigation<NavigationPage>();
+            containerRegistry.RegisterForNavigation<Views.StartPageView, ViewModels.StartPageViewModel>();
             containerRegistry.RegisterForNavigation<Views.MainPage, ViewModels.MainPageViewModel>();
-            containerRegistry.RegisterForNavigation<Views.SignInView, ViewModels.SignInViewModel>();
+            containerRegistry.RegisterForNavigation<Views.LogInPageView, ViewModels.LogInPageViewModel>();
             containerRegistry.RegisterForNavigation<Views.MapView, ViewModels.MapViewModel>();
-            containerRegistry.RegisterForNavigation<Views.SignUpView, ViewModels.SignUpViewModel>();
+            containerRegistry.RegisterForNavigation<Views.CreateAnAccountView, ViewModels.CreateAnAccountViewModel>();
             containerRegistry.RegisterForNavigation<Views.PinListView, ViewModels.PinListViewModel>();
             containerRegistry.RegisterForNavigation<Views.CreatePinView, ViewModels.CreatePinViewModel>();
         }

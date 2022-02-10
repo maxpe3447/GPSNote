@@ -22,8 +22,6 @@ namespace GPSNote.Droid
             Xamarin.FormsMaps.Init(this, savedInstanceState);//for maps
             UserDialogs.Init(this);
 
-            this.Window.AddFlags(WindowManagerFlags.Fullscreen);
-
             Xamarin.Essentials.Platform.Init(this, savedInstanceState);
             global::Xamarin.Forms.Forms.Init(this, savedInstanceState);
             LoadApplication(new App(new AndroidInitializer()));
