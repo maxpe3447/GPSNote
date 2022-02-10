@@ -2,6 +2,7 @@
 using Android.Graphics;
 using Android.Graphics.Drawables;
 using GPSNote.Controls;
+using System.ComponentModel;
 using Xamarin.Forms;
 using Xamarin.Forms.Platform.Android;
 using XamarinSamples.Droid.UI.Renderers;
@@ -26,7 +27,7 @@ namespace XamarinSamples.Droid.UI.Renderers
                 var en = e.NewElement as BorderEntry;
                 var nativeEditText = (global::Android.Widget.EditText)Control;
                 var shape = new ShapeDrawable(new Android.Graphics.Drawables.Shapes.RectShape());
-                shape.Paint.Color =en.BorderColor.ToAndroid();
+                shape.Paint.Color = en.BorderColor.ToAndroid();
                 shape.Paint.SetStyle(Paint.Style.Stroke);
                 shape.Paint.StrokeWidth = 3;
                 nativeEditText.Background = shape;
@@ -39,5 +40,21 @@ namespace XamarinSamples.Droid.UI.Renderers
                 //e.NewElement.la
             }
         }
+            protected override void OnElementPropertyChanged(object sender, PropertyChangedEventArgs e)
+        {
+            base.OnElementPropertyChanged(sender, e);
+
+            if (e.PropertyName == nameof(BorderEntry.BorderColor))
+            {
+                var en = (BorderEntry)sender;
+                var nativeEditText = (global::Android.Widget.EditText)Control;
+                var shape = new ShapeDrawable(new Android.Graphics.Drawables.Shapes.RectShape());
+                shape.Paint.Color = en.BorderColor.ToAndroid();
+                shape.Paint.SetStyle(Paint.Style.Stroke);
+                shape.Paint.StrokeWidth = 3;
+                nativeEditText.Background = shape;
+            }
+        }
+  
     }
 }

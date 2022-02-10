@@ -58,17 +58,16 @@
                    TextColor="{StaticResource LabelColor}"/>
 
             <!--ENTRY EMAIL-->
-            <controls:BorderEntry Margin="28, 0, 30, 0"
-                                  PlaceholderColor="#858E9E"
+            <controls:CancelLine Margin="28, 0, 30, 0"
                                   Placeholder="{Binding TextResources[EnterEmail]}"
                                   FontSize="18"
                                   Text="{Binding UserEmail}"
-                                  BorderColor="{Binding EntryBoardColor}"
+                                  BorderColor="{Binding ErrorColor}"
                                   TextColor="{StaticResource TextColor}"/>
 
             <!--LABEL ERROR EMAIL-->
             <Label Text="{Binding EmailErrorMsgText}"
-                   TextColor="{Binding EmailErrorMsgColor}"
+                   TextColor="{Binding ErrorColor}"
                    Margin="30, 0, 0, 0"/>
 
             <!--LABEL PASSWORD-->
@@ -81,15 +80,15 @@
             <controls:PasswordLine FontSize="18"
                                    Placeholder="{Binding TextResources[Password]}"
                                    Margin="28, 0, 30, 0"
+                                   BorderColor="{Binding ErrorColor}"
                                    TextPassword="{Binding UserPassword}"
-                                   BoardColor="{Binding EntryBoardColor}"
                                    TextColor="{StaticResource TextColor}"/>
 
             <!--LABEL ERROR PASSWORD-->
             <Label Text="{Binding PasswordErrorMsgText}"
-                   TextColor="{Binding PasswordErrorMsgColor}"
+                   TextColor="{Binding ErrorColor}"
                    Margin="30, 0, 0, 5"/>
-            
+
             <!--BUTTON LOG IN-->
             <Button Text="{Binding TextResources[LogIn]}"
                     FontSize="14"

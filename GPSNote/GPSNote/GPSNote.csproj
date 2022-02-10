@@ -20,15 +20,28 @@
   </ItemGroup>
 
   <ItemGroup>
+    <Compile Update="Controls\CancelLine.xaml.cs">
+      <DependentUpon>CancelLine.xaml</DependentUpon>
+    </Compile>
     <Compile Update="Properties\Resources.Designer.cs">
       <DesignTime>True</DesignTime>
       <AutoGen>True</AutoGen>
       <DependentUpon>Resources.resx</DependentUpon>
     </Compile>
+    <Compile Update="Resources\ImageNames.Designer.cs">
+      <DesignTime>True</DesignTime>
+      <AutoGen>True</AutoGen>
+      <DependentUpon>ImageNames.resx</DependentUpon>
+    </Compile>
     <Compile Update="Resources\TextControls.Designer.cs">
       <DesignTime>True</DesignTime>
       <AutoGen>True</AutoGen>
       <DependentUpon>TextControls.resx</DependentUpon>
+    </Compile>
+    <Compile Update="Resources\UserMsg.Designer.cs">
+      <DesignTime>True</DesignTime>
+      <AutoGen>True</AutoGen>
+      <DependentUpon>UserMsg.resx</DependentUpon>
     </Compile>
     <Compile Update="Views\LogInPageView.xaml.cs">
       <DependentUpon>LogInPageView.xaml</DependentUpon>
@@ -39,6 +52,9 @@
   </ItemGroup>
 
   <ItemGroup>
+    <EmbeddedResource Update="Controls\CancelLine.xaml">
+      <Generator>MSBuild:UpdateDesignTimeXaml</Generator>
+    </EmbeddedResource>
     <EmbeddedResource Update="Controls\PasswordLine.xaml">
       <Generator>MSBuild:UpdateDesignTimeXaml</Generator>
     </EmbeddedResource>
@@ -49,9 +65,17 @@
       <Generator>PublicResXFileCodeGenerator</Generator>
       <LastGenOutput>Resources.Designer.cs</LastGenOutput>
     </EmbeddedResource>
+    <EmbeddedResource Update="Resources\ImageNames.resx">
+      <Generator>ResXFileCodeGenerator</Generator>
+      <LastGenOutput>ImageNames.Designer.cs</LastGenOutput>
+    </EmbeddedResource>
     <EmbeddedResource Update="Resources\TextControls.resx">
       <Generator>ResXFileCodeGenerator</Generator>
       <LastGenOutput>TextControls.Designer.cs</LastGenOutput>
+    </EmbeddedResource>
+    <EmbeddedResource Update="Resources\UserMsg.resx">
+      <Generator>ResXFileCodeGenerator</Generator>
+      <LastGenOutput>UserMsg.Designer.cs</LastGenOutput>
     </EmbeddedResource>
     <EmbeddedResource Update="Views\CreatePinView.xaml">
       <Generator>MSBuild:UpdateDesignTimeXaml</Generator>

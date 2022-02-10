@@ -10,63 +10,52 @@ using Xamarin.Forms.Xaml;
 
 namespace GPSNote.Controls
 {
-    [XamlCompilation(XamlCompilationOptions.Compile)]
-    public partial class PasswordLine : ContentView
+    public partial class CancelLine : ContentView
     {
-        public PasswordLine()
+        public CancelLine()
         {
             InitializeComponent();
 
-            bIsShowPass.ImageSource = ImageSource.FromFile(ImageNames.EyeOff);
+            bIsClear.ImageSource = ImageSource.FromFile(ImageNames.Cancel);
 
-            bIsShowPass.Clicked += (s, e) =>
-              {
-                  eText.IsPassword = !eText.IsPassword;
-
-                  if (eText.IsPassword)
-                  {
-                      bIsShowPass.ImageSource = ImageSource.FromFile(ImageNames.EyeOff);
-                  }
-                  else
-                  {
-                      bIsShowPass.ImageSource = ImageSource.FromFile(ImageNames.Eye);
-                  }
-              };
+            bIsClear.Clicked += (s, e) =>
+            {
+                Text = string.Empty;
+            };
 
             eText.TextChanged += (s, e) =>
-              {
-                  TextPassword = e.NewTextValue;
+            {
+                Text = e.NewTextValue;
 
-                  bIsShowPass.IsVisible = bIsShowPass.IsEnabled = !string.IsNullOrEmpty(TextPassword);
-              };
-
-
+                bIsClear.IsVisible = bIsClear.IsEnabled = !string.IsNullOrEmpty(Text);
+                
+            };
         }
-        public static readonly BindableProperty TextPasswordProperty = BindableProperty.Create(
-            nameof(TextPassword),
+        public static readonly BindableProperty TextProperty = BindableProperty.Create(
+            nameof(Text),
             typeof(string),
-            typeof(PasswordLine),
+            typeof(CancelLine),
             defaultValue: string.Empty,
             defaultBindingMode: BindingMode.TwoWay,
-            propertyChanged: TextPasswordChanged);
+            propertyChanged: TextChanged);
 
-        public string TextPassword
+        public string Text
         {
-            get => (string)GetValue(TextPasswordProperty);
-            set => SetValue(TextPasswordProperty, value);
+            get => (string)GetValue(TextProperty);
+            set => SetValue(TextProperty, value);
         }
 
-        private static void TextPasswordChanged(BindableObject bindable, object oldValue, object newValue)
+        private static void TextChanged(BindableObject bindable, object oldValue, object newValue)
         {
-            var control = bindable as PasswordLine;
+            var control = bindable as CancelLine;
 
-            control.eText.Text = newValue?.ToString(); 
+            control.eText.Text = newValue?.ToString();
         }
 
         public static readonly BindableProperty FontSizeProperty = BindableProperty.Create(
             nameof(FontSize),
             typeof(double),
-            typeof(PasswordLine),
+            typeof(CancelLine),
             defaultValue: default(double),
             defaultBindingMode: BindingMode.TwoWay,
             propertyChanged: FontSizeChanged);
@@ -79,7 +68,7 @@ namespace GPSNote.Controls
 
         private static void FontSizeChanged(BindableObject bindable, object oldValue, object newValue)
         {
-            var control = bindable as PasswordLine;
+            var control = bindable as CancelLine;
 
             control.eText.FontSize = (double)newValue;
         }
@@ -87,7 +76,7 @@ namespace GPSNote.Controls
         public static readonly BindableProperty PlaceholderProperty = BindableProperty.Create(
             nameof(Placeholder),
             typeof(string),
-            typeof(PasswordLine),
+            typeof(CancelLine),
             defaultValue: string.Empty,
             defaultBindingMode: BindingMode.TwoWay,
             propertyChanged: PlaceholderChanged);
@@ -100,7 +89,7 @@ namespace GPSNote.Controls
 
         private static void PlaceholderChanged(BindableObject bindable, object oldValue, object newValue)
         {
-            var control = bindable as PasswordLine;
+            var control = bindable as CancelLine;
 
             control.eText.Placeholder = newValue?.ToString(); ;
         }
@@ -108,7 +97,7 @@ namespace GPSNote.Controls
         public static readonly BindableProperty MarginProperty = BindableProperty.Create(
             nameof(Margin),
             typeof(Thickness),
-            typeof(PasswordLine),
+            typeof(CancelLine),
             defaultValue: default(Thickness),
             defaultBindingMode: BindingMode.TwoWay,
             propertyChanged: MarginChanged);
@@ -121,7 +110,7 @@ namespace GPSNote.Controls
 
         private static void MarginChanged(BindableObject bindable, object oldValue, object newValue)
         {
-            var control = bindable as PasswordLine;
+            var control = bindable as CancelLine;
             var mrg = (Thickness)newValue;
             control.grid.Margin = new Thickness(mrg.Left, mrg.Top, mrg.Right - 40, mrg.Bottom);
         }
@@ -129,7 +118,7 @@ namespace GPSNote.Controls
         public static readonly BindableProperty BorderColorProperty = BindableProperty.Create(
             nameof(BorderColor),
             typeof(Color),
-            typeof(PasswordLine),
+            typeof(CancelLine),
             defaultValue: default(Color),
             defaultBindingMode: BindingMode.TwoWay,
             propertyChanged: BorderColorChanged);
@@ -137,24 +126,20 @@ namespace GPSNote.Controls
         public Color BorderColor
         {
             get => (Color)GetValue(BorderColorProperty);
-            set
-            {
-                SetValue(BorderColorProperty, value);
-                
-            }
+            set => SetValue(BorderColorProperty, value);
         }
 
         private static void BorderColorChanged(BindableObject bindable, object oldValue, object newValue)
         {
-            var control = bindable as PasswordLine;
+            var control = bindable as CancelLine;
 
             control.eText.BorderColor = (Color)newValue;
         }
-
+        //
         public static readonly BindableProperty TextColorProperty = BindableProperty.Create(
             nameof(TextColor),
             typeof(Color),
-            typeof(PasswordLine),
+            typeof(CancelLine),
             defaultValue: default(Color),
             defaultBindingMode: BindingMode.TwoWay,
             propertyChanged: TextColorChanged);
@@ -167,7 +152,7 @@ namespace GPSNote.Controls
 
         private static void TextColorChanged(BindableObject bindable, object oldValue, object newValue)
         {
-            var control = bindable as PasswordLine;
+            var control = bindable as CancelLine;
 
             control.eText.TextColor = (Color)newValue;
         }

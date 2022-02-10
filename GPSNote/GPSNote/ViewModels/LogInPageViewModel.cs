@@ -1,5 +1,6 @@
 ﻿using GPSNote.Helpers;
 using GPSNote.Models;
+using GPSNote.Resources;
 using GPSNote.Services.Repository;
 using Prism.Navigation;
 using System;
@@ -20,12 +21,11 @@ namespace GPSNote.ViewModels
             Repository = repository;
 
             SigninCommand = new Command(SignInRelease);
-            SignUpCommand = new Command(SignUpRelease);
             BackCommand = new  Command(BackCommandRelease);
 
             TextResources = new TextResources(typeof(Resources.TextControls));
 
-            EntryBoardColor = Color.Gray;
+            ErrorColor = Color.Gray;
         }
 
         #region -- Properties -- 
@@ -43,11 +43,11 @@ namespace GPSNote.ViewModels
             set => SetProperty(ref userPassword, value);
         }
 
-        private Color _entryBoardColor;
-        public Color EntryBoardColor
+        private Color _errorColor;
+        public Color ErrorColor
         {
-            get => _entryBoardColor;
-            set => SetProperty(ref _entryBoardColor, value);
+            get => _errorColor;
+            set => SetProperty(ref _errorColor, value);
         }
 
         private string _emailErrorMsgText;
@@ -57,25 +57,11 @@ namespace GPSNote.ViewModels
             set => SetProperty(ref _emailErrorMsgText, value);
         }
 
-        private Color _emailErrorMsgColor;
-        public Color EmailErrorMsgColor
-        {
-            get => _emailErrorMsgColor;
-            set => SetProperty(ref _emailErrorMsgColor, value);
-        }
-
         private string _passwordErrorMsgText;
         public string PasswordErrorMsgText
         {
             get => _passwordErrorMsgText;
             set => SetProperty(ref _passwordErrorMsgText, value);
-        }
-
-        private Color _passwordErrorMsgColor;
-        public Color PasswordErrorMsgColor
-        {
-            get => _passwordErrorMsgColor;
-            set => SetProperty(ref _passwordErrorMsgColor, value);
         }
 
         private TextResources _textResources;
@@ -105,16 +91,10 @@ namespace GPSNote.ViewModels
             }
             else
             {
-                PasswordErrorMsgColor =  EmailErrorMsgColor =  EntryBoardColor = Color.FromHex("#F24545");
-                EmailErrorMsgText = "Wrong Email";
-                PasswordErrorMsgText = "The password is incorrect";
+                ErrorColor = Color.FromHex("#F24545");
+                EmailErrorMsgText = UserMsg.WrongEmail;
+                PasswordErrorMsgText = UserMsg.IncorrectPas;
             }
-        }
-
-        public ICommand SignUpCommand { get; }
-        private async void SignUpRelease()
-        {
-            await NavigationService.NavigateAsync("SignUpView");
         }
 
         public ICommand BackCommand { get; }
