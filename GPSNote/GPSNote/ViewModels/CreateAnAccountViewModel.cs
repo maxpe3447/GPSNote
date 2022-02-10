@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Windows.Input;
+using GPSNote.Helpers;
 using GPSNote.Models;
 using GPSNote.Services.Repository;
 using Prism.Navigation;
@@ -13,57 +14,67 @@ namespace GPSNote.ViewModels
     public class CreateAnAccountViewModel : ViewModelBase
     {
         public CreateAnAccountViewModel(INavigationService navigationService,
-                               IRepository repository)
+                                        IRepository repository)
             :base(navigationService)
         {
-            Title = "SignUP page";
+            TextResources = new TextResources(typeof(Resources.TextControls));
+
             _Repository = repository;
 
-            SignUpCommand = new Command(SignUpCommandRelease);
+            NextCommand = new Command(SignUpCommandRelease);
         }
         #region -- Properties --
-        private string userEmail;
+        private string _userEmail;
         public string UserEmail
         {
-            get => userEmail;
-            set => SetProperty(ref userEmail, value);
+            get => _userEmail;
+            set => SetProperty(ref _userEmail, value);
         }
 
-        private string userPassword;
-        public string UserPassword {
-            get => userPassword;
-            set => SetProperty(ref userPassword, value);
-        }
-
-        private string userConfirmPassword;
-        public string UserConfirmPassword
+        private string _userName;
+        public string UserName
         {
-            get => userConfirmPassword;
-            set => SetProperty(ref userConfirmPassword, value);
+            get => _userName;
+            set => SetProperty(ref _userName, value);
+        }
+
+        //private string userPassword;
+        //public string UserPassword {
+        //    get => userPassword;
+        //    set => SetProperty(ref userPassword, value);
+        //}
+
+        //private string userConfirmPassword;
+        //public string UserConfirmPassword
+        //{
+        //    get => userConfirmPassword;
+        //    set => SetProperty(ref userConfirmPassword, value);
+        //}
+
+        private TextResources _textResources;
+        public TextResources TextResources
+        {
+            get => _textResources;
+            set => SetProperty(ref _textResources, value);
         }
         #endregion
 
         #region -- Command --
-        public ICommand SignUpCommand { get; }
+        public ICommand NextCommand { get; }
         private void SignUpCommandRelease()
         {
             UserModel userModel = new UserModel()
             {
                 Email = UserEmail,
-                Password = UserPassword
+                Name = UserName
             };
 
-            if (string.IsNullOrEmpty(UserPassword) && UserPassword != UserConfirmPassword && string.IsNullOrEmpty(UserEmail) && _Repository.IsExistAsync(userModel, out int id))
-            {
-                Acr.UserDialogs.UserDialogs.Instance.AlertAsync("Password or Email invalid or User is exist");
-                return;
-            }
-            userModel.Id = _Repository.InsertAsync(userModel).Result;
+            //userModel.Id = _Repository.InsertAsync(userModel).Result;
 
             INavigationParameters keyValues = new NavigationParameters();
             keyValues.Add(nameof(UserModel), userModel);
 
-            NavigationService.GoBackAsync(keyValues);
+            NavigationService.NavigateAsync("will",keyValues);
 
         }
         #endregion

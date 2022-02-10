@@ -41,7 +41,7 @@ namespace GPSNote.ViewModels
         }
         private async void CreateAnAccountRelease()
         {
-            await NavigationService.NavigateAsync(nameof(CreateAnAccountViewModel));
+            await NavigationService.NavigateAsync(nameof(Views.CreateAnAccountView));
         }
         #endregion
     }

@@ -18,7 +18,7 @@
                    Source="pic_enter_page2x.png"/>
             
             <!--LABEL MAPNOTEPA-->
-            <Label Text="{Binding TextResources[MapNotepad]}"
+            <Label Text="{Binding TextResources[CreateAnAccount]}"
                    VerticalOptions="Center"
                    HorizontalOptions="Center"
                    FontFamily="{StaticResource BaseFont}"
@@ -46,7 +46,8 @@
                     BorderColor="{StaticResource BaseColor}"
                     BorderWidth="2"
                     FontSize="14"
-                    FontFamily="Montserrat"/>
+                    FontFamily="Montserrat"
+                    Command="{Binding CreateAnAccountCommand}"/>
         </StackLayout>
     </ContentPage.Content>
 </ContentPage>
