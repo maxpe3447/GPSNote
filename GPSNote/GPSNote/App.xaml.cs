@@ -3,6 +3,8 @@ using Prism;
 using Prism.Ioc;
 using GPSNote.Services.Repository;
 using Xamarin.Essentials;
+using GPSNote.Services.Authentication;
+using GPSNote.Services.Autherization;
 
 namespace GPSNote
 {
@@ -27,6 +29,8 @@ namespace GPSNote
 
             //Services
             containerRegistry.RegisterInstance<IRepository>(Container.Resolve<Repository>());
+            containerRegistry.RegisterInstance<IAuthentication>(Container.Resolve<Authentication>());
+            containerRegistry.RegisterInstance<IAutherization>(Container.Resolve<Autherization>());
 
             //Navigarion
             containerRegistry.RegisterForNavigation<NavigationPage>();

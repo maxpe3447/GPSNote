@@ -5,6 +5,7 @@ using System.Text;
 using System.Windows.Input;
 using GPSNote.Helpers;
 using GPSNote.Models;
+using GPSNote.Services.Autherization;
 using GPSNote.Services.Repository;
 using Prism.Navigation;
 using Xamarin.Forms;
@@ -13,13 +14,10 @@ namespace GPSNote.ViewModels
 {
     public class CreateAnAccountViewModel : ViewModelBase
     {
-        public CreateAnAccountViewModel(INavigationService navigationService,
-                                        IRepository repository)
+        public CreateAnAccountViewModel(INavigationService navigationService)
             :base(navigationService)
         {
             TextResources = new TextResources(typeof(Resources.TextControls));
-
-            _Repository = repository;
 
             NextCommand = new Command(NextCommandRelease);
             BackCommand = new Command(BackCommandRelease);
@@ -64,7 +62,7 @@ namespace GPSNote.ViewModels
         public ICommand NextCommand { get; }
         private void NextCommandRelease()
         {
-            UserModel userModel = new UserModel()
+            _userModel = new UserModel()
             {
                 Email = UserEmail,
                 Name = UserName
@@ -73,7 +71,7 @@ namespace GPSNote.ViewModels
             //userModel.Id = _Repository.InsertAsync(userModel).Result;
 
             INavigationParameters keyValues = new NavigationParameters();
-            keyValues.Add(nameof(UserModel), userModel);
+            keyValues.Add(nameof(_userModel), _userModel);
 
             NavigationService.NavigateAsync(nameof(Views.CreateAccountPassPageView),keyValues);
 
@@ -87,8 +85,14 @@ namespace GPSNote.ViewModels
 
         #endregion
 
+        #region -- Overrides -- 
+
+         
+
+        #endregion
+
         #region -- Private -- 
-        private IRepository _Repository { get; }
+        private UserModel _userModel;
         #endregion
     }
 }

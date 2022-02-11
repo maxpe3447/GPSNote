@@ -1,6 +1,7 @@
 ﻿using GPSNote.Helpers;
 using GPSNote.Models;
 using GPSNote.Resources;
+using GPSNote.Services.Authentication;
 using GPSNote.Services.Repository;
 using Prism.Navigation;
 using System;
@@ -15,10 +16,10 @@ namespace GPSNote.ViewModels
     class LogInPageViewModel : ViewModelBase
     {
         public LogInPageViewModel(INavigationService navigationService,
-                               IRepository repository) 
+                                 IAuthentication authentication) 
             : base(navigationService)
         {
-            Repository = repository;
+            _Authentication = authentication;
 
             SigninCommand = new Command(SignInRelease);
             BackCommand = new  Command(BackCommandRelease);
@@ -77,13 +78,13 @@ namespace GPSNote.ViewModels
         private async void SignInRelease()
         {
             
-            userModel = new UserModel
+            _userModel = new UserModel
             {
                 Email = UserEmail,
                 Password = UserPassword
             };
 
-            if (!string.IsNullOrEmpty(UserPassword) && !string.IsNullOrEmpty(UserEmail) && Repository.IsExistAsync(userModel, out int id))
+            if (!string.IsNullOrEmpty(UserPassword) && !string.IsNullOrEmpty(UserEmail) && _Authentication.IsExistAsync(_userModel, out int id))
             {
                 NavigationParameters parameters = new NavigationParameters();
                 parameters.Add(nameof(PinModel.UserId), id);
@@ -119,8 +120,8 @@ namespace GPSNote.ViewModels
         #endregion
 
         #region -- Private --
-        UserModel userModel = null;
-        IRepository Repository { get; }
+        private UserModel _userModel = null;
+        private IAuthentication _Authentication { get; }
         #endregion
     }
 }

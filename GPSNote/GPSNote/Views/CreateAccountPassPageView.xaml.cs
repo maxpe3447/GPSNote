@@ -9,7 +9,6 @@ using Xamarin.Forms.Xaml;
 
 namespace GPSNote.Views
 {
-    [XamlCompilation(XamlCompilationOptions.Compile)]
     public partial class CreateAccountPassPageView : ContentPage
     {
         public CreateAccountPassPageView()
