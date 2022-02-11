@@ -8,7 +8,7 @@ using System.Linq;
 using System.Text;
 using System.Windows.Input;
 using Xamarin.Forms;
-using Xamarin.Forms.Maps;
+//using Xamarin.Forms.Maps;
 
 namespace GPSNote.ViewModels
 {
@@ -34,47 +34,47 @@ namespace GPSNote.ViewModels
             set => SetProperty(ref _pinsList, value);
         }
 
-        private Position _selectedPosition;
-        public Position SelectedPosition
-        {
-            get => _selectedPosition;
-            set
-            {
-                SetProperty(ref _selectedPosition, value);
-                SelectedItem = new Pin
-                {
-                    Label = (string.IsNullOrEmpty(Name)) ? "Nan" : Name,
-                    Address = (string.IsNullOrEmpty(Description)) ? "Nan" : Description,
-                    Position = SelectedPosition
-                };
+        //private Position _selectedPosition;
+        //public Position SelectedPosition
+        //{
+        //    get => _selectedPosition;
+        //    set
+        //    {
+        //        SetProperty(ref _selectedPosition, value);
+        //        SelectedItem = new Pin
+        //        {
+        //            Label = (string.IsNullOrEmpty(Name)) ? "Nan" : Name,
+        //            Address = (string.IsNullOrEmpty(Description)) ? "Nan" : Description,
+        //            Position = SelectedPosition
+        //        };
 
-                Position = $"{SelectedPosition.Latitude.ToString("0.000000")} {SelectedPosition.Longitude.ToString("0.000000")}";
+        //        Position = $"{SelectedPosition.Latitude.ToString("0.000000")} {SelectedPosition.Longitude.ToString("0.000000")}";
 
-                if (string.IsNullOrEmpty(Position))
-                {
-                    Acr.UserDialogs.UserDialogs.Instance.Alert("Please, select marker!");
-                    return;
-                }
-                if (PinsList.Count > 0)
-                {
-                    PinsList.Clear();
-                }
-                PinsList.Add(new PinModel(
-                    (string.IsNullOrEmpty(Name)) ? _errorMsg : Name,
-                    (string.IsNullOrEmpty(Description)) ? _errorMsg : Description,
-                    SelectedPosition));
-            }
-        }
-        private Pin _selectedItem;
-        public Pin SelectedItem
-        {
-            get => _selectedItem;
-            set
-            {
-                SetProperty(ref _selectedItem, value);
+        //        if (string.IsNullOrEmpty(Position))
+        //        {
+        //            Acr.UserDialogs.UserDialogs.Instance.Alert("Please, select marker!");
+        //            return;
+        //        }
+        //        if (PinsList.Count > 0)
+        //        {
+        //            PinsList.Clear();
+        //        }
+        //        PinsList.Add(new PinModel(
+        //            (string.IsNullOrEmpty(Name)) ? _errorMsg : Name,
+        //            (string.IsNullOrEmpty(Description)) ? _errorMsg : Description,
+        //            SelectedPosition));
+        //    }
+        //}
+        //private Pin _selectedItem;
+        //public Pin SelectedItem
+        //{
+        //    get => _selectedItem;
+        //    set
+        //    {
+        //        SetProperty(ref _selectedItem, value);
 
-            }
-        }
+        //    }
+        //}
 
         private string _position;
         public string Position
@@ -123,11 +123,11 @@ namespace GPSNote.ViewModels
                 return;
             }
 
-            if(pin.Position == default(Position))
-            {
-                await Acr.UserDialogs.UserDialogs.Instance.AlertAsync("Please, enter marker on the map", "Data Error");
-                return;
-            }
+            //if(pin.Position == default(Position))
+            //{
+            //    await Acr.UserDialogs.UserDialogs.Instance.AlertAsync("Please, enter marker on the map", "Data Error");
+            //    return;
+            //}
 
             pin.UserId = _UserId;
             
@@ -177,14 +177,14 @@ namespace GPSNote.ViewModels
                 Position = pin.Coordinate;
 
 
-                PinsList.Add(new PinModel( Name, Description, pin.Position));
+                //PinsList.Add(new PinModel( Name, Description, pin.Position));
 
-                SelectedItem = new Pin
-                {
-                    Label = Name,
-                    Address = Description,
-                    Position = pin.Position
-                };
+                //SelectedItem = new Pin
+                //{
+                //    Label = Name,
+                //    Address = Description,
+                //    Position = pin.Position
+                //};
             }
         }
         #endregion

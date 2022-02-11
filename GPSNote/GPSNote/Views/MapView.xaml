@@ -2,13 +2,13 @@
 <ContentPage xmlns="http://xamarin.com/schemas/2014/forms"
              xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
              xmlns:prism ="http://prismlibrary.com"
-             xmlns:maps="clr-namespace:Xamarin.Forms.Maps;assembly=Xamarin.Forms.Maps" 
              xmlns:controls="clr-namespace:GPSNote.Controls"
              prism:ViewModelLocator.AutowireViewModel="True"
              x:Class="GPSNote.Views.MapView"
              Title="{Binding Title}"
              IconImageSource="ic_map.png"
              >
+             <!--xmlns:maps="clr-namespace:Xamarin.Forms.Maps;assembly=Xamarin.Forms.Maps"--> 
     <ContentPage.Content>
         <StackLayout>
             <controls:SearchLine TextLine="{Binding SearchPin}" 
@@ -22,7 +22,7 @@
                    Padding="5"
                    BackgroundColor="Azure"/>
 
-            <controls:BindMap IsShowingUser="True"
+            <!--<controls:BindMap IsShowingUser="True"
                               MapType="Street"
                               TrafficEnabled="True"
                               ItemsSource="{Binding PinsList}"
@@ -51,7 +51,7 @@
                                   />
                     </DataTemplate>
                 </maps:Map.ItemTemplate>
-            </controls:BindMap>
+            </controls:BindMap>-->
         </StackLayout>
     </ContentPage.Content>
 </ContentPage>

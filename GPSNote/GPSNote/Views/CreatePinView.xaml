@@ -2,10 +2,11 @@
 <ContentPage xmlns="http://xamarin.com/schemas/2014/forms"
              xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
              xmlns:prism="http://prismlibrary.com"
-             xmlns:controls="clr-namespace:GPSNote.Controls" xmlns:maps="clr-namespace:Xamarin.Forms.Maps;assembly=Xamarin.Forms.Maps"
+             xmlns:controls="clr-namespace:GPSNote.Controls" 
              prism:ViewModelLocator.AutowireViewModel="True"
              x:Class="GPSNote.Views.CreatePinView"
              Title="{Binding Title}">
+             <!--xmlns:maps="clr-namespace:Xamarin.Forms.Maps;assembly=Xamarin.Forms.Maps"-->
     
     <ContentPage.ToolbarItems>
         <ToolbarItem Text="Save"
@@ -40,14 +41,14 @@
                    Text="{Binding Position}"
                    FontSize="20"/>
 
-            <controls:BindMap IsShowingUser="True"
+            <!--<controls:BindMap IsShowingUser="True"
                               TrafficEnabled="True"
                               MapType="Street"
                               ClickPosition="{Binding SelectedPosition}"
                               SelectedItem="{Binding SelectedItem}"
-                              ItemsSource="{Binding PinsList}">
+                              ItemsSource="{Binding PinsList}">-->
 
-                <x:Arguments>
+                <!--<x:Arguments>
                     <maps:MapSpan >
                         <x:Arguments>
                             <maps:Position>
@@ -70,7 +71,7 @@
                     </DataTemplate>
                 </maps:Map.ItemTemplate>
                 
-            </controls:BindMap>
+            </controls:BindMap>-->
 
             
         </StackLayout>

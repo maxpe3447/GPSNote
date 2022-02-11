@@ -6,7 +6,7 @@ using System.Collections.ObjectModel;
 using System.Text;
 using System.Windows.Input;
 using Xamarin.Forms;
-using Xamarin.Forms.Maps;
+//using Xamarin.Forms.Maps;
 using GPSNote.Services.Repository;
 
 namespace GPSNote.ViewModels
@@ -33,19 +33,19 @@ namespace GPSNote.ViewModels
             get => _pinsList;
             set => SetProperty(ref _pinsList, value);
         }
-        private Position _clickPos;
-        public Position ClickPos
-        {
-            get=> _clickPos;
-            set=> SetProperty(ref _clickPos, value);
-        }
+        //private Position _clickPos;
+        //public Position ClickPos
+        //{
+        //    get=> _clickPos;
+        //    set=> SetProperty(ref _clickPos, value);
+        //}
 
-        private Pin _selectedItem;
-        public Pin SelectedItem
-        {
-            get => _selectedItem;
-            set=> SetProperty(ref _selectedItem, value);
-        }
+        //private Pin _selectedItem;
+        //public Pin SelectedItem
+        //{
+        //    get => _selectedItem;
+        //    set=> SetProperty(ref _selectedItem, value);
+        //}
 
         private string _searchPin;
         public string SearchPin
@@ -68,12 +68,12 @@ namespace GPSNote.ViewModels
             set
             {
                 SetProperty(ref _selectedSearchPin, value);
-                SelectedItem = new Pin
-                {
-                    Label = SelectedSearchPin.Name,
-                    Address = SelectedSearchPin.Description,
-                    Position = SelectedSearchPin.Position
-                };
+                //SelectedItem = new Pin
+                //{
+                //    Label = SelectedSearchPin.Name,
+                //    Address = SelectedSearchPin.Description,
+                //    Position = SelectedSearchPin.Position
+                //};
             }
         }
         #endregion
@@ -140,12 +140,12 @@ namespace GPSNote.ViewModels
             }
             if (parameters.TryGetValue<PinModel>(nameof(PinListViewModel.SelectedPin), out var pin))
             {
-                SelectedItem = new Pin
-                {
-                    Address = pin.Name,
-                    Position = pin.Position,
-                    Label = pin.Description
-                };
+                //SelectedItem = new Pin
+                //{
+                //    Address = pin.Name,
+                //    Position = pin.Position,
+                //    Label = pin.Description
+                //};
             }
         }
         #endregion
