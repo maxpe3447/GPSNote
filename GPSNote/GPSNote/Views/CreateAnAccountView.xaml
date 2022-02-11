@@ -85,7 +85,7 @@
                     Margin="16, 0, 16, 0"
                     BackgroundColor="{StaticResource BaseColor }"
                     TextColor="White"
-                    Command="{Binding SigninCommand}"
+                    Command="{Binding NextCommand}"
                     FontFamily="Montserrat"/>
 
             <!--SEPARATOR-->

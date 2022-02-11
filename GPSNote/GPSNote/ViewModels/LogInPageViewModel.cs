@@ -29,18 +29,18 @@ namespace GPSNote.ViewModels
         }
 
         #region -- Properties -- 
-        private string userEmail;
+        private string _userEmail;
         public string UserEmail
         {
-            get => userEmail;
-            set => SetProperty(ref userEmail, value);
+            get => _userEmail;
+            set => SetProperty(ref _userEmail, value);
         }
 
-        private string userPassword;
+        private string _userPassword;
         public string UserPassword
         {
-            get => userPassword;
-            set => SetProperty(ref userPassword, value);
+            get => _userPassword;
+            set => SetProperty(ref _userPassword, value);
         }
 
         private Color _errorColor;

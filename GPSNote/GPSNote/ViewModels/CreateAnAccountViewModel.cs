@@ -21,7 +21,8 @@ namespace GPSNote.ViewModels
 
             _Repository = repository;
 
-            NextCommand = new Command(SignUpCommandRelease);
+            NextCommand = new Command(NextCommandRelease);
+            BackCommand = new Command(BackCommandRelease);
         }
         #region -- Properties --
         private string _userEmail;
@@ -61,7 +62,7 @@ namespace GPSNote.ViewModels
 
         #region -- Command --
         public ICommand NextCommand { get; }
-        private void SignUpCommandRelease()
+        private void NextCommandRelease()
         {
             UserModel userModel = new UserModel()
             {
@@ -74,9 +75,16 @@ namespace GPSNote.ViewModels
             INavigationParameters keyValues = new NavigationParameters();
             keyValues.Add(nameof(UserModel), userModel);
 
-            NavigationService.NavigateAsync("will",keyValues);
+            NavigationService.NavigateAsync(nameof(Views.CreateAccountPassPageView),keyValues);
 
         }
+
+        public ICommand BackCommand { get; }
+        private void BackCommandRelease()
+        {
+            NavigationService.GoBackAsync();
+        }
+
         #endregion
 
         #region -- Private -- 

@@ -120,6 +120,9 @@
   <data name="IncorrectPas" xml:space="preserve">
     <value>The password is incorrect</value>
   </data>
+  <data name="PasswordMismatch" xml:space="preserve">
+    <value>Password Mismatch</value>
+  </data>
   <data name="WrongEmail" xml:space="preserve">
     <value>Wrong Email</value>
   </data>

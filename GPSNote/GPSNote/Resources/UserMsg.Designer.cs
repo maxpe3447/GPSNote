@@ -70,6 +70,15 @@ namespace GPSNote.Resources {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Password Mismatch.
+        /// </summary>
+        internal static string PasswordMismatch {
+            get {
+                return ResourceManager.GetString("PasswordMismatch", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Wrong Email.
         /// </summary>
         internal static string WrongEmail {

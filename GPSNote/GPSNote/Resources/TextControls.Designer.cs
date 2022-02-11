@@ -61,6 +61,15 @@ namespace GPSNote.Resources {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Confirm password.
+        /// </summary>
+        internal static string ConfirmPassword {
+            get {
+                return ResourceManager.GetString("ConfirmPassword", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Create account.
         /// </summary>
         internal static string CreateAccount {
@@ -75,6 +84,15 @@ namespace GPSNote.Resources {
         internal static string CreateAnAccount {
             get {
                 return ResourceManager.GetString("CreateAnAccount", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Create password.
+        /// </summary>
+        internal static string CreatePassword {
+            get {
+                return ResourceManager.GetString("CreatePassword", resourceCulture);
             }
         }
         
@@ -147,6 +165,15 @@ namespace GPSNote.Resources {
         internal static string Password {
             get {
                 return ResourceManager.GetString("Password", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Repeat password.
+        /// </summary>
+        internal static string RepeatPassword {
+            get {
+                return ResourceManager.GetString("RepeatPassword", resourceCulture);
             }
         }
         

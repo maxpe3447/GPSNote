@@ -29,11 +29,19 @@ namespace GPSNote.Controls
                 bIsClear.IsVisible = bIsClear.IsEnabled = !string.IsNullOrEmpty(Text);
             };
 
-            eText.Focused += (s, e) =>
+
+            eText.Unfocused += (s, e) =>
             {
                 bIsClear.IsVisible = bIsClear.IsEnabled = false;
             };
+
+            eText.Focused += (s, e) =>
+              {
+                  bIsClear.IsVisible = bIsClear.IsEnabled = !string.IsNullOrEmpty(Text);
+              };
+
         }
+
         public static readonly BindableProperty TextProperty = BindableProperty.Create(
             nameof(Text),
             typeof(string),
