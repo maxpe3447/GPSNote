@@ -6,13 +6,16 @@
              xmlns:controls="clr-namespace:GPSNote.Controls"
              prism:ViewModelLocator.AutowireViewModel="True"
              x:Class="GPSNote.Views.MapView"
-             Title="{Binding Title}">
+             Title="{Binding Title}"
+             IconImageSource="ic_map.png"
+             >
     <ContentPage.Content>
         <StackLayout>
             <controls:SearchLine TextLine="{Binding SearchPin}" 
-                                 CommandSearch="{Binding SearchCommand}"
                                  ItemsSource="{Binding FindedPins}"
-                                 SelectedItem="{Binding SelectedSearchPin}"/>
+                                 SelectedItem="{Binding SelectedSearchPin}"
+                                 TextChangeCommand="{Binding SearchCommand}"
+                                 ExidCommand="{Binding ExidCommand}"/>
 
 
             <Frame HeightRequest="0" 

@@ -13,8 +13,7 @@
 
                 <Grid.ColumnDefinitions>
                     <ColumnDefinition Width="*" />
-                    <ColumnDefinition Width="40"/>
-
+                    <ColumnDefinition Width="0"/>
                 </Grid.ColumnDefinitions>
                 <controls:BorderEntry x:Name="eText"/>
 
@@ -25,7 +24,7 @@
                         WidthRequest="20"
                         Grid.Column="1"
                         Grid.Row="0"
-                        Margin="-60,0,20,0"
+                        Margin="-40,0,0,0"
                         BackgroundColor="Transparent"/>
 
 

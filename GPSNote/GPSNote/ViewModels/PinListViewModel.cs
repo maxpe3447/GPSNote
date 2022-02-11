@@ -19,7 +19,7 @@ namespace GPSNote.ViewModels
                                 IRepository repository) 
             : base(navigationService)
         {
-            Title = "Pins List";
+            Title = Resources.TextControls.Pins;
 
             _Repository = repository;
 
@@ -27,6 +27,7 @@ namespace GPSNote.ViewModels
             SearchCommand = new Command(SearchCommandRelease);
             DeletePinCommand = new Command(DeletePinCommandRelease);
             EditPinCommand = new Command(EditPinCommandRelease);
+            TestCommand = new Command(TestCommandRelease);
         }
         #region -- Properties --
         private ObservableCollection<PinModel> _pinsList;
@@ -115,6 +116,12 @@ namespace GPSNote.ViewModels
 
             await NavigationService.NavigateAsync($"NavigationPage/{nameof(Views.CreatePinView)}", parameters);
 
+        }
+
+        public ICommand TestCommand { get; }
+        public void TestCommandRelease()
+        {
+            Acr.UserDialogs.UserDialogs.Instance.Alert("Yesd");
         }
         #endregion
 

@@ -13,7 +13,12 @@ namespace GPSNote.Controls
     {
         public BindMap(MapSpan region) : base(region)
         {
-            MapClicked += (s, e) => ClickPosition = e.Position;
+            MapClicked += (s, e) =>
+            {
+                ClickPosition = e.Position;
+            };
+
+            
         }
         public BindMap() : base()
         {

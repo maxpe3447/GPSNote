@@ -5,8 +5,10 @@
             xmlns:local ="clr-namespace:GPSNote.Views;assembly=GPSNote" 
             xmlns:behaviors="clr-namespace:GPSNote.Behaviors"
             prism:ViewModelLocator.AutowireViewModel="True"
-             x:Class="GPSNote.Views.MainPage"
-             Title="{Binding Title}">
+            x:Class="GPSNote.Views.MainPage"
+            Title="{Binding Title}"
+            BarBackgroundColor="#FEFEFD"
+            BarTextColor="#596EFB">
 
     <TabbedPage.Children>
         <!--<local:MapView />

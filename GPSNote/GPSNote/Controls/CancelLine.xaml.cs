@@ -27,20 +27,32 @@ namespace GPSNote.Controls
             {
                 Text = e.NewTextValue;
                 bIsClear.IsVisible = bIsClear.IsEnabled = !string.IsNullOrEmpty(Text);
+                TextChangedEv?.Invoke(this,  new TextChangedEventArgs(e.OldTextValue, e.NewTextValue));
             };
 
 
             eText.Unfocused += (s, e) =>
             {
                 bIsClear.IsVisible = bIsClear.IsEnabled = false;
+                UnFocusedEv?.Invoke(this, new FocusEventArgs(e.VisualElement, e.IsFocused));
             };
 
             eText.Focused += (s, e) =>
               {
                   bIsClear.IsVisible = bIsClear.IsEnabled = !string.IsNullOrEmpty(Text);
+                  FocusedEv?.Invoke(this, new FocusEventArgs(e.VisualElement, e.IsFocused));
               };
-
+            
         }
+
+        public delegate void TextChangedHandler(object sender, TextChangedEventArgs e);
+        public event TextChangedHandler TextChangedEv;
+
+        public delegate void FocusedHandler(object sender, FocusEventArgs e);
+        public event FocusedHandler FocusedEv;
+
+        public delegate void UnFocusedHandler(object sender, FocusEventArgs e);
+        public event UnFocusedHandler UnFocusedEv;
 
         public static readonly BindableProperty TextProperty = BindableProperty.Create(
             nameof(Text),
@@ -123,7 +135,7 @@ namespace GPSNote.Controls
         {
             var control = bindable as CancelLine;
             var mrg = (Thickness)newValue;
-            control.grid.Margin = new Thickness(mrg.Left, mrg.Top, mrg.Right - 40, mrg.Bottom);
+            control.grid.Margin = mrg;//new Thickness(mrg.Left, mrg.Top, mrg.Right - 40, mrg.Bottom);
         }
 
         public static readonly BindableProperty BorderColorProperty = BindableProperty.Create(

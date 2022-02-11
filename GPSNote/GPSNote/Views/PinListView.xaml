@@ -6,7 +6,8 @@
              prism:ViewModelLocator.AutowireViewModel="True"
              x:Class="GPSNote.Views.PinListView"
              x:Name="pinListView"
-             Title="{Binding Title}">
+             Title="{Binding Title}"
+             IconImageSource="ic_pin.png">
     <ContentPage.Content>
         <AbsoluteLayout >
 
@@ -14,7 +15,8 @@
 
                 <controls:SearchLine TextLine="{Binding SearchPin}" 
                                      CommandSearch="{Binding SearchCommand}"
-                                     Padding="0,0,40,0"/>
+                                     Padding="0,0,40,0"
+                                     TextChangeCommand="{Binding SearchCommand}"/>
 
                 
                 <Frame HeightRequest="0" 

@@ -141,6 +141,9 @@
   <data name="LogIn" xml:space="preserve">
     <value>Log in</value>
   </data>
+  <data name="Map" xml:space="preserve">
+    <value>Map</value>
+  </data>
   <data name="MapNotepad" xml:space="preserve">
     <value>MapNotepad</value>
   </data>
@@ -152,6 +155,9 @@
   </data>
   <data name="Password" xml:space="preserve">
     <value>Password</value>
+  </data>
+  <data name="Pins" xml:space="preserve">
+    <value>Pins</value>
   </data>
   <data name="RepeatPassword" xml:space="preserve">
     <value>Repeat password</value>

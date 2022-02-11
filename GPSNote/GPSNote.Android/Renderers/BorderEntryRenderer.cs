@@ -48,6 +48,7 @@ namespace XamarinSamples.Droid.UI.Renderers
             {
                 var en = (BorderEntry)sender;
                 var nativeEditText = (global::Android.Widget.EditText)Control;
+                var fr = new Frame();
                 var shape = new ShapeDrawable(new Android.Graphics.Drawables.Shapes.RectShape());
                 shape.Paint.Color = en.BorderColor.ToAndroid();
                 shape.Paint.SetStyle(Paint.Style.Stroke);

@@ -10,7 +10,6 @@ using Xamarin.Forms.Xaml;
 
 namespace GPSNote.Controls
 {
-    [XamlCompilation(XamlCompilationOptions.Compile)]
     public partial class PasswordLine : ContentView
     {
         public PasswordLine()

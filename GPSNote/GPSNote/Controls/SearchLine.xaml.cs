@@ -5,6 +5,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Input;
+using Xamarin.Essentials;
 using Xamarin.Forms;
 using Xamarin.Forms.Xaml;
 
@@ -47,6 +48,20 @@ namespace GPSNote.Controls
             defaultValue: default(PinModel),
             defaultBindingMode: BindingMode.TwoWay,
             propertyChanged: SelectedItemChanged);
+
+        public static readonly BindableProperty TextChangeCommandProperty = BindableProperty.Create(
+            nameof(TextChangeCommand),
+            typeof(ICommand),
+            typeof(SearchLine),
+            defaultValue: default(ICommand),
+            defaultBindingMode: BindingMode.TwoWay);
+
+        public static readonly BindableProperty ExidCommandProperty = BindableProperty.Create(
+            nameof(ExidCommand),
+            typeof(ICommand),
+            typeof(SearchLine),
+            defaultValue: default(ICommand),
+            defaultBindingMode: BindingMode.TwoWay);
         #endregion
 
         #region -- Propirties --
@@ -71,6 +86,18 @@ namespace GPSNote.Controls
         {
             get => (PinModel)GetValue(SelectedItemProperty);
             set => SetValue(SelectedItemProperty, value);
+        }
+
+        public ICommand TextChangeCommand
+        {
+            get => (ICommand)GetValue(TextChangeCommandProperty);
+            set=> SetValue(TextChangeCommandProperty, value);
+        }
+
+        public ICommand ExidCommand
+        {
+            get => (ICommand)GetValue(ExidCommandProperty);
+            set => SetValue(ExidCommandProperty, value);
         }
         #endregion
 
@@ -119,7 +146,15 @@ namespace GPSNote.Controls
         {
             InitializeComponent();
 
-            line.TextChanged += (s, e) => TextLine = e.NewTextValue;
+            line.TextChangedEv += (s, e) =>
+            {
+                TextLine = e.NewTextValue;
+
+                if (TextChangeCommand?.CanExecute(null) ?? false)
+                {
+                    TextChangeCommand.Execute(null);
+                }
+            };
             listView.ItemSelected += (s, e) =>
               {
                   SelectedItem = (PinModel)e.SelectedItem;
@@ -128,9 +163,26 @@ namespace GPSNote.Controls
                   ItemsSource.Clear();
                   line.Text = SelectedItem.Name;
               };
-            //scrollView.m
-            //scrollView.HeightRequest = 0;
+
+            line.FocusedEv += (s, e) =>
+              {
+                  const byte delta = 50;   
+                  serchColumn.Width = Application.Current.MainPage.Width-delta;
+              };
+            line.UnFocusedEv += (s, e) =>
+            {
+                serchColumn.Width = GridLength.Star;
+            };
+
             listView.HeightRequest = 0;
+
+            searchButton.Clicked += (s, e) =>
+              {
+                  if (ExidCommand?.CanExecute(null) ?? false)
+                  {
+                      ExidCommand.Execute(null);
+                  }
+              };
         }
     }
 }

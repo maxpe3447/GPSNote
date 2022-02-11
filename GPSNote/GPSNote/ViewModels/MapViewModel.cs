@@ -19,17 +19,11 @@ namespace GPSNote.ViewModels
         {
             _Repository = repository;
 
-            Title = "Map Page";
+            Title = Resources.TextControls.Map;
 
             MapClickCommand = new Command(MapClickCommandRelease);
             SearchCommand = new  Command(SearchCommandRelease);
-            //PinsList = new ObservableCollection<PinModel>
-            //{
-            //    new PinModel("Addres1", "1", new Position(47.8431096, 35.0874433)),
-            //    new PinModel("Addres2", "2", new Position(47.846540, 35.087064)),
-            //    new PinModel("Addres3", "3", new Position(47.838393, 35.098817))
-            //};
-
+            ExidCommand = new Command(ExidCommandRelease);
         }
         
         #region -- Properties -- 
@@ -90,6 +84,7 @@ namespace GPSNote.ViewModels
         {
             if (string.IsNullOrEmpty(SearchPin))
             {
+                FindedPins = new List<PinModel>();
                 return;
             }
             FindedPins = PinsList.Where(x => x.Name.Contains(SearchPin) || x.Description.Contains(SearchPin) || x.Coordinate.Contains(SearchPin)).ToList();
@@ -105,6 +100,12 @@ namespace GPSNote.ViewModels
             //};
 
             //PinsList.Add(new PinModel("Address", "4", ClickPos));
+        }
+
+        public ICommand ExidCommand { get; }
+        private void ExidCommandRelease()
+        {
+            NavigationService.NavigateAsync(nameof(Views.StartPageView));
         }
         #endregion
 

@@ -133,6 +133,15 @@ namespace GPSNote.Resources {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Map.
+        /// </summary>
+        internal static string Map {
+            get {
+                return ResourceManager.GetString("Map", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to MapNotepad.
         /// </summary>
         internal static string MapNotepad {
@@ -165,6 +174,15 @@ namespace GPSNote.Resources {
         internal static string Password {
             get {
                 return ResourceManager.GetString("Password", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Pins.
+        /// </summary>
+        internal static string Pins {
+            get {
+                return ResourceManager.GetString("Pins", resourceCulture);
             }
         }
         
