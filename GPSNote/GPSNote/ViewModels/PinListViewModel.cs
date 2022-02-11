@@ -9,7 +9,7 @@ using System.Linq;
 using System.Text;
 using System.Windows.Input;
 using Xamarin.Forms;
-//using Xamarin.Forms.Maps;
+using Xamarin.Forms.Maps;
 
 namespace GPSNote.ViewModels
 {
