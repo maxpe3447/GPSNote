@@ -8,7 +8,7 @@ using System.Linq;
 using System.Text;
 using System.Windows.Input;
 using Xamarin.Forms;
-using Xamarin.Forms.Maps;
+using Xamarin.Forms.GoogleMaps;
 
 namespace GPSNote.ViewModels
 {
@@ -123,7 +123,7 @@ namespace GPSNote.ViewModels
                 return;
             }
 
-            if(pin.Position == default(Position))
+            if (pin.Position == default(Position))
             {
                 await Acr.UserDialogs.UserDialogs.Instance.AlertAsync("Please, enter marker on the map", "Data Error");
                 return;
@@ -177,7 +177,7 @@ namespace GPSNote.ViewModels
                 Position = pin.Coordinate;
 
 
-                PinsList.Add(new PinModel( Name, Description, pin.Position));
+                PinsList.Add(new PinModel(Name, Description, pin.Position));
 
                 SelectedItem = new Pin
                 {

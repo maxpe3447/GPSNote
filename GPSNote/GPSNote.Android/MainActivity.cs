@@ -8,10 +8,11 @@ using Prism;
 using Prism.Ioc;
 using Android;
 using Android.Views;
+using Plugin.Permissions;
+using Plugin.Permissions.Abstractions;
 
 namespace GPSNote.Droid
-{//Theme = "@style/MainTheme"
-    //Theme = "@style/Theme.NoTitleBar.Fullscreen"
+{
     [Activity(Label = "GPSNote", Icon = "@mipmap/icon", Theme = "@style/MainTheme", MainLauncher = true, ConfigurationChanges = ConfigChanges.ScreenSize | ConfigChanges.Orientation | ConfigChanges.UiMode | ConfigChanges.ScreenLayout | ConfigChanges.SmallestScreenSize)]
     public class MainActivity : global::Xamarin.Forms.Platform.Android.FormsAppCompatActivity
     {
@@ -19,7 +20,8 @@ namespace GPSNote.Droid
         {
             base.OnCreate(savedInstanceState);
 
-            Xamarin.FormsMaps.Init(this, savedInstanceState);//for maps
+            Xamarin.FormsGoogleMaps.Init(this, savedInstanceState);
+            //Xamarin.FormsMaps.Init(this, savedInstanceState);//for maps
             UserDialogs.Init(this);
 
             Xamarin.Essentials.Platform.Init(this, savedInstanceState);
@@ -38,13 +40,39 @@ namespace GPSNote.Droid
             base.OnStart();
             if ((int)Build.VERSION.SdkInt >= 23)
             {
-                if (CheckSelfPermission(Manifest.Permission.AccessFineLocation) != Permission.Granted)
+                //if (CheckSelfPermission(Manifest.Permission.AccessFineLocation) != Permission.Granted ||
+                //    CheckSelfPermission(Manifest.Permission.AccessCoarseLocation) != Permission.Granted ||
+                //    CheckSelfPermission(Manifest.Permission.Internet) != Permission.Granted ||
+                //    CheckSelfPermission(Manifest.Permission.AccessNetworkState) != Permission.Granted ||
+                //    CheckSelfPermission(Manifest.Permission.ControlLocationUpdates) != Permission.Granted)
+                //{
+                //    RequestPermissions(LocationPermissions, RequestLocationId);
+                //}
+
+                //else
+                //{
+                //    Acr.UserDialogs.UserDialogs.Instance.Alert("all good");
+                //    // Permissions already granted - display a message.
+                //}
+
+                var status =  CrossPermissions.Current.CheckPermissionStatusAsync(Plugin.Permissions.Abstractions.Permission.Location).Result;
+                if (status != Plugin.Permissions.Abstractions.PermissionStatus.Granted)
                 {
-                    RequestPermissions(LocationPermissions, RequestLocationId);
+                    if ( CrossPermissions.Current.ShouldShowRequestPermissionRationaleAsync(Plugin.Permissions.Abstractions.Permission.Location).Result)
+                    {
+                         Acr.UserDialogs.UserDialogs.Instance.Alert("Need location", "Gunna need that location", "OK");
+                    }
+
+                    var results =  CrossPermissions.Current.RequestPermissionsAsync(new[] { Plugin.Permissions.Abstractions.Permission.Location });
+                    status = results.Result[Plugin.Permissions.Abstractions.Permission.Location];
                 }
-                else
+
+                if (status == PermissionStatus.Granted)
                 {
-                    // Permissions already granted - display a message.
+                }
+                else if (status != Plugin.Permissions.Abstractions.PermissionStatus.Unknown)
+                {
+                    Acr.UserDialogs.UserDialogs.Instance.Alert("Location Denied", "Can not continue, try again.", "OK");
                 }
             }
         }
@@ -67,7 +95,12 @@ namespace GPSNote.Droid
         readonly string[] LocationPermissions =
         {
                 Manifest.Permission.AccessCoarseLocation,
-                Manifest.Permission.AccessFineLocation
+                Manifest.Permission.AccessFineLocation,
+                Manifest.Permission.Internet,
+                Manifest.Permission.AccessNetworkState,
+                Manifest.Permission.ControlLocationUpdates,
+                Manifest.Permission.AccessMockLocation,
+                Manifest.Permission.LocationHardware
             };
         public class AndroidInitializer : IPlatformInitializer
         {

@@ -2,13 +2,14 @@
 <ContentPage xmlns="http://xamarin.com/schemas/2014/forms"
              xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
              xmlns:prism ="http://prismlibrary.com"
-             xmlns:maps="clr-namespace:Xamarin.Forms.Maps;assembly=Xamarin.Forms.Maps" 
              xmlns:controls="clr-namespace:GPSNote.Controls"
+             xmlns:maps="clr-namespace:Xamarin.Forms.GoogleMaps;assembly=Xamarin.Forms.GoogleMaps"
              prism:ViewModelLocator.AutowireViewModel="True"
              x:Class="GPSNote.Views.MapView"
              Title="{Binding Title}"
              IconImageSource="ic_map.png"
              >
+             <!--xmlns:maps="clr-namespace:Xamarin.Forms.Maps;assembly=Xamarin.Forms.Maps"--> 
     <ContentPage.Content>
         <StackLayout>
             <controls:SearchLine TextLine="{Binding SearchPin}" 
@@ -17,38 +18,25 @@
                                  TextChangeCommand="{Binding SearchCommand}"
                                  ExidCommand="{Binding ExidCommand}"/>
 
+            <Button Command="{Binding TurnOnCommand}"/>
+            <controls:CustomPin2  Icon="ic_pin.png"/>
 
-            <Frame HeightRequest="0" 
-                   Padding="5"
-                   BackgroundColor="Azure"/>
-
-            <controls:BindMap IsShowingUser="True"
+            <controls:BindMap IsShowingUser="{Binding IsShowingUser}"
+                              MyLocationButtonEnabled="{Binding MyLocationButtonEnabled}"
                               MapType="Street"
-                              TrafficEnabled="True"
+                              IsTrafficEnabled="True"
                               ItemsSource="{Binding PinsList}"
                               SelectedItem="{Binding SelectedItem}"
-                              ClickPosition="{Binding ClickPos}">
+                              ClickPosition="{Binding ClickPos}"
+                              VerticalOptions="FillAndExpand">
                 
-                <x:Arguments>
-                    <maps:MapSpan >
-                        <x:Arguments>
-                            <maps:Position>
-                                <x:Arguments>
-                                    <x:Double>47.842725</x:Double>
-                                    <x:Double>35.131675</x:Double>
-                                </x:Arguments>
-                            </maps:Position>
-                            <x:Double>0.1</x:Double>
-                            <x:Double>0.1</x:Double>
-                        </x:Arguments>
-                    </maps:MapSpan>
-                </x:Arguments>
+                
                 <maps:Map.ItemTemplate>
                     <DataTemplate>
-                        <maps:Pin Label="{Binding Name}"
+                        <!--<maps:Pin Label="{Binding Name}"
                                   Address="{Binding Description}"
                                   Position="{Binding Position}"
-                                  />
+                                  />-->
                     </DataTemplate>
                 </maps:Map.ItemTemplate>
             </controls:BindMap>

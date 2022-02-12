@@ -2,10 +2,12 @@
 <ContentPage xmlns="http://xamarin.com/schemas/2014/forms"
              xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
              xmlns:prism="http://prismlibrary.com"
-             xmlns:controls="clr-namespace:GPSNote.Controls" xmlns:maps="clr-namespace:Xamarin.Forms.Maps;assembly=Xamarin.Forms.Maps"
+             xmlns:controls="clr-namespace:GPSNote.Controls" 
+             xmlns:maps="clr-namespace:Xamarin.Forms.GoogleMaps;assembly=Xamarin.Forms.GoogleMaps"
              prism:ViewModelLocator.AutowireViewModel="True"
              x:Class="GPSNote.Views.CreatePinView"
              Title="{Binding Title}">
+             <!--xmlns:maps="clr-namespace:Xamarin.Forms.Maps;assembly=Xamarin.Forms.Maps"-->
     
     <ContentPage.ToolbarItems>
         <ToolbarItem Text="Save"
@@ -41,32 +43,21 @@
                    FontSize="20"/>
 
             <controls:BindMap IsShowingUser="True"
-                              TrafficEnabled="True"
+                              IsTrafficEnabled="True"
                               MapType="Street"
-                              ClickPosition="{Binding SelectedPosition}"
                               SelectedItem="{Binding SelectedItem}"
+                              ClickPosition="{Binding SelectedPosition}"
                               ItemsSource="{Binding PinsList}">
 
-                <x:Arguments>
-                    <maps:MapSpan >
-                        <x:Arguments>
-                            <maps:Position>
-                                <x:Arguments>
-                                    <x:Double>47.842725</x:Double>
-                                    <x:Double>35.131675</x:Double>
-                                </x:Arguments>
-                            </maps:Position>
-                            <x:Double>0.1</x:Double>
-                            <x:Double>0.1</x:Double>
-                        </x:Arguments>
-                    </maps:MapSpan>
-                </x:Arguments>
-
                 <maps:Map.ItemTemplate>
-                    <DataTemplate>
-                        <maps:Pin Position="{Binding Position}"
-                                  Address="{Binding Description}"
-                                  Label="{Binding Name}"/>
+                    <DataTemplate >
+
+                        
+                        <!--<maps:Pin Position="{Binding Position}"
+                                 Address="{Binding Address}"
+                                 Label="{Binding Description}"
+                                 Icon="{Binding IconNumber, Converter={StaticResource iconConverter}}"/>-->
+                        
                     </DataTemplate>
                 </maps:Map.ItemTemplate>
                 

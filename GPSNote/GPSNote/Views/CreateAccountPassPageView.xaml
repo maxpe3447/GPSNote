@@ -61,7 +61,8 @@
                                        Placeholder="{Binding TextResources[CreatePassword]}"
                                        FontSize="18"
                                        TextPassword="{Binding UserPassword}"
-                                       TextColor="{StaticResource TextColor}"/>
+                                       TextColor="{StaticResource TextColor}"
+                                       BorderColor="Gray"/>
 
                 <!--LABEL ERROR EMAIL-->
                 <!--<Label Text="{Binding EmailErrorMsgText}"

@@ -6,8 +6,9 @@ using System.Collections.ObjectModel;
 using System.Text;
 using System.Windows.Input;
 using Xamarin.Forms;
-using Xamarin.Forms.Maps;
+//using Xamarin.Forms.Maps;
 using GPSNote.Services.Repository;
+using Xamarin.Forms.GoogleMaps;
 
 namespace GPSNote.ViewModels
 {
@@ -24,6 +25,16 @@ namespace GPSNote.ViewModels
             MapClickCommand = new Command(MapClickCommandRelease);
             SearchCommand = new  Command(SearchCommandRelease);
             ExidCommand = new Command(ExidCommandRelease);
+            TurnOnCommand = new Command(TurnOnCommandRelease);
+            //IsShowingUser = true;
+            //MyLocationButtonEnabled = true;
+
+            //if( Xamarin.Forms.ma Map is Controls.BindMap)
+            //{
+
+            //}
+
+            
         }
         
         #region -- Properties -- 
@@ -36,15 +47,19 @@ namespace GPSNote.ViewModels
         private Position _clickPos;
         public Position ClickPos
         {
-            get=> _clickPos;
-            set=> SetProperty(ref _clickPos, value);
+            get => _clickPos;
+            set
+            {
+                SetProperty(ref _clickPos, value);
+                TurnOnCommand.Execute(null);
+            }
         }
 
         private Pin _selectedItem;
         public Pin SelectedItem
         {
             get => _selectedItem;
-            set=> SetProperty(ref _selectedItem, value);
+            set => SetProperty(ref _selectedItem, value);
         }
 
         private string _searchPin;
@@ -76,6 +91,20 @@ namespace GPSNote.ViewModels
                 };
             }
         }
+
+        private bool _isShowingUser;
+        public bool IsShowingUser
+        {
+            get => _isShowingUser;
+            set => SetProperty(ref _isShowingUser, value);
+        }
+
+        private bool _myLocationButtonEnabled;
+        public bool MyLocationButtonEnabled
+        {
+            get => _myLocationButtonEnabled;
+            set => SetProperty(ref _myLocationButtonEnabled, value);
+        }
         #endregion
 
         #region -- Command -- 
@@ -100,12 +129,20 @@ namespace GPSNote.ViewModels
             //};
 
             //PinsList.Add(new PinModel("Address", "4", ClickPos));
+            
         }
 
         public ICommand ExidCommand { get; }
         private void ExidCommandRelease()
         {
             NavigationService.NavigateAsync(nameof(Views.StartPageView));
+        }
+
+        public ICommand TurnOnCommand { get; } 
+        private void TurnOnCommandRelease()
+        {
+            IsShowingUser  = true;
+            MyLocationButtonEnabled = false;
         }
         #endregion
 
@@ -116,13 +153,17 @@ namespace GPSNote.ViewModels
             {
                 _UserId = parameters.GetValue<int>(nameof(PinModel.UserId));
             }
-            
-            //var lst = _Repository.GetAllPinsAsync(_UserId).Result;
+
+            var lst = _Repository.GetAllPinsAsync(_UserId).Result;
 
             PinsList = new ObservableCollection<PinModel>(_Repository.GetAllPinsAsync(_UserId).Result);
-            
+
+            //TurnOnCommand.Execute(null);
+            //TurnOnCommand.Execute(null);
+            //TurnOnCommand.Execute(null);
+
         }
-        
+
         public override void OnNavigatedFrom(INavigationParameters parameters)
         {
             base.OnNavigatedFrom(parameters);

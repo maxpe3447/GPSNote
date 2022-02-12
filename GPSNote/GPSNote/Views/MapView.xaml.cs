@@ -10,14 +10,13 @@ using Xamarin.Forms.Xaml;
 
 namespace GPSNote.Views
 {
-    [XamlCompilation(XamlCompilationOptions.Compile)]
     public partial class MapView : ContentPage
     {
+        [Obsolete]
         public MapView()
         {
             InitializeComponent();
-            //MapViewModel.MapPins = this.map;
-           
+            
         }
     }
 }
