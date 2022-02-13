@@ -79,6 +79,7 @@
     </PackageReference>
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="CachingNativeBitmapDescriptorFactory.cs" />
     <Compile Include="MainActivity.cs" />
     <Compile Include="Renderers\BindMapRenderer.cs" />
     <Compile Include="Renderers\BorderEntryRenderer.cs" />

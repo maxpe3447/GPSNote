@@ -10,6 +10,8 @@ using Android;
 using Android.Views;
 using Plugin.Permissions;
 using Plugin.Permissions.Abstractions;
+using System.Collections.Generic;
+using Xamarin.Forms.GoogleMaps.Android;
 
 namespace GPSNote.Droid
 {
@@ -20,8 +22,15 @@ namespace GPSNote.Droid
         {
             base.OnCreate(savedInstanceState);
 
-            Xamarin.FormsGoogleMaps.Init(this, savedInstanceState);
-            //Xamarin.FormsMaps.Init(this, savedInstanceState);//for maps
+            var platformConfig = new PlatformConfig
+            {
+                BitmapDescriptorFactory = new CachingNativeBitmapDescriptorFactory()
+            };
+            Xamarin.FormsGoogleMaps.Init(this,
+                                         savedInstanceState,
+                                         config: platformConfig);
+
+
             UserDialogs.Init(this);
 
             Xamarin.Essentials.Platform.Init(this, savedInstanceState);

@@ -23,7 +23,7 @@
                        Padding="5"
                        BackgroundColor="Azure"/>
                 <ScrollView Margin="0,0,0,30">
-                    <ListView ItemsSource="{Binding PinsList, Mode=TwoWay}"
+                    <ListView ItemsSource="{Binding PinModelsList, Mode=TwoWay}"
                           Margin="20, 0, 20, 0"
                           HasUnevenRows="True"
                           SelectedItem="{Binding SelectedPin, Mode=TwoWay}"

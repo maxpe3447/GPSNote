@@ -9,6 +9,7 @@ using Xamarin.Forms;
 //using Xamarin.Forms.Maps;
 using GPSNote.Services.Repository;
 using Xamarin.Forms.GoogleMaps;
+using System.Threading.Tasks;
 
 namespace GPSNote.ViewModels
 {
@@ -38,11 +39,17 @@ namespace GPSNote.ViewModels
         }
         
         #region -- Properties -- 
-        private ObservableCollection<PinModel> _pinsList;
-        public ObservableCollection<PinModel> PinsList 
+        private ObservableCollection<Pin> _pinsList;
+        public ObservableCollection<Pin> PinsList 
         {
-            get => _pinsList;
+            get => _pinsList ?? new ObservableCollection<Pin>();
             set => SetProperty(ref _pinsList, value);
+        }
+        private ObservableCollection<PinModel> _pinModelsList;
+        public ObservableCollection<PinModel> PinModelsList
+        {
+            get => _pinModelsList ?? new ObservableCollection<PinModel>();
+            set => SetProperty(ref _pinModelsList, value);
         }
         private Position _clickPos;
         public Position ClickPos
@@ -55,11 +62,11 @@ namespace GPSNote.ViewModels
             }
         }
 
-        private Pin _selectedItem;
-        public Pin SelectedItem
+        private Position _goToPosition;
+        public Position GoToPosition
         {
-            get => _selectedItem;
-            set => SetProperty(ref _selectedItem, value);
+            get => _goToPosition;
+            set => SetProperty(ref _goToPosition, value);
         }
 
         private string _searchPin;
@@ -83,12 +90,7 @@ namespace GPSNote.ViewModels
             set
             {
                 SetProperty(ref _selectedSearchPin, value);
-                SelectedItem = new Pin
-                {
-                    Label = SelectedSearchPin.Name,
-                    Address = SelectedSearchPin.Description,
-                    Position = SelectedSearchPin.Position
-                };
+                GoToPosition = SelectedSearchPin.Position;
             }
         }
 
@@ -116,7 +118,7 @@ namespace GPSNote.ViewModels
                 FindedPins = new List<PinModel>();
                 return;
             }
-            FindedPins = PinsList.Where(x => x.Name.Contains(SearchPin) || x.Description.Contains(SearchPin) || x.Coordinate.Contains(SearchPin)).ToList();
+            FindedPins = PinModelsList.Where(x => x.Name.Contains(SearchPin) || x.Description.Contains(SearchPin) || x.Coordinate.Contains(SearchPin)).ToList();
         }
         public ICommand MapClickCommand { get; }
         private void MapClickCommandRelease()
@@ -141,8 +143,8 @@ namespace GPSNote.ViewModels
         public ICommand TurnOnCommand { get; } 
         private void TurnOnCommandRelease()
         {
-            IsShowingUser  = true;
-            MyLocationButtonEnabled = false;
+            //IsShowingUser  = true;
+            MyLocationButtonEnabled = true;
         }
         #endregion
 
@@ -154,44 +156,60 @@ namespace GPSNote.ViewModels
                 _UserId = parameters.GetValue<int>(nameof(PinModel.UserId));
             }
 
-            var lst = _Repository.GetAllPinsAsync(_UserId).Result;
+            PinModelsList = new ObservableCollection<PinModel>(_Repository.GetAllPinsAsync(_UserId).Result);
 
-            PinsList = new ObservableCollection<PinModel>(_Repository.GetAllPinsAsync(_UserId).Result);
-
-            //TurnOnCommand.Execute(null);
-            //TurnOnCommand.Execute(null);
-            //TurnOnCommand.Execute(null);
-
+            InitPinsListAsync();
+            
+            
+            
+            
         }
+
+        private async Task InitPinsListAsync()
+        {
+            await Task.Run(() =>
+            {
+                //foreach (var pin in PinModelsList)
+                for(int i = 0; i < PinModelsList.Count; i++)
+                {
+                    PinsList.Add(new Pin
+                    {
+                        Label = PinModelsList[i].Name,
+                        Position = PinModelsList[i].Position,
+                        Icon = BitmapDescriptorFactory.FromView(new Controls.BindingPinIconView("ic_placeholder.png"))
+                    });
+                }
+            });
+
+        } 
 
         public override void OnNavigatedFrom(INavigationParameters parameters)
         {
             base.OnNavigatedFrom(parameters);
-            
-            parameters.Add(nameof(PinsList), PinsList);
+            if (!initilize)
+            {
+                parameters.Add(nameof(PinModelsList), PinModelsList);
+            }
             parameters.Add(nameof(PinModel.UserId), _UserId);
         }
 
         public override void OnNavigatedTo(INavigationParameters parameters)
         {
             base.OnNavigatedTo(parameters);
-            if (parameters.TryGetValue<ObservableCollection<PinModel>>(nameof(this.PinsList), out var newCounterValue))
-            {
-                PinsList = newCounterValue;
-            }
+            //if (parameters.TryGetValue<List<PinModel>>(nameof(PinModelsList), out var newCounterValue))
+            //{
+            //    PinModelsList = newCounterValue;
+            //}
             if (parameters.TryGetValue<PinModel>(nameof(PinListViewModel.SelectedPin), out var pin))
             {
-                SelectedItem = new Pin
-                {
-                    Address = pin.Name,
-                    Position = pin.Position,
-                    Label = pin.Description
-                };
+                GoToPosition = pin.Position;
             }
+
         }
         #endregion
 
         #region -- Private --
+        private bool initilize = false;
         private int _UserId { get; set; }
         private IRepository _Repository { get; }
         #endregion

@@ -12,7 +12,7 @@ using Xamarin.Forms.GoogleMaps.Android;
 using Xamarin.Forms.Platform.Android;
 using static Android.Gms.Maps.GoogleMap;
 
-[assembly: ExportRenderer(typeof(BindMap), typeof(BindMapRenderer))]
+[assembly: ExportRenderer(typeof(BindingMap), typeof(BindMapRenderer))]
 namespace Droid.Renderers 
 {
     public class BindMapRenderer : MapRenderer, IOnMapReadyCallback

@@ -21,7 +21,6 @@ namespace GPSNote
         {
             InitializeComponent();
              await NavigationService.NavigateAsync(nameof(Views.StartPageView));
-            //await NavigationService.NavigateAsync("NavigationPage/SearchLine");
         }
         protected override void RegisterTypes(IContainerRegistry containerRegistry)
         {

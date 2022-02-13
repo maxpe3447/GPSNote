@@ -31,7 +31,7 @@ namespace GPSNote.ViewModels
         }
         #region -- Properties --
         private ObservableCollection<PinModel> _pinsList;
-        public ObservableCollection<PinModel> PinsList
+        public ObservableCollection<PinModel> PinModelsList
         {
             get => _pinsList;
             set => SetProperty(ref _pinsList, value);
@@ -51,7 +51,7 @@ namespace GPSNote.ViewModels
 
                 NavigationService.SelectTabAsync(nameof(Views.MapView), keyValues);
 
-                PinsList = new ObservableCollection<PinModel>(PinsList);
+                //PinModelsList
             }
         }
 
@@ -90,7 +90,7 @@ namespace GPSNote.ViewModels
             {
                 return;
             }
-            PinsList = new ObservableCollection<PinModel>( PinsList.Where(x => x.Name.Contains(SearchPin) || x.Description.Contains(SearchPin) || x.Coordinate.Contains(SearchPin)).ToList());
+            PinModelsList = new ObservableCollection<PinModel>( PinModelsList.Where(x => x.Name.Contains(SearchPin) || x.Description.Contains(SearchPin) || x.Coordinate.Contains(SearchPin)).ToList());
         }
 
         public ICommand DeletePinCommand { get; }
@@ -98,7 +98,7 @@ namespace GPSNote.ViewModels
         {
             var pin = selectedpin as PinModel;
 
-            PinsList.Remove(pin);
+            PinModelsList.Remove(pin);
 
             _Repository.DeleteAsync(pin);
         }
@@ -130,9 +130,9 @@ namespace GPSNote.ViewModels
         public override void OnNavigatedFrom(INavigationParameters parameters)
         {
             base.OnNavigatedFrom(parameters);
-            if (parameters.ContainsKey(nameof(PinsList)))
+            if (parameters.ContainsKey(nameof(PinModelsList)))
             {
-                parameters.Add(nameof(this.PinsList), PinsList);
+                parameters.Add(nameof(this.PinModelsList), PinModelsList);
                
             }
 
@@ -144,26 +144,26 @@ namespace GPSNote.ViewModels
         public override void OnNavigatedTo(INavigationParameters parameters)
         {
             base.OnNavigatedTo(parameters);
-            if (parameters.TryGetValue<ObservableCollection<PinModel>>(nameof(this.PinsList), out var newCounterValue))
+            if (parameters.TryGetValue<ObservableCollection<PinModel>>(nameof(this.PinModelsList), out var initilazingPinNodelList))
             {
-                PinsList = newCounterValue;
+                PinModelsList = initilazingPinNodelList;
             }
             int index = -1;
             if(parameters.TryGetValue<PinModel>($"{nameof(PinModel)}_del", out var delPinModel))
             {
-                index = PinsList.IndexOf(delPinModel);
-                PinsList.Remove(delPinModel);
+                index = PinModelsList.IndexOf(delPinModel);
+                PinModelsList.Remove(delPinModel);
 
             }
             if(parameters.TryGetValue<PinModel>(nameof(PinModel), out var newPinModel))
             {
                 if (index == -1)
                 {
-                    PinsList.Add(newPinModel);
+                    PinModelsList.Add(newPinModel);
                 }
                 else
                 {
-                    PinsList.Insert(index, newPinModel);
+                    PinModelsList.Insert(index, newPinModel);
                 }
             }
 

@@ -19,27 +19,27 @@
                                  ExidCommand="{Binding ExidCommand}"/>
 
             <Button Command="{Binding TurnOnCommand}"/>
-            <controls:CustomPin2  Icon="ic_pin.png"/>
+            <!--<controls:CustomPin2  Icon="ic_pin.png"/>-->
 
-            <controls:BindMap IsShowingUser="{Binding IsShowingUser}"
+            <controls:BindingMap IsShowingUser="{Binding IsShowingUser}"
                               MyLocationButtonEnabled="{Binding MyLocationButtonEnabled}"
                               MapType="Street"
                               IsTrafficEnabled="True"
-                              ItemsSource="{Binding PinsList}"
-                              SelectedItem="{Binding SelectedItem}"
+                              PinsCollection="{Binding PinsList}"
+                              GoToPosition="{Binding GoToPosition}"
                               ClickPosition="{Binding ClickPos}"
                               VerticalOptions="FillAndExpand">
                 
                 
-                <maps:Map.ItemTemplate>
+                <!--<maps:Map.ItemTemplate>
                     <DataTemplate>
-                        <!--<maps:Pin Label="{Binding Name}"
+                        <maps:Pin Label="{Binding Name}"
                                   Address="{Binding Description}"
                                   Position="{Binding Position}"
-                                  />-->
+                                  />
                     </DataTemplate>
-                </maps:Map.ItemTemplate>
-            </controls:BindMap>
+                </maps:Map.ItemTemplate>-->
+            </controls:BindingMap>
         </StackLayout>
     </ContentPage.Content>
 </ContentPage>
