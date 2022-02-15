@@ -25,7 +25,7 @@ namespace GPSNote.Controls
             };
             InitialCameraUpdate = CameraUpdateFactory.NewCameraPosition(new CameraPosition( new Position(47.824734, 35.1625), 13 ));
             
-            //base.IsShowingUser = true;
+            UiSettings.ZoomControlsEnabled = false;
         }
         
         public static readonly BindableProperty MyLocationButtonEnabledProperty =
@@ -70,7 +70,7 @@ namespace GPSNote.Controls
             nameof(GoToPosition),
             typeof(Position),
             typeof(BindingMap),
-            null,
+            default(Position),
             defaultBindingMode: BindingMode.TwoWay,
             propertyChanged: OnGoToPositionChanged);
 
@@ -86,7 +86,7 @@ namespace GPSNote.Controls
 
             if (newValue is Position pos && pos != null)
             {
-                Distance distance = map.VisibleRegion?.Radius ?? new MapSpan(pos, 0.1, 0.1).Radius;
+                Distance distance = new MapSpan(pos, 0.01, 0.01).Radius;
                 MapSpan region = MapSpan.FromCenterAndRadius(pos, distance);
                 map.MoveToRegion(region);
 

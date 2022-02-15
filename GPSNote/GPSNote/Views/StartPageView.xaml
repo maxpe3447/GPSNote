@@ -18,7 +18,7 @@
                    Source="pic_enter_page2x.png"/>
             
             <!--LABEL MAPNOTEPA-->
-            <Label Text="{Binding TextResources[CreateAnAccount]}"
+            <Label Text="{Binding TextResources[MapNotepad]}"
                    VerticalOptions="Center"
                    HorizontalOptions="Center"
                    FontFamily="{StaticResource BaseFont}"

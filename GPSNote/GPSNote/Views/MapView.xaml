@@ -7,41 +7,57 @@
              prism:ViewModelLocator.AutowireViewModel="True"
              x:Class="GPSNote.Views.MapView"
              Title="{Binding Title}"
-             IconImageSource="ic_map.png"
-             >
-             <!--xmlns:maps="clr-namespace:Xamarin.Forms.Maps;assembly=Xamarin.Forms.Maps"--> 
+             IconImageSource="ic_map.png">
+             
     <ContentPage.Content>
-        <StackLayout>
-            <controls:SearchLine TextLine="{Binding SearchPin}" 
-                                 ItemsSource="{Binding FindedPins}"
-                                 SelectedItem="{Binding SelectedSearchPin}"
-                                 TextChangeCommand="{Binding SearchCommand}"
-                                 ExidCommand="{Binding ExidCommand}"/>
 
-            <Button Command="{Binding TurnOnCommand}"/>
-            <!--<controls:CustomPin2  Icon="ic_pin.png"/>-->
 
-            <controls:BindingMap IsShowingUser="{Binding IsShowingUser}"
+
+        <Grid>
+
+            <Grid.RowDefinitions>
+                <RowDefinition Height="*" />
+            </Grid.RowDefinitions>
+
+
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="*"/>
+            </Grid.ColumnDefinitions>
+
+            <StackLayout Grid.Row="0">
+
+                <controls:BindingMap IsShowingUser="{Binding IsShowingUser}"
                               MyLocationButtonEnabled="{Binding MyLocationButtonEnabled}"
                               MapType="Street"
                               IsTrafficEnabled="True"
                               PinsCollection="{Binding PinsList}"
                               GoToPosition="{Binding GoToPosition}"
                               ClickPosition="{Binding ClickPos}"
-                              VerticalOptions="FillAndExpand">
-                
-                
-                <!--<maps:Map.ItemTemplate>
-                    <DataTemplate>
-                        <maps:Pin Label="{Binding Name}"
-                                  Address="{Binding Description}"
-                                  Position="{Binding Position}"
-                                  />
-                    </DataTemplate>
-                </maps:Map.ItemTemplate>-->
-            </controls:BindingMap>
-        </StackLayout>
+                              VerticalOptions="FillAndExpand"
+                              Margin="0,-20, 0, 0"/>
+
+            </StackLayout>
+
+            <controls:SearchLine TextLine="{Binding SearchPin}" 
+                                 ItemsSource="{Binding FindedPins}"
+                                 SelectedItem="{Binding SelectedSearchPin}"
+                                 TextChangeCommand="{Binding SearchCommand}"
+                                 ExidCommand="{Binding ExidCommand}"
+                                 HorizontalOptions="Start"
+                                 VerticalOptions="Start"/>
+
+            <Button ImageSource="ic_location.png"
+                   FontSize="35"
+                   BackgroundColor="#FEFEFD"
+                   Margin="0, 0, 30, 40"
+                   WidthRequest="70"
+                   HeightRequest="70"
+                   CornerRadius="35"
+                   Grid.Row="0"
+                   HorizontalOptions="End"
+                   VerticalOptions="End"
+                   Command="{Binding FindMeCommand}"/>
+        </Grid>
+        
     </ContentPage.Content>
 </ContentPage>
-
-<!--xmlns:maps="clr-namespace:Xamarin.Forms.Maps;assembly=Xamarin.Forms.Maps"-->

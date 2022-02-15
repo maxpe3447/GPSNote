@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Text;
+using System.Windows.Input;
 using SQLite;
 using Xamarin.Forms.GoogleMaps;
 
@@ -24,6 +25,7 @@ namespace GPSNote.Models
         public int UserId { get; set; }
         public string Name { get; set; }
         public string Description { get; set; }
+        public bool IsFavorit { get; set; } = false;
         public double Latitude
         {
             get => Position.Latitude;
@@ -65,7 +67,12 @@ namespace GPSNote.Models
                 }
             }
         }
-
+        [Ignore]
+        public ICommand LikeCommand { get; set; } = null;
+        [Ignore]
+        public ICommand EditCommand { get; set; } = null;
+        [Ignore]
+        public ICommand DeleteCommand { get; set; } = null;
         #region -- Overrides
         public override string ToString()
         {

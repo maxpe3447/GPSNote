@@ -70,7 +70,6 @@ namespace GPSNote.ViewModels
                 PinsList.Add(new Pin
                 {
                     Label = (string.IsNullOrEmpty(Name)) ? string.Empty : Name,
-                    //Address = Description,
                     Position = SelectedPosition,
                     Icon = BitmapDescriptorFactory.FromView(new Controls.BindingPinIconView("ic_pin.png"))
                 });

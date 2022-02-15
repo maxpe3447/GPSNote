@@ -19,32 +19,71 @@
                                      TextChangeCommand="{Binding SearchCommand}"/>
 
                 
-                <Frame HeightRequest="0" 
-                       Padding="5"
-                       BackgroundColor="Azure"/>
                 <ScrollView Margin="0,0,0,30">
                     <ListView ItemsSource="{Binding PinModelsList, Mode=TwoWay}"
-                          Margin="20, 0, 20, 0"
                           HasUnevenRows="True"
                           SelectedItem="{Binding SelectedPin, Mode=TwoWay}"
-                          SelectionMode="Single">
 
+                              SeparatorVisibility="None">
 
                             <ListView.ItemTemplate>
                                 <DataTemplate>
-                                    <ViewCell>
-                                        <ViewCell.View>
-                                            <StackLayout>
-                                                <Label Text="{Binding Name}"
-                                               FontSize="25"/>
-                                                <Label Text="{Binding Description}"
-                                               FontSize="20"/>
-                                                <Label Text="{Binding Coordinate}"/>
-                                            </StackLayout>
+                                    <!--<ViewCell>
+                                    <ViewCell.View>-->
 
-                                        </ViewCell.View>
+                                <controls:ItemListPin TextName="{Binding Name}"
+                                                      TextCoord="{Binding Coordinate}"
+                                                      LikeCommand="{Binding LikeCommand}"
+                                                      IsFavorit="{Binding IsFavorit, Mode=TwoWay}"/>
+                                <!--<Grid ColumnSpacing ="12" RowSpacing="2">
 
-                                        <ViewCell.ContextActions>
+                                            <Grid.RowDefinitions >
+                                                <RowDefinition Height="37.5"/>
+                                                <RowDefinition Height="37.5"/>
+                                            </Grid.RowDefinitions>
+
+                                            <Grid.ColumnDefinitions>
+                                                <ColumnDefinition Width="68"/>
+                                                <ColumnDefinition Width="*"/>
+                                                <ColumnDefinition Width="80"/>
+                                            </Grid.ColumnDefinitions>
+
+                                            <Button ImageSource="ic_like_gray.png"
+                                                    HorizontalOptions="CenterAndExpand"
+                                                    VerticalOptions="CenterAndExpand"
+                                                    Grid.Row="0"
+                                                    Grid.Column="0"
+                                                    Grid.RowSpan="2"
+                                                    BackgroundColor="#F1F3FD"
+                                                    Margin="16,0,0,0"
+                                                    CornerRadius="6"/>
+
+                                            <Label Text="{Binding Name}"
+                                                       FontSize="25"
+                                                       TextColor="#1E242B"
+                                                       Grid.Column="1"
+                                                       Grid.Row="0"/>
+
+
+                                            <Label Text="{Binding Coordinate}"
+                                                   FontSize="20"
+                                                   TextColor="#3D4E61"
+                                                   Grid.Column="1"
+                                                   Grid.Row="1"/>
+
+                                            <Button ImageSource="ic_left_gray.png"
+                                                    Grid.Row="0"
+                                                    Grid.Column="2"
+                                                    Grid.RowSpan="2"
+                                                    Margin="0,0,35,0"
+                                                    BackgroundColor="Transparent"/>
+
+                                        </Grid>-->
+
+
+                                    <!--</viewcell.view>-->
+
+                                    <!--<ViewCell.ContextActions>
                                             <MenuItem Text="Delete"
                                                       IconImageSource="ic_delete.png"
                                                       Command="{Binding Path=BindingContext.DeletePinCommand, Source={x:Reference pinListView}}"
@@ -54,7 +93,7 @@
                                                       Command ="{Binding Path=BindingContext.EditPinCommand, Source={x:Reference pinListView}}"
                                                       CommandParameter="{Binding .}"/>
                                         </ViewCell.ContextActions>
-                                    </ViewCell>
+                                    </ViewCell>-->
                                 </DataTemplate>
                             </ListView.ItemTemplate>
                         </ListView>

@@ -10,6 +10,8 @@ using Xamarin.Forms;
 using GPSNote.Services.Repository;
 using Xamarin.Forms.GoogleMaps;
 using System.Threading.Tasks;
+using Xamarin.Essentials;
+using System;
 
 namespace GPSNote.ViewModels
 {
@@ -23,18 +25,9 @@ namespace GPSNote.ViewModels
 
             Title = Resources.TextControls.Map;
 
-            MapClickCommand = new Command(MapClickCommandRelease);
+            FindMeCommand = new Command(FindMeCommandRelease);
             SearchCommand = new  Command(SearchCommandRelease);
             ExidCommand = new Command(ExidCommandRelease);
-            TurnOnCommand = new Command(TurnOnCommandRelease);
-            //IsShowingUser = true;
-            //MyLocationButtonEnabled = true;
-
-            //if( Xamarin.Forms.ma Map is Controls.BindMap)
-            //{
-
-            //}
-
             
         }
         
@@ -58,7 +51,6 @@ namespace GPSNote.ViewModels
             set
             {
                 SetProperty(ref _clickPos, value);
-                TurnOnCommand.Execute(null);
             }
         }
 
@@ -120,18 +112,20 @@ namespace GPSNote.ViewModels
             }
             FindedPins = PinModelsList.Where(x => x.Name.Contains(SearchPin) || x.Description.Contains(SearchPin) || x.Coordinate.Contains(SearchPin)).ToList();
         }
-        public ICommand MapClickCommand { get; }
-        private void MapClickCommandRelease()
+        public ICommand FindMeCommand { get; }
+        private void FindMeCommandRelease()
         {
-            //SelectedItem = new Pin//"Addres3", "3", new Position(47.838393, 35.098817)
-            //{
-            //    Address = "Addres3",
-            //    Label = "3",
-            //    Position = new Position(47.838393, 35.098817)
-            //};
+            IsShowingUser = true;
+            //MyLocationButtonEnabled = false;
 
-            //PinsList.Add(new PinModel("Address", "4", ClickPos));
-            
+            try
+            {
+                GoToPosition = new Position(Geolocation.GetLastKnownLocationAsync().Result.Latitude, Geolocation.GetLastKnownLocationAsync().Result.Longitude);
+            }
+            catch (Exception ex)
+            {
+                Acr.UserDialogs.UserDialogs.Instance.Alert("Please, check your GPS settings.");
+            }
         }
 
         public ICommand ExidCommand { get; }
@@ -140,28 +134,33 @@ namespace GPSNote.ViewModels
             NavigationService.NavigateAsync(nameof(Views.StartPageView));
         }
 
-        public ICommand TurnOnCommand { get; } 
-        private void TurnOnCommandRelease()
-        {
-            //IsShowingUser  = true;
-            MyLocationButtonEnabled = true;
-        }
         #endregion
-
+        
         #region -- Override --
         public override void Initialize(INavigationParameters parameters)
         {
+            
+
             if (parameters.ContainsKey(nameof(PinModel.UserId)))
             {
                 _UserId = parameters.GetValue<int>(nameof(PinModel.UserId));
             }
 
             PinModelsList = new ObservableCollection<PinModel>(_Repository.GetAllPinsAsync(_UserId).Result);
-
+            PinModelsList.CollectionChanged += (s, e) =>
+            {
+                if (e.Action == System.Collections.Specialized.NotifyCollectionChangedAction.Add)
+                {
+                    var item = PinModelsList.Last();
+                    PinsList.Add(new Pin
+                    {
+                        Label = item.Name,
+                        Position = item.Position,
+                        Icon = BitmapDescriptorFactory.FromView(new Controls.BindingPinIconView("ic_placeholder.png"))
+                    });
+                }
+            };
             InitPinsListAsync();
-            
-            
-            
             
         }
 
@@ -169,7 +168,6 @@ namespace GPSNote.ViewModels
         {
             await Task.Run(() =>
             {
-                //foreach (var pin in PinModelsList)
                 for(int i = 0; i < PinModelsList.Count; i++)
                 {
                     PinsList.Add(new Pin

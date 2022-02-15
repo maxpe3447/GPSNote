@@ -22,7 +22,7 @@ namespace GPSNote.Services.Repository
                 return database;
             });
         }
-        public Task<int> DeleteAsync<T>(T entity)
+        public Task<int> DeleteAsync<T>(T entity) where T : IEntity
         {
             return database.Value.DeleteAsync(entity);
         }

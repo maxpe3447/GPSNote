@@ -34,8 +34,8 @@ namespace GPSNote
             //Navigarion
             containerRegistry.RegisterForNavigation<NavigationPage>();
             containerRegistry.RegisterForNavigation<Views.StartPageView, ViewModels.StartPageViewModel>();
-            containerRegistry.RegisterForNavigation<Views.MainPage, ViewModels.MainPageViewModel>();
             containerRegistry.RegisterForNavigation<Views.LogInPageView, ViewModels.LogInPageViewModel>();
+            containerRegistry.RegisterForNavigation<Views.MainPage>();//, ViewModels.MainPageViewModel
             containerRegistry.RegisterForNavigation<Views.MapView, ViewModels.MapViewModel>();
             containerRegistry.RegisterForNavigation<Views.CreateAnAccountView, ViewModels.CreateAnAccountViewModel>();
             containerRegistry.RegisterForNavigation<Views.PinListView, ViewModels.PinListViewModel>();
