@@ -1,7 +1,7 @@
-﻿using GPSNote.Models;
+﻿using GpsNote.Extensions;
+using GPSNote.Models;
 using GPSNote.Services.Repository;
 using Prism.Navigation;
-using Prism.Navigation.TabbedPages;
 using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
@@ -9,7 +9,6 @@ using System.Linq;
 using System.Text;
 using System.Windows.Input;
 using Xamarin.Forms;
-using Xamarin.Forms.Maps;
 
 namespace GPSNote.ViewModels
 {
@@ -27,14 +26,16 @@ namespace GPSNote.ViewModels
             SearchCommand = new Command(SearchCommandRelease);
             DeletePinCommand = new Command(DeletePinCommandRelease);
             EditPinCommand = new Command(EditPinCommandRelease);
-            TestCommand = new Command(TestCommandRelease);
+            LikeCommand = new Command(LikeCommandRelease);
+            EditCommand = new Command(EditCommandRelease);
+            DeleteCommand = new Command(DeleteCommandRelease);
         }
         #region -- Properties --
-        private ObservableCollection<PinModel> _pinsList;
-        public ObservableCollection<PinModel> PinsList
+        private ObservableCollection<PinModel> _pinModelsList;
+        public ObservableCollection<PinModel> PinModelsList
         {
-            get => _pinsList;
-            set => SetProperty(ref _pinsList, value);
+            get => _pinModelsList;
+            set => SetProperty(ref _pinModelsList, value);
         }
 
         private PinModel _selectedPin;
@@ -51,7 +52,7 @@ namespace GPSNote.ViewModels
 
                 NavigationService.SelectTabAsync(nameof(Views.MapView), keyValues);
 
-                PinsList = new ObservableCollection<PinModel>(PinsList);
+                //PinModelsList
             }
         }
 
@@ -72,6 +73,7 @@ namespace GPSNote.ViewModels
                 
             }
         }
+
         #endregion
 
         #region -- Commands --
@@ -90,7 +92,7 @@ namespace GPSNote.ViewModels
             {
                 return;
             }
-            PinsList = new ObservableCollection<PinModel>( PinsList.Where(x => x.Name.Contains(SearchPin) || x.Description.Contains(SearchPin) || x.Coordinate.Contains(SearchPin)).ToList());
+            PinModelsList = new ObservableCollection<PinModel>( PinModelsList.Where(x => x.Name.Contains(SearchPin) || x.Description.Contains(SearchPin) || x.Coordinate.Contains(SearchPin)).ToList());
         }
 
         public ICommand DeletePinCommand { get; }
@@ -98,7 +100,7 @@ namespace GPSNote.ViewModels
         {
             var pin = selectedpin as PinModel;
 
-            PinsList.Remove(pin);
+            PinModelsList.Remove(pin);
 
             _Repository.DeleteAsync(pin);
         }
@@ -118,23 +120,77 @@ namespace GPSNote.ViewModels
 
         }
 
-        public ICommand TestCommand { get; }
-        public void TestCommandRelease()
+        public ICommand LikeCommand { get; }
+        private void LikeCommandRelease(object obj)
         {
-            Acr.UserDialogs.UserDialogs.Instance.Alert("Yesd");
+            var model = PinModelsList.First(p => p.Coordinate == obj.ToString());
+            if (model != null)
+            {
+                int index = PinModelsList.IndexOf(model);
+                PinModelsList.Remove(model);
+                model.IsFavorit = !model.IsFavorit;
+                PinModelsList.Insert(index, model);
+                _Repository.UpdateAsync(model);
+            }
+        }
+
+        public ICommand DeleteCommand { get; }
+        private void DeleteCommandRelease(object obj)
+        {
+            var model = PinModelsList.First(p => p.Coordinate == obj.ToString());
+            if (model != null)
+            {
+                _Repository.DeleteAsync(model);
+                int index = PinModelsList.IndexOf(model);
+                PinModelsList.Remove(model);
+                //model.IsFavorit = !model.IsFavorit;
+                //PinModelsList.Insert(index, model);
+                //_Repository.UpdateAsync(model);
+            }
+        }
+
+        public ICommand EditCommand { get; }
+        private void EditCommandRelease(object obj)
+        {
+            var model = PinModelsList.First(p => p.Coordinate == obj.ToString());
+            if (model != null)
+            {
+                //int index = PinModelsList.IndexOf(model);
+                //PinModelsList.Remove(model);
+                //model.IsFavorit = !model.IsFavorit;
+                //PinModelsList.Insert(index, model);
+                //_Repository.UpdateAsync(model);
+            }
         }
         #endregion
 
         #region -- Override --
 
+        public override async void Initialize(INavigationParameters parameters)
+        {
+            //await NavigationService.SelectTabAsync(nameof(Views.MapView));
+            if (parameters.ContainsKey(nameof(PinModel.UserId)))
+            {
+                UserId = parameters.GetValue<int>(nameof(PinModel.UserId));
+
+                PinModelsList = new ObservableCollection<PinModel>(_Repository.GetAllPinsAsync(UserId).Result);
+
+                if (PinModelsList.Count == 0) return;
+                for (int i = 0; i < PinModelsList.Count; i++)
+                {
+                    PinModelsList[i].DeleteCommand = LikeCommand;
+                }
+            }
+        }
+
         public override void OnNavigatedFrom(INavigationParameters parameters)
         {
             base.OnNavigatedFrom(parameters);
-            if (parameters.ContainsKey(nameof(PinsList)))
-            {
-                parameters.Add(nameof(this.PinsList), PinsList);
+            //if (parameters.ContainsKey(nameof(PinModelsList)))
+            //{
+            //    parameters.Add(nameof(this.PinModelsList), PinModelsList);
                
-            }
+            //}
 
             if (!string.IsNullOrEmpty(SearchPin))
             {
@@ -144,26 +200,26 @@ namespace GPSNote.ViewModels
         public override void OnNavigatedTo(INavigationParameters parameters)
         {
             base.OnNavigatedTo(parameters);
-            if (parameters.TryGetValue<ObservableCollection<PinModel>>(nameof(this.PinsList), out var newCounterValue))
+            if (parameters.TryGetValue<ObservableCollection<PinModel>>(nameof(this.PinModelsList), out var initilazingPinNodelList))
             {
-                PinsList = newCounterValue;
+                PinModelsList = initilazingPinNodelList;
             }
             int index = -1;
             if(parameters.TryGetValue<PinModel>($"{nameof(PinModel)}_del", out var delPinModel))
             {
-                index = PinsList.IndexOf(delPinModel);
-                PinsList.Remove(delPinModel);
+                index = PinModelsList.IndexOf(delPinModel);
+                PinModelsList.Remove(delPinModel);
 
             }
             if(parameters.TryGetValue<PinModel>(nameof(PinModel), out var newPinModel))
             {
                 if (index == -1)
                 {
-                    PinsList.Add(newPinModel);
+                    PinModelsList.Add(newPinModel);
                 }
                 else
                 {
-                    PinsList.Insert(index, newPinModel);
+                    PinModelsList.Insert(index, newPinModel);
                 }
             }
 
@@ -172,7 +228,13 @@ namespace GPSNote.ViewModels
             {
                 UserId = id;
             }
+            if (PinModelsList.Count == 0) return;
+            for (int i = 0; i < PinModelsList.Count; i++)
+            {
+                PinModelsList[i].DeleteCommand = LikeCommand;
+            }
         }
+
         #endregion
 
         #region -- Private --

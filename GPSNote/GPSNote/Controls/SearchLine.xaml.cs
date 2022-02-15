@@ -26,7 +26,7 @@ namespace GPSNote.Controls
             propertyChanged: TextLineChanged);
 
         public static readonly BindableProperty CommandSearchProperty = BindableProperty.Create(
-            nameof(TextLine),
+            nameof(CommandSearch),
             typeof(ICommand),
             typeof(SearchLine),
             defaultValue: default(Command),
@@ -62,17 +62,20 @@ namespace GPSNote.Controls
             typeof(SearchLine),
             defaultValue: default(ICommand),
             defaultBindingMode: BindingMode.TwoWay);
+
+        public static readonly BindableProperty KeyBoardProperty =
+            BindableProperty.Create(nameof(KeyBoard),
+                                    typeof(Keyboard),
+                                    typeof(SearchLine),
+                                    default(Keyboard),
+                                    defaultBindingMode: BindingMode.TwoWay,
+                                    propertyChanged: OnKeyBoardChanged);
         #endregion
 
         #region -- Propirties --
         public string TextLine
         {
             get => base.GetValue(TextLineProperty)?.ToString();
-            set => base.SetValue(TextLineProperty, value);
-        }
-        public ICommand CommandSearch
-        {
-            get => (ICommand)base.GetValue(TextLineProperty);
             set => base.SetValue(TextLineProperty, value);
         }
 
@@ -88,6 +91,18 @@ namespace GPSNote.Controls
             set => SetValue(SelectedItemProperty, value);
         }
 
+        public Keyboard KeyBoard
+        {
+            get { return (Keyboard)GetValue(KeyBoardProperty); }
+            set { SetValue(KeyBoardProperty, value); }
+        }
+
+        public ICommand CommandSearch
+        {
+            get => (ICommand)base.GetValue(CommandSearchProperty);
+            set => base.SetValue(CommandSearchProperty, value);
+        }
+
         public ICommand TextChangeCommand
         {
             get => (ICommand)GetValue(TextChangeCommandProperty);
@@ -98,6 +113,7 @@ namespace GPSNote.Controls
         {
             get => (ICommand)GetValue(ExidCommandProperty);
             set => SetValue(ExidCommandProperty, value);
+
         }
         #endregion
 
@@ -125,7 +141,7 @@ namespace GPSNote.Controls
             var lst = (List<PinModel>)newValue;
 
             control.listView.ItemsSource = lst;
-            int height = lst.Count * 40;
+            int height = lst.Count * 50;
             control.listView.HeightRequest = height < maxHeightForScrollView ? height : maxHeightForScrollView;
         }
 
@@ -140,7 +156,12 @@ namespace GPSNote.Controls
 
         //    col;
         //}
+        private static void OnKeyBoardChanged(BindableObject bindable, object oldValue, object newValue)
+        {
+            var searckLine = (SearchLine)bindable;
+            searckLine.KeyBoard = (Keyboard)newValue;
 
+        }
         #endregion
         public SearchLine()
         {

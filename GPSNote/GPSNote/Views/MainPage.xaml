@@ -4,15 +4,15 @@
             xmlns:prism ="http://prismlibrary.com"
             xmlns:local ="clr-namespace:GPSNote.Views;assembly=GPSNote" 
             xmlns:behaviors="clr-namespace:GPSNote.Behaviors"
-            prism:ViewModelLocator.AutowireViewModel="True"
             x:Class="GPSNote.Views.MainPage"
             Title="{Binding Title}"
             BarBackgroundColor="#FEFEFD"
             BarTextColor="#596EFB">
+            <!--prism:ViewModelLocator.AutowireViewModel="True"-->
 
     <TabbedPage.Children>
-        <!--<local:MapView />
-        <local:PinListView/>-->
+        <local:MapView />
+        <local:PinListView/>
     </TabbedPage.Children>
 
     <TabbedPage.Behaviors>

@@ -1,7 +1,9 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Text;
+using System.Windows.Input;
 using SQLite;
+using Xamarin.Forms.GoogleMaps;
 
 namespace GPSNote.Models
 {
@@ -11,26 +13,27 @@ namespace GPSNote.Models
         {
 
         }
-        public PinModel(string name, string description, Xamarin.Forms.Maps.Position position)
+        public PinModel(string name, string description, Position position)
         {
             Name = name;
             Description = description;
             Position = position;
         }
-        
+
         [PrimaryKey, AutoIncrement]
         public int Id { get; set; }
         public int UserId { get; set; }
         public string Name { get; set; }
         public string Description { get; set; }
+        public bool IsFavorit { get; set; } = false;
         public double Latitude
         {
             get => Position.Latitude;
             set
             {
-                if(Position.Latitude != value)
+                if (Position.Latitude != value)
                 {
-                    Position = new Xamarin.Forms.Maps.Position(value, Position.Longitude);
+                    Position = new Position(value, Position.Longitude);
                 }
             }
         }
@@ -39,21 +42,21 @@ namespace GPSNote.Models
             get => Position.Longitude;
             set
             {
-                if(position.Longitude != value)
+                if (position.Longitude != value)
                 {
-                    Position = new Xamarin.Forms.Maps.Position(Position.Latitude, value);
+                    Position = new Position(Position.Latitude, value);
                 }
             }
         }
 
         [Ignore]
         public string Coordinate { 
-            get => $"{position.Latitude:0.000000} {position.Longitude:0.000000}";
+            get => $"{position.Latitude:0.00000} {position.Longitude:0.000000}";
         }
         [Ignore]
-        public Xamarin.Forms.Maps.PinType  PinType { get; set; }
+        public PinType PinType { get; set; }
         [Ignore]
-        public Xamarin.Forms.Maps.Position Position
+        public Position Position
         {
             get => position;
             set
@@ -64,7 +67,12 @@ namespace GPSNote.Models
                 }
             }
         }
-
+        [Ignore]
+        public ICommand LikeCommand { get; set; } = null;
+        [Ignore]
+        public ICommand EditCommand { get; set; } = null;
+        [Ignore]
+        public ICommand DeleteCommand { get; set; } = null;
         #region -- Overrides
         public override string ToString()
         {
@@ -73,7 +81,7 @@ namespace GPSNote.Models
         #endregion
 
         #region -- Private --
-        private Xamarin.Forms.Maps.Position position;
+        private Position position;
         #endregion
     }
 }

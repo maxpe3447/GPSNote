@@ -1,14 +1,14 @@
 ﻿using Android.Content;
 using Android.Graphics;
 using Android.Graphics.Drawables;
+using Droid.Renderers;
 using GPSNote.Controls;
 using System.ComponentModel;
 using Xamarin.Forms;
 using Xamarin.Forms.Platform.Android;
-using XamarinSamples.Droid.UI.Renderers;
 
 [assembly: ExportRenderer(typeof(BorderEntry), typeof(BorderEntryRenderer))]
-namespace XamarinSamples.Droid.UI.Renderers
+namespace Droid.Renderers
 {
     public class BorderEntryRenderer : EntryRenderer
     {

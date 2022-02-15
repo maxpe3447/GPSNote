@@ -25,7 +25,8 @@ namespace GPSNote.iOS
         public override bool FinishedLaunching(UIApplication app, NSDictionary options)
         {
             global::Xamarin.Forms.Forms.Init();
-            Xamarin.FormsMaps.Init();
+            //Xamarin.FormsMaps.Init();
+            Xamarin.FormsGoogleMaps.Init("your_google_maps_ios_api_key");
             LoadApplication(new App(new AndroidInitializer()));
 
             return base.FinishedLaunching(app, options);

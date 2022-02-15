@@ -1,7 +1,7 @@
 <Project Sdk="Microsoft.NET.Sdk">
 
   <PropertyGroup>
-    <TargetFramework>netstandard2.0</TargetFramework>
+	  <TargetFramework>netstandard2.0</TargetFramework>
     <ProduceReferenceAssembly>true</ProduceReferenceAssembly>
   </PropertyGroup>
 
@@ -14,19 +14,18 @@
     <PackageReference Include="Acr.UserDialogs" Version="7.2.0.562" />
     <PackageReference Include="Prism.DryIoc.Forms" Version="8.1.97" />
     <PackageReference Include="sqlite-net-pcl" Version="1.8.116" />
-    <PackageReference Include="Xamarin.Forms" Version="5.0.0.2337" />
     <PackageReference Include="Xamarin.Essentials" Version="1.7.1" />
+    <PackageReference Include="Xamarin.Forms" Version="5.0.0.2337" />
+    <PackageReference Include="Xamarin.Forms.GoogleMaps" Version="4.0.0-BETA1" />
     <PackageReference Include="Xamarin.Forms.Maps" Version="5.0.0.2337" />
   </ItemGroup>
 
   <ItemGroup>
+    <Compile Update="Controls\BindingPinIconView.xaml.cs">
+      <DependentUpon>BindingPinIconView.xaml</DependentUpon>
+    </Compile>
     <Compile Update="Controls\CancelLine.xaml.cs">
       <DependentUpon>CancelLine.xaml</DependentUpon>
-    </Compile>
-    <Compile Update="Properties\Resources.Designer.cs">
-      <DesignTime>True</DesignTime>
-      <AutoGen>True</AutoGen>
-      <DependentUpon>Resources.resx</DependentUpon>
     </Compile>
     <Compile Update="Resources\ImageNames.Designer.cs">
       <DesignTime>True</DesignTime>
@@ -55,15 +54,14 @@
     <EmbeddedResource Update="Controls\CancelLine.xaml">
       <Generator>MSBuild:UpdateDesignTimeXaml</Generator>
     </EmbeddedResource>
+    <EmbeddedResource Update="Controls\ItemListPin.xaml">
+      <Generator>MSBuild:UpdateDesignTimeXaml</Generator>
+    </EmbeddedResource>
     <EmbeddedResource Update="Controls\PasswordLine.xaml">
       <Generator>MSBuild:UpdateDesignTimeXaml</Generator>
     </EmbeddedResource>
     <EmbeddedResource Update="Controls\SearchLine.xaml">
       <Generator>MSBuild:UpdateDesignTimeXaml</Generator>
-    </EmbeddedResource>
-    <EmbeddedResource Update="Properties\Resources.resx">
-      <Generator>PublicResXFileCodeGenerator</Generator>
-      <LastGenOutput>Resources.Designer.cs</LastGenOutput>
     </EmbeddedResource>
     <EmbeddedResource Update="Resources\ImageNames.resx">
       <Generator>ResXFileCodeGenerator</Generator>
@@ -101,14 +99,15 @@
   </ItemGroup>
 
   <ItemGroup>
-    <Folder Include="Properties\" />
-  </ItemGroup>
-
-  <ItemGroup>
     <Resource Include="Resources\Text\GPSNote.Designer.cs">
       <DesignTime>True</DesignTime>
       <AutoGen>True</AutoGen>
     </Resource>
     <Resource Include="Resources\Text\GPSNote.resx" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <Folder Include="Properties\" />
+    <Folder Include="Resources\ImagesForPin\" />
   </ItemGroup>
 </Project>

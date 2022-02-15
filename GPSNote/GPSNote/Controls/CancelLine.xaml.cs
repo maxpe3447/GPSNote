@@ -42,7 +42,6 @@ namespace GPSNote.Controls
                   bIsClear.IsVisible = bIsClear.IsEnabled = !string.IsNullOrEmpty(Text);
                   FocusedEv?.Invoke(this, new FocusEventArgs(e.VisualElement, e.IsFocused));
               };
-            
         }
 
         public delegate void TextChangedHandler(object sender, TextChangedEventArgs e);
@@ -179,5 +178,27 @@ namespace GPSNote.Controls
 
             control.eText.TextColor = (Color)newValue;
         }
+
+        public static readonly BindableProperty KeyBoardProperty =
+            BindableProperty.Create(nameof(KeyBoard),
+                                    typeof(Keyboard),
+                                    typeof(CancelLine),
+                                    default(Keyboard),
+                                    defaultBindingMode: BindingMode.TwoWay,
+                                    propertyChanged: OnKeyBoardChanged);
+
+        public Keyboard KeyBoard
+        {
+            get { return (Keyboard)GetValue(KeyBoardProperty); }
+            set { SetValue(KeyBoardProperty, value); }
+        }
+
+        #region -- Private properties -- 
+        private static void OnKeyBoardChanged(BindableObject bindable, object oldValue, object newValue)
+        {
+            var cancelLine = (CancelLine)bindable;
+            cancelLine.eText.KeyBoard = (Keyboard)newValue;
+        }
+        #endregion
     }
 }

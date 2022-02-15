@@ -6,7 +6,7 @@ using Xamarin.Forms;
 
 namespace GPSNote.Behaviors
 {
-    public class MapingBehavior : Behavior<BindMap>
+    public class MapingBehavior : Behavior<BindingMap>
     {
 
     }

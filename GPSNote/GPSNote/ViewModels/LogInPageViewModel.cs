@@ -88,7 +88,8 @@ namespace GPSNote.ViewModels
             {
                 NavigationParameters parameters = new NavigationParameters();
                 parameters.Add(nameof(PinModel.UserId), id);
-                await NavigationService.NavigateAsync($"/{nameof(Views.MainPage)}?createTab={nameof(Views.MapView)}&createTab={nameof(Views.PinListView)}", parameters);
+                //await NavigationService.NavigateAsync($"/{nameof(Views.MainPage)}?createTab={nameof(Views.MapView)}&createTab={nameof(Views.PinListView)}", parameters);
+                await NavigationService.NavigateAsync($"{nameof(Views.MainPage)}" , parameters);
             }
             else
             {

@@ -3,17 +3,20 @@
              xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml" xmlns:controls="clr-namespace:GPSNote.Controls"
              x:Class="GPSNote.Controls.SearchLine">
     <ContentView.Content>
-        <StackLayout>
-            <Grid>
+        <StackLayout BackgroundColor="#FEFEFD">
+            <Grid Margin="0, 10, 0, 0">
+                
                 <Grid.RowDefinitions>
                     <RowDefinition Height="40"/>
                 </Grid.RowDefinitions>
+                
                 <Grid.ColumnDefinitions>
                     <ColumnDefinition Width="40"/>
                     <ColumnDefinition x:Name="serchColumn" 
                                       Width="*"/>
                     <ColumnDefinition Width="40"/>
                 </Grid.ColumnDefinitions>
+                
                 <Button x:Name="bSettingOrBack"
                         ImageSource="ic_settings.png"
                         Margin="20, 0,0,0"
@@ -25,6 +28,7 @@
                        Grid.Column="1"
                        Grid.Row="0"
                        Margin="0,0,0,0">
+                    
                 <controls:CancelLine 
                        x:Name="line"
                        Placeholder="Search"
@@ -32,8 +36,7 @@
                        Grid.Row="0"
                        BorderColor="#F1F3FD"
                        IsEnabled="True"
-                       BackgroundColor="#F1F3FD"
-                       />
+                       BackgroundColor="#F1F3FD"/>
                 </Frame>
 
 
@@ -45,10 +48,55 @@
                         BackgroundColor="Transparent"/>
 
             </Grid>
-            <!--<ScrollView x:Name="scrollView">-->
-                    <ListView x:Name="listView">
+            
+                    <ListView x:Name="listView"
+                              SeparatorVisibility="Default">
+                        
+                <ListView.ItemTemplate>
+                    <DataTemplate>
+                        <ViewCell>
+                            <Grid RowSpacing="1">
+                                
+                                <Grid.RowDefinitions>
+                                    <RowDefinition Height="18"/>
+                                    <RowDefinition Height="25"/>
+                                </Grid.RowDefinitions>
+
+                                <Grid.ColumnDefinitions>
+                                    <ColumnDefinition Width="48"/>
+                                    <ColumnDefinition Width="*"/>
+                                </Grid.ColumnDefinitions>
+
+                                <Image Source="ic_pin_gray.png"
+                                       Grid.Column="0"
+                                       Grid.Row="0"
+                                       Grid.RowSpan="2"
+                                       Margin="20, 0, 0, 0"/>
+
+                                <Label FontFamily="Montserrat"
+                                       Grid.Column="1"
+                                       Grid.Row="0"
+                                       FontSize="15"
+                                       TextColor="#1E242B"
+                                       BackgroundColor="Transparent"
+                                       Margin="10, 0,0,0"
+                                       Text="{Binding Name}"/>
+
+                                <Label FontFamily="Montserrat"
+                                       Grid.Column="1"
+                                       Grid.Row="1"
+                                       FontSize="15"
+                                       TextColor="#3D4E61"
+                                       BackgroundColor="Transparent"
+                                       Margin="10, 0,0,0"
+                                       Text="{Binding Description}"/>
+                                
+                            </Grid>
+                        </ViewCell>
+                    </DataTemplate>
+                </ListView.ItemTemplate>
                     </ListView>
-            <!--</ScrollView>-->
+            
                 
             
         </StackLayout>
