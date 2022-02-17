@@ -63,6 +63,9 @@
     <EmbeddedResource Update="Controls\SearchLine.xaml">
       <Generator>MSBuild:UpdateDesignTimeXaml</Generator>
     </EmbeddedResource>
+    <EmbeddedResource Update="Controls\TabDescription.xaml">
+      <Generator>MSBuild:UpdateDesignTimeXaml</Generator>
+    </EmbeddedResource>
     <EmbeddedResource Update="Resources\ImageNames.resx">
       <Generator>ResXFileCodeGenerator</Generator>
       <LastGenOutput>ImageNames.Designer.cs</LastGenOutput>

@@ -1,4 +1,5 @@
-﻿using GPSNote.Controls;
+﻿using Acr.UserDialogs;
+using GPSNote.Controls;
 using GPSNote.Models;
 using GPSNote.Services.Repository;
 using GPSNote.Views;
@@ -10,6 +11,7 @@ using System.Linq;
 using System.Reflection;
 using System.Text;
 using System.Windows.Input;
+using Xamarin.Essentials;
 using Xamarin.Forms;
 using Xamarin.Forms.GoogleMaps;
 using Xamarin.Forms.PlatformConfiguration;
@@ -28,6 +30,7 @@ namespace GPSNote.ViewModels
 
             SaveCommand = new Command(SaveCommandRelease);
             CancelCommand = new Command(CancelCommandRelease);
+            FindMeCommand = new Command(FindMeCommandRelease);
         }
         #region -- Propirties -- 
 
@@ -53,9 +56,10 @@ namespace GPSNote.ViewModels
             {
                 SetProperty(ref _selectedPosition, value);
                 
-                Position = $"{SelectedPosition.Latitude.ToString("0.000000")} {SelectedPosition.Longitude.ToString("0.000000")}";
+                Longitude = SelectedPosition.Longitude.ToString("0.000000");
+                Latitude = SelectedPosition.Latitude.ToString("0.000000");
 
-                if (string.IsNullOrEmpty(Position))
+                if (string.IsNullOrEmpty(Longitude))
                 {
                     Acr.UserDialogs.UserDialogs.Instance.Alert("Please, select marker!");
                     return;
@@ -71,7 +75,7 @@ namespace GPSNote.ViewModels
                 {
                     Label = (string.IsNullOrEmpty(Name)) ? string.Empty : Name,
                     Position = SelectedPosition,
-                    Icon = BitmapDescriptorFactory.FromView(new Controls.BindingPinIconView("ic_pin.png"))
+                    Icon = BitmapDescriptorFactory.FromView(new Controls.BindingPinIconView("ic_placeholder.png"))
                 });
                 GoToPosition = SelectedPosition;
             }
@@ -83,11 +87,18 @@ namespace GPSNote.ViewModels
             set => SetProperty(ref _goToPosition, value);
         }
 
-        private string _position;
-        public string Position
+        private string _longitude;
+        public string Longitude
         {
-            get => _position;
-            set => SetProperty(ref _position, value);
+            get => _longitude;
+            set => SetProperty(ref _longitude, value);
+        }
+
+        private string _latitude;
+        public string Latitude
+        {
+            get => _latitude;
+            set => SetProperty(ref _latitude, value);
         }
 
         private string _name;
@@ -103,6 +114,13 @@ namespace GPSNote.ViewModels
             get => _description;
             set => SetProperty(ref _description, value);
         }
+
+        private bool _isShowingUser;
+        public bool IsShowingUser
+        {
+            get => _isShowingUser;
+            set => SetProperty(ref _isShowingUser, value);
+        }
         #endregion
 
         #region -- Commands --
@@ -111,7 +129,7 @@ namespace GPSNote.ViewModels
         {
             if(PinsList.Count == 0)
             {
-                await Acr.UserDialogs.UserDialogs.Instance.AlertAsync("Please, add marker on the map", "Data Error");
+                await UserDialogs.Instance.AlertAsync("Please, add marker on the map", "Data Error");
                 return;
             }
 
@@ -124,20 +142,30 @@ namespace GPSNote.ViewModels
             pin.Name = Name;
             if(string.IsNullOrEmpty(pin.Name) || pin.Name == _errorMsg)
             {
-                await Acr.UserDialogs.UserDialogs.Instance.AlertAsync("Please, enter \'Name\' of marker", "Data Error");
+                await UserDialogs.Instance.AlertAsync("Please, enter \'Name\' of marker", "Data Error");
                 return;
             }
 
             pin.Description = Description;
             if (string.IsNullOrEmpty(pin.Description) || pin.Description == _errorMsg)
             {
-                await Acr.UserDialogs.UserDialogs.Instance.AlertAsync("Please, enter \'Description\' of marker", "Data Error");
+                await UserDialogs.Instance.AlertAsync("Please, enter \'Description\' of marker", "Data Error");
                 return;
+            }
+
+            if (string.IsNullOrEmpty(Longitude) ||
+               string.IsNullOrEmpty(Latitude) ||
+               !double.TryParse(Longitude, out var longitude) ||
+               !double.TryParse(Latitude, out var latitude) ||
+               pin.Position != new Position(latitude, longitude))
+            {
+                await UserDialogs.Instance.AlertAsync("You have bad Longitude, Latitude", "Data Error");
+
             }
 
             if (pin.Position == default(Position))
             {
-                await Acr.UserDialogs.UserDialogs.Instance.AlertAsync("Please, enter marker on the map", "Data Error");
+                await UserDialogs.Instance.AlertAsync("Please, enter marker on the map", "Data Error");
                 return;
             }
 
@@ -168,6 +196,22 @@ namespace GPSNote.ViewModels
         {
             await NavigationService.GoBackAsync();
         }
+
+        public ICommand FindMeCommand { get; }
+        private void FindMeCommandRelease()
+        {
+            IsShowingUser = true;
+            //MyLocationButtonEnabled = false;
+
+            try
+            {
+                GoToPosition = new Position(Geolocation.GetLastKnownLocationAsync().Result.Latitude, Geolocation.GetLastKnownLocationAsync().Result.Longitude);
+            }
+            catch
+            {
+                Acr.UserDialogs.UserDialogs.Instance.Alert("Please, check your GPS settings.");
+            }
+        }
         #endregion
 
         #region -- Overrides --
@@ -186,7 +230,7 @@ namespace GPSNote.ViewModels
                 _oldPin = pin;
                 Name = pin.Name;
                 Description = pin.Description;
-                Position = pin.Coordinate;
+                Longitude = pin.Coordinate;
 
 
                 PinsList.Add(new Pin

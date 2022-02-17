@@ -1,0 +1,48 @@
+﻿<?xml version="1.0" encoding="UTF-8"?>
+<ContentView xmlns="http://xamarin.com/schemas/2014/forms" 
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             x:Class="GPSNote.Controls.TabDescription">
+  <ContentView.Content>
+        <ScrollView>
+        <StackLayout>
+        <Grid VerticalOptions="EndAndExpand"
+                  RowSpacing="3"
+              x:Name="grid">
+            <Grid.RowDefinitions>
+                <RowDefinition Height="Auto"/>
+                <RowDefinition Height="Auto"/>
+                <RowDefinition Height="2"/>
+                <RowDefinition Height="Auto"/>
+            </Grid.RowDefinitions>
+
+
+            <Frame Grid.Row="0" Grid.RowSpan="5"
+                       VerticalOptions="Fill"
+                       CornerRadius="10"/>
+
+            <Label Text="Favourite restairant"
+                       Grid.Row="0"
+                       FontSize="25"
+                       TextColor="#1E242B"
+                       Margin="16, 16, 0, 0"/>
+
+            <Label Text="41.39291018, 12.27313791"
+                       Grid.Row="1"
+                       FontSize="18"
+                       Margin="16, 0, 0, 16"
+                       TextColor="#3D4E61"/>
+            <Frame BackgroundColor="#F1F3FD"
+                       Margin="16, 0, 16, 0"
+                       Grid.Row="2"/>
+
+            <Label Text="This place was AMAZING! The food was divine, fresh, interesting, and mouth watering."
+                       Grid.Row="3"
+                       FontSize="20"
+                       TextColor="#1E242B"
+                       Margin="16, 0, 16, 24"/>
+
+        </Grid>
+        </StackLayout>
+        </ScrollView>
+    </ContentView.Content>
+</ContentView>

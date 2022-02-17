@@ -2,11 +2,18 @@
 using System.Collections.Generic;
 using System.Text;
 using Xamarin.Forms;
+using Xamarin.Forms.PlatformConfiguration;
+using Xamarin.Forms.PlatformConfiguration.iOSSpecific;
 
 namespace GPSNote.Controls
 {
-    public class BorderEntry:Entry
+    public class BorderEntry: Xamarin.Forms.Entry
     {
+
+        public BorderEntry():base()
+        {
+            On<iOS>().SetCursorColor(Color.FromHex("#596EFB"));
+        }
 
         #region -- Public properties -- 
 
@@ -37,6 +44,19 @@ namespace GPSNote.Controls
             get { return (Keyboard)GetValue(KeyBoardProperty); }
             set { SetValue(KeyBoardProperty, value); }
         }
+
+        //public static readonly BindableProperty CornerRadiusProperty =
+        //    BindableProperty.Create(nameof(CornerRadius),
+        //                            typeof(Color),
+        //                            typeof(BorderEntry),
+        //                            default(Color),
+        //                            defaultBindingMode: BindingMode.TwoWay);
+
+        //public Color CornerRadius
+        //{
+        //    get { return (Color)GetValue(CornerRadiusProperty); }
+        //    set { SetValue(CornerRadiusProperty, value); }
+        //}
         #endregion
 
         #region -- Private properties -- 

@@ -11,8 +11,8 @@
             <!--prism:ViewModelLocator.AutowireViewModel="True"-->
 
     <TabbedPage.Children>
-        <local:MapView />
-        <local:PinListView/>
+        <!--<local:MapView />
+        <local:PinListView/>-->
     </TabbedPage.Children>
 
     <TabbedPage.Behaviors>

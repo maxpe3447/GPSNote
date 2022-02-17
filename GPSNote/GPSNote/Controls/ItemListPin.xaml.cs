@@ -14,6 +14,11 @@ namespace GPSNote.Controls
         public ItemListPin()
         {
             InitializeComponent();
+
+            //Acr.UserDialogs.UserDialogs.Instance.Alert($"{grid.Margin.Left}\n{grid.Margin.Top}\n{grid.Margin.Right}\n{grid.Margin.Bottom}");
+
+            bDelete.IsVisible = bEdit.IsVisible = _isMenuOpen;
+
             bMenu.Clicked += (s, e) =>
              {
 
@@ -26,7 +31,8 @@ namespace GPSNote.Controls
                  {
                      _isMenuOpen = false;
                      UnShowMenu();
-                 }                 
+
+                 }
              };
         }
 
@@ -73,6 +79,32 @@ namespace GPSNote.Controls
             set { SetValue(LikeCommandProperty, value); }
         }
 
+        public static readonly BindableProperty EditCommandProperty =
+            BindableProperty.Create(nameof(EditCommand),
+                                    typeof(ICommand),
+                                    typeof(ItemListPin),
+                                    default(Command),
+                                    defaultBindingMode: BindingMode.TwoWay,
+                                    propertyChanged: EditCommandChanged);
+        public ICommand EditCommand
+        {
+            get { return (ICommand)GetValue(EditCommandProperty); }
+            set { SetValue(EditCommandProperty, value); }
+        }
+
+        public static readonly BindableProperty DeleteCommandProperty =
+            BindableProperty.Create(nameof(DeleteCommand),
+                                    typeof(ICommand),
+                                    typeof(ItemListPin),
+                                    default(Command),
+                                    defaultBindingMode: BindingMode.TwoWay,
+                                    propertyChanged: DeleteCommandChanged);
+        public ICommand DeleteCommand
+        {
+            get { return (ICommand)GetValue(DeleteCommandProperty); }
+            set { SetValue(DeleteCommandProperty, value); }
+        }
+
         public static readonly BindableProperty IsFavoritProperty =
             BindableProperty.Create(nameof(IsFavorit),
                                     typeof(bool),
@@ -111,6 +143,31 @@ namespace GPSNote.Controls
             }
 
         }
+        private static void EditCommandChanged(BindableObject bindable, object oldValue, object newValue)
+        {
+            var itemListPin = bindable as ItemListPin;
+
+            if (newValue is ICommand command)
+            {
+
+                itemListPin.bEdit.Command = command;
+                itemListPin.bEdit.CommandParameter = itemListPin.TextCoord;
+            }
+
+        }
+
+        private static void DeleteCommandChanged(BindableObject bindable, object oldValue, object newValue)
+        {
+            var itemListPin = bindable as ItemListPin;
+
+            if (newValue is ICommand command)
+            {
+
+                itemListPin.bDelete.Command = command;
+                itemListPin.bDelete.CommandParameter = itemListPin.TextCoord;
+            }
+
+        }
         private static void OnIsFavoritChanged(BindableObject bindable, object oldValue, object newValue)
         {
             var itemListPin = bindable as ItemListPin;
@@ -126,24 +183,25 @@ namespace GPSNote.Controls
 
         }
 
-        async void ShowMenu()
+        private async void ShowMenu()
         {
             bDelete.IsVisible = bEdit.IsVisible = _isMenuOpen;
-            int x = 0;
+            delta = 0;
             for (int i = 0; i <= _buttonMenuWidth; i += _animationStep)
             {
-                grid.Margin = new Thickness(grid.Margin.Left - (x++), grid.Margin.Top, grid.Margin.Right, grid.Margin.Bottom);
+                grid.Margin = new Thickness(grid.Margin.Left - (delta++), grid.Margin.Top, grid.Margin.Right, grid.Margin.Bottom);
                 cdDelete.Width = i;
                 cdEdit.Width = i;
                 await Task.Delay(1);
             }
             
         }
-        async void UnShowMenu()
+        private async void UnShowMenu()
         {
+            
             for (int i = _buttonMenuWidth; i >= 0; i -= _animationStep)
             {
-                grid.Margin = new Thickness(grid.Margin.VerticalThickness - (i * 2), grid.Margin.VerticalThickness);
+                grid.Margin = new Thickness(grid.Margin.Left + (--delta), grid.Margin.Top, grid.Margin.Right, grid.Margin.Bottom);//Thickness(grid.Margin.VerticalThickness - (i * 2), grid.Margin.VerticalThickness);
                 cdDelete.Width = i;
                 cdEdit.Width = i;
                 await Task.Delay(1);
@@ -153,6 +211,7 @@ namespace GPSNote.Controls
         private const int _buttonMenuWidth = 56;
         private bool _isMenuOpen = false;
         private const int _animationStep = 4;
+        private int delta = 0;
         #endregion
     }
 }

@@ -4,6 +4,15 @@
              xmlns:prism="http://prismlibrary.com"
              x:Class="GPSNote.App">
     <Application.Resources>
-
+        <!--Colors-->
+        <Color x:Key="White">#FEFEFD</Color>
+        <Color x:Key="Background">#E5E5E5</Color>
+        <Color x:Key="LightBlue">#596EFB</Color>
+        <Color x:Key="LightGray">#D7DDE8</Color>
+        <Color x:Key="Gray">#858E9E</Color>
+        <Color x:Key="DarkGray">#3D4E61</Color>
+        <Color x:Key="Black">#1E242B</Color>
+        <Color x:Key="PlaceholderColor">#858E9E</Color>
+        <Color x:Key="StrokeColor">#D7DDE8</Color>
     </Application.Resources>
 </prism:PrismApplication>

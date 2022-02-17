@@ -4,16 +4,7 @@
              xmlns:prism ="http://prismlibrary.com" 
              xmlns:controls="clr-namespace:GPSNote.Controls"
              prism:ViewModelLocator.AutowireViewModel="True"
-             x:Class="GPSNote.Views.LogInPageView"
-             Title="{Binding Title}">
-
-    <ContentPage.Resources>
-        <Color x:Key="BaseColor">#596EFB</Color>
-        <Color x:Key="TextColor">#1E242B</Color>
-        <Color x:Key="LabelColor">#3D4E61</Color>
-        <Color x:Key="PlaceholderColor">#858E9E</Color>
-        <Color x:Key="StrokeColor">#D7DDE8</Color>
-    </ContentPage.Resources>
+             x:Class="GPSNote.Views.LogInPageView">
 
     <ContentPage.Content>
         <StackLayout>
@@ -27,7 +18,7 @@
                 <!--LABEL LOG IN-->
                 <Label Text="{Binding TextResources[LogIn]}"
                        Grid.Row="0"
-                       TextColor="{StaticResource TextColor}"
+                       TextColor="{StaticResource Black}"
                        FontSize="24"
                        FontFamily="Montserrat"
                        HorizontalTextAlignment="Center"
@@ -55,7 +46,7 @@
             <Label Text="{Binding TextResources[Email]}"
                    FontSize="18"
                    Margin="30, 20, 10, 0"
-                   TextColor="{StaticResource LabelColor}"/>
+                   TextColor="{StaticResource DarkGrey}"/>
 
             <!--ENTRY EMAIL-->
             <controls:CancelLine Margin="28, 0, 30, 0"
@@ -63,7 +54,7 @@
                                   FontSize="18"
                                   Text="{Binding UserEmail}"
                                   BorderColor="{Binding ErrorColor}"
-                                  TextColor="{StaticResource TextColor}"/>
+                                  TextColor="{StaticResource Gray}"/>
 
             <!--LABEL ERROR EMAIL-->
             <Label Text="{Binding EmailErrorMsgText}"
@@ -74,15 +65,15 @@
             <Label Text="{Binding TextResources[Password]}"
                    FontSize="18"
                    Margin="30, 10, 10,10"
-                   TextColor="{StaticResource LabelColor}"/>
+                   TextColor="{StaticResource DarkGray}"/>
 
             <!--ENTRY PASSWORD-->
             <controls:PasswordLine FontSize="18"
                                    Placeholder="{Binding TextResources[Password]}"
                                    Margin="28, 0, 30, 0"
                                    BorderColor="{Binding ErrorColor}"
-                                   TextPassword="{Binding UserPassword}"
-                                   TextColor="{StaticResource TextColor}"/>
+                                   TextPassword="{Binding UserPasswor}"
+                                   TextColor="{StaticResource Gray}"/>
 
             <!--LABEL ERROR PASSWORD-->
             <Label Text="{Binding PasswordErrorMsgText}"
@@ -93,8 +84,8 @@
             <Button Text="{Binding TextResources[LogIn]}"
                     FontSize="14"
                     Margin="16, 0, 16, 0"
-                    BackgroundColor="{StaticResource BaseColor }"
-                    TextColor="White"
+                    BackgroundColor="{StaticResource LightBlue }"
+                    TextColor="{StaticResource White}"
                     Command="{Binding SigninCommand}"
                     FontFamily="Montserrat"/>
             
@@ -109,26 +100,26 @@
                 <!--LINE RIGHT-->
                 <Line Grid.Column="0"
                       X2="1000"
-                      Stroke="{StaticResource StrokeColor}"
+                      Stroke="{StaticResource LightGray}"
                       Margin="16, 10, 0, 0"/>
 
                 <!--LINE LEFT-->
                 <Line Grid.Column="2"
                       X2="1000"
-                      Stroke="{StaticResource StrokeColor}"
+                      Stroke="{StaticResource LightGray}"
                       Margin="5, 10, 16, 0"/>
 
                 <!--LABEL OR-->
                 <Label Text="{Binding TextResources[SeparatorOr]}"
                        Grid.Column ="1" 
                        HorizontalOptions="Center"
-                       TextColor="{StaticResource StrokeColor}"/>
+                       TextColor="{StaticResource LightGray}"/>
             </Grid>
 
             <!--BUTTON GOOGLE-->
-            <Button BackgroundColor="White"
+            <Button BackgroundColor="{StaticResource White}"
                     Margin="16, 0, 16, 0"
-                    BorderColor="{StaticResource StrokeColor}" 
+                    BorderColor="{StaticResource LightGray}" 
                     BorderWidth="1.5"
                     ImageSource="ic_google.png"/>
 

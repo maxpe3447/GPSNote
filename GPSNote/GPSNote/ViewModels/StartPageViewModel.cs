@@ -34,6 +34,16 @@ namespace GPSNote.ViewModels
         public ICommand CreateAnAccountCommand { get;}
         #endregion
 
+        #region -- Overrides --
+        public override void OnNavigatedTo(INavigationParameters parameters)
+        {
+            //if (parameters.ContainsKey("Key"))
+            //{
+            //    NavigationService.GoBackToRootAsync();
+            //}
+        }
+        #endregion
+
         #region -- Private --
         private void LogInCommandRelease()
         {
