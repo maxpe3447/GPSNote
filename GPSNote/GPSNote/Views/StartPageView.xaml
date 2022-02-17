@@ -4,7 +4,7 @@
              xmlns:prism ="http://prismlibrary.com"
              prism:ViewModelLocator.AutowireViewModel="True"
              x:Class="GPSNote.Views.StartPageView"
-             BackgroundColor="{StaticResource Background}">
+             BackgroundColor="{StaticResource White}">
     
     <ContentPage.Content>
 
@@ -23,14 +23,14 @@
                          VerticalOptions="Center">
 
                 <!--IMAGE-->
-                <Image Source="pic_enter_page.png"/>
+                <Image Source="{StaticResource pic_enter_page_big}"/>
 
                 <!--LABEL MAPNOTEPA-->
                 <Label Text="{Binding TextResources[MapNotepad]}"
                        VerticalOptions="End"
                        HorizontalOptions="Center"
                        FontSize="Title"
-                       FontFamily="{StaticResource LightBlue}"
+                       FontFamily="{StaticResource MainFont}"
                        TextColor="{StaticResource LightBlue}"
                        FontAttributes="Bold"/>
 
@@ -46,7 +46,7 @@
                         BackgroundColor="{StaticResource LightBlue}"
                         FontSize="14"
                         Text="{Binding TextResources[LogIn]}"
-                        FontFamily="Montserrat"
+                        FontFamily="{StaticResource MainFont}"
                         Command="{Binding LogInCommand}"
                         CornerRadius="1">
                 </Button>
@@ -55,11 +55,11 @@
                 <Button HeightRequest="60"
                         TextColor="{StaticResource LightBlue}"
                         Text="{Binding TextResources[CreateAccount]}"
-                        BackgroundColor="White"
+                        BackgroundColor="{StaticResource White}"
                         BorderColor="{StaticResource LightBlue}"
                         BorderWidth="2"
                         FontSize="14"
-                        FontFamily="Montserrat"
+                        FontFamily="{StaticResource MainFont}"
                         Command="{Binding CreateAnAccountCommand}"
                         CornerRadius="1"/>
                 

@@ -4,133 +4,127 @@
              xmlns:prism="http://prismlibrary.com" 
              xmlns:controls="clr-namespace:GPSNote.Controls"
              prism:ViewModelLocator.AutowireViewModel="True"
-             x:Class="GPSNote.Views.CreateAccountPassPageView">
+             x:Class="GPSNote.Views.CreateAccountPassPageView"
+             BackgroundColor="{StaticResource White}">
 
-    <ContentPage.Resources>
-        <Color x:Key="BaseColor">#596EFB</Color>
-        <Color x:Key="TextColor">#1E242B</Color>
-        <Color x:Key="LabelColor">#3D4E61</Color>
-        <Color x:Key="PlaceholderColor">#858E9E</Color>
-        <Color x:Key="StrokeColor">#D7DDE8</Color>
-    </ContentPage.Resources>
-    
     <ContentPage.Content>
-            <StackLayout>
+        <StackLayout>
 
-                <!--HEADER-->
-                <Grid>
-                    <Grid.RowDefinitions>
-                        <RowDefinition Height="60"/>
-                    </Grid.RowDefinitions>
+            <!--HEADER-->
+            <Grid>
+                <Grid.RowDefinitions>
+                    <RowDefinition Height="60"/>
+                </Grid.RowDefinitions>
 
-                    <!--LABEL LOG IN-->
+                <!--LABEL LOG IN-->
                 <Label Text="{Binding TextResources[CreateAnAccount]}"
                        Grid.Row="0"
-                       TextColor="{StaticResource TextColor}"
+                       TextColor="{StaticResource Black}"
                        FontSize="24"
-                       FontFamily="Montserrat"
+                       FontFamily="{StaticResource MainFont}"
                        HorizontalTextAlignment="Center"
                        VerticalTextAlignment="Center"
                        Margin="0,0,0,10"/>
 
-                    <Grid>
-                        <Grid.ColumnDefinitions >
-                            <ColumnDefinition Width="50"/>
-                            <ColumnDefinition Width="*"/>
-                        </Grid.ColumnDefinitions>
+                <Grid>
+                    <Grid.ColumnDefinitions >
+                        <ColumnDefinition Width="50"/>
+                        <ColumnDefinition Width="*"/>
+                    </Grid.ColumnDefinitions>
 
-                        <!--BUTTON BACK-->
-                        <Button ImageSource="ic_left_blue.png"
+                    <!--BUTTON BACK-->
+                    <Button ImageSource="{StaticResource ic_left_blue}"
                             Grid.Row="0" Grid.Column="0"
                             BackgroundColor="Transparent"
                             VerticalOptions="Center"
                             HorizontalOptions="Center"
                             Command="{Binding BackCommand}"/>
 
-                    </Grid>
                 </Grid>
+            </Grid>
 
-                <!--LABEL PASSWORD-->
-                <Label Text="{Binding TextResources[Password]}"
+            <!--LABEL PASSWORD-->
+            <Label Text="{Binding TextResources[Password]}"
                    FontSize="18"
+                   FontFamily="{StaticResource MainFont}"
                    Margin="30, 20, 10, 0"
-                   TextColor="{StaticResource LabelColor}"/>
+                   TextColor="{StaticResource DarkGray}"/>
 
-                <!--ENTRY PASSWORD-->
-                <controls:PasswordLine Margin="28, 0, 30, 0"
-                                       Placeholder="{Binding TextResources[CreatePassword]}"
-                                       FontSize="18"
-                                       TextPassword="{Binding UserPassword}"
-                                       TextColor="{StaticResource TextColor}"
-                                       BorderColor="Gray"/>
+            <!--ENTRY PASSWORD-->
+            <controls:PasswordLine Margin="28, 0, 30, 0"
+                                   Placeholder="{Binding TextResources[CreatePassword]}"
+                                   FontSize="18"
+                                   FontFamily="{StaticResource MainFont}"
+                                   TextPassword="{Binding UserPassword}"
+                                   TextColor="{StaticResource Black}"
+                                   BorderColor="{StaticResource LightGray}"/>
 
-                <!--LABEL ERROR EMAIL-->
-                <!--<Label Text="{Binding EmailErrorMsgText}"
-                   TextColor="{Binding ErrorColor}"
-                   Margin="30, 0, 0, 0"/>-->
-
-                <!--LABEL PASSWORD CONFIRM-->
-                <Label Text="{Binding TextResources[ConfirmPassword]}"
+            <!--LABEL PASSWORD CONFIRM-->
+            <Label Text="{Binding TextResources[ConfirmPassword]}"
                    FontSize="18"
+                   FontFamily="{StaticResource MainFont}"
                    Margin="30, 10, 10,10"
-                   TextColor="{StaticResource LabelColor}"/>
+                   TextColor="{StaticResource DarkGray}"/>
 
-                <!--ENTRY PASSWORD-->
-                <controls:PasswordLine FontSize="18"
+            <!--ENTRY PASSWORD-->
+            <controls:PasswordLine FontSize="18"
                                    Placeholder="{Binding TextResources[RepeatPassword]}"
                                    Margin="28, 0, 30, 0"
+                                   FontFamily="{StaticResource MainFont}"
                                    BorderColor="{Binding ErrorColor}"
                                    TextPassword="{Binding UserPasswordRepeat}"
-                                   TextColor="{StaticResource TextColor}"/>
+                                   TextColor="{StaticResource Black}"/>
 
-                <!--LABEL ERROR PASSWORD-->
-                <Label Text="{Binding PasswordErrorMsgText}"
+            <!--LABEL ERROR PASSWORD-->
+            <Label Text="{Binding PasswordErrorMsgText}"
                    TextColor="{Binding ErrorColor}"
-                   Margin="30, 0, 0, 5"/>
+                   Margin="30, 0, 0, 5"
+                   FontFamily="{StaticResource MainFont}"/>
 
-                <!--BUTTON LOG IN-->
-                <Button Text="{Binding TextResources[CreateAccount]}"
+            <!--BUTTON LOG IN-->
+            <Button Text="{Binding TextResources[CreateAccount]}"
                     FontSize="14"
                     Margin="16, 0, 16, 0"
-                    BackgroundColor="{StaticResource BaseColor }"
+                    BackgroundColor="{StaticResource LightBlue }"
                     TextColor="White"
                     Command="{Binding CreateAccountCommand}"
-                    FontFamily="Montserrat"/>
+                    FontFamily="{StaticResource MainFont}"/>
 
-                <!--SEPARATOR-->
-                <Grid Margin="0, 10">
-                    <Grid.ColumnDefinitions>
-                        <ColumnDefinition Width="*"/>
-                        <ColumnDefinition Width="20"/>
-                        <ColumnDefinition Width="*"/>
-                    </Grid.ColumnDefinitions>
+            <!--SEPARATOR-->
+            <Grid Margin="0, 10">
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="*"/>
+                    <ColumnDefinition Width="20"/>
+                    <ColumnDefinition Width="*"/>
+                </Grid.ColumnDefinitions>
 
-                    <!--LINE RIGHT-->
-                    <Line Grid.Column="0"
+                <!--LINE RIGHT-->
+                <Line Grid.Column="0"
                       X2="1000"
-                      Stroke="{StaticResource StrokeColor}"
+                      Stroke="{StaticResource LightGray}"
                       Margin="16, 10, 0, 0"/>
 
-                    <!--LINE LEFT-->
-                    <Line Grid.Column="2"
+                <!--LINE LEFT-->
+                <Line Grid.Column="2"
                       X2="1000"
-                      Stroke="{StaticResource StrokeColor}"
+                      Stroke="{StaticResource LightGray}"
                       Margin="5, 10, 16, 0"/>
 
-                    <!--LABEL OR-->
-                    <Label Text="{Binding TextResources[SeparatorOr]}"
+                <!--LABEL OR-->
+                <Label Text="{Binding TextResources[SeparatorOr]}"
                        Grid.Column ="1" 
                        HorizontalOptions="Center"
-                       TextColor="{StaticResource StrokeColor}"/>
-                </Grid>
+                       FontFamily="{StaticResource MainFont}"
+                       TextColor="{StaticResource LightGray}"/>
+            </Grid>
 
-                <!--BUTTON GOOGLE-->
-                <Button BackgroundColor="White"
+            <!--BUTTON GOOGLE-->
+            <Button BackgroundColor="{StaticResource White}"
                     Margin="16, 0, 16, 0"
-                    BorderColor="{StaticResource StrokeColor}" 
+                    BorderColor="{StaticResource LightGray}" 
                     BorderWidth="1.5"
-                    ImageSource="ic_google.png"/>
+                    ImageSource="{StaticResource ic_google}"/>
 
-            </StackLayout>
-        </ContentPage.Content>
+        </StackLayout>
+    </ContentPage.Content>
 </ContentPage>

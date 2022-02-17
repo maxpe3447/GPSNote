@@ -36,5 +36,87 @@ namespace GPSNote.Controls
              tabDesc.grid.HeightRequest= (double)newValue;
             
         }
+        public static readonly BindableProperty NameProperty =
+            BindableProperty.Create(nameof(Name),
+                                    typeof(string),
+                                    typeof(TabDescription),
+                                    string.Empty,
+                                    defaultBindingMode: BindingMode.TwoWay,
+                                    propertyChanged: OnNameChanged);
+
+        public string Name
+        {
+            get { return (string)GetValue(NameProperty); }
+            set { SetValue(NameProperty, value); }
+        }
+
+        private static void OnNameChanged(BindableObject bindable, object oldValue, object newValue)
+        {
+            var tabDesc = (TabDescription)bindable;
+            tabDesc.lName.Text = newValue.ToString();
+
+        }
+
+        public static readonly BindableProperty CoordinateProperty =
+            BindableProperty.Create(nameof(Coordinate),
+                                    typeof(string),
+                                    typeof(TabDescription),
+                                    string.Empty,
+                                    defaultBindingMode: BindingMode.TwoWay,
+                                    propertyChanged: OnCoordinateChanged);
+
+        public string Coordinate
+        {
+            get { return (string)GetValue(CoordinateProperty); }
+            set { SetValue(CoordinateProperty, value); }
+        }
+
+        private static void OnCoordinateChanged(BindableObject bindable, object oldValue, object newValue)
+        {
+            var tabDesc = (TabDescription)bindable;
+            tabDesc.lCoordinate.Text = newValue.ToString();
+        }
+        public static readonly BindableProperty DescriptionProperty =
+            BindableProperty.Create(nameof(Description),
+                                    typeof(string),
+                                    typeof(TabDescription),
+                                    string.Empty,
+                                    defaultBindingMode: BindingMode.TwoWay,
+                                    propertyChanged: OnDescriptionChanged);
+
+        public string Description
+        {
+            get { return (string)GetValue(DescriptionProperty); }
+            set { SetValue(DescriptionProperty, value); }
+        }
+
+        private static void OnDescriptionChanged(BindableObject bindable, object oldValue, object newValue)
+        {
+            var tabDesc = (TabDescription)bindable;
+            tabDesc.lDescriptions.Text = newValue.ToString();
+        }
+
+        public static readonly BindableProperty FontFamilyProperty =
+            BindableProperty.Create(nameof(FontFamily),
+                                    typeof(string),
+                                    typeof(TabDescription),
+                                    string.Empty,
+                                    defaultBindingMode: BindingMode.TwoWay,
+                                    propertyChanged: OnFontFamilyChanged);
+
+        public string FontFamily
+        {
+            get { return (string)GetValue(FontFamilyProperty); }
+            set { SetValue(FontFamilyProperty, value); }
+        }
+        private static void OnFontFamilyChanged(BindableObject bindable, 
+                                                object oldValue, 
+                                                object newValue)
+        {
+            var desc = (TabDescription)bindable;
+            desc.lCoordinate.FontFamily = 
+                desc.lCoordinate.FontFamily = 
+                desc.lName.FontFamily = newValue.ToString();
+        }
     }
 }

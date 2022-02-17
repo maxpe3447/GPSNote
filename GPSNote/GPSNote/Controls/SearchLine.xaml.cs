@@ -70,6 +70,25 @@ namespace GPSNote.Controls
                                     default(Keyboard),
                                     defaultBindingMode: BindingMode.TwoWay,
                                     propertyChanged: OnKeyBoardChanged);
+
+        public static readonly BindableProperty FontFamilyProperty =
+            BindableProperty.Create(nameof(FontFamily),
+                                    typeof(string),
+                                    typeof(SearchLine),
+                                    string.Empty,
+                                    defaultBindingMode: BindingMode.TwoWay,
+                                    propertyChanged: OnFontFamilyChanged);
+
+        public string FontFamily
+        {
+            get { return (string)GetValue(FontFamilyProperty); }
+            set { SetValue(FontFamilyProperty, value); }
+        }
+        private static void OnFontFamilyChanged(BindableObject bindable, object oldValue, object newValue)
+        {
+            var passLine = (SearchLine)bindable;
+            passLine.line.FontFamily = newValue.ToString();
+        }
         #endregion
 
         #region -- Propirties --

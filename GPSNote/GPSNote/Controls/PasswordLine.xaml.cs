@@ -170,5 +170,24 @@ namespace GPSNote.Controls
 
             control.eText.TextColor = (Color)newValue;
         }
+
+        public static readonly BindableProperty FontFamilyProperty =
+            BindableProperty.Create(nameof(FontFamily),
+                                    typeof(string),
+                                    typeof(PasswordLine),
+                                    string.Empty,
+                                    defaultBindingMode: BindingMode.TwoWay,
+                                    propertyChanged: OnFontFamilyChanged);
+
+        public string FontFamily
+        {
+            get { return (string)GetValue(FontFamilyProperty); }
+            set { SetValue(FontFamilyProperty, value); }
+        }
+        private static void OnFontFamilyChanged(BindableObject bindable, object oldValue, object newValue)
+        {
+            var passLine = (PasswordLine)bindable;
+            passLine.eText.FontFamily = newValue.ToString();
+        }
     }
 }

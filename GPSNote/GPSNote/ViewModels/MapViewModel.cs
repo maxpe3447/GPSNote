@@ -6,7 +6,6 @@ using System.Collections.ObjectModel;
 using System.Text;
 using System.Windows.Input;
 using Xamarin.Forms;
-//using Xamarin.Forms.Maps;
 using GPSNote.Services.Repository;
 using Xamarin.Forms.GoogleMaps;
 using System.Threading.Tasks;
@@ -100,11 +99,15 @@ namespace GPSNote.ViewModels
             set => SetProperty(ref _myLocationButtonEnabled, value);
         }
 
-        private Pin _pinCkick;
-        public Pin PinCkick
+        private Pin _pinClick;
+        public Pin PinClick
         {
-            get => _pinCkick;
-            set => SetProperty(ref _pinCkick, value);
+            get => _pinClick;
+            set
+            {
+                SetProperty(ref _pinClick, value);
+                InitDescription();
+            }
         }
 
         private double _tabDescriptionHeight;
@@ -112,6 +115,27 @@ namespace GPSNote.ViewModels
         {
             get => _tabDescriptionHeight;
             set => SetProperty(ref _tabDescriptionHeight, value);
+        }
+
+        private string _descName;
+        public string DescName
+        {
+            get => _descName ?? string.Empty;
+            set => SetProperty(ref _descName, value);
+        }
+
+        private string _descCoordinate;
+        public string DescCoordinate
+        {
+            get => _descCoordinate ?? string.Empty;
+            set => SetProperty(ref _descCoordinate, value);
+        }
+
+        private string _descDescription;
+        public string DescDescription
+        {
+            get => _descDescription ?? string.Empty;
+            set => SetProperty(ref _descDescription, value);
         }
         #endregion
 
@@ -256,20 +280,12 @@ namespace GPSNote.ViewModels
 
         private async void ShowTabDescriptionAsync()
         {
-            //for (double i = 0; i > -1 ; i -= 0.01)
-            //{
-            //    TabDescriptionHeight = i;
-            //    await Task.Delay(1);
-            //}
-            //TabDescriptionHeight = -1;
-            //await Task.Run(() =>
-            //{
-                for (int i = 0; i < _maxTabDescriptionHeight; i += _stepTabDescriptionHeight)
-                {
-                    TabDescriptionHeight = i;
-                    await Task.Delay(1);
-                }
-            //});
+            for (int i = 0; i < _maxTabDescriptionHeight; i += _stepTabDescriptionHeight)
+            {
+                TabDescriptionHeight = i;
+                await Task.Delay(1);
+            }
+
         }
         private async void UnShowTabDescriptionAsync()
         {
@@ -281,6 +297,25 @@ namespace GPSNote.ViewModels
                 await Task.Delay(1);
             }
             TabDescriptionHeight = 0;
+        }
+
+        private void InitDescription()
+        {
+           PinModel model = null;
+            try
+            {
+                model = PinModelsList.Where(x => x.Position == PinClick.Position).First();
+            }
+            catch
+            {
+                Acr.UserDialogs.UserDialogs.Instance.Alert("Error pin");
+                return;
+            }
+
+            DescName = model?.Name;
+            DescCoordinate = model?.Coordinate;
+            DescDescription = model?.Description;
+
         }
         #endregion
     }

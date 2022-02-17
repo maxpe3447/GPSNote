@@ -157,14 +157,14 @@ namespace GPSNote.Controls
 
             control.eText.BorderColor = (Color)newValue;
         }
-        //
-        public static readonly BindableProperty TextColorProperty = BindableProperty.Create(
-            nameof(TextColor),
-            typeof(Color),
-            typeof(CancelLine),
-            defaultValue: default(Color),
-            defaultBindingMode: BindingMode.TwoWay,
-            propertyChanged: TextColorChanged);
+        
+        public static readonly BindableProperty TextColorProperty = 
+            BindableProperty.Create(nameof(TextColor),
+                                    typeof(Color),
+                                    typeof(CancelLine),
+                                    defaultValue: default(Color),
+                                    defaultBindingMode: BindingMode.TwoWay,
+                                    propertyChanged: TextColorChanged);
 
         public Color TextColor
         {
@@ -193,12 +193,31 @@ namespace GPSNote.Controls
             set { SetValue(KeyBoardProperty, value); }
         }
 
+        public static readonly BindableProperty FontFamilyProperty =
+            BindableProperty.Create(nameof(FontFamily),
+                                    typeof(string),
+                                    typeof(CancelLine),
+                                    string.Empty,
+                                    defaultBindingMode: BindingMode.TwoWay,
+                                    propertyChanged: OnFontFamilyChanged);
+
+        public string FontFamily
+        {
+            get { return (string)GetValue(FontFamilyProperty); }
+            set { SetValue(FontFamilyProperty, value); }
+        }
+        private static void OnFontFamilyChanged(BindableObject bindable, object oldValue, object newValue)
+        {
+            var cancelLine = (CancelLine)bindable;
+            cancelLine.eText.FontFamily= newValue.ToString();
+        }
         #region -- Private properties -- 
         private static void OnKeyBoardChanged(BindableObject bindable, object oldValue, object newValue)
         {
             var cancelLine = (CancelLine)bindable;
             cancelLine.eText.KeyBoard = (Keyboard)newValue;
         }
+
         #endregion
     }
 }

@@ -4,15 +4,8 @@
              xmlns:prism ="http://prismlibrary.com" 
              xmlns:controls="clr-namespace:GPSNote.Controls"
              prism:ViewModelLocator.AutowireViewModel="true"
-             x:Class="GPSNote.Views.CreateAnAccountView">
-
-    <ContentPage.Resources>
-        <Color x:Key="BaseColor">#596EFB</Color>
-        <Color x:Key="TextColor">#1E242B</Color>
-        <Color x:Key="LabelColor">#3D4E61</Color>
-        <Color x:Key="PlaceholderColor">#858E9E</Color>
-        <Color x:Key="StrokeColor">#D7DDE8</Color>
-    </ContentPage.Resources>
+             x:Class="GPSNote.Views.CreateAnAccountView"
+             Background="{StaticResource White}">
 
     <ContentPage.Content>
         <StackLayout>
@@ -26,9 +19,9 @@
                 <!--LABEL LOG IN-->
                 <Label Text="{Binding TextResources[CreateAnAccount]}"
                        Grid.Row="0"
-                       TextColor = "{StaticResource TextColor}"
+                       TextColor = "{StaticResource Black}"
                        FontSize="24"
-                       FontFamily="Montserrat"
+                       FontFamily="{StaticResource MainFront}"
                        HorizontalTextAlignment="Center"
                        VerticalTextAlignment="Center"
                        Margin="0,0,0,10"/>
@@ -40,7 +33,7 @@
                     </Grid.ColumnDefinitions>
 
                     <!--BUTTON BACK-->
-                    <Button ImageSource="ic_left_blue.png"
+                    <Button ImageSource="{StaticResource ic_left_blue}"
                             Grid.Row="0" Grid.Column="0"
                             BackgroundColor="Transparent"
                             VerticalOptions="Center"
@@ -52,7 +45,8 @@
 
             <!--LABEL NAME-->
             <Label Text="{Binding TextResources[Name]}"
-                   TextColor="{StaticResource LabelColor}"
+                   TextColor="{StaticResource DarkGray}"
+                   FontFamily="{StaticResource MainFont}"
                    Margin="30, 20, 10, 0"
                    FontSize="18"/>
 
@@ -60,33 +54,37 @@
             <controls:CancelLine Placeholder="{Binding TextResources[EnterName]}"
                                  Margin="28, 0, 30,0"
                                  FontSize="18"
+                                 FontFamily="{StaticResource MainFont}"
                                  Text="{Binding UserName}"
-                                 BorderColor ="{StaticResource StrokeColor}"
-                                 TextColor="{StaticResource TextColor}"/>
+                                 BorderColor ="{StaticResource LightGray}"
+                                 TextColor="{StaticResource Black}"/>
 
             <!--LABEL EMAIL-->
             <Label Text="{Binding TextResources[Email]}"
+                   FontFamily="{StaticResource MainFont}"
                    Margin="30, 10, 10,0"
-                   TextColor="{StaticResource LabelColor}"
+                   TextColor="{StaticResource DarkGray}"
                    FontSize="18"/>
 
             
             <!--ENTRY ENTER EMAIL-->
             <controls:CancelLine Placeholder="{Binding TextResources[EnterEmail]}"
                                  Margin="28, 0, 30,30"
-                                 TextColor="{StaticResource TextColor}"
-                                 BorderColor ="{StaticResource StrokeColor}"
+                                 TextColor="{StaticResource Black}"
+                                 BorderColor ="{StaticResource LightGray}"
                                  FontSize="18"
+                                 FontFamily="{StaticResource MainFont}"
                                  Text="{Binding UserEmail}"/>
 
             <!--BUTTON NEXT-->
             <Button Text="{Binding TextResources[Next]}"
                     FontSize="14"
                     Margin="16, 0, 16, 0"
-                    BackgroundColor="{StaticResource BaseColor }"
-                    TextColor="White"
+                    BackgroundColor="{StaticResource LightBlue}"
+                    TextColor="{StaticResource White}"
                     Command="{Binding NextCommand}"
-                    FontFamily="Montserrat"/>
+                    FontFamily="{StaticResource MainFont}"
+                    CornerRadius="1"/>
 
             <!--SEPARATOR-->
             <Grid Margin="0, 10">
@@ -99,28 +97,30 @@
                 <!--LINE RIGHT-->
                 <Line Grid.Column="0"
                       X2="1000"
-                      Stroke="{StaticResource StrokeColor}"
+                      Stroke="{StaticResource LightGray}"
                       Margin="16, 10, 0, 0"/>
 
                 <!--LINE LEFT-->
                 <Line Grid.Column="2"
                       X2="1000"
-                      Stroke="{StaticResource StrokeColor}"
+                      Stroke="{StaticResource LightGray}"
                       Margin="5, 10, 16, 0"/>
 
                 <!--LABEL OR-->
                 <Label Text="{Binding TextResources[SeparatorOr]}"
                        Grid.Column ="1" 
                        HorizontalOptions="Center"
-                       TextColor="{StaticResource StrokeColor}"/>
+                       FontFamily="{StaticResource MainFont}"
+                       TextColor="{StaticResource LightGray}"/>
             </Grid>
 
             <!--BUTTON GOOGLE-->
-            <Button BackgroundColor="White"
+            <Button BackgroundColor="{StaticResource White}"
                     Margin="16, 0, 16, 0"
-                    BorderColor="{StaticResource StrokeColor}" 
+                    BorderColor="{StaticResource LightGray}" 
                     BorderWidth="1.5"
-                    ImageSource="ic_google.png"/>
+                    ImageSource="{StaticResource ic_google}"
+                    CornerRadius="1"/>
         </StackLayout>
     </ContentPage.Content>
 </ContentPage>

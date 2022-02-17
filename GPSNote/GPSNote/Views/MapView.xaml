@@ -2,16 +2,13 @@
 <ContentPage xmlns="http://xamarin.com/schemas/2014/forms"
              xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
              xmlns:prism ="http://prismlibrary.com"
-             xmlns:controls="clr-namespace:GPSNote.Controls"
-             xmlns:maps="clr-namespace:Xamarin.Forms.GoogleMaps;assembly=Xamarin.Forms.GoogleMaps"
+             xmlns:controls="clr-namespace:GPSNote.Controls" xmlns:viewmodels="clr-namespace:GPSNote.ViewModels" x:DataType="viewmodels:MapViewModel"
              prism:ViewModelLocator.AutowireViewModel="True"
              x:Class="GPSNote.Views.MapView"
              Title="{Binding Title}"
-             IconImageSource="ic_map.png">
-             
+             IconImageSource="{StaticResource ic_map}">
+
     <ContentPage.Content>
-
-
 
         <Grid>
 
@@ -23,37 +20,51 @@
             <Grid.ColumnDefinitions>
                 <ColumnDefinition Width="*"/>
             </Grid.ColumnDefinitions>
+
             <StackLayout Grid.Row="0">
+
+                <!--MAP-->
                 <controls:BindingMap IsShowingUser="{Binding IsShowingUser}"
-                              MyLocationButtonEnabled="{Binding MyLocationButtonEnabled}"
-                              MapType="Street"
-                              IsTrafficEnabled="True"
-                              PinsCollection="{Binding PinsList}"
-                              GoToPosition="{Binding GoToPosition}"
-                              ClickPosition="{Binding ClickPos}"
-                                     PinClick="{Binding PinCkick}"
+                                     MyLocationButtonEnabled="{Binding MyLocationButtonEnabled}"
+                                     MapType="Street"
+                                     IsTrafficEnabled="True"
+                                     PinsCollection="{Binding PinsList}"
+                                     GoToPosition="{Binding GoToPosition}"
+                                     ClickPosition="{Binding ClickPos}"
+                                     PinClick="{Binding PinClick}"
                                      PinClickCommand="{Binding PinClickCommand}"
                                      MapClickCommand="{Binding MapClickCommand}"
-                              VerticalOptions="FillAndExpand"
-                              Margin="0,-20, 0, -13"/>
-                <ScrollView>
-                <controls:TabDescription HorizontalOptions="End"
-                                         Height="{Binding TabDescriptionHeight}"/>
-                </ScrollView>
-            </StackLayout>
-            
+                                     VerticalOptions="FillAndExpand"
+                                     Margin="0,-20, 0, -13"/>
 
+                <ScrollView>
+
+                    <!--DESCRIPTION OF PIN-->
+                    <controls:TabDescription VerticalOptions="EndAndExpand"
+                                             Height="{Binding TabDescriptionHeight}"
+                                             FontFamily="{StaticResource MainFont}"
+                                             Name="{Binding DescName}"
+                                             Coordinate="{Binding DescCoordinate}"
+                                             Description ="{Binding DescDescription}"
+                                             />
+
+                </ScrollView>
+
+            </StackLayout>
+
+            <!--SEARCH LINE-->
             <controls:SearchLine TextLine="{Binding SearchPin}" 
                                  ItemsSource="{Binding FindedPins}"
                                  SelectedItem="{Binding SelectedSearchPin}"
                                  TextChangeCommand="{Binding SearchCommand}"
                                  ExidCommand="{Binding ExidCommand}"
+                                 FontFamily="{StaticResource MainFont}"
                                  HorizontalOptions="Start"
                                  VerticalOptions="Start"/>
-            
-            
 
-            <Button ImageSource="ic_location.png"
+
+            <!--BUTTON LOCATION-->
+            <Button ImageSource="{StaticResource ic_location}"
                    FontSize="35"
                    BackgroundColor="#FEFEFD"
                    Margin="0, 0, 30, 40"
@@ -63,14 +74,11 @@
                    Grid.Row="0"
                    HorizontalOptions="End"
                    VerticalOptions="End"
-                   Command="{Binding FindMeCommand}"
-                    
-                    IsEnabled="{Binding MyLocationButtonEnabled}"
-                    IsVisible="{Binding MyLocationButtonEnabled}"/>
-
-            
+                   Command="{Binding FindMeCommand}" 
+                   IsEnabled="{Binding MyLocationButtonEnabled}"
+                   IsVisible="{Binding MyLocationButtonEnabled}"/>
 
         </Grid>
-        
+
     </ContentPage.Content>
 </ContentPage>

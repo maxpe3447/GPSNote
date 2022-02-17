@@ -6,13 +6,20 @@
     <Application.Resources>
         <!--Colors-->
         <Color x:Key="White">#FEFEFD</Color>
-        <Color x:Key="Background">#E5E5E5</Color>
         <Color x:Key="LightBlue">#596EFB</Color>
-        <Color x:Key="LightGray">#D7DDE8</Color>
+        <Color x:Key="LightGray">#D7DDE8</Color>    <!--Borders-->
         <Color x:Key="Gray">#858E9E</Color>
-        <Color x:Key="DarkGray">#3D4E61</Color>
+        <Color x:Key="DarkGray">#3D4E61</Color>     <!--Labels-->
         <Color x:Key="Black">#1E242B</Color>
-        <Color x:Key="PlaceholderColor">#858E9E</Color>
-        <Color x:Key="StrokeColor">#D7DDE8</Color>
+        
+        <!--Images-->
+        <ImageSource x:Key="pic_enter_page_big">pic_enter_page2x.png</ImageSource>
+        <ImageSource x:Key="ic_google">ic_google.png</ImageSource>
+        <ImageSource x:Key="ic_left_blue">ic_left_blue.png</ImageSource>
+        <ImageSource x:Key="ic_map">ic_map.png</ImageSource>
+        <ImageSource x:Key="ic_location">ic_location.png</ImageSource>
+        
+        <!--Fonts-->
+        <x:String x:Key="MainFont">Montserrat</x:String>
     </Application.Resources>
 </prism:PrismApplication>
