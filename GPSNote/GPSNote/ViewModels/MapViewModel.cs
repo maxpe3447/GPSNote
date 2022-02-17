@@ -12,6 +12,7 @@ using Xamarin.Forms.GoogleMaps;
 using System.Threading.Tasks;
 using Xamarin.Essentials;
 using System;
+using System.Threading;
 
 namespace GPSNote.ViewModels
 {
@@ -24,11 +25,13 @@ namespace GPSNote.ViewModels
             _Repository = repository;
 
             Title = Resources.TextControls.Map;
+            TabDescriptionHeight = 0;
 
             FindMeCommand = new Command(FindMeCommandRelease);
             SearchCommand = new  Command(SearchCommandRelease);
             ExidCommand = new Command(ExidCommandRelease);
-            
+            PinClickCommand = new Command(PinClickCommandRelease);
+            MapClickCommand = new Command(MapClickCommandRelease);
         }
         
         #region -- Properties -- 
@@ -48,10 +51,7 @@ namespace GPSNote.ViewModels
         public Position ClickPos
         {
             get => _clickPos;
-            set
-            {
-                SetProperty(ref _clickPos, value);
-            }
+            set => SetProperty(ref _clickPos, value);
         }
 
         private Position _goToPosition;
@@ -93,11 +93,25 @@ namespace GPSNote.ViewModels
             set => SetProperty(ref _isShowingUser, value);
         }
 
-        private bool _myLocationButtonEnabled;
+        private bool _myLocationButtonEnabled = true;
         public bool MyLocationButtonEnabled
         {
             get => _myLocationButtonEnabled;
             set => SetProperty(ref _myLocationButtonEnabled, value);
+        }
+
+        private Pin _pinCkick;
+        public Pin PinCkick
+        {
+            get => _pinCkick;
+            set => SetProperty(ref _pinCkick, value);
+        }
+
+        private double _tabDescriptionHeight;
+        public double TabDescriptionHeight
+        {
+            get => _tabDescriptionHeight;
+            set => SetProperty(ref _tabDescriptionHeight, value);
         }
         #endregion
 
@@ -131,11 +145,29 @@ namespace GPSNote.ViewModels
         public ICommand ExidCommand { get; }
         private void ExidCommandRelease()
         {
-            NavigationService.NavigateAsync(nameof(Views.StartPageView));
+            NavigationService.NavigateAsync($"/{nameof(Views.StartPageView)}");
+        }
+
+        public ICommand PinClickCommand { get; }
+        private void PinClickCommandRelease()
+        {
+            if (MyLocationButtonEnabled)
+            {
+                MyLocationButtonEnabled = false;
+                //TabDescriptionHeight = -1;
+                ShowTabDescriptionAsync();
+            }
+        }
+        public ICommand MapClickCommand { get; }
+        private void MapClickCommandRelease()
+        {
+            MyLocationButtonEnabled = true;
+            UnShowTabDescriptionAsync();
+            
         }
 
         #endregion
-        
+
         #region -- Override --
         public override void Initialize(INavigationParameters parameters)
         {
@@ -158,6 +190,15 @@ namespace GPSNote.ViewModels
                         Position = item.Position,
                         Icon = BitmapDescriptorFactory.FromView(new Controls.BindingPinIconView("ic_placeholder.png"))
                     });
+                }
+                else if (e.Action == System.Collections.Specialized.NotifyCollectionChangedAction.Remove)
+                {
+                    if (e.OldItems[0] is PinModel removeObj) {
+                        var pin = PinsList.FirstOrDefault(x =>  x.Position== removeObj.Position);
+
+                            PinsList.Remove(pin);
+                        //}
+                    }
                 }
             };
             InitPinsListAsync();
@@ -210,6 +251,37 @@ namespace GPSNote.ViewModels
         private bool initilize = false;
         private int _UserId { get; set; }
         private IRepository _Repository { get; }
+        private const double _maxTabDescriptionHeight = 210;
+        private const int _stepTabDescriptionHeight = 30;
+
+        private async void ShowTabDescriptionAsync()
+        {
+            //for (double i = 0; i > -1 ; i -= 0.01)
+            //{
+            //    TabDescriptionHeight = i;
+            //    await Task.Delay(1);
+            //}
+            //TabDescriptionHeight = -1;
+            //await Task.Run(() =>
+            //{
+                for (int i = 0; i < _maxTabDescriptionHeight; i += _stepTabDescriptionHeight)
+                {
+                    TabDescriptionHeight = i;
+                    await Task.Delay(1);
+                }
+            //});
+        }
+        private async void UnShowTabDescriptionAsync()
+        {
+            int h = (int)TabDescriptionHeight;
+            for (int i = h; i > 0; i -= _stepTabDescriptionHeight)
+            {
+                if(i < 0) i = 0;
+                TabDescriptionHeight = i;
+                await Task.Delay(1);
+            }
+            TabDescriptionHeight = 0;
+        }
         #endregion
     }
 }

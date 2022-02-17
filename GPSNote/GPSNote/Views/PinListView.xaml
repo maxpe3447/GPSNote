@@ -16,90 +16,33 @@
                 <controls:SearchLine TextLine="{Binding SearchPin}" 
                                      CommandSearch="{Binding SearchCommand}"
                                      Padding="0,0,40,0"
-                                     TextChangeCommand="{Binding SearchCommand}"/>
+                                     TextChangeCommand="{Binding SearchCommand}"
+                                     ExidCommand="{Binding ExidCommand}"/>
 
-                
-                <ScrollView Margin="0,0,0,30">
+
+                <ScrollView >
                     <ListView ItemsSource="{Binding PinModelsList, Mode=TwoWay}"
-                          HasUnevenRows="True"
-                          SelectedItem="{Binding SelectedPin, Mode=TwoWay}"
-
+                              HasUnevenRows="True"
+                              SelectedItem="{Binding SelectedPin, Mode=TwoWay}"
+Margin="0,0,0,60"
                               SeparatorVisibility="None">
 
-                            <ListView.ItemTemplate>
-                                <DataTemplate>
-                                    <!--<ViewCell>
-                                    <ViewCell.View>-->
+                        <ListView.ItemTemplate>
+                            <DataTemplate>
 
                                 <controls:ItemListPin TextName="{Binding Name}"
                                                       TextCoord="{Binding Coordinate}"
                                                       LikeCommand="{Binding LikeCommand}"
+                                                      EditCommand="{Binding EditCommand}"
+                                                      DeleteCommand="{Binding DeleteCommand}"
                                                       IsFavorit="{Binding IsFavorit, Mode=TwoWay}"/>
-                                <!--<Grid ColumnSpacing ="12" RowSpacing="2">
-
-                                            <Grid.RowDefinitions >
-                                                <RowDefinition Height="37.5"/>
-                                                <RowDefinition Height="37.5"/>
-                                            </Grid.RowDefinitions>
-
-                                            <Grid.ColumnDefinitions>
-                                                <ColumnDefinition Width="68"/>
-                                                <ColumnDefinition Width="*"/>
-                                                <ColumnDefinition Width="80"/>
-                                            </Grid.ColumnDefinitions>
-
-                                            <Button ImageSource="ic_like_gray.png"
-                                                    HorizontalOptions="CenterAndExpand"
-                                                    VerticalOptions="CenterAndExpand"
-                                                    Grid.Row="0"
-                                                    Grid.Column="0"
-                                                    Grid.RowSpan="2"
-                                                    BackgroundColor="#F1F3FD"
-                                                    Margin="16,0,0,0"
-                                                    CornerRadius="6"/>
-
-                                            <Label Text="{Binding Name}"
-                                                       FontSize="25"
-                                                       TextColor="#1E242B"
-                                                       Grid.Column="1"
-                                                       Grid.Row="0"/>
-
-
-                                            <Label Text="{Binding Coordinate}"
-                                                   FontSize="20"
-                                                   TextColor="#3D4E61"
-                                                   Grid.Column="1"
-                                                   Grid.Row="1"/>
-
-                                            <Button ImageSource="ic_left_gray.png"
-                                                    Grid.Row="0"
-                                                    Grid.Column="2"
-                                                    Grid.RowSpan="2"
-                                                    Margin="0,0,35,0"
-                                                    BackgroundColor="Transparent"/>
-
-                                        </Grid>-->
-
-
-                                    <!--</viewcell.view>-->
-
-                                    <!--<ViewCell.ContextActions>
-                                            <MenuItem Text="Delete"
-                                                      IconImageSource="ic_delete.png"
-                                                      Command="{Binding Path=BindingContext.DeletePinCommand, Source={x:Reference pinListView}}"
-                                                      CommandParameter="{Binding .}"/>
-                                            <MenuItem Text="Edit" 
-                                                      IconImageSource="ic_edit.png"
-                                                      Command ="{Binding Path=BindingContext.EditPinCommand, Source={x:Reference pinListView}}"
-                                                      CommandParameter="{Binding .}"/>
-                                        </ViewCell.ContextActions>
-                                    </ViewCell>-->
-                                </DataTemplate>
-                            </ListView.ItemTemplate>
-                        </ListView>
+                                
+                            </DataTemplate>
+                        </ListView.ItemTemplate>
+                    </ListView>
                 </ScrollView>
             </StackLayout>
-                
+
             <Button ImageSource="ic_plus.png"
                     FontSize="35"
                     BackgroundColor="LightBlue"
@@ -113,4 +56,4 @@
                     Command="{Binding CreatePinCommand}"/>
         </AbsoluteLayout>
     </ContentPage.Content>
-</ContentPage>
+    </ContentPage>

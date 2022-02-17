@@ -5,53 +5,154 @@
              xmlns:controls="clr-namespace:GPSNote.Controls" 
              xmlns:maps="clr-namespace:Xamarin.Forms.GoogleMaps;assembly=Xamarin.Forms.GoogleMaps"
              prism:ViewModelLocator.AutowireViewModel="True"
-             x:Class="GPSNote.Views.CreatePinView"
-             Title="{Binding Title}">
+             x:Class="GPSNote.Views.CreatePinView">
 
-    <ContentPage.ToolbarItems>
+    <!--<ContentPage.ToolbarItems>
         <ToolbarItem Text="Save"
                      Command="{Binding SaveCommand}"/>
         <ToolbarItem Text="Cancel"
                      Command="{Binding CancelCommand}"/>
-    </ContentPage.ToolbarItems>
+    </ContentPage.ToolbarItems>-->
+   
     
     <ContentPage.Content>
-        <StackLayout>
-            <Label Text="Name:"
+
+        <Grid>
+
+            <Grid.RowDefinitions>
+                <RowDefinition Height="*" />
+            </Grid.RowDefinitions>
+
+
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="*"/>
+            </Grid.ColumnDefinitions>
+
+            <StackLayout>
+
+                <Grid>
+                    <Grid.RowDefinitions>
+                        <RowDefinition Height="50"/>
+                    </Grid.RowDefinitions>
+
+                    <!--LABEL Add pin-->
+                    <Label Text="Add pin"
+                       Grid.Row="0"
+                       TextColor="#1E242B"
+                       FontSize="20"
+                       FontFamily="Montserrat"
+                       HorizontalTextAlignment="Center"
+                       VerticalTextAlignment="Center"
+                       Margin="0,0,0,10"/>
+
+                    <Grid>
+                        <Grid.ColumnDefinitions >
+                            <ColumnDefinition Width="50"/>
+                            <ColumnDefinition Width="*"/>
+                            <ColumnDefinition Width="50"/>
+                        </Grid.ColumnDefinitions>
+
+                        <Grid.RowDefinitions>
+                            <RowDefinition Height="*"/>
+                            <RowDefinition Height="1"/>
+                        </Grid.RowDefinitions>
+                        <!--BUTTON BACK-->
+                        <Button ImageSource="ic_left_blue.png"
+                            Grid.Row="0" Grid.Column="0"
+                            BackgroundColor="Transparent"
+                            VerticalOptions="Center"
+                            HorizontalOptions="Center"
+                            Command="{Binding CancelCommand}"/>
+
+                        <!--BUTTON SAVE-->
+                        <Button ImageSource="ic_save.png"
+                            Grid.Row="0" Grid.Column="2"
+                            BackgroundColor="Transparent"
+                            VerticalOptions="Center"
+                            HorizontalOptions="Center"
+                            Command="{Binding SaveCommand}"/>
+
+                        <!--FRAME-->
+                        <Frame WidthRequest="2"
+                           HeightRequest="2"
+                           BackgroundColor="#F1F3FD"
+                           Grid.Row="1" Grid.ColumnSpan="3"/>
+                    </Grid>
+                </Grid>
+
+
+                <Label Text="Label"
                    FontSize="20"
-                   Margin="20, 0"/>
+                   Margin="23, 8.5,0,0"
+                   TextColor="#3D4E61"/>
 
-            <Entry Placeholder="Name"
-                   Text="{Binding Name}"
-                   FontSize="20"/>
+                <controls:CancelLine Text="{Binding Name}"
+                                  FontSize="20"
+                                  BorderColor="Gray"
+                                  Placeholder="Enter the label"
+                                  Margin="20, 0, 20,0"/>
 
-            <Label Text="Description:"
+                <Label Text="Description"
                    FontSize="20"
-                   Margin="20, 0"/>
+                   Margin="23, 10, 0,0"
+                   TextColor="#3D4E61"/>
 
-            <Entry Placeholder="Description"
-                   Text="{Binding Description}"
-                   FontSize="20"/>
+                <controls:CancelLine  Placeholder="Description"
+                                  Text="{Binding Description}"
+                                  FontSize="20"
+                                  BorderColor="Gray"
+                                  Margin="20, 0, 20,0"/>
 
-            <Label Text="Position:"
+                <Label Text="Position:"
                    FontSize="20"
-                   Margin="20, 0"/>
+                   Margin="23, 10, 0, 0"
+                   TextColor ="#3D4E61"/>
 
-            <Entry Placeholder="Position"
-                   Text="{Binding Position}"
-                   FontSize="20"/>
+                <Grid Margin="20, 0, 20, 0">
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition Width="*"/>
+                        <ColumnDefinition Width="*"/>
+                    </Grid.ColumnDefinitions>
 
-            <controls:BindingMap IsShowingUser="True"
-                              IsTrafficEnabled="True"
-                              MapType="Street"
-                              GoToPosition="{Binding GoToPosition}"
-                              ClickPosition="{Binding SelectedPosition}"
-                              PinsCollection="{Binding PinsList}">
+                    <controls:CancelLine Placeholder="Longitude"
+                                     Text="{Binding Longitude}"
+                                     FontSize="20"
+                                     Grid.Column="0"
+                                     BorderColor="Gray"/>
 
-            </controls:BindingMap>
+                    <controls:CancelLine Placeholder="Latitude"
+                                     Text="{Binding Latitude}"
+                                     FontSize="20"
+                                     Grid.Column="1"
+                                     BorderColor="Gray"/>
+                </Grid>
 
-            
-        </StackLayout>
+
+                <controls:BindingMap IsTrafficEnabled="True"
+                                     MapType="Street"
+                                     GoToPosition="{Binding GoToPosition}"
+                                     ClickPosition="{Binding SelectedPosition}"
+                                     PinsCollection="{Binding PinsList}"
+                                     IsShowingUser="{Binding IsShowingUser}"
+                                     MyLocationButtonEnabled="False">
+
+                </controls:BindingMap>
+
+
+            </StackLayout>
+
+            <Button ImageSource="ic_location.png"
+                   FontSize="35"
+                   BackgroundColor="#FEFEFD"
+                   Margin="0, 0, 30, 40"
+                   WidthRequest="45"
+                   HeightRequest="45"
+                   CornerRadius="35"
+                   Grid.Row="0"
+                   HorizontalOptions="End"
+                   VerticalOptions="End"
+                   Command="{Binding FindMeCommand}"/>
+        </Grid>
     </ContentPage.Content>
     
 </ContentPage>

@@ -5,28 +5,27 @@
              x:Class="GPSNote.Controls.ItemListPin">
     <ViewCell.View>
         <StackLayout>
-            <AbsoluteLayout>
-            <Grid x:Name="grid"
+            <StackLayout Padding="0,0,40,0">
+                <Grid x:Name="grid"
               ColumnSpacing ="0" 
-              RowSpacing="2"
-              Margin="0,0,35,0">
+              RowSpacing="2">
+                    
+                    <Grid.RowDefinitions >
+                        <RowDefinition Height="37.5"/>
+                        <RowDefinition Height="37.5"/>
+                    </Grid.RowDefinitions>
 
-                <Grid.RowDefinitions >
-                    <RowDefinition Height="37.5"/>
-                    <RowDefinition Height="37.5"/>
-                </Grid.RowDefinitions>
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition Width="68"/>
+                        <ColumnDefinition Width="*"/>
+                        <ColumnDefinition Width="Auto"/>
+                        <ColumnDefinition x:Name="cdDelete"
+                                      Width="0"/>
+                        <ColumnDefinition x:Name="cdEdit"
+                                      Width="0"/>
+                    </Grid.ColumnDefinitions>
 
-                <Grid.ColumnDefinitions>
-                    <ColumnDefinition Width="68"/>
-                    <ColumnDefinition Width="*"/>
-                    <ColumnDefinition Width="60"/>
-                    <ColumnDefinition x:Name="cdDelete"
-                                  Width="0"/>
-                    <ColumnDefinition x:Name="cdEdit"
-                                  Width="0"/>
-                </Grid.ColumnDefinitions>
-
-                <Button x:Name="bLike"
+                    <Button x:Name="bLike"
                     ImageSource="ic_like_gray.png"
                     HorizontalOptions="CenterAndExpand"
                     VerticalOptions="CenterAndExpand"
@@ -36,36 +35,33 @@
                     Margin="16,0,0,0"
                     CornerRadius="6"/>
 
-                <!--Text="{Binding Name}"-->
-                <Label x:Name="lName"
+                    <Label x:Name="lName"
                    FontSize="25"
                    TextColor="#1E242B"
-                   Margin="0,0,30,0"
-                   Padding="12, 0, 30, 0"
+                   Padding="12, 0, 15, 0"
                    Grid.Column="1"
                    Grid.Row="0"/>
-                <!--Margin="12, 0, 0, 0"-->
 
-
-                <!--Text="{Binding Coordinate}"-->
-                <Label x:Name="lCoordinate"
+                    <Label x:Name="lCoordinate"
                    FontSize="20"
                    Padding="12, 0, 0, 0"
-                   Margin="0,0,30,0"
                    TextColor="#3D4E61"
                    Grid.Column="1"
                    Grid.Row="1"/>
-                <!--Margin="12, 0, 0, 0"-->
-
-                <Button x:Name="bMenu" 
                     
+                    <Button x:Name="bMenu" 
                     ImageSource="ic_left_gray.png"
                     Grid.Row="0"
                     Grid.Column="2"
                     Grid.RowSpan="2"
-                    BackgroundColor="Transparent"/>
+                        WidthRequest="56"
+                        HeightRequest="75"
+                    BackgroundColor="Transparent"
+                            VerticalOptions="Fill"
+                    HorizontalOptions="Fill"/>
 
-                <Button x:Name="bDelete" 
+
+                    <Button x:Name="bDelete" 
                     ImageSource="ic_delete.png"
                     Grid.Row="0"
                     Grid.Column="3"
@@ -73,7 +69,8 @@
                     
                     BackgroundColor="#F24545"/>
 
-                <Button x:Name="bEdit" 
+
+                    <Button x:Name="bEdit" 
                     ImageSource="ic_edit.png"
                     Grid.Row="0"
                     Grid.Column="4"
@@ -81,30 +78,19 @@
                     
                     BackgroundColor="#596EFB"/>
 
-            </Grid>
-            </AbsoluteLayout>
+                </Grid>
+            </StackLayout>
+
             <Grid Margin="16, 0, 62,0">
                 <Grid.RowDefinitions>
                     <RowDefinition Height="2"/>
                 </Grid.RowDefinitions>
-               <Frame Grid.Row="0"
+                <Frame Grid.Row="0"
                    
                    BackgroundColor="#F1F3FD"
-                   HeightRequest="2"/> 
+                   HeightRequest="2"/>
             </Grid>
-            
+
         </StackLayout>
     </ViewCell.View>
-    <!--<ViewCell.ContextActions>
-        <MenuItem Text="Delete"
-                  IconImageSource="ic_delete.png"
-            />
-                  --><!--Command="{Binding Path=BindingContext.DeletePinCommand, Source={x:Reference pinListView}}"
-                  CommandParameter="{Binding .}"--><!--
-        <MenuItem Text="Edit"
-                  IconImageSource="ic_edit.png"
-                  />
-                  --><!--Command ="{Binding Path=BindingContext.EditPinCommand, Source={x:Reference pinListView}}"
-                  CommandParameter="{Binding .}"--><!--
-    </ViewCell.ContextActions>-->
 </ViewCell>

@@ -10,6 +10,7 @@ using Xamarin.Forms.GoogleMaps;
 using GPSNote.Extansion;
 using System.Collections.Specialized;
 using System.Collections;
+using System.Windows.Input;
 
 namespace GPSNote.Controls
 {
@@ -20,9 +21,22 @@ namespace GPSNote.Controls
         {
             MapClicked += (s, e) =>
             {
-               
                 ClickPosition = e.Point;
+                if (MapClickCommand?.CanExecute(null) ?? false)
+                {
+                    MapClickCommand.Execute(null);
+                }
             };
+
+            PinClicked += (s, e) =>
+            {
+                PinClick = e.Pin;
+                if (PinClickCommand?.CanExecute(null) ?? false)
+                {
+                    PinClickCommand.Execute(null);
+                }
+            };
+
             InitialCameraUpdate = CameraUpdateFactory.NewCameraPosition(new CameraPosition( new Position(47.824734, 35.1625), 13 ));
             
             UiSettings.ZoomControlsEnabled = false;
@@ -40,11 +54,7 @@ namespace GPSNote.Controls
         public bool MyLocationButtonEnabled
         {
             get => (bool)GetValue(MyLocationButtonEnabledProperty);
-            set
-            {
-
-                SetValue(MyLocationButtonEnabledProperty, value);
-            }
+            set => SetValue(MyLocationButtonEnabledProperty, value);
         }
 
         public static readonly BindableProperty ClickPositionProperty =
@@ -129,13 +139,58 @@ namespace GPSNote.Controls
             {
                 Pins.Clear();
             }
-            if (e.NewItems != null && e.Action == NotifyCollectionChangedAction.Add)
+            if (e.Action == NotifyCollectionChangedAction.Add)
             {
-                if (e.NewItems is IList)
-                {
-                    Pins.Add(((ObservableCollection<Pin>)sender).Last());
-                }
+
+                Pins.Add(e.NewItems[0] as Pin);
             }
+
+            if (e.Action == NotifyCollectionChangedAction.Remove)
+            {
+                Pins.Remove(e.OldItems[0] as Pin);
+            }
+        }
+
+        public static BindableProperty PinClickCommandProperty =
+            BindableProperty.Create(
+            nameof(PinClickCommand),
+            typeof(ICommand),
+            typeof(BindingMap),
+            default(ICommand),
+            defaultBindingMode: BindingMode.TwoWay);
+
+        public ICommand PinClickCommand
+        {
+            get { return (ICommand)GetValue(PinClickCommandProperty); }
+            set { SetValue(PinClickCommandProperty, value); }
+        }
+
+        public static BindableProperty PinClickProperty =
+            BindableProperty.Create(
+            nameof(PinClick),
+            typeof(Pin),
+            typeof(BindingMap),
+            default(Pin),
+            defaultBindingMode: BindingMode.TwoWay);
+
+        public Pin PinClick
+        {
+            get { return (Pin)GetValue(PinClickProperty); }
+            set { SetValue(PinClickProperty, value); }
+        }
+
+        public static BindableProperty MapClickCommandProperty =
+            BindableProperty.Create(
+            nameof(MapClickCommand),
+            typeof(ICommand),
+            typeof(BindingMap),
+            default(ICommand),
+            defaultBindingMode: BindingMode.TwoWay);
+
+        public ICommand MapClickCommand
+        {
+            get { return (ICommand)GetValue(MapClickCommandProperty); }
+            set { SetValue(MapClickCommandProperty, value); }
         }
     }
 }
