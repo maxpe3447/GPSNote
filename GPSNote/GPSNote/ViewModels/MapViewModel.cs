@@ -12,6 +12,7 @@ using System.Threading.Tasks;
 using Xamarin.Essentials;
 using System;
 using System.Threading;
+using GPSNote.Helpers;
 
 namespace GPSNote.ViewModels
 {
@@ -23,7 +24,6 @@ namespace GPSNote.ViewModels
         {
             _Repository = repository;
 
-            Title = Resources.TextControls.Map;
             TabDescriptionHeight = 0;
 
             FindMeCommand = new Command(FindMeCommandRelease);
@@ -31,6 +31,8 @@ namespace GPSNote.ViewModels
             ExidCommand = new Command(ExidCommandRelease);
             PinClickCommand = new Command(PinClickCommandRelease);
             MapClickCommand = new Command(MapClickCommandRelease);
+
+            TextResources = new TextResources(typeof(Resources.TextControls));
         }
         
         #region -- Properties -- 
@@ -136,6 +138,13 @@ namespace GPSNote.ViewModels
         {
             get => _descDescription ?? string.Empty;
             set => SetProperty(ref _descDescription, value);
+        }
+
+        private TextResources _textResources;
+        public TextResources TextResources
+        {
+            get => _textResources;
+            set => SetProperty(ref _textResources, value);
         }
         #endregion
 

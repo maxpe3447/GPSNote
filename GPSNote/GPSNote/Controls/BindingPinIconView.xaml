@@ -8,15 +8,10 @@
              x:Class="GPSNote.Controls.BindingPinIconView">
     <AbsoluteLayout VerticalOptions="FillAndExpand" HorizontalOptions="FillAndExpand">
 
+        <!--PIN IMAGE-->
         <Image Source="{Binding IconPin}" 
             AbsoluteLayout.LayoutBounds="0, 0, 37, 48"
             AbsoluteLayout.LayoutFlags="None" />
-
-        <!--<Label Text="{Binding Display}" TextColor="Black" FontSize="16" HorizontalTextAlignment="Center" 
-                BackgroundColor="Transparent" WidthRequest="100" HeightRequest="70"
-                AbsoluteLayout.LayoutBounds="0, 20, 50, 30"
-                AbsoluteLayout.LayoutFlags="None" 
-               Margin="0, 20, 0,0"/>-->
 
     </AbsoluteLayout>
 </StackLayout>

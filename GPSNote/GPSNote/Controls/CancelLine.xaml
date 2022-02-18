@@ -15,8 +15,11 @@
                     <ColumnDefinition Width="*" />
                     <ColumnDefinition Width="0"/>
                 </Grid.ColumnDefinitions>
+                
+                <!--ENTRY-->
                 <controls:BorderEntry x:Name="eText"/>
 
+                <!--CANCEL BUTTON-->
                 <Button x:Name="bIsClear"
                         IsEnabled="False"
                         IsVisible="False"

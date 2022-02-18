@@ -2,10 +2,12 @@
 <ContentPage xmlns="http://xamarin.com/schemas/2014/forms"
              xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
              xmlns:prism ="http://prismlibrary.com"
-             xmlns:controls="clr-namespace:GPSNote.Controls" xmlns:viewmodels="clr-namespace:GPSNote.ViewModels" x:DataType="viewmodels:MapViewModel"
+             xmlns:controls="clr-namespace:GPSNote.Controls" 
+             xmlns:viewmodels="clr-namespace:GPSNote.ViewModels" 
+             x:DataType="viewmodels:MapViewModel"
              prism:ViewModelLocator.AutowireViewModel="True"
              x:Class="GPSNote.Views.MapView"
-             Title="{Binding Title}"
+             Title="{Binding TextResources[Map]}"
              IconImageSource="{StaticResource ic_map}">
 
     <ContentPage.Content>
@@ -45,8 +47,7 @@
                                              FontFamily="{StaticResource MainFont}"
                                              Name="{Binding DescName}"
                                              Coordinate="{Binding DescCoordinate}"
-                                             Description ="{Binding DescDescription}"
-                                             />
+                                             Description ="{Binding DescDescription}"/>
 
                 </ScrollView>
 
@@ -66,7 +67,7 @@
             <!--BUTTON LOCATION-->
             <Button ImageSource="{StaticResource ic_location}"
                    FontSize="35"
-                   BackgroundColor="#FEFEFD"
+                   BackgroundColor="{StaticResource White}"
                    Margin="0, 0, 30, 40"
                    WidthRequest="70"
                    HeightRequest="70"

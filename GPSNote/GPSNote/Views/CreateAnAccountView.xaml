@@ -19,11 +19,11 @@
                 <!--LABEL LOG IN-->
                 <Label Text="{Binding TextResources[CreateAnAccount]}"
                        Grid.Row="0"
-                       TextColor = "{StaticResource Black}"
                        FontSize="24"
-                       FontFamily="{StaticResource MainFront}"
                        HorizontalTextAlignment="Center"
                        VerticalTextAlignment="Center"
+                       TextColor ="{StaticResource Black}"
+                       FontFamily="{StaticResource MainFont}"
                        Margin="0,0,0,10"/>
 
                 <Grid>
@@ -45,36 +45,36 @@
 
             <!--LABEL NAME-->
             <Label Text="{Binding TextResources[Name]}"
+                   Margin="30, 20, 10, 0"
                    TextColor="{StaticResource DarkGray}"
                    FontFamily="{StaticResource MainFont}"
-                   Margin="30, 20, 10, 0"
                    FontSize="18"/>
 
             <!--ENTRY ENTER NAME-->
             <controls:CancelLine Placeholder="{Binding TextResources[EnterName]}"
                                  Margin="28, 0, 30,0"
                                  FontSize="18"
-                                 FontFamily="{StaticResource MainFont}"
                                  Text="{Binding UserName}"
-                                 BorderColor ="{StaticResource LightGray}"
-                                 TextColor="{StaticResource Black}"/>
+                                 TextColor="{StaticResource Black}"
+                                 FontFamily="{StaticResource MainFont}"
+                                 BorderColor ="{StaticResource LightGray}"/>
 
             <!--LABEL EMAIL-->
             <Label Text="{Binding TextResources[Email]}"
-                   FontFamily="{StaticResource MainFont}"
                    Margin="30, 10, 10,0"
                    TextColor="{StaticResource DarkGray}"
+                   FontFamily="{StaticResource MainFont}"
                    FontSize="18"/>
 
             
             <!--ENTRY ENTER EMAIL-->
             <controls:CancelLine Placeholder="{Binding TextResources[EnterEmail]}"
                                  Margin="28, 0, 30,30"
-                                 TextColor="{StaticResource Black}"
-                                 BorderColor ="{StaticResource LightGray}"
                                  FontSize="18"
+                                 Text="{Binding UserEmail}"
                                  FontFamily="{StaticResource MainFont}"
-                                 Text="{Binding UserEmail}"/>
+                                 BorderColor ="{StaticResource LightGray}"
+                                 TextColor="{StaticResource Black}"/>
 
             <!--BUTTON NEXT-->
             <Button Text="{Binding TextResources[Next]}"
@@ -115,11 +115,11 @@
             </Grid>
 
             <!--BUTTON GOOGLE-->
-            <Button BackgroundColor="{StaticResource White}"
-                    Margin="16, 0, 16, 0"
-                    BorderColor="{StaticResource LightGray}" 
+            <Button Margin="16, 0, 16, 0"
                     BorderWidth="1.5"
+                BackgroundColor="{StaticResource White}"
                     ImageSource="{StaticResource ic_google}"
+                    BorderColor="{StaticResource LightGray}" 
                     CornerRadius="1"/>
         </StackLayout>
     </ContentPage.Content>

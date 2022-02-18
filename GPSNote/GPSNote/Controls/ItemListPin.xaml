@@ -7,9 +7,9 @@
         <StackLayout>
             <StackLayout Padding="0,0,40,0">
                 <Grid x:Name="grid"
-              ColumnSpacing ="0" 
-              RowSpacing="2">
-                    
+                      ColumnSpacing ="0" 
+                      RowSpacing="2">
+
                     <Grid.RowDefinitions >
                         <RowDefinition Height="37.5"/>
                         <RowDefinition Height="37.5"/>
@@ -20,63 +20,62 @@
                         <ColumnDefinition Width="*"/>
                         <ColumnDefinition Width="Auto"/>
                         <ColumnDefinition x:Name="cdDelete"
-                                      Width="0"/>
+                                          Width="0"/>
                         <ColumnDefinition x:Name="cdEdit"
-                                      Width="0"/>
+                                          Width="0"/>
                     </Grid.ColumnDefinitions>
 
+
                     <Button x:Name="bLike"
-                    ImageSource="ic_like_gray.png"
-                    HorizontalOptions="CenterAndExpand"
-                    VerticalOptions="CenterAndExpand"
-                    Grid.Row="0" Grid.Column="0"
-                    Grid.RowSpan="2"
-                    BackgroundColor="#F1F3FD"
-                    Margin="16,0,0,0"
-                    CornerRadius="6"/>
+                            ImageSource="{StaticResource ic_like_gray}"
+                            HorizontalOptions="CenterAndExpand"
+                            VerticalOptions="CenterAndExpand"
+                            Grid.Row="0" Grid.Column="0"
+                            Grid.RowSpan="2"
+                            BackgroundColor="{StaticResource LightLightGray}"
+                            Margin="16,0,0,0"
+                            CornerRadius="6"/>
 
                     <Label x:Name="lName"
-                   FontSize="25"
-                   TextColor="#1E242B"
-                   Padding="12, 0, 15, 0"
-                   Grid.Column="1"
-                   Grid.Row="0"/>
+                           FontSize="25"
+                           TextColor="{StaticResource Black}"
+                           Padding="12, 0, 15, 0"
+                           Grid.Column="1"
+                           Grid.Row="0"/>
 
                     <Label x:Name="lCoordinate"
-                   FontSize="20"
-                   Padding="12, 0, 0, 0"
-                   TextColor="#3D4E61"
-                   Grid.Column="1"
-                   Grid.Row="1"/>
-                    
+                           FontSize="20"
+                           Padding="12, 0, 0, 0"
+                           TextColor="{StaticResource GarkGray}"
+                           Grid.Column="1"
+                           Grid.Row="1"/>
+
                     <Button x:Name="bMenu" 
-                    ImageSource="ic_left_gray.png"
-                    Grid.Row="0"
-                    Grid.Column="2"
-                    Grid.RowSpan="2"
-                        WidthRequest="56"
-                        HeightRequest="75"
-                    BackgroundColor="Transparent"
+                            ImageSource="{StaticResource ic_left_gray}"
+                            Grid.Row="0"
+                            Grid.Column="2"
+                            Grid.RowSpan="2"
+                            WidthRequest="56"
+                            HeightRequest="75"
+                            BackgroundColor="Transparent"
                             VerticalOptions="Fill"
-                    HorizontalOptions="Fill"/>
+                            HorizontalOptions="Fill"/>
 
 
                     <Button x:Name="bDelete" 
-                    ImageSource="ic_delete.png"
-                    Grid.Row="0"
-                    Grid.Column="3"
-                    Grid.RowSpan="2"
-                    
-                    BackgroundColor="#F24545"/>
+                            ImageSource="{StaticResource ic_delete}"
+                            Grid.Row="0"
+                            Grid.Column="3"
+                            Grid.RowSpan="2"
+                            BackgroundColor="{StaticResource LightRed}"/>
 
 
                     <Button x:Name="bEdit" 
-                    ImageSource="ic_edit.png"
-                    Grid.Row="0"
-                    Grid.Column="4"
-                    Grid.RowSpan="2"
-                    
-                    BackgroundColor="#596EFB"/>
+                            ImageSource="{StaticResource ic_edit}"
+                            Grid.Row="0"
+                            Grid.Column="4"
+                            Grid.RowSpan="2"
+                            BackgroundColor="{StaticResource LightBlue}"/>
 
                 </Grid>
             </StackLayout>
@@ -86,9 +85,8 @@
                     <RowDefinition Height="2"/>
                 </Grid.RowDefinitions>
                 <Frame Grid.Row="0"
-                   
-                   BackgroundColor="#F1F3FD"
-                   HeightRequest="2"/>
+                       BackgroundColor="{StaticResource LightLightGray}"
+                       HeightRequest="2"/>
             </Grid>
 
         </StackLayout>

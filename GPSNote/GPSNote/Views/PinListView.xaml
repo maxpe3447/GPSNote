@@ -5,14 +5,14 @@
              xmlns:controls="clr-namespace:GPSNote.Controls"
              prism:ViewModelLocator.AutowireViewModel="True"
              x:Class="GPSNote.Views.PinListView"
-             x:Name="pinListView"
              Title="{Binding Title}"
-             IconImageSource="ic_pin.png">
+             IconImageSource="{StaticResource ic_pin}">
     <ContentPage.Content>
         <AbsoluteLayout >
 
             <StackLayout >
 
+                <!--SEARCH LINE-->
                 <controls:SearchLine TextLine="{Binding SearchPin}" 
                                      CommandSearch="{Binding SearchCommand}"
                                      Padding="0,0,40,0"
@@ -21,32 +21,34 @@
 
 
                 <ScrollView >
+                    
+                    <!--PINS LIST-->
                     <ListView ItemsSource="{Binding PinModelsList, Mode=TwoWay}"
-                              HasUnevenRows="True"
                               SelectedItem="{Binding SelectedPin, Mode=TwoWay}"
-Margin="0,0,0,60"
+                              HasUnevenRows="True"
+                              Margin="0,0,0,60"
                               SeparatorVisibility="None">
 
                         <ListView.ItemTemplate>
                             <DataTemplate>
 
+                                <!--PIN ITEM-->
                                 <controls:ItemListPin TextName="{Binding Name}"
                                                       TextCoord="{Binding Coordinate}"
                                                       LikeCommand="{Binding LikeCommand}"
                                                       EditCommand="{Binding EditCommand}"
                                                       DeleteCommand="{Binding DeleteCommand}"
                                                       IsFavorit="{Binding IsFavorit, Mode=TwoWay}"/>
-                                
                             </DataTemplate>
                         </ListView.ItemTemplate>
                     </ListView>
                 </ScrollView>
             </StackLayout>
 
-            <Button ImageSource="ic_plus.png"
+            <!--MY LOCATION BUTTON-->
+            <Button ImageSource="{StaticResource ic_plus}"
                     FontSize="35"
-                    BackgroundColor="LightBlue"
-                    TextColor ="White"
+                    BackgroundColor="{StaticResource LightBlue}"
                     AbsoluteLayout.LayoutBounds="1,1"
                     AbsoluteLayout.LayoutFlags="PositionProportional"
                     Margin="0, 0, 30, 70"
@@ -56,4 +58,4 @@ Margin="0,0,0,60"
                     Command="{Binding CreatePinCommand}"/>
         </AbsoluteLayout>
     </ContentPage.Content>
-    </ContentPage>
+</ContentPage>

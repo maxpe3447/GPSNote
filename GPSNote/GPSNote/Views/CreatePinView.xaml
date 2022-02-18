@@ -7,14 +7,6 @@
              prism:ViewModelLocator.AutowireViewModel="True"
              x:Class="GPSNote.Views.CreatePinView">
 
-    <!--<ContentPage.ToolbarItems>
-        <ToolbarItem Text="Save"
-                     Command="{Binding SaveCommand}"/>
-        <ToolbarItem Text="Cancel"
-                     Command="{Binding CancelCommand}"/>
-    </ContentPage.ToolbarItems>-->
-   
-    
     <ContentPage.Content>
 
         <Grid>
@@ -36,14 +28,14 @@
                     </Grid.RowDefinitions>
 
                     <!--LABEL Add pin-->
-                    <Label Text="Add pin"
-                       Grid.Row="0"
-                       TextColor="#1E242B"
-                       FontSize="20"
-                       FontFamily="Montserrat"
-                       HorizontalTextAlignment="Center"
-                       VerticalTextAlignment="Center"
-                       Margin="0,0,0,10"/>
+                    <Label Text="{Binding TextResources[AddPin]}"
+                           Grid.Row="0"
+                           TextColor="{StaticResource Black}"
+                           FontSize="20"
+                           FontFamily="{StaticResource MainFont}"
+                           HorizontalTextAlignment="Center"
+                           VerticalTextAlignment="Center"
+                           Margin="0,0,0,10"/>
 
                     <Grid>
                         <Grid.ColumnDefinitions >
@@ -56,57 +48,63 @@
                             <RowDefinition Height="*"/>
                             <RowDefinition Height="1"/>
                         </Grid.RowDefinitions>
+                        
                         <!--BUTTON BACK-->
-                        <Button ImageSource="ic_left_blue.png"
-                            Grid.Row="0" Grid.Column="0"
-                            BackgroundColor="Transparent"
-                            VerticalOptions="Center"
-                            HorizontalOptions="Center"
-                            Command="{Binding CancelCommand}"/>
+                        <Button ImageSource="{StaticResource ic_left_blue}"
+                                Grid.Row="0" Grid.Column="0"
+                                BackgroundColor="Transparent"
+                                VerticalOptions="Center"
+                                HorizontalOptions="Center"
+                                Command="{Binding CancelCommand}"/>
 
                         <!--BUTTON SAVE-->
-                        <Button ImageSource="ic_save.png"
-                            Grid.Row="0" Grid.Column="2"
-                            BackgroundColor="Transparent"
-                            VerticalOptions="Center"
-                            HorizontalOptions="Center"
-                            Command="{Binding SaveCommand}"/>
+                        <Button ImageSource="{StaticResource ic_save}"
+                                Grid.Row="0" Grid.Column="2"
+                                BackgroundColor="Transparent"
+                                VerticalOptions="Center"
+                                HorizontalOptions="Center"
+                                Command="{Binding SaveCommand}"/>
 
                         <!--FRAME-->
                         <Frame WidthRequest="2"
-                           HeightRequest="2"
-                           BackgroundColor="#F1F3FD"
-                           Grid.Row="1" Grid.ColumnSpan="3"/>
+                               HeightRequest="2"
+                               BackgroundColor="{StaticResource LightLightGray}"
+                               Grid.Row="1" Grid.ColumnSpan="3"/>
+                        
                     </Grid>
                 </Grid>
 
+                <!--LABEL LABEL-->
+                <Label Text="{Binding TextResources[Label]}"
+                       FontSize="20"
+                       Margin="23, 8.5,0,0"
+                       TextColor="{StaticResource DarkGray}"/>
 
-                <Label Text="Label"
-                   FontSize="20"
-                   Margin="23, 8.5,0,0"
-                   TextColor="#3D4E61"/>
-
+                <!--NAME CANCELLINE-->
                 <controls:CancelLine Text="{Binding Name}"
-                                  FontSize="20"
-                                  BorderColor="Gray"
-                                  Placeholder="Enter the label"
-                                  Margin="20, 0, 20,0"/>
+                                     FontSize="20"
+                                     BorderColor="{StaticResource Gray}"
+                                     Placeholder="{Binding TextResources[EnterLabel]}"
+                                     Margin="20, 0, 20,0"/>
 
-                <Label Text="Description"
-                   FontSize="20"
-                   Margin="23, 10, 0,0"
-                   TextColor="#3D4E61"/>
+                <!--DESCRIPTION LABEL-->
+                <Label Text="{Binding TextResource[Description]}"
+                       FontSize="20"
+                       Margin="23, 10, 0,0"
+                       TextColor="{StaticResource DarkGray}"/>
 
-                <controls:CancelLine  Placeholder="Description"
-                                  Text="{Binding Description}"
-                                  FontSize="20"
-                                  BorderColor="Gray"
-                                  Margin="20, 0, 20,0"/>
+                <!--DESCRIPTION CANCELLINE-->
+                <controls:CancelLine  Placeholder="{Binding TextResources[Description]}"
+                                      Text="{Binding Description}"
+                                      FontSize="20"
+                                      BorderColor="{StaticResource Gray}"
+                                      Margin="20, 0, 20,0"/>
 
-                <Label Text="Position:"
-                   FontSize="20"
-                   Margin="23, 10, 0, 0"
-                   TextColor ="#3D4E61"/>
+                <!--POSITION LABEL-->
+                <Label Text="{Binding TextResources[Position]}"
+                       FontSize="20"
+                       Margin="23, 10, 0, 0"
+                       TextColor ="{StaticResource DarkGray}"/>
 
                 <Grid Margin="20, 0, 20, 0">
                     <Grid.ColumnDefinitions>
@@ -114,20 +112,22 @@
                         <ColumnDefinition Width="*"/>
                     </Grid.ColumnDefinitions>
 
-                    <controls:CancelLine Placeholder="Longitude"
-                                     Text="{Binding Longitude}"
-                                     FontSize="20"
-                                     Grid.Column="0"
-                                     BorderColor="Gray"/>
+                    <!--LONGITUDE CANCELLINE-->
+                    <controls:CancelLine Placeholder="{Binding TextResources[Longitude]}"
+                                         Text="{Binding Longitude}"
+                                         FontSize="20"
+                                         Grid.Column="0"
+                                         BorderColor="{StaticResource Gray}"/>
 
-                    <controls:CancelLine Placeholder="Latitude"
-                                     Text="{Binding Latitude}"
-                                     FontSize="20"
-                                     Grid.Column="1"
-                                     BorderColor="Gray"/>
+                    <!--LATITUDE CANCELLINE-->
+                    <controls:CancelLine Placeholder="{Binding TextResources[Latitude]}"
+                                         Text="{Binding Latitude}"
+                                         FontSize="20"
+                                         Grid.Column="1"
+                                         BorderColor="{StaticResource Gray}"/>
                 </Grid>
 
-
+                <!--MAP-->
                 <controls:BindingMap IsTrafficEnabled="True"
                                      MapType="Street"
                                      GoToPosition="{Binding GoToPosition}"
@@ -141,18 +141,19 @@
 
             </StackLayout>
 
-            <Button ImageSource="ic_location.png"
-                   FontSize="35"
-                   BackgroundColor="#FEFEFD"
-                   Margin="0, 0, 30, 40"
-                   WidthRequest="45"
-                   HeightRequest="45"
-                   CornerRadius="35"
-                   Grid.Row="0"
-                   HorizontalOptions="End"
-                   VerticalOptions="End"
-                   Command="{Binding FindMeCommand}"/>
+            <!--FIND ME BUTTON-->
+            <Button ImageSource="{StaticResource ic_location}"
+                    FontSize="35"
+                    BackgroundColor="{StaticResource White}"
+                    Margin="0, 0, 30, 40"
+                    WidthRequest="45"
+                    HeightRequest="45"
+                    CornerRadius="35"
+                    Grid.Row="0"
+                    HorizontalOptions="End"
+                    VerticalOptions="End"
+                    Command="{Binding FindMeCommand}"/>
         </Grid>
     </ContentPage.Content>
-    
+
 </ContentPage>

@@ -4,6 +4,7 @@
              xmlns:prism="http://prismlibrary.com"
              x:Class="GPSNote.App">
     <Application.Resources>
+        
         <!--Colors-->
         <Color x:Key="White">#FEFEFD</Color>
         <Color x:Key="LightBlue">#596EFB</Color>
@@ -11,6 +12,8 @@
         <Color x:Key="Gray">#858E9E</Color>
         <Color x:Key="DarkGray">#3D4E61</Color>     <!--Labels-->
         <Color x:Key="Black">#1E242B</Color>
+        <Color x:Key="LightLightGray">#F1F3FD</Color>
+        <Color x:Key="LightRed">#F24545</Color>
         
         <!--Images-->
         <ImageSource x:Key="pic_enter_page_big">pic_enter_page2x.png</ImageSource>
@@ -18,6 +21,13 @@
         <ImageSource x:Key="ic_left_blue">ic_left_blue.png</ImageSource>
         <ImageSource x:Key="ic_map">ic_map.png</ImageSource>
         <ImageSource x:Key="ic_location">ic_location.png</ImageSource>
+        <ImageSource x:Key="ic_plus">ic_plus.png</ImageSource>
+        <ImageSource x:Key="ic_pin">ic_pin.png</ImageSource>
+        <ImageSource x:Key="ic_save">ic_save.png</ImageSource>
+        <ImageSource x:Key="ic_like_gray">ic_like_gray.png</ImageSource>
+        <ImageSource x:Key="ic_left_gray">ic_left_gray.png</ImageSource>
+        <ImageSource x:Key="ic_delete">ic_delete.png</ImageSource>
+        <ImageSource x:Key="ic_edit">ic_edit.png</ImageSource>
         
         <!--Fonts-->
         <x:String x:Key="MainFont">Montserrat</x:String>

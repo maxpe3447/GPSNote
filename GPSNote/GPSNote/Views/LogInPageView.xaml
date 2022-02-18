@@ -130,7 +130,8 @@
                     Margin="16, 0, 16, 0"
                     BorderWidth="1.5"
                     ImageSource="{StaticResource ic_google}"
-                    CornerRadius="1"/>
+                    CornerRadius="1"
+                    Command="{Binding GoogleAuthCommand}"/>
 
         </StackLayout>
     </ContentPage.Content>

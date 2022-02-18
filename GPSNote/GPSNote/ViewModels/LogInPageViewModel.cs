@@ -2,6 +2,7 @@
 using GPSNote.Models;
 using GPSNote.Resources;
 using GPSNote.Services.Authentication;
+//using GPSNote.Services.GoogleAuth;
 using GPSNote.Services.Repository;
 using GPSNote.Services.Settings;
 using Prism.Navigation;
@@ -26,7 +27,7 @@ namespace GPSNote.ViewModels
 
             SigninCommand = new Command(SignInRelease);
             BackCommand = new  Command(BackCommandRelease);
-
+            GoogleAuthCommand = new Command(GoogleAuthCommandRelease);
             TextResources = new TextResources(typeof(Resources.TextControls));
 
             ErrorColor = Color.Gray;
@@ -109,6 +110,12 @@ namespace GPSNote.ViewModels
         private async void BackCommandRelease()
         {
             await NavigationService.GoBackAsync();
+        }
+
+        public ICommand GoogleAuthCommand { get; }
+        private void GoogleAuthCommandRelease()
+        {
+            //GoogleAuth.GoogleAuthentication();
         }
         #endregion
 

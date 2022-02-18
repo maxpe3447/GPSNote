@@ -1,5 +1,6 @@
 ﻿using Acr.UserDialogs;
 using GPSNote.Controls;
+using GPSNote.Helpers;
 using GPSNote.Models;
 using GPSNote.Services.Repository;
 using GPSNote.Views;
@@ -26,7 +27,7 @@ namespace GPSNote.ViewModels
         {
             _Repository = repository;
 
-            Title = "Create Pin";
+            TextResources = new TextResources(typeof(Resources.TextControls));
 
             SaveCommand = new Command(SaveCommandRelease);
             CancelCommand = new Command(CancelCommandRelease);
@@ -40,13 +41,6 @@ namespace GPSNote.ViewModels
             get => _pinModelssList ?? (_pinModelssList = new ObservableCollection<Pin>());
             set => SetProperty(ref _pinModelssList, value);
         }
-
-        //private List<Pin> _pinsList;
-        //public List<Pin> PinsList
-        //{
-        //    get => _pinsList ?? (_pinsList = new List<Pin>());
-        //    set => SetProperty(ref _pinsList, value);
-        //}
 
         private Position _selectedPosition;
         public Position SelectedPosition
@@ -120,6 +114,13 @@ namespace GPSNote.ViewModels
         {
             get => _isShowingUser;
             set => SetProperty(ref _isShowingUser, value);
+        }
+
+        private TextResources _textResources;
+        public TextResources TextResources
+        {
+            get => _textResources;
+            set => SetProperty(ref _textResources, value);
         }
         #endregion
 

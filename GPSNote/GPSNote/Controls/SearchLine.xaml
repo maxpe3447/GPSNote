@@ -3,7 +3,7 @@
              xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml" xmlns:controls="clr-namespace:GPSNote.Controls"
              x:Class="GPSNote.Controls.SearchLine">
     <ContentView.Content>
-        <StackLayout BackgroundColor="#FEFEFD">
+        <StackLayout BackgroundColor="{StaticResource White}">
             <Grid Margin="0, 10, 0, 0">
                 
                 <Grid.RowDefinitions>
