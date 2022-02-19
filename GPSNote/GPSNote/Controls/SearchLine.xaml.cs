@@ -17,51 +17,51 @@ namespace GPSNote.Controls
     public partial class SearchLine : ContentView
     {
         #region -- BindableProperty --
-        public static readonly BindableProperty TextLineProperty = BindableProperty.Create(
-            nameof(TextLine),
-            typeof(string),
-            typeof(SearchLine),
-            defaultValue: string.Empty,
-            defaultBindingMode: BindingMode.TwoWay,
-            propertyChanged: TextLineChanged);
+        public static readonly BindableProperty TextLineProperty = 
+            BindableProperty.Create(nameof(TextLine),
+                                    typeof(string),
+                                    typeof(SearchLine),
+                                    defaultValue: string.Empty,
+                                    defaultBindingMode: BindingMode.TwoWay,
+                                    propertyChanged: TextLineChanged);
 
-        public static readonly BindableProperty CommandSearchProperty = BindableProperty.Create(
-            nameof(CommandSearch),
-            typeof(ICommand),
-            typeof(SearchLine),
-            defaultValue: default(Command),
-            defaultBindingMode: BindingMode.TwoWay,
-            propertyChanged: ComandSearchChanged);
+        public static readonly BindableProperty CommandSearchProperty = 
+            BindableProperty.Create(nameof(CommandSearch),
+                                    typeof(ICommand),
+                                    typeof(SearchLine),
+                                    defaultValue: default(Command),
+                                    defaultBindingMode: BindingMode.TwoWay,
+                                    propertyChanged: CommandSearchChanged);
 
-        public static readonly BindableProperty ItemsSourceProperty = BindableProperty.Create(
-            nameof(ItemsSource),
-            typeof(List<PinModel>),
-            typeof(SearchLine),
-            defaultValue: default(List<PinModel>),
-            defaultBindingMode: BindingMode.TwoWay,
-            propertyChanged: ItemsSourceChanged);
+        public static readonly BindableProperty ItemsSourceProperty = 
+            BindableProperty.Create(nameof(ItemsSource),
+                                    typeof(List<PinModel>),
+                                    typeof(SearchLine),
+                                    defaultValue: default(List<PinModel>),
+                                    defaultBindingMode: BindingMode.TwoWay,
+                                    propertyChanged: ItemsSourceChanged);
 
-        public static readonly BindableProperty SelectedItemProperty = BindableProperty.Create(
-            nameof(SelectedItem),
-            typeof(PinModel),
-            typeof(SearchLine),
-            defaultValue: default(PinModel),
-            defaultBindingMode: BindingMode.TwoWay,
-            propertyChanged: SelectedItemChanged);
+        public static readonly BindableProperty SelectedItemProperty = 
+            BindableProperty.Create(nameof(SelectedItem),
+                                    typeof(PinModel),
+                                    typeof(SearchLine),
+                                    defaultValue: default(PinModel),
+                                    defaultBindingMode: BindingMode.TwoWay,
+                                    propertyChanged: SelectedItemChanged);
 
-        public static readonly BindableProperty TextChangeCommandProperty = BindableProperty.Create(
-            nameof(TextChangeCommand),
-            typeof(ICommand),
-            typeof(SearchLine),
-            defaultValue: default(ICommand),
-            defaultBindingMode: BindingMode.TwoWay);
+        public static readonly BindableProperty TextChangeCommandProperty = 
+            BindableProperty.Create(nameof(TextChangeCommand),
+                                    typeof(ICommand),
+                                    typeof(SearchLine),
+                                    defaultValue: default(ICommand),
+                                    defaultBindingMode: BindingMode.TwoWay);
 
-        public static readonly BindableProperty ExidCommandProperty = BindableProperty.Create(
-            nameof(ExidCommand),
-            typeof(ICommand),
-            typeof(SearchLine),
-            defaultValue: default(ICommand),
-            defaultBindingMode: BindingMode.TwoWay);
+        public static readonly BindableProperty ExidCommandProperty = 
+            BindableProperty.Create(nameof(ExidCommand),
+                                    typeof(ICommand),
+                                    typeof(SearchLine),
+                                    defaultValue: default(ICommand),
+                                    defaultBindingMode: BindingMode.TwoWay);
 
         public static readonly BindableProperty KeyBoardProperty =
             BindableProperty.Create(nameof(KeyBoard),
@@ -79,19 +79,14 @@ namespace GPSNote.Controls
                                     defaultBindingMode: BindingMode.TwoWay,
                                     propertyChanged: OnFontFamilyChanged);
 
+        #endregion
+
+        #region -- Propirties --
         public string FontFamily
         {
             get { return (string)GetValue(FontFamilyProperty); }
             set { SetValue(FontFamilyProperty, value); }
         }
-        private static void OnFontFamilyChanged(BindableObject bindable, object oldValue, object newValue)
-        {
-            var passLine = (SearchLine)bindable;
-            passLine.line.FontFamily = newValue.ToString();
-        }
-        #endregion
-
-        #region -- Propirties --
         public string TextLine
         {
             get => base.GetValue(TextLineProperty)?.ToString();
@@ -145,7 +140,7 @@ namespace GPSNote.Controls
             control.line.Text = newValue?.ToString();
         }
 
-        private static void ComandSearchChanged(BindableObject bindable, object oldValue, object newValue)
+        private static void CommandSearchChanged(BindableObject bindable, object oldValue, object newValue)
         {
             var control = (SearchLine)bindable;
 
@@ -223,6 +218,12 @@ namespace GPSNote.Controls
                       ExidCommand.Execute(null);
                   }
               };
+        }
+        
+        private static void OnFontFamilyChanged(BindableObject bindable, object oldValue, object newValue)
+        {
+            var passLine = (SearchLine)bindable;
+            passLine.line.FontFamily = newValue.ToString();
         }
     }
 }

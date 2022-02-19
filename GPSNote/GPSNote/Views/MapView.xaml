@@ -47,7 +47,8 @@
                                              FontFamily="{StaticResource MainFont}"
                                              Name="{Binding DescName}"
                                              Coordinate="{Binding DescCoordinate}"
-                                             Description ="{Binding DescDescription}"/>
+                                             Description ="{Binding DescDescription}"
+                                             ShareCommand="{Binding ShareCommand}"/>
 
                 </ScrollView>
 

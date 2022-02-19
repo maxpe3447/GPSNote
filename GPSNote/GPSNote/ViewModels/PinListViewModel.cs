@@ -45,13 +45,12 @@ namespace GPSNote.ViewModels
             {
                 SetProperty(ref _selectedPin, value);
 
+                if (value == null) return;
 
                 NavigationParameters keyValues = new NavigationParameters();
                 keyValues.Add(nameof(SelectedPin), SelectedPin);
 
                 NavigationService.SelectTabAsync(nameof(Views.MapView), keyValues);
-
-                //PinModelsList
             }
         }
 

@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
-
+using System.Windows.Input;
 using Xamarin.Forms;
 
 namespace GPSNote.Controls
@@ -117,6 +117,26 @@ namespace GPSNote.Controls
             desc.lCoordinate.FontFamily = 
                 desc.lCoordinate.FontFamily = 
                 desc.lName.FontFamily = newValue.ToString();
+        }
+
+        public static readonly BindableProperty ShareCommandProperty =
+            BindableProperty.Create(nameof(ShareCommand),
+                                    typeof(ICommand),
+                                    typeof(TabDescription),
+                                    defaultValue: default(Command),
+                                    defaultBindingMode: BindingMode.TwoWay,
+                                    propertyChanged: ShareCommandChanged);
+        public ICommand ShareCommand
+        {
+            get => (ICommand)base.GetValue(ShareCommandProperty);
+            set => base.SetValue(ShareCommandProperty, value);
+        }
+
+        private static void ShareCommandChanged(BindableObject bindable, object oldValue, object newValue)
+        {
+            var control = (TabDescription)bindable;
+
+            control.bShare.Command = (ICommand)newValue;
         }
     }
 }

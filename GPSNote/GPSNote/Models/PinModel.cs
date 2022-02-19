@@ -48,7 +48,7 @@ namespace GPSNote.Models
                 }
             }
         }
-
+        public string Address { get; set; }
         [Ignore]
         public string Coordinate { 
             get => $"{position.Latitude:0.00000} {position.Longitude:0.000000}";

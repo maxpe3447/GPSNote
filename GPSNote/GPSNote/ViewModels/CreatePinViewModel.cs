@@ -158,10 +158,11 @@ namespace GPSNote.ViewModels
                string.IsNullOrEmpty(Latitude) ||
                !double.TryParse(Longitude, out var longitude) ||
                !double.TryParse(Latitude, out var latitude) ||
-               pin.Position != new Position(latitude, longitude))
+               !pin.Position.Latitude.ToString().Contains(Latitude.Remove(Latitude.Length-1, 1))||
+               !pin.Position.Longitude.ToString().Contains(Longitude.Remove(Longitude.Length - 1, 1)))
             {
                 await UserDialogs.Instance.AlertAsync("You have bad Longitude, Latitude", "Data Error");
-
+                return;
             }
 
             if (pin.Position == default(Position))
@@ -172,7 +173,19 @@ namespace GPSNote.ViewModels
 
             pin.UserId = _UserId;
             
+            if(Connectivity.NetworkAccess == NetworkAccess.Internet)
+            {
+                Geocoder geoCoder = new Geocoder();
 
+                var address = (await geoCoder.GetAddressesForPositionAsync(pin.Position))
+                                             .FirstOrDefault()
+                                             .Split(new[] { ' ' }, StringSplitOptions.RemoveEmptyEntries)
+                                             .ToList();
+                address.Remove(address.First());
+                address.Remove(address.First());
+
+                pin.Address = String.Join(" ", address);
+            }
             NavigationParameters parameters = new NavigationParameters();
             parameters.Add(nameof(PinModel), pin);
 
@@ -202,7 +215,6 @@ namespace GPSNote.ViewModels
         private void FindMeCommandRelease()
         {
             IsShowingUser = true;
-            //MyLocationButtonEnabled = false;
 
             try
             {

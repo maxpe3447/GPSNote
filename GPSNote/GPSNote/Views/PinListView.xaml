@@ -23,11 +23,11 @@
                 <ScrollView >
                     
                     <!--PINS LIST-->
-                    <ListView ItemsSource="{Binding PinModelsList, Mode=TwoWay}"
-                              SelectedItem="{Binding SelectedPin, Mode=TwoWay}"
-                              HasUnevenRows="True"
-                              Margin="0,0,0,60"
-                              SeparatorVisibility="None">
+                    <controls:UnSelectedItemListView ItemsSource="{Binding PinModelsList, Mode=TwoWay}"
+                                                     SelectedItem="{Binding SelectedPin, Mode=TwoWay}"
+                                                     HasUnevenRows="True"
+                                                     Margin="0,0,0,60"
+                                                     SeparatorVisibility="None">
 
                         <ListView.ItemTemplate>
                             <DataTemplate>
@@ -41,7 +41,7 @@
                                                       IsFavorit="{Binding IsFavorit, Mode=TwoWay}"/>
                             </DataTemplate>
                         </ListView.ItemTemplate>
-                    </ListView>
+                    </controls:UnSelectedItemListView>
                 </ScrollView>
             </StackLayout>
 

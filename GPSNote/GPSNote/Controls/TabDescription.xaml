@@ -19,12 +19,21 @@
                     <Frame Grid.Row="0" Grid.RowSpan="5"
                        CornerRadius="10"/>
 
+                    <Grid Grid.Row="0"
+                          ColumnDefinitions="*, Auto">
+                          
                     <Label x:Name="lName"
-                           
-                       Grid.Row="0"
-                       FontSize="25"
-                       TextColor="{StaticResource Black}"
-                       Margin="16, 16, 0, 0"/>
+                           Grid.Column="0"
+                           FontSize="25"
+                           TextColor="{StaticResource Black}"
+                           Margin="16, 16, 0, 0"/>
+
+                        <Button x:Name="bShare"
+                                Grid.Column="1"
+                                ImageSource="{StaticResource ic_share}"
+                                BackgroundColor="Transparent"/>
+                    </Grid>
+                    
 
                     <Label x:Name="lCoordinate"
                        Grid.Row="1"

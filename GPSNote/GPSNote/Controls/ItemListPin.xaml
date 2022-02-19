@@ -46,7 +46,7 @@
                     <Label x:Name="lCoordinate"
                            FontSize="20"
                            Padding="12, 0, 0, 0"
-                           TextColor="{StaticResource GarkGray}"
+                           TextColor="{StaticResource DarkGray}"
                            Grid.Column="1"
                            Grid.Row="1"/>
 

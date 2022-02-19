@@ -11,7 +11,7 @@
         <Color x:Key="LightGray">#D7DDE8</Color>    <!--Borders-->
         <Color x:Key="Gray">#858E9E</Color>
         <Color x:Key="DarkGray">#3D4E61</Color>     <!--Labels-->
-        <Color x:Key="Black">#1E242B</Color>
+        <Color x:Key="Black">#1E242B</Color>        <!--Titles-->
         <Color x:Key="LightLightGray">#F1F3FD</Color>
         <Color x:Key="LightRed">#F24545</Color>
         
@@ -28,6 +28,7 @@
         <ImageSource x:Key="ic_left_gray">ic_left_gray.png</ImageSource>
         <ImageSource x:Key="ic_delete">ic_delete.png</ImageSource>
         <ImageSource x:Key="ic_edit">ic_edit.png</ImageSource>
+        <ImageSource x:Key="ic_share">ic_share.png</ImageSource>
         
         <!--Fonts-->
         <x:String x:Key="MainFont">Montserrat</x:String>

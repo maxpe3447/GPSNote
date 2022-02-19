@@ -14,6 +14,7 @@ using System;
 using System.Threading;
 using GPSNote.Helpers;
 
+
 namespace GPSNote.ViewModels
 {
     internal class MapViewModel : ViewModelBase
@@ -31,6 +32,7 @@ namespace GPSNote.ViewModels
             ExidCommand = new Command(ExidCommandRelease);
             PinClickCommand = new Command(PinClickCommandRelease);
             MapClickCommand = new Command(MapClickCommandRelease);
+            ShareCommand = new Command(ShareCommandReleaseAsync);
 
             TextResources = new TextResources(typeof(Resources.TextControls));
         }
@@ -187,7 +189,7 @@ namespace GPSNote.ViewModels
             if (MyLocationButtonEnabled)
             {
                 MyLocationButtonEnabled = false;
-                //TabDescriptionHeight = -1;
+                
                 ShowTabDescriptionAsync();
             }
         }
@@ -199,6 +201,23 @@ namespace GPSNote.ViewModels
             
         }
 
+        public ICommand ShareCommand { get; }
+        private async void ShareCommandReleaseAsync()
+        {
+            try
+            {
+                var uri = new Uri($"geo:{PinClick.Position.Latitude},{PinClick.Position.Longitude}");
+                await Share.RequestAsync(new ShareTextRequest
+                {
+                    Text = "Share pin",
+                    Uri = uri.ToString(),
+                    Title = "Share pin label"
+                });
+            }catch(Exception ex)
+            {
+                Acr.UserDialogs.UserDialogs.Instance.Alert(ex.Message);
+            }
+        }
         #endregion
 
         #region -- Override --
@@ -230,12 +249,10 @@ namespace GPSNote.ViewModels
                         var pin = PinsList.FirstOrDefault(x =>  x.Position== removeObj.Position);
 
                             PinsList.Remove(pin);
-                        //}
                     }
                 }
             };
-            InitPinsListAsync();
-            
+            _ = InitPinsListAsync(); 
         }
 
         private async Task InitPinsListAsync()

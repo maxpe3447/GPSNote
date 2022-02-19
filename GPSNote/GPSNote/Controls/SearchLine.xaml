@@ -83,13 +83,14 @@
                                        Text="{Binding Name}"/>
 
                                 <Label FontFamily="Montserrat"
+                                       LineBreakMode="TailTruncation"
                                        Grid.Column="1"
                                        Grid.Row="1"
                                        FontSize="15"
                                        TextColor="#3D4E61"
                                        BackgroundColor="Transparent"
                                        Margin="10, 0,0,0"
-                                       Text="{Binding Description}"/>
+                                       Text="{Binding Address}"/>
                                 
                             </Grid>
                         </ViewCell>

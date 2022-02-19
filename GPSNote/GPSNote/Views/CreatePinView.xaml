@@ -88,7 +88,7 @@
                                      Margin="20, 0, 20,0"/>
 
                 <!--DESCRIPTION LABEL-->
-                <Label Text="{Binding TextResource[Description]}"
+                <Label Text="{Binding TextResources[Description]}"
                        FontSize="20"
                        Margin="23, 10, 0,0"
                        TextColor="{StaticResource DarkGray}"/>
