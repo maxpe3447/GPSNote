@@ -28,7 +28,7 @@
                     </Grid.RowDefinitions>
 
                     <!--LABEL Add pin-->
-                    <Label Text="{Binding TextResources[AddPin]}"
+                    <Label Text="{Binding Title}"
                            Grid.Row="0"
                            TextColor="{StaticResource Black}"
                            FontSize="20"

@@ -2,6 +2,7 @@
 using GPSNote.Controls;
 using GPSNote.Helpers;
 using GPSNote.Models;
+using GPSNote.Services.PinManager;
 using GPSNote.Services.Repository;
 using GPSNote.Views;
 using Prism.Navigation;
@@ -22,10 +23,10 @@ namespace GPSNote.ViewModels
     public class CreatePinViewModel : ViewModelBase
     {
         public CreatePinViewModel(INavigationService navigationService,
-                                  IRepository repository) 
+                                  IPinManager pinManager) 
             : base(navigationService)
         {
-            _Repository = repository;
+            _PinManager = pinManager;
 
             TextResources = new TextResources(typeof(Resources.TextControls));
 
@@ -55,7 +56,7 @@ namespace GPSNote.ViewModels
 
                 if (string.IsNullOrEmpty(Longitude))
                 {
-                    Acr.UserDialogs.UserDialogs.Instance.Alert("Please, select marker!");
+                    UserDialogs.Instance.Alert("Please, select marker!");
                     return;
                 }
 
@@ -141,14 +142,14 @@ namespace GPSNote.ViewModels
             } ;
 
             pin.Name = Name;
-            if(string.IsNullOrEmpty(pin.Name) || pin.Name == _errorMsg)
+            if(string.IsNullOrEmpty(pin.Name))
             {
                 await UserDialogs.Instance.AlertAsync("Please, enter \'Name\' of marker", "Data Error");
                 return;
             }
 
             pin.Description = Description;
-            if (string.IsNullOrEmpty(pin.Description) || pin.Description == _errorMsg)
+            if (string.IsNullOrEmpty(pin.Description))
             {
                 await UserDialogs.Instance.AlertAsync("Please, enter \'Description\' of marker", "Data Error");
                 return;
@@ -181,10 +182,11 @@ namespace GPSNote.ViewModels
                                              .FirstOrDefault()
                                              .Split(new[] { ' ' }, StringSplitOptions.RemoveEmptyEntries)
                                              .ToList();
+
                 address.Remove(address.First());
                 address.Remove(address.First());
 
-                pin.Address = String.Join(" ", address);
+                pin.Address = string.Join(" ", address);
             }
             NavigationParameters parameters = new NavigationParameters();
             parameters.Add(nameof(PinModel), pin);
@@ -194,13 +196,15 @@ namespace GPSNote.ViewModels
                 pin.Id = _oldPin.Id;
                 pin.UserId = _oldPin.UserId;
 
-                await _Repository.UpdateAsync<PinModel>(pin);
+                await _PinManager.UpdateAsync(pin);
 
-                parameters.Add($"{nameof(PinModel)}_del", _oldPin);
+                var pinForDel = _oldPin;
+                parameters.Add(nameof(pinForDel), pinForDel);
+                
             }
             else
             {
-                await _Repository.InsertAsync<PinModel>(pin);
+                await _PinManager.InsertAsync(pin);
             }
 
             await NavigationService.GoBackAsync(parameters);
@@ -222,7 +226,7 @@ namespace GPSNote.ViewModels
             }
             catch
             {
-                Acr.UserDialogs.UserDialogs.Instance.Alert("Please, check your GPS settings.");
+                UserDialogs.Instance.Alert("Please, check your GPS settings.");
             }
         }
         #endregion
@@ -232,36 +236,36 @@ namespace GPSNote.ViewModels
         {
             if(parameters.TryGetValue<int>(nameof(PinModel.UserId), out int id)){
                 _UserId = id;
+                Title = Resources.TextControls.AddPin;
             }
 
-            string key = "purpose";
-            if (parameters.ContainsKey(key))
+            if (parameters.TryGetValue(nameof(_isEditPin), out _isEditPin) && _isEditPin)
             {
-                Title = parameters.GetValue<string>(key);
 
-                PinModel pin = parameters.GetValue<PinModel>(nameof(pin));
-                _oldPin = pin;
-                Name = pin.Name;
-                Description = pin.Description;
-                Longitude = pin.Coordinate;
+                _oldPin = parameters.GetValue<PinModel>(nameof(PinModel));
+                
+                Name = _oldPin.Name;
+                Description = _oldPin.Description;
+                Longitude = _oldPin.Coordinate;
 
 
                 PinsList.Add(new Pin
                 {
                     Label = Name,
                     Address = Description,
-                    Position = pin.Position
+                    Position = _oldPin.Position
                 });
 
-                GoToPosition = pin.Position;
+                GoToPosition = _oldPin.Position;
+                Title = Resources.TextControls.EditPin;
             }
         }
         #endregion
 
         #region -- Private --
         private PinModel _oldPin = null;
-        private string _errorMsg { get; } = "NaN";
-        private IRepository _Repository { get; }
+        private bool _isEditPin;
+        private IPinManager _PinManager { get; }
         private int _UserId { get; set; }
         #endregion
     }

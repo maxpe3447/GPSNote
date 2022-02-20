@@ -13,7 +13,7 @@ using Xamarin.Essentials;
 using System;
 using System.Threading;
 using GPSNote.Helpers;
-
+using Acr.UserDialogs;
 
 namespace GPSNote.ViewModels
 {
@@ -173,7 +173,7 @@ namespace GPSNote.ViewModels
             }
             catch (Exception ex)
             {
-                Acr.UserDialogs.UserDialogs.Instance.Alert("Please, check your GPS settings.");
+                UserDialogs.Instance.Alert("Please, check your GPS settings.");
             }
         }
 
@@ -215,7 +215,7 @@ namespace GPSNote.ViewModels
                 });
             }catch(Exception ex)
             {
-                Acr.UserDialogs.UserDialogs.Instance.Alert(ex.Message);
+                UserDialogs.Instance.Alert(ex.Message);
             }
         }
         #endregion
@@ -223,7 +223,6 @@ namespace GPSNote.ViewModels
         #region -- Override --
         public override void Initialize(INavigationParameters parameters)
         {
-            
 
             if (parameters.ContainsKey(nameof(PinModel.UserId)))
             {
@@ -253,24 +252,8 @@ namespace GPSNote.ViewModels
                 }
             };
             _ = InitPinsListAsync(); 
+            
         }
-
-        private async Task InitPinsListAsync()
-        {
-            await Task.Run(() =>
-            {
-                for(int i = 0; i < PinModelsList.Count; i++)
-                {
-                    PinsList.Add(new Pin
-                    {
-                        Label = PinModelsList[i].Name,
-                        Position = PinModelsList[i].Position,
-                        Icon = BitmapDescriptorFactory.FromView(new Controls.BindingPinIconView("ic_placeholder.png"))
-                    });
-                }
-            });
-
-        } 
 
         public override void OnNavigatedFrom(INavigationParameters parameters)
         {
@@ -285,6 +268,7 @@ namespace GPSNote.ViewModels
         public override void OnNavigatedTo(INavigationParameters parameters)
         {
             base.OnNavigatedTo(parameters);
+            
             //if (parameters.TryGetValue<List<PinModel>>(nameof(PinModelsList), out var newCounterValue))
             //{
             //    PinModelsList = newCounterValue;
@@ -341,6 +325,23 @@ namespace GPSNote.ViewModels
             DescName = model?.Name;
             DescCoordinate = model?.Coordinate;
             DescDescription = model?.Description;
+
+        }
+
+        private async Task InitPinsListAsync()
+        {
+            await Task.Run(() =>
+            {
+                for (int i = 0; i < PinModelsList.Count; i++)
+                {
+                    PinsList.Add(new Pin
+                    {
+                        Label = PinModelsList[i].Name,
+                        Position = PinModelsList[i].Position,
+                        Icon = BitmapDescriptorFactory.FromView(new Controls.BindingPinIconView("ic_placeholder.png"))
+                    });
+                }
+            });
 
         }
         #endregion

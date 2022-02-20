@@ -115,6 +115,15 @@ namespace GPSNote.Resources {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Edit pin.
+        /// </summary>
+        internal static string EditPin {
+            get {
+                return ResourceManager.GetString("EditPin", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Email.
         /// </summary>
         internal static string Email {

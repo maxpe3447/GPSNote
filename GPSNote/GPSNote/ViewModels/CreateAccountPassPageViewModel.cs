@@ -1,5 +1,7 @@
-﻿using GPSNote.Helpers;
+﻿using Acr.UserDialogs;
+using GPSNote.Helpers;
 using GPSNote.Models;
+using GPSNote.Services.Authentication;
 using GPSNote.Services.Autherization;
 using Prism.Navigation;
 using System;
@@ -13,13 +15,15 @@ namespace GPSNote.ViewModels
     public class CreateAccountPassPageViewModel : ViewModelBase
     {
         public CreateAccountPassPageViewModel(INavigationService navigationService,
-                                              IAutherization autherization)
+                                              IAutherization autherization,
+                                              IAuthentication authentication)
             : base(navigationService)
         {
             BackCommand = new Command(BackCommandRelease);
             CreateAccountCommand = new Command(CreateAccountCommandRelease);
 
             _Autherization = autherization;
+            _Authentication = authentication;
 
             TextResources = new TextResources(typeof(Resources.TextControls));
 
@@ -72,7 +76,7 @@ namespace GPSNote.ViewModels
         }
 
         public ICommand CreateAccountCommand { get; }
-        private void CreateAccountCommandRelease()
+        private async void CreateAccountCommandRelease()
         {
             if(UserPassword != UserPasswordRepeat)
             {
@@ -86,9 +90,14 @@ namespace GPSNote.ViewModels
                 ErrorColor = Color.Gray;
             }
             _userModel.Password = UserPassword;
-            _Autherization.CreateAccount(_userModel);
-
-            NavigationService.GoBackToRootAsync();
+            await _Autherization.CreateAccount(_userModel);
+            
+            if(_Authentication.IsExistAsync(_userModel, out int id))
+            {
+                NavigationParameters parameters = new NavigationParameters();
+                parameters.Add(nameof(PinModel.UserId), id);
+                await NavigationService.NavigateAsync($"/{nameof(Views.MainPage)}?createTab={nameof(Views.MapView)}&createTab={nameof(Views.PinListView)}", parameters);
+            }
         }
         #endregion
 
@@ -106,6 +115,7 @@ namespace GPSNote.ViewModels
         #region -- Private --
         private UserModel _userModel;
         private IAutherization _Autherization { get; }
+        private IAuthentication _Authentication { get; }
         #endregion
     }
 }

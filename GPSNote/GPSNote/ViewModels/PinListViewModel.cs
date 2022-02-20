@@ -16,12 +16,12 @@ namespace GPSNote.ViewModels
     public class PinListViewModel : ViewModelBase
     {
         public PinListViewModel(INavigationService navigationService,
-                                IPinManager repository) 
+                                IPinManager pinManager) 
             : base(navigationService)
         {
             Title = Resources.TextControls.Pins;
 
-            _PinManager = repository;
+            _PinManager = pinManager;
 
             CreatePinCommand = new Command(CreatePinCommandRelease);
             SearchCommand = new Command(SearchCommandRelease);
@@ -133,14 +133,24 @@ namespace GPSNote.ViewModels
         public ICommand EditCommand { get; }
         private void EditCommandRelease(object obj)
         {
-
-            var model = PinModelsList.First(p => p.Coordinate == obj.ToString());
-            if (model != null)
+            PinModel model;
+            try
             {
-                Acr.UserDialogs.UserDialogs.Instance.Alert($"Edit: {model.Name}");
+                model = PinModelsList.First(p => p.Coordinate == obj.ToString());
             }
-            _mainList = PinModelsList;
+            catch (Exception ex)
+            {
+                Acr.UserDialogs.UserDialogs.Instance.Alert("Error edit pin!", "Error", "Ok");
+                return;
+            }
 
+            _isEditPin = true;
+
+            NavigationParameters parametrs = new NavigationParameters();
+            parametrs.Add(nameof(_isEditPin), true);
+            parametrs.Add(nameof(PinModel), model);
+
+            NavigationService.NavigateAsync(nameof(Views.CreatePinView), parametrs);
         }
         #endregion
 
@@ -165,26 +175,24 @@ namespace GPSNote.ViewModels
                 PinModelsList = initilazingPinNodelList;
             }
             int index = -1;
-            if(parameters.TryGetValue<PinModel>($"{nameof(PinModel)}_del", out var delPinModel))
+            PinModel pinForDel;
+            if (parameters.TryGetValue(nameof(pinForDel), out pinForDel))
             {
-                index = PinModelsList.IndexOf(delPinModel);
-                PinModelsList.Remove(delPinModel);
+                index = PinModelsList.IndexOf(pinForDel);
+                PinModelsList.Remove(pinForDel);
 
             }
             if(parameters.TryGetValue<PinModel>(nameof(PinModel), out var newPinModel))
             {
+
+                BindCommnad(newPinModel);
                 if (index == -1)
                 {
                     PinModelsList.Add(newPinModel);
-
-                    BindCommnad(PinModelsList[PinModelsList.Count-1]);
                 }
                 else
                 {
                     PinModelsList.Insert(index, newPinModel);
-
-                    BindCommnad(PinModelsList[index]);
-                    
                 }
             }
 
@@ -206,6 +214,7 @@ namespace GPSNote.ViewModels
 
         #region -- Private --
         private int UserId { get; set; }
+        private bool _isEditPin;
         private IPinManager _PinManager { get; }
         private ObservableCollection<PinModel> _mainList;
 

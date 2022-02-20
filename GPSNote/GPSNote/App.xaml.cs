@@ -6,6 +6,7 @@ using Xamarin.Essentials;
 using GPSNote.Services.Authentication;
 using GPSNote.Services.Autherization;
 using GPSNote.Services.Settings;
+using GPSNote.Services.PinManager;
 
 namespace GPSNote
 {
@@ -32,6 +33,7 @@ namespace GPSNote
             containerRegistry.RegisterInstance<IAuthentication>(Container.Resolve<Authentication>());
             containerRegistry.RegisterInstance<IAutherization>(Container.Resolve<Autherization>());
             containerRegistry.RegisterInstance<ISettingsManager>(Container.Resolve<SettingsManager>());
+            containerRegistry.RegisterInstance<IPinManager>(Container.Resolve<PinManager>());
 
             //Navigarion
             containerRegistry.RegisterForNavigation<NavigationPage>();
