@@ -1,5 +1,6 @@
 ﻿using GpsNote.Extensions;
 using GPSNote.Models;
+using GPSNote.Services.PinManager;
 using GPSNote.Services.Repository;
 using Prism.Navigation;
 using System;
@@ -15,12 +16,12 @@ namespace GPSNote.ViewModels
     public class PinListViewModel : ViewModelBase
     {
         public PinListViewModel(INavigationService navigationService,
-                                IRepository repository) 
+                                IPinManager repository) 
             : base(navigationService)
         {
             Title = Resources.TextControls.Pins;
 
-            _Repository = repository;
+            _PinManager = repository;
 
             CreatePinCommand = new Command(CreatePinCommandRelease);
             SearchCommand = new Command(SearchCommandRelease);
@@ -110,7 +111,7 @@ namespace GPSNote.ViewModels
             PinModelsList.Remove(model);
             model.IsFavorit = !model.IsFavorit;
             PinModelsList.Insert(index, model);
-            _Repository.UpdateAsync(model);
+            _PinManager.UpdateAsync(model);
 
             _mainList = PinModelsList;
 
@@ -122,7 +123,7 @@ namespace GPSNote.ViewModels
         {
             var model = PinModelsList.First(p => p.Coordinate == obj.ToString());
                 
-                _Repository.DeleteAsync(model);
+                _PinManager.DeleteAsync(model);
                 int index = PinModelsList.IndexOf(model);
                 PinModelsList.Remove(model);
             _mainList = PinModelsList;
@@ -205,7 +206,7 @@ namespace GPSNote.ViewModels
 
         #region -- Private --
         private int UserId { get; set; }
-        private IRepository _Repository { get; }
+        private IPinManager _PinManager { get; }
         private ObservableCollection<PinModel> _mainList;
 
         private void BindCommnad(PinModel model)
