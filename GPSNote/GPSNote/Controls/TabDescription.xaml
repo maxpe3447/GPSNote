@@ -15,41 +15,48 @@
                         <RowDefinition Height="Auto"/>
                     </Grid.RowDefinitions>
 
-
+                    <!--BACKGROUND OF TAG-->
                     <Frame Grid.Row="0" Grid.RowSpan="5"
-                       CornerRadius="10"/>
+                           CornerRadius="10"/>
 
                     <Grid Grid.Row="0"
                           ColumnDefinitions="*, Auto">
-                          
-                    <Label x:Name="lName"
-                           Grid.Column="0"
-                           FontSize="25"
-                           TextColor="{StaticResource Black}"
-                           Margin="16, 16, 0, 0"/>
 
+                        <!--NAME LABEL-->
+                        <Label x:Name="lName"
+                               Grid.Column="0"
+                               FontSize="25"
+                               FontFamily="{StaticResource MainFont}"
+                               TextColor="{StaticResource Black}"
+                               Margin="16, 16, 0, 0"/>
+
+                        <!--SHARE BUTTON-->
                         <Button x:Name="bShare"
                                 Grid.Column="1"
                                 ImageSource="{StaticResource ic_share}"
                                 BackgroundColor="Transparent"/>
                     </Grid>
-                    
 
+                    <!--COORDINATE LABEL-->
                     <Label x:Name="lCoordinate"
-                       Grid.Row="1"
-                       FontSize="18"
-                       Margin="16, 0, 0, 16"
-                       TextColor="#3D4E61"/>
+                           Grid.Row="1"
+                           FontSize="18"
+                           Margin="16, 0, 0, 16"
+                           FontFamily="{StaticResource MainFont}"
+                           TextColor="{StaticResource DarkGray}"/>
 
-                    <Frame BackgroundColor="#F1F3FD"
+                    <!--SEPARATOR-->
+                    <Frame BackgroundColor="{StaticResource White}"
                        Margin="16, 0, 16, 0"
                        Grid.Row="2"/>
 
+                    <!--DESCRIPTION LABEL-->
                     <Label x:Name="lDescriptions"
-                       Grid.Row="3"
-                       FontSize="20"
-                       TextColor="#1E242B"
-                       Margin="16, 0, 16, 24"/>
+                           Grid.Row="3"
+                           FontSize="20"
+                           FontFamily="{StaticResource MainFont}"
+                           TextColor="{StaticResource Black}"
+                           Margin="16, 0, 16, 24"/>
 
                 </Grid>
             </StackLayout>

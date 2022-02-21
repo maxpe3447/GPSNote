@@ -117,13 +117,22 @@
   <resheader name="writer">
     <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </resheader>
-  <data name="Cancel" xml:space="preserve">
-    <value>ic_clear.png</value>
+  <data name="ic_clear" xml:space="preserve">
+    <value>ic_clear</value>
   </data>
-  <data name="Eye" xml:space="preserve">
+  <data name="ic_eye" xml:space="preserve">
     <value>ic_eye.png</value>
   </data>
-  <data name="EyeOff" xml:space="preserve">
-    <value>ic_eye_off.png</value>
+  <data name="ic_eye_off" xml:space="preserve">
+    <value>ic_eye_off</value>
+  </data>
+  <data name="ic_like_blue" xml:space="preserve">
+    <value>ic_like_blue</value>
+  </data>
+  <data name="ic_like_gray" xml:space="preserve">
+    <value>ic_like_gray</value>
+  </data>
+  <data name="ic_placeholder" xml:space="preserve">
+    <value>ic_placeholder</value>
   </data>
 </root>

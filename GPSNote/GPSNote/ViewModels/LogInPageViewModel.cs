@@ -3,14 +3,9 @@ using GPSNote.Helpers;
 using GPSNote.Models;
 using GPSNote.Resources;
 using GPSNote.Services.Authentication;
-//using GPSNote.Services.GoogleAuth;
 using GPSNote.Services.Repository;
 using GPSNote.Services.Settings;
 using Prism.Navigation;
-using System;
-using System.Collections.Generic;
-using System.Text;
-using System.Threading.Tasks;
 using System.Windows.Input;
 using Xamarin.Forms;
 
@@ -102,7 +97,7 @@ namespace GPSNote.ViewModels
             }
             else
             {
-                ErrorColor = Color.FromHex("#F24545");
+                ErrorColor = (Color)App.Current.Resources[Resources.ColorsName.LightRed];
                 EmailErrorMsgText = UserMsg.WrongEmail;
                 PasswordErrorMsgText = UserMsg.IncorrectPas;
             }

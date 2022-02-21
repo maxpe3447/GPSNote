@@ -117,46 +117,13 @@
   <resheader name="writer">
     <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </resheader>
-  <data name="BadLongLat" xml:space="preserve">
-    <value>You have bad Longitude, Latitude</value>
+  <data name="LightBlue" xml:space="preserve">
+    <value>LightBlue</value>
   </data>
-  <data name="DataError" xml:space="preserve">
-    <value>Data Error</value>
+  <data name="LightGray" xml:space="preserve">
+    <value>LightGray</value>
   </data>
-  <data name="Error" xml:space="preserve">
-    <value>Error</value>
-  </data>
-  <data name="ErrorEditPin" xml:space="preserve">
-    <value>Error edit pin!</value>
-  </data>
-  <data name="IncorrectPas" xml:space="preserve">
-    <value>The password is incorrect</value>
-  </data>
-  <data name="Ok" xml:space="preserve">
-    <value>Ok</value>
-  </data>
-  <data name="PasswordMismatch" xml:space="preserve">
-    <value>Password Mismatch</value>
-  </data>
-  <data name="PlsAddPin" xml:space="preserve">
-    <value>Please, add marker on the map</value>
-  </data>
-  <data name="PlsCheckGPS" xml:space="preserve">
-    <value>Please, check your GPS settings</value>
-  </data>
-  <data name="PlsEnterDescroption" xml:space="preserve">
-    <value>Please, enter \'Description\' of marker</value>
-  </data>
-  <data name="PlsEnterName" xml:space="preserve">
-    <value>Please, enter \'Name\' of marker</value>
-  </data>
-  <data name="PlsSelectPin" xml:space="preserve">
-    <value>Please, select marker!</value>
-  </data>
-  <data name="SharePin" xml:space="preserve">
-    <value>Share pin</value>
-  </data>
-  <data name="WrongEmail" xml:space="preserve">
-    <value>Wrong Email</value>
+  <data name="LightRed" xml:space="preserve">
+    <value>LightRed</value>
   </data>
 </root>

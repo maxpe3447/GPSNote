@@ -4,6 +4,7 @@ using GPSNote.Helpers;
 using GPSNote.Models;
 using GPSNote.Services.PinManager;
 using GPSNote.Services.Repository;
+using GPSNote.Services.Settings;
 using GPSNote.Views;
 using Prism.Navigation;
 using System;
@@ -23,10 +24,12 @@ namespace GPSNote.ViewModels
     public class CreatePinViewModel : ViewModelBase
     {
         public CreatePinViewModel(INavigationService navigationService,
-                                  IPinManager pinManager) 
+                                  IPinManager pinManager,
+                                  ISettingsManager settingsManager) 
             : base(navigationService)
         {
             _PinManager = pinManager;
+            _SettingsManager = settingsManager;
 
             TextResources = new TextResources(typeof(Resources.TextControls));
 
@@ -56,11 +59,10 @@ namespace GPSNote.ViewModels
 
                 if (string.IsNullOrEmpty(Longitude))
                 {
-                    UserDialogs.Instance.Alert("Please, select marker!");
+                    UserDialogs.Instance.Alert(Resources.UserMsg.PlsSelectPin);
                     return;
                 }
 
-                //BitmapDescriptor image = new BitmapDescriptor();
                 if(PinsList.Count >= 1)
                 {
                     PinsList.Clear();
@@ -70,7 +72,11 @@ namespace GPSNote.ViewModels
                 {
                     Label = (string.IsNullOrEmpty(Name)) ? string.Empty : Name,
                     Position = SelectedPosition,
-                    Icon = BitmapDescriptorFactory.FromView(new Controls.BindingPinIconView("ic_placeholder.png"))
+                    Icon = BitmapDescriptorFactory.FromView(
+                        new Controls.BindingPinIconView((ImageSource)App.Current
+                                                                        .Resources[Resources
+                                                                        .ImageNames
+                                                                        .ic_placeholder]))
                 });
                 GoToPosition = SelectedPosition;
             }
@@ -123,6 +129,20 @@ namespace GPSNote.ViewModels
             get => _textResources;
             set => SetProperty(ref _textResources, value);
         }
+
+        private CameraUpdate _initialCameraUpdate;
+        public CameraUpdate InitialCameraUpdate
+        {
+            get => _initialCameraUpdate;
+            set => SetProperty(ref _initialCameraUpdate, value);
+        }
+
+        private CameraPosition _cameraPosition;
+        public CameraPosition CameraPosition
+        {
+            get => _cameraPosition;
+            set => SetProperty(ref _cameraPosition, value);
+        }
         #endregion
 
         #region -- Commands --
@@ -131,7 +151,8 @@ namespace GPSNote.ViewModels
         {
             if(PinsList.Count == 0)
             {
-                await UserDialogs.Instance.AlertAsync("Please, add marker on the map", "Data Error");
+                await UserDialogs.Instance.AlertAsync(Resources.UserMsg.PlsAddPin, 
+                                                      Resources.UserMsg.DataError);
                 return;
             }
 
@@ -144,14 +165,16 @@ namespace GPSNote.ViewModels
             pin.Name = Name;
             if(string.IsNullOrEmpty(pin.Name))
             {
-                await UserDialogs.Instance.AlertAsync("Please, enter \'Name\' of marker", "Data Error");
+                await UserDialogs.Instance.AlertAsync(Resources.UserMsg.PlsEnterName,
+                                                      Resources.UserMsg.DataError);
                 return;
             }
 
             pin.Description = Description;
             if (string.IsNullOrEmpty(pin.Description))
             {
-                await UserDialogs.Instance.AlertAsync("Please, enter \'Description\' of marker", "Data Error");
+                await UserDialogs.Instance.AlertAsync(Resources.UserMsg.PlsEnterDescroption, 
+                                                      Resources.UserMsg.DataError);
                 return;
             }
 
@@ -162,13 +185,15 @@ namespace GPSNote.ViewModels
                !pin.Position.Latitude.ToString().Contains(Latitude.Remove(Latitude.Length-1, 1))||
                !pin.Position.Longitude.ToString().Contains(Longitude.Remove(Longitude.Length - 1, 1)))
             {
-                await UserDialogs.Instance.AlertAsync("You have bad Longitude, Latitude", "Data Error");
+                await UserDialogs.Instance.AlertAsync(Resources.UserMsg.BadLongLat,
+                                                      Resources.UserMsg.DataError);
                 return;
             }
 
             if (pin.Position == default(Position))
             {
-                await UserDialogs.Instance.AlertAsync("Please, enter marker on the map", "Data Error");
+                await UserDialogs.Instance.AlertAsync(Resources.UserMsg.PlsAddPin, 
+                                                      Resources.UserMsg.DataError);
                 return;
             }
 
@@ -222,16 +247,27 @@ namespace GPSNote.ViewModels
 
             try
             {
-                GoToPosition = new Position(Geolocation.GetLastKnownLocationAsync().Result.Latitude, Geolocation.GetLastKnownLocationAsync().Result.Longitude);
+                GoToPosition = new Position(
+                    Geolocation.GetLastKnownLocationAsync().Result.Latitude, 
+                    Geolocation.GetLastKnownLocationAsync().Result.Longitude);
             }
             catch
             {
-                UserDialogs.Instance.Alert("Please, check your GPS settings.");
+                UserDialogs.Instance.Alert(Resources.UserMsg.PlsCheckGPS);
             }
         }
         #endregion
 
         #region -- Overrides --
+
+        public override void Initialize(INavigationParameters parameters)
+        {
+            InitialCameraUpdate = CameraUpdateFactory.NewCameraPosition(
+                new CameraPosition(new Position(_SettingsManager.LastLatitude,
+                                                _SettingsManager.LastLongitude),
+                                                _SettingsManager.CameraZoom));
+        }
+
         public override void OnNavigatedTo(INavigationParameters parameters)
         {
             if(parameters.TryGetValue<int>(nameof(PinModel.UserId), out int id)){
@@ -266,6 +302,7 @@ namespace GPSNote.ViewModels
         private PinModel _oldPin = null;
         private bool _isEditPin;
         private IPinManager _PinManager { get; }
+        private ISettingsManager _SettingsManager { get; }
         private int _UserId { get; set; }
         #endregion
     }

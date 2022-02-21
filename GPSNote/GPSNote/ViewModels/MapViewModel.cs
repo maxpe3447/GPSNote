@@ -14,16 +14,21 @@ using System;
 using System.Threading;
 using GPSNote.Helpers;
 using Acr.UserDialogs;
+using GPSNote.Resources;
+using System.Collections.Specialized;
+using GPSNote.Services.Settings;
 
 namespace GPSNote.ViewModels
 {
     internal class MapViewModel : ViewModelBase
     {
         public MapViewModel(INavigationService navigationService,
-                            IRepository repository) 
+                            IRepository repository,
+                            ISettingsManager settingsManager) 
             : base(navigationService)
         {
             _Repository = repository;
+            _SettingsManager = settingsManager;
 
             TabDescriptionHeight = 0;
 
@@ -34,7 +39,7 @@ namespace GPSNote.ViewModels
             MapClickCommand = new Command(MapClickCommandRelease);
             ShareCommand = new Command(ShareCommandReleaseAsync);
 
-            TextResources = new TextResources(typeof(Resources.TextControls));
+            TextResources = new TextResources(typeof(TextControls));
         }
         
         #region -- Properties -- 
@@ -148,6 +153,20 @@ namespace GPSNote.ViewModels
             get => _textResources;
             set => SetProperty(ref _textResources, value);
         }
+
+        private CameraUpdate _initialCameraUpdate;
+        public CameraUpdate InitialCameraUpdate
+        {
+            get => _initialCameraUpdate;
+            set => SetProperty(ref _initialCameraUpdate, value);
+        }
+
+        private CameraPosition _cameraPosition;
+        public CameraPosition CameraPosition
+        {
+            get => _cameraPosition;
+            set => SetProperty(ref _cameraPosition, value);
+        }
         #endregion
 
         #region -- Command -- 
@@ -159,21 +178,24 @@ namespace GPSNote.ViewModels
                 FindedPins = new List<PinModel>();
                 return;
             }
-            FindedPins = PinModelsList.Where(x => x.Name.Contains(SearchPin) || x.Description.Contains(SearchPin) || x.Coordinate.Contains(SearchPin)).ToList();
+            FindedPins = PinModelsList.Where(x => x.Name.Contains(SearchPin) || 
+                                           x.Description.Contains(SearchPin) || 
+                                           x.Coordinate.Contains(SearchPin))
+                                                       .ToList();
         }
         public ICommand FindMeCommand { get; }
         private void FindMeCommandRelease()
         {
             IsShowingUser = true;
-            //MyLocationButtonEnabled = false;
 
             try
             {
-                GoToPosition = new Position(Geolocation.GetLastKnownLocationAsync().Result.Latitude, Geolocation.GetLastKnownLocationAsync().Result.Longitude);
+                GoToPosition = new Position(Geolocation.GetLastKnownLocationAsync().Result.Latitude, 
+                                            Geolocation.GetLastKnownLocationAsync().Result.Longitude);
             }
-            catch (Exception ex)
+            catch
             {
-                UserDialogs.Instance.Alert("Please, check your GPS settings.");
+                UserDialogs.Instance.Alert(Resources.UserMsg.PlsCheckGPS);
             }
         }
 
@@ -209,9 +231,9 @@ namespace GPSNote.ViewModels
                 var uri = new Uri($"geo:{PinClick.Position.Latitude},{PinClick.Position.Longitude}");
                 await Share.RequestAsync(new ShareTextRequest
                 {
-                    Text = "Share pin",
+                    Text = UserMsg.SharePin,
                     Uri = uri.ToString(),
-                    Title = "Share pin label"
+                    Title = UserMsg.SharePin
                 });
             }catch(Exception ex)
             {
@@ -223,29 +245,34 @@ namespace GPSNote.ViewModels
         #region -- Override --
         public override void Initialize(INavigationParameters parameters)
         {
+            InitCameraUpdate();
 
             if (parameters.ContainsKey(nameof(PinModel.UserId)))
             {
                 _UserId = parameters.GetValue<int>(nameof(PinModel.UserId));
             }
 
-            PinModelsList = new ObservableCollection<PinModel>(_Repository.GetAllPinsAsync(_UserId).Result);
+            PinModelsList = new ObservableCollection<PinModel>(
+                _Repository.GetAllPinsAsync(_UserId).Result);
+
             PinModelsList.CollectionChanged += (s, e) =>
             {
-                if (e.Action == System.Collections.Specialized.NotifyCollectionChangedAction.Add)
+                if (e.Action == NotifyCollectionChangedAction.Add)
                 {
                     var item = PinModelsList.Last();
                     PinsList.Add(new Pin
                     {
                         Label = item.Name,
                         Position = item.Position,
-                        Icon = BitmapDescriptorFactory.FromView(new Controls.BindingPinIconView("ic_placeholder.png"))
+                        Icon = BitmapDescriptorFactory.FromView(
+                            new Controls.BindingPinIconView((ImageSource)App.Current
+                                                                            .Resources[ImageNames.ic_placeholder]))
                     });
                 }
-                else if (e.Action == System.Collections.Specialized.NotifyCollectionChangedAction.Remove)
+                else if (e.Action == NotifyCollectionChangedAction.Remove)
                 {
                     if (e.OldItems[0] is PinModel removeObj) {
-                        var pin = PinsList.FirstOrDefault(x =>  x.Position== removeObj.Position);
+                        var pin = PinsList.FirstOrDefault(x => x.Position == removeObj.Position);
 
                             PinsList.Remove(pin);
                     }
@@ -263,6 +290,10 @@ namespace GPSNote.ViewModels
                 parameters.Add(nameof(PinModelsList), PinModelsList);
             }
             parameters.Add(nameof(PinModel.UserId), _UserId);
+
+            _SettingsManager.LastLongitude = CameraPosition.Target.Longitude;// ?? _SettingsManager.LastLongitude;
+            _SettingsManager.LastLatitude = CameraPosition?.Target.Latitude ?? _SettingsManager.LastLatitude;
+            _SettingsManager.CameraZoom = CameraPosition?.Zoom ?? _SettingsManager.CameraZoom;
         }
 
         public override void OnNavigatedTo(INavigationParameters parameters)
@@ -285,8 +316,10 @@ namespace GPSNote.ViewModels
         private bool initilize = false;
         private int _UserId { get; set; }
         private IRepository _Repository { get; }
+        private ISettingsManager _SettingsManager { get; }
         private const double _maxTabDescriptionHeight = 210;
         private const int _stepTabDescriptionHeight = 30;
+        
 
         private async void ShowTabDescriptionAsync()
         {
@@ -318,7 +351,7 @@ namespace GPSNote.ViewModels
             }
             catch
             {
-                Acr.UserDialogs.UserDialogs.Instance.Alert("Error pin");
+                UserDialogs.Instance.Alert(UserMsg.DataError);
                 return;
             }
 
@@ -338,11 +371,21 @@ namespace GPSNote.ViewModels
                     {
                         Label = PinModelsList[i].Name,
                         Position = PinModelsList[i].Position,
-                        Icon = BitmapDescriptorFactory.FromView(new Controls.BindingPinIconView("ic_placeholder.png"))
+                        Icon = BitmapDescriptorFactory.FromView(
+                            new Controls.BindingPinIconView((ImageSource)App.Current
+                                                                            .Resources[ImageNames.ic_placeholder]))
                     });
                 }
             });
 
+        }
+
+        private void InitCameraUpdate()
+        {
+            double zoom = Convert.ToDouble(_SettingsManager.CameraZoom.ToString());
+            InitialCameraUpdate = CameraUpdateFactory.NewCameraPosition(
+                new CameraPosition(new Position(_SettingsManager.LastLatitude,
+                                                _SettingsManager.LastLongitude),zoom));
         }
         #endregion
     }

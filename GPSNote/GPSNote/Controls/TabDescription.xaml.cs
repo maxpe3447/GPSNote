@@ -16,7 +16,7 @@ namespace GPSNote.Controls
             grid.HeightRequest = 0;
         }
 
-        public static readonly BindableProperty HeightProperty =
+        public static new readonly BindableProperty HeightProperty =
             BindableProperty.Create(nameof(Height),
                                     typeof(double),
                                     typeof(TabDescription),
@@ -24,7 +24,7 @@ namespace GPSNote.Controls
                                     defaultBindingMode: BindingMode.TwoWay,
                                     propertyChanged: OnHeightChanged);
 
-        public double Height
+        public new double Height
         {
             get { return (double)GetValue(HeightProperty); }
             set { SetValue(HeightProperty, value); }

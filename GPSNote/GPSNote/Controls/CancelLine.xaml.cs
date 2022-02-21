@@ -1,4 +1,5 @@
-﻿using GPSNote.Resources;
+﻿
+using GPSNote.Resources;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -16,7 +17,7 @@ namespace GPSNote.Controls
         {
             InitializeComponent();
 
-            bIsClear.ImageSource = ImageSource.FromFile(ImageNames.Cancel);
+            bIsClear.ImageSource = (ImageSource)App.Current.Resources[ImageNames.ic_clear];
 
             bIsClear.Clicked += (s, e) =>
             {
@@ -116,7 +117,7 @@ namespace GPSNote.Controls
             control.eText.Placeholder = newValue?.ToString(); ;
         }
 
-        public static readonly BindableProperty MarginProperty = BindableProperty.Create(
+        public static new readonly BindableProperty MarginProperty = BindableProperty.Create(
             nameof(Margin),
             typeof(Thickness),
             typeof(CancelLine),
@@ -124,7 +125,7 @@ namespace GPSNote.Controls
             defaultBindingMode: BindingMode.TwoWay,
             propertyChanged: MarginChanged);
 
-        public Thickness Margin
+        public new Thickness Margin
         {
             get => (Thickness)GetValue(MarginProperty);
             set => SetValue(MarginProperty, value);

@@ -36,6 +36,11 @@
     <Compile Update="Controls\CancelLine.xaml.cs">
       <DependentUpon>CancelLine.xaml</DependentUpon>
     </Compile>
+    <Compile Update="Resources\ColorsName.Designer.cs">
+      <DesignTime>True</DesignTime>
+      <AutoGen>True</AutoGen>
+      <DependentUpon>ColorsName.resx</DependentUpon>
+    </Compile>
     <Compile Update="Resources\ImageNames.Designer.cs">
       <DesignTime>True</DesignTime>
       <AutoGen>True</AutoGen>
@@ -74,6 +79,10 @@
     </EmbeddedResource>
     <EmbeddedResource Update="Controls\TabDescription.xaml">
       <Generator>MSBuild:UpdateDesignTimeXaml</Generator>
+    </EmbeddedResource>
+    <EmbeddedResource Update="Resources\ColorsName.resx">
+      <Generator>ResXFileCodeGenerator</Generator>
+      <LastGenOutput>ColorsName.Designer.cs</LastGenOutput>
     </EmbeddedResource>
     <EmbeddedResource Update="Resources\ImageNames.resx">
       <Generator>ResXFileCodeGenerator</Generator>

@@ -1,4 +1,5 @@
-﻿using System;
+﻿using GPSNote.Resources;
+using System;
 using System.Collections.Generic;
 using System.Text;
 using Xamarin.Forms;
@@ -12,7 +13,7 @@ namespace GPSNote.Controls
 
         public BorderEntry():base()
         {
-            On<iOS>().SetCursorColor(Color.FromHex("#596EFB"));
+            On<iOS>().SetCursorColor((Color)App.Current.Resources[ColorsName.LightBlue]);
         }
 
         #region -- Public properties -- 

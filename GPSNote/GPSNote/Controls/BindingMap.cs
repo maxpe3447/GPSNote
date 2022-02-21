@@ -36,12 +36,24 @@ namespace GPSNote.Controls
                     PinClickCommand.Execute(null);
                 }
             };
-
-            InitialCameraUpdate = CameraUpdateFactory.NewCameraPosition(new CameraPosition( new Position(47.824734, 35.1625), 13 ));
-            
+            CameraChanged += (s, e) => CameraCurPosition = new CameraPosition(e.Position.Target, e.Position.Zoom);
+ 
             UiSettings.ZoomControlsEnabled = false;
         }
-        
+        public static readonly BindableProperty CameraCurPositionProperty =
+            BindableProperty.Create(
+            nameof(CameraCurPosition),
+            typeof(CameraPosition),
+            typeof(BindingMap),
+            defaultValue: default(CameraPosition),
+            defaultBindingMode: BindingMode.TwoWay);
+
+        public CameraPosition CameraCurPosition
+        {
+            get => (CameraPosition)GetValue(CameraCurPositionProperty);
+            set => SetValue(CameraCurPositionProperty, value);
+        }
+
         public static readonly BindableProperty MyLocationButtonEnabledProperty =
             BindableProperty.Create(
             nameof(MyLocationButtonEnabled),
@@ -49,7 +61,8 @@ namespace GPSNote.Controls
             typeof(BindingMap),
             defaultValue: default(bool),
             defaultBindingMode: BindingMode.TwoWay,
-            propertyChanged: (b, oldV, newV) => { ((BindingMap)b).UiSettings.MyLocationButtonEnabled = (bool)newV; });
+            propertyChanged: (b, oldV, newV) => { ((BindingMap)b).UiSettings
+                                                                 .MyLocationButtonEnabled = (bool)newV; });
 
         public bool MyLocationButtonEnabled
         {
@@ -70,7 +83,6 @@ namespace GPSNote.Controls
             get => (Position)GetValue(ClickPositionProperty);
             set
             {
-                
                 SetValue(ClickPositionProperty, value);
             }
         }

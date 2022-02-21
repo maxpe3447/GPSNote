@@ -8,5 +8,10 @@ namespace GPSNote.Services.Settings
     {
         string LastEmail { get; set; }
         string LastPassword { get; set; }
+
+        double LastLatitude { get; set; }
+        double LastLongitude { get; set; }
+
+        double CameraZoom { get; set; }
     }
 }

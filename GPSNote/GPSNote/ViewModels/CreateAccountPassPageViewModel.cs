@@ -27,7 +27,7 @@ namespace GPSNote.ViewModels
 
             TextResources = new TextResources(typeof(Resources.TextControls));
 
-            ErrorColor = Color.Gray;
+            ErrorColor = (Color)App.Current.Resources[Resources.ColorsName.LightGray];
         }
 
         #region -- Properties -- 
@@ -80,14 +80,14 @@ namespace GPSNote.ViewModels
         {
             if(UserPassword != UserPasswordRepeat)
             {
-                ErrorColor = Color.FromHex("#F24545");
+                ErrorColor = (Color)App.Current.Resources[Resources.ColorsName.LightRed];
                 PasswordErrorMsgText = Resources.UserMsg.PasswordMismatch;
                 return;
             }
             else
             {
                 PasswordErrorMsgText = string.Empty;
-                ErrorColor = Color.Gray;
+                ErrorColor = (Color)App.Current.Resources[Resources.ColorsName.LightGray];
             }
             _userModel.Password = UserPassword;
             await _Autherization.CreateAccount(_userModel);

@@ -61,6 +61,42 @@ namespace GPSNote.Resources {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to You have bad Longitude, Latitude.
+        /// </summary>
+        internal static string BadLongLat {
+            get {
+                return ResourceManager.GetString("BadLongLat", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Data Error.
+        /// </summary>
+        internal static string DataError {
+            get {
+                return ResourceManager.GetString("DataError", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Error.
+        /// </summary>
+        internal static string Error {
+            get {
+                return ResourceManager.GetString("Error", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Error edit pin!.
+        /// </summary>
+        internal static string ErrorEditPin {
+            get {
+                return ResourceManager.GetString("ErrorEditPin", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to The password is incorrect.
         /// </summary>
         internal static string IncorrectPas {
@@ -70,11 +106,74 @@ namespace GPSNote.Resources {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Ok.
+        /// </summary>
+        internal static string Ok {
+            get {
+                return ResourceManager.GetString("Ok", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Password Mismatch.
         /// </summary>
         internal static string PasswordMismatch {
             get {
                 return ResourceManager.GetString("PasswordMismatch", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Please, add marker on the map.
+        /// </summary>
+        internal static string PlsAddPin {
+            get {
+                return ResourceManager.GetString("PlsAddPin", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Please, check your GPS settings.
+        /// </summary>
+        internal static string PlsCheckGPS {
+            get {
+                return ResourceManager.GetString("PlsCheckGPS", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Please, enter \&apos;Description\&apos; of marker.
+        /// </summary>
+        internal static string PlsEnterDescroption {
+            get {
+                return ResourceManager.GetString("PlsEnterDescroption", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Please, enter \&apos;Name\&apos; of marker.
+        /// </summary>
+        internal static string PlsEnterName {
+            get {
+                return ResourceManager.GetString("PlsEnterName", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Please, select marker!.
+        /// </summary>
+        internal static string PlsSelectPin {
+            get {
+                return ResourceManager.GetString("PlsSelectPin", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Share pin.
+        /// </summary>
+        internal static string SharePin {
+            get {
+                return ResourceManager.GetString("SharePin", resourceCulture);
             }
         }
         

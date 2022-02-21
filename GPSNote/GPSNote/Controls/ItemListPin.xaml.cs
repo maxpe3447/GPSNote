@@ -1,4 +1,5 @@
-﻿using System;
+﻿using GPSNote.Resources;
+using System;
 using System.Collections.Generic;
 using System.ComponentModel;
 using System.Linq;
@@ -14,8 +15,6 @@ namespace GPSNote.Controls
         public ItemListPin()
         {
             InitializeComponent();
-
-            //Acr.UserDialogs.UserDialogs.Instance.Alert($"{grid.Margin.Left}\n{grid.Margin.Top}\n{grid.Margin.Right}\n{grid.Margin.Bottom}");
 
             bDelete.IsVisible = bEdit.IsVisible = _isMenuOpen;
 
@@ -174,11 +173,11 @@ namespace GPSNote.Controls
 
             if ((bool)newValue)
             {
-                itemListPin.bLike.ImageSource = ImageSource.FromFile("ic_like_blue.png");
+                itemListPin.bLike.ImageSource = (ImageSource)App.Current.Resources[ImageNames.ic_like_blue];
             }
             else
             {
-                itemListPin.bLike.ImageSource = ImageSource.FromFile("ic_like_gray.png");
+                itemListPin.bLike.ImageSource = (ImageSource)App.Current.Resources[ImageNames.ic_like_gray];
             }
 
         }
@@ -189,7 +188,10 @@ namespace GPSNote.Controls
             delta = 0;
             for (int i = 0; i <= _buttonMenuWidth; i += _animationStep)
             {
-                grid.Margin = new Thickness(grid.Margin.Left - (delta++), grid.Margin.Top, grid.Margin.Right, grid.Margin.Bottom);
+                grid.Margin = new Thickness(grid.Margin.Left - (delta++), 
+                                            grid.Margin.Top, 
+                                            grid.Margin.Right, 
+                                            grid.Margin.Bottom);
                 cdDelete.Width = i;
                 cdEdit.Width = i;
                 await Task.Delay(1);
@@ -201,7 +203,10 @@ namespace GPSNote.Controls
             
             for (int i = _buttonMenuWidth; i >= 0; i -= _animationStep)
             {
-                grid.Margin = new Thickness(grid.Margin.Left + (--delta), grid.Margin.Top, grid.Margin.Right, grid.Margin.Bottom);//Thickness(grid.Margin.VerticalThickness - (i * 2), grid.Margin.VerticalThickness);
+                grid.Margin = new Thickness(grid.Margin.Left + (--delta), 
+                                            grid.Margin.Top, 
+                                            grid.Margin.Right, 
+                                            grid.Margin.Bottom);
                 cdDelete.Width = i;
                 cdEdit.Width = i;
                 await Task.Delay(1);

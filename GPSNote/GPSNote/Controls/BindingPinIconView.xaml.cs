@@ -4,10 +4,10 @@ namespace GPSNote.Controls
 {
     public partial class BindingPinIconView : StackLayout
     {
-        public BindingPinIconView(string ico)
+        public BindingPinIconView(ImageSource ico)
         {
             InitializeComponent();
-           IconPin = ImageSource.FromFile(ico);
+           IconPin = ico;
             BindingContext = this;
 
             

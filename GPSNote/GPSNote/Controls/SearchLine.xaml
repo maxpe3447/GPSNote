@@ -5,58 +5,61 @@
     <ContentView.Content>
         <StackLayout BackgroundColor="{StaticResource White}">
             <Grid Margin="0, 10, 0, 0">
-                
+
                 <Grid.RowDefinitions>
                     <RowDefinition Height="40"/>
                 </Grid.RowDefinitions>
-                
+
                 <Grid.ColumnDefinitions>
                     <ColumnDefinition Width="40"/>
                     <ColumnDefinition x:Name="serchColumn" 
                                       Width="*"/>
                     <ColumnDefinition Width="40"/>
                 </Grid.ColumnDefinitions>
-                
+
+                <!--SETTINGS BUTTON-->
                 <Button x:Name="bSettingOrBack"
-                        ImageSource="ic_settings.png"
+                        ImageSource="{StaticResource ic_settings}"
                         Margin="20, 0,0,0"
                         BackgroundColor="Transparent"/>
 
+                <!--BACKGROUNG OF ENTRY-->
                 <Frame Padding = "0"
                        CornerRadius="5"
                        IsClippedToBounds="true"
                        Grid.Column="1"
-                       Grid.Row="0"
-                       Margin="0,0,0,0">
-                    
-                <controls:CancelLine 
-                       x:Name="line"
-                       Placeholder="Search"
-                       Grid.Column="1"
-                       Grid.Row="0"
-                       BorderColor="#F1F3FD"
-                       IsEnabled="True"
-                       BackgroundColor="#F1F3FD"/>
+                       Grid.Row="0">
+
+                    <!--CANCEL LINE-->
+                    <controls:CancelLine x:Name="line"
+                                         Placeholder="Search"
+                                         Grid.Column="1"
+                                         Grid.Row="0"
+                                         BorderColor="{StaticResource LightLightGray}"
+                                         IsEnabled="True"
+                                         FontFamily="{StaticResource MainFont}"
+                                         BackgroundColor="{StaticResource LightLightGray}"/>
                 </Frame>
 
-
+                <!--SEARCH BUTTON-->
                 <Button x:Name="searchButton" 
                         Grid.Column="2"
                         Grid.Row="0"
                         Margin="0, 0, 20,0"
-                        ImageSource="ic_exid.png"
+                        ImageSource="{StaticResource ic_exid}"
                         BackgroundColor="Transparent"/>
 
             </Grid>
-            
-                    <ListView x:Name="listView"
-                              SeparatorVisibility="Default">
-                        
+
+            <!--RESULT SERCH LIST-->
+            <ListView x:Name="listView"
+                      SeparatorVisibility="Default">
+
                 <ListView.ItemTemplate>
                     <DataTemplate>
                         <ViewCell>
                             <Grid RowSpacing="1">
-                                
+
                                 <Grid.RowDefinitions>
                                     <RowDefinition Height="18"/>
                                     <RowDefinition Height="25"/>
@@ -67,41 +70,39 @@
                                     <ColumnDefinition Width="*"/>
                                 </Grid.ColumnDefinitions>
 
-                                <Image Source="ic_pin_gray.png"
+                                <!--PIN IMAGE-->
+                                <Image Source="{StaticResource ic_pin_gray}"
                                        Grid.Column="0"
                                        Grid.Row="0"
                                        Grid.RowSpan="2"
                                        Margin="20, 0, 0, 0"/>
 
-                                <Label FontFamily="Montserrat"
+                                <!--PIN NAME LABEL-->
+                                <Label FontFamily="{StaticResource MainFont}"
                                        Grid.Column="1"
                                        Grid.Row="0"
                                        FontSize="15"
-                                       TextColor="#1E242B"
+                                       TextColor="{StaticResource Black}"
                                        BackgroundColor="Transparent"
                                        Margin="10, 0,0,0"
                                        Text="{Binding Name}"/>
 
-                                <Label FontFamily="Montserrat"
+                                <!--PIN ADDRESS LABEL-->
+                                <Label FontFamily="{StaticResource MainFont}"
                                        LineBreakMode="TailTruncation"
                                        Grid.Column="1"
                                        Grid.Row="1"
                                        FontSize="15"
-                                       TextColor="#3D4E61"
+                                       TextColor="{StaticResource DarkGray}"
                                        BackgroundColor="Transparent"
                                        Margin="10, 0,0,0"
                                        Text="{Binding Address}"/>
-                                
+
                             </Grid>
                         </ViewCell>
                     </DataTemplate>
                 </ListView.ItemTemplate>
-                    </ListView>
-            
-                
-            
+            </ListView>
         </StackLayout>
-
-
     </ContentView.Content>
 </ContentView>

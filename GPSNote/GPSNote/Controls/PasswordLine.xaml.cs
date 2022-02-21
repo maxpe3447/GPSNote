@@ -1,12 +1,6 @@
 ﻿using GPSNote.Resources;
 using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-
 using Xamarin.Forms;
-using Xamarin.Forms.Xaml;
 
 namespace GPSNote.Controls
 {
@@ -16,19 +10,19 @@ namespace GPSNote.Controls
         {
             InitializeComponent();
 
-            bIsShowPass.ImageSource = ImageSource.FromFile(ImageNames.EyeOff);
-
+            bIsShowPass.ImageSource = (ImageSource)App.Current.Resources[ImageNames.ic_eye_off];
+            
             bIsShowPass.Clicked += (s, e) =>
               {
                   eText.IsPassword = !eText.IsPassword;
 
                   if (eText.IsPassword)
                   {
-                      bIsShowPass.ImageSource = ImageSource.FromFile(ImageNames.EyeOff);
+                      bIsShowPass.ImageSource = (ImageSource)App.Current.Resources[ImageNames.ic_eye_off];
                   }
                   else
                   {
-                      bIsShowPass.ImageSource = ImageSource.FromFile(ImageNames.Eye);
+                      bIsShowPass.ImageSource = (ImageSource)App.Current.Resources[ImageNames.ic_eye];
                   }
               };
 
@@ -104,7 +98,7 @@ namespace GPSNote.Controls
             control.eText.Placeholder = newValue?.ToString(); ;
         }
 
-        public static readonly BindableProperty MarginProperty = BindableProperty.Create(
+        public static new readonly BindableProperty MarginProperty = BindableProperty.Create(
             nameof(Margin),
             typeof(Thickness),
             typeof(PasswordLine),
@@ -112,7 +106,7 @@ namespace GPSNote.Controls
             defaultBindingMode: BindingMode.TwoWay,
             propertyChanged: MarginChanged);
 
-        public Thickness Margin
+        public new Thickness Margin
         {
             get => (Thickness)GetValue(MarginProperty);
             set => SetValue(MarginProperty, value);

@@ -22,14 +22,14 @@ namespace GPSNote.Resources {
     [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Resources.Tools.StronglyTypedResourceBuilder", "17.0.0.0")]
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
     [global::System.Runtime.CompilerServices.CompilerGeneratedAttribute()]
-    internal class ImageNames {
+    internal class ColorsName {
         
         private static global::System.Resources.ResourceManager resourceMan;
         
         private static global::System.Globalization.CultureInfo resourceCulture;
         
         [global::System.Diagnostics.CodeAnalysis.SuppressMessageAttribute("Microsoft.Performance", "CA1811:AvoidUncalledPrivateCode")]
-        internal ImageNames() {
+        internal ColorsName() {
         }
         
         /// <summary>
@@ -39,7 +39,7 @@ namespace GPSNote.Resources {
         internal static global::System.Resources.ResourceManager ResourceManager {
             get {
                 if (object.ReferenceEquals(resourceMan, null)) {
-                    global::System.Resources.ResourceManager temp = new global::System.Resources.ResourceManager("GPSNote.Resources.ImageNames", typeof(ImageNames).Assembly);
+                    global::System.Resources.ResourceManager temp = new global::System.Resources.ResourceManager("GPSNote.Resources.ColorsName", typeof(ColorsName).Assembly);
                     resourceMan = temp;
                 }
                 return resourceMan;
@@ -61,56 +61,29 @@ namespace GPSNote.Resources {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to ic_clear.
+        ///   Looks up a localized string similar to LightBlue.
         /// </summary>
-        internal static string ic_clear {
+        internal static string LightBlue {
             get {
-                return ResourceManager.GetString("ic_clear", resourceCulture);
+                return ResourceManager.GetString("LightBlue", resourceCulture);
             }
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to ic_eye.png.
+        ///   Looks up a localized string similar to LightGray.
         /// </summary>
-        internal static string ic_eye {
+        internal static string LightGray {
             get {
-                return ResourceManager.GetString("ic_eye", resourceCulture);
+                return ResourceManager.GetString("LightGray", resourceCulture);
             }
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to ic_eye_off.
+        ///   Looks up a localized string similar to LightRed.
         /// </summary>
-        internal static string ic_eye_off {
+        internal static string LightRed {
             get {
-                return ResourceManager.GetString("ic_eye_off", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///   Looks up a localized string similar to ic_like_blue.
-        /// </summary>
-        internal static string ic_like_blue {
-            get {
-                return ResourceManager.GetString("ic_like_blue", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///   Looks up a localized string similar to ic_like_gray.
-        /// </summary>
-        internal static string ic_like_gray {
-            get {
-                return ResourceManager.GetString("ic_like_gray", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///   Looks up a localized string similar to ic_placeholder.
-        /// </summary>
-        internal static string ic_placeholder {
-            get {
-                return ResourceManager.GetString("ic_placeholder", resourceCulture);
+                return ResourceManager.GetString("LightRed", resourceCulture);
             }
         }
     }
