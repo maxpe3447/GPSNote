@@ -63,6 +63,14 @@ namespace GPSNote.Controls
                                     defaultValue: default(ICommand),
                                     defaultBindingMode: BindingMode.TwoWay);
 
+        public static readonly BindableProperty SettingsCommandProperty =
+            BindableProperty.Create(nameof(SettingsCommand),
+                                    typeof(ICommand),
+                                    typeof(SearchLine),
+                                    defaultValue: default(ICommand),
+                                    defaultBindingMode: BindingMode.TwoWay,
+                                    propertyChanged: OnSettingsCommandChanged);
+
         public static readonly BindableProperty KeyBoardProperty =
             BindableProperty.Create(nameof(KeyBoard),
                                     typeof(Keyboard),
@@ -127,7 +135,12 @@ namespace GPSNote.Controls
         {
             get => (ICommand)GetValue(ExidCommandProperty);
             set => SetValue(ExidCommandProperty, value);
+        }
 
+        public ICommand SettingsCommand
+        {
+            get => (ICommand)GetValue(SettingsCommandProperty);
+            set => SetValue(SettingsCommandProperty, value);
         }
         #endregion
 
@@ -145,6 +158,13 @@ namespace GPSNote.Controls
             var control = (SearchLine)bindable;
 
             control.searchButton.Command = (ICommand)newValue;
+        }
+
+        private static void OnSettingsCommandChanged(BindableObject bindable, object oldValue, object newValue)
+        {
+            var control = (SearchLine)bindable;
+
+            control.bSettingOrBack.Command = (ICommand)newValue;
         }
 
         private static void ItemsSourceChanged(BindableObject bindable, object oldValue, object newValue)
@@ -218,6 +238,8 @@ namespace GPSNote.Controls
                       ExidCommand.Execute(null);
                   }
               };
+
+            
         }
         
         private static void OnFontFamilyChanged(BindableObject bindable, object oldValue, object newValue)

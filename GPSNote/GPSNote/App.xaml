@@ -7,6 +7,7 @@
         
         <!--Colors-->
         <Color x:Key="White">#FEFEFD</Color>
+        <Color x:Key="BackGround">#FEFEFD</Color>
         <Color x:Key="LightBlue">#596EFB</Color>
         <Color x:Key="LightGray">#D7DDE8</Color>    <!--Borders-->
         <Color x:Key="Gray">#858E9E</Color>

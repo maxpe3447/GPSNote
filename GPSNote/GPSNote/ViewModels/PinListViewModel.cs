@@ -3,6 +3,7 @@ using GPSNote.Models;
 using GPSNote.Resources;
 using GPSNote.Services.PinManager;
 using GPSNote.Services.Repository;
+using GPSNote.Views;
 using Prism.Navigation;
 using System;
 using System.Collections.Generic;
@@ -30,6 +31,7 @@ namespace GPSNote.ViewModels
             EditCommand = new Command(EditCommandRelease);
             DeleteCommand = new Command(DeleteCommandRelease);
             ExidCommand = new Command(ExidCommandRelease);
+            GoToSettingsCommand = new Command(GoToSettingsCommandRelease);
         }
         #region -- Properties --
         private ObservableCollection<PinModel> _pinModelsList;
@@ -155,6 +157,12 @@ namespace GPSNote.ViewModels
             parametrs.Add(nameof(PinModel), model);
 
             NavigationService.NavigateAsync(nameof(Views.CreatePinView), parametrs);
+        }
+
+        public ICommand GoToSettingsCommand { get; }
+        private void GoToSettingsCommandRelease()
+        {
+            NavigationService.NavigateAsync(nameof(SettingsView));
         }
         #endregion
 

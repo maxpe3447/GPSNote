@@ -45,6 +45,7 @@ namespace GPSNote
             containerRegistry.RegisterForNavigation<Views.PinListView, ViewModels.PinListViewModel>();
             containerRegistry.RegisterForNavigation<Views.CreatePinView, ViewModels.CreatePinViewModel>();
             containerRegistry.RegisterForNavigation<Views.CreateAccountPassPageView, ViewModels.CreateAccountPassPageViewModel>();
+            containerRegistry.RegisterForNavigation<Views.SettingsView, ViewModels.SettingsViewModel>();
         }
 
     }

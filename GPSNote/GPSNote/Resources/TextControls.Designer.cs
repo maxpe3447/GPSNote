@@ -106,6 +106,15 @@ namespace GPSNote.Resources {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Dark theme.
+        /// </summary>
+        internal static string DarkThem {
+            get {
+                return ResourceManager.GetString("DarkThem", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Description.
         /// </summary>
         internal static string Description {
@@ -273,6 +282,15 @@ namespace GPSNote.Resources {
         internal static string SeparatorOr {
             get {
                 return ResourceManager.GetString("SeparatorOr", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Settings.
+        /// </summary>
+        internal static string Settings {
+            get {
+                return ResourceManager.GetString("Settings", resourceCulture);
             }
         }
     }

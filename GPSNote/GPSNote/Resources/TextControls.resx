@@ -132,6 +132,9 @@
   <data name="CreatePassword" xml:space="preserve">
     <value>Create password</value>
   </data>
+  <data name="DarkThem" xml:space="preserve">
+    <value>Dark theme</value>
+  </data>
   <data name="Description" xml:space="preserve">
     <value>Description</value>
   </data>
@@ -188,5 +191,8 @@
   </data>
   <data name="SeparatorOr" xml:space="preserve">
     <value>or</value>
+  </data>
+  <data name="Settings" xml:space="preserve">
+    <value>Settings</value>
   </data>
 </root>

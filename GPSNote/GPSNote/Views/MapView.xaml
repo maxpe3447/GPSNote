@@ -63,6 +63,7 @@
                                  TextChangeCommand="{Binding SearchCommand}"
                                  ExidCommand="{Binding ExidCommand}"
                                  FontFamily="{StaticResource MainFont}"
+                                 SettingsCommand="{Binding GoToSettingsCommand}"
                                  HorizontalOptions="Start"
                                  VerticalOptions="Start"/>
 

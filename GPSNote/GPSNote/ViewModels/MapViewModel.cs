@@ -17,6 +17,7 @@ using Acr.UserDialogs;
 using GPSNote.Resources;
 using System.Collections.Specialized;
 using GPSNote.Services.Settings;
+using GPSNote.Views;
 
 namespace GPSNote.ViewModels
 {
@@ -38,6 +39,7 @@ namespace GPSNote.ViewModels
             PinClickCommand = new Command(PinClickCommandRelease);
             MapClickCommand = new Command(MapClickCommandRelease);
             ShareCommand = new Command(ShareCommandReleaseAsync);
+            GoToSettingsCommand = new Command(GoToSettingsCommandRelease);
 
             TextResources = new TextResources(typeof(TextControls));
         }
@@ -221,6 +223,12 @@ namespace GPSNote.ViewModels
             MyLocationButtonEnabled = true;
             UnShowTabDescriptionAsync();
             
+        }
+
+        public ICommand GoToSettingsCommand { get; }
+        private void GoToSettingsCommandRelease()
+        {
+            NavigationService.NavigateAsync(nameof(SettingsView));
         }
 
         public ICommand ShareCommand { get; }

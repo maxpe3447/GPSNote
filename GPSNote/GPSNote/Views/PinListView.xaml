@@ -17,7 +17,8 @@
                                      CommandSearch="{Binding SearchCommand}"
                                      Padding="0,0,40,0"
                                      TextChangeCommand="{Binding SearchCommand}"
-                                     ExidCommand="{Binding ExidCommand}"/>
+                                     ExidCommand="{Binding ExidCommand}"
+                                     SettingsCommand="{Binding GoToSettingsCommand}"/>
 
 
                 <ScrollView >

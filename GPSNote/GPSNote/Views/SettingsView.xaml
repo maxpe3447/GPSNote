@@ -1,0 +1,75 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<ContentPage xmlns="http://xamarin.com/schemas/2014/forms"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             xmlns:prism="http://prismlibrary.com" 
+             x:Class="GPSNote.Views.SettingsView"
+             BackgroundColor="{DynamicResource BackGround}">
+    <!--<ContentPage.Resources>
+        <Style x:Key="ButtonStyle"
+               TargetType="Button">
+            <Setter Property="BackgroundColor"
+                    Value="{AppThemeBinding Light={StaticResource LightPrimaryColor}, Dark={StaticResource DarkPrimaryColor}}" />
+            <Setter Property="TextColor"
+                    Value="{AppThemeBinding Light={StaticResource LightSecondaryColor}, Dark={StaticResource DarkSecondaryColor}}" />
+        </Style>
+    </ContentPage.Resources>-->
+    <ContentPage.Content>
+        
+        <StackLayout>
+            <!--HEADER-->
+            <Grid>
+                <Grid.RowDefinitions>
+                    <RowDefinition Height="60"/>
+                </Grid.RowDefinitions>
+
+                <!--LABEL SETINGS-->
+                <Label Text="{Binding TextResources[Settings]}"
+                       TextColor="{AppThemeBinding Light={DynamicResource Black}, 
+                                                   Dark={DynamicResource White}}"
+                       Grid.Row="0"
+                       FontSize="24"
+                       FontFamily="{Binding MainFont}"
+                       HorizontalTextAlignment="Center"
+                       VerticalTextAlignment="Center"
+                       Margin="0,0,0,10"/>
+
+                <Grid ColumnDefinitions="50, *"
+                      RowDefinitions="*,2">
+                      
+
+                    <!--BUTTON BACK-->
+                    <Button ImageSource="{StaticResource ic_left_blue}"
+                            Grid.Row="0" Grid.Column="0"
+                            BackgroundColor="Transparent"
+                            VerticalOptions="Center"
+                            HorizontalOptions="Center"
+                            Command="{Binding BackCommand}"/>
+
+                    <!--FRAME-->
+                    <Frame WidthRequest="2"
+                           HeightRequest="2"
+                           BackgroundColor="{StaticResource LightLightGray}"
+                           Grid.Row="1" Grid.ColumnSpan="3"/>
+                </Grid>
+            </Grid>
+
+            <Grid RowDefinitions="58"
+                  ColumnDefinitions="*, 70">
+
+                <Label TextColor="{StaticResource Black}"
+                       Text="{Binding TextResources[DarkThem]}"
+                       FontFamily="{StaticResource MainFont}"
+                       FontSize="18"
+                       Margin="16,18.5, 0, 18.5 "
+                       Grid.Column="0"/>
+
+                <Switch Grid.Column="1"
+                        HeightRequest="22"
+                        WidthRequest="36"
+                        Margin="5, 18, 16, 18"
+                        OnColor="{StaticResource LightBlue}"
+                        ThumbColor="{StaticResource White}"/>
+            </Grid>
+        </StackLayout>
+    </ContentPage.Content>
+</ContentPage>

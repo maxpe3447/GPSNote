@@ -262,10 +262,11 @@ namespace GPSNote.ViewModels
 
         public override void Initialize(INavigationParameters parameters)
         {
+            double zoom = Convert.ToDouble(_SettingsManager.CameraZoom.ToString());
             InitialCameraUpdate = CameraUpdateFactory.NewCameraPosition(
                 new CameraPosition(new Position(_SettingsManager.LastLatitude,
                                                 _SettingsManager.LastLongitude),
-                                                _SettingsManager.CameraZoom));
+                                                zoom));
         }
 
         public override void OnNavigatedTo(INavigationParameters parameters)

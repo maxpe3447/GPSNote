@@ -24,9 +24,10 @@ namespace GPSNote.ViewModels
             SigninCommand = new Command(SignInRelease);
             BackCommand = new  Command(BackCommandRelease);
             GoogleAuthCommand = new Command(GoogleAuthCommandRelease);
-            TextResources = new TextResources(typeof(Resources.TextControls));
 
-            ErrorColor = Color.Gray;
+            TextResources = new TextResources(typeof(TextControls));
+
+            ErrorColor = (Color)App.Current.Resources[ColorsName.LightGray];
         }
 
         #region -- Properties -- 
