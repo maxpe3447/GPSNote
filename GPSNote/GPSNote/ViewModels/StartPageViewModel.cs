@@ -1,5 +1,5 @@
 ﻿using GPSNote.Helpers;
-
+using GPSNote.Services.Settings;
 using Prism.Navigation;
 using System;
 using System.Collections.Generic;
@@ -11,8 +11,11 @@ namespace GPSNote.ViewModels
 {
     public class StartPageViewModel : ViewModelBase
     {
-        public StartPageViewModel(INavigationService navigationService) : base(navigationService)
+        public StartPageViewModel(INavigationService navigationService,
+                                  ISettingsManager settingsManager) : base(navigationService)
         {
+            _SettingsManager = settingsManager;
+
             LogInCommand = new Command(LogInCommandRelease);
             CreateAnAccountCommand = new Command(CreateAnAccountRelease);
 
@@ -35,12 +38,12 @@ namespace GPSNote.ViewModels
         #endregion
 
         #region -- Overrides --
-        public override void OnNavigatedTo(INavigationParameters parameters)
+        public override void Initialize(INavigationParameters parameters)
         {
-            //if (parameters.ContainsKey("Key"))
-            //{
-            //    NavigationService.GoBackToRootAsync();
-            //}
+            if (_SettingsManager.IsDarkTheme)
+            {
+                App.Current.UserAppTheme = OSAppTheme.Dark;
+            }
         }
         #endregion
 
@@ -53,6 +56,8 @@ namespace GPSNote.ViewModels
         {
             await NavigationService.NavigateAsync(nameof(Views.CreateAnAccountView));
         }
+
+        private ISettingsManager _SettingsManager { get; }
         #endregion
     }
 }

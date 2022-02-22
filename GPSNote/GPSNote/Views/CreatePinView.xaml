@@ -7,7 +7,9 @@
              xmlns:viewmodels="clr-namespace:GPSNote.ViewModels" 
              x:DataType="viewmodels:CreatePinViewModel"
              prism:ViewModelLocator.AutowireViewModel="True"
-             x:Class="GPSNote.Views.CreatePinView">
+             x:Class="GPSNote.Views.CreatePinView"
+             BackgroundColor="{AppThemeBinding Light = {StaticResource White},
+                                               Dark = {StaticResource BackgroundDark}}">
 
     <ContentPage.Content>
 
@@ -32,7 +34,8 @@
                     <!--LABEL Add pin-->
                     <Label Text="{Binding Title}"
                            Grid.Row="0"
-                           TextColor="{StaticResource Black}"
+                           TextColor="{AppThemeBinding Light = {StaticResource Black},
+                                                       Dark = {StaticResource White}}"
                            FontSize="20"
                            FontFamily="{StaticResource MainFont}"
                            HorizontalTextAlignment="Center"
@@ -80,25 +83,33 @@
                 <Label Text="{Binding TextResources[Label]}"
                        FontSize="20"
                        Margin="23, 8.5,0,0"
-                       TextColor="{StaticResource DarkGray}"/>
+                       TextColor="{AppThemeBinding Light = {StaticResource DarkGray},
+                                                   Dark = {StaticResource White}}"/>
 
                 <!--NAME CANCELLINE-->
                 <controls:CancelLine Text="{Binding Name}"
                                      FontSize="20"
                                      BorderColor="{StaticResource Gray}"
                                      Placeholder="{Binding TextResources[EnterLabel]}"
+                                     TextColor="{AppThemeBinding Light = {StaticResource Black},
+                                                                 Dark = {StaticResource White}}"
+                                     PlaceholderColor="{StaticResource Gray}"
                                      Margin="20, 0, 20,0"/>
 
                 <!--DESCRIPTION LABEL-->
                 <Label Text="{Binding TextResources[Description]}"
                        FontSize="20"
                        Margin="23, 10, 0,0"
-                       TextColor="{StaticResource DarkGray}"/>
+                       TextColor="{AppThemeBinding Light = {StaticResource DarkGray},
+                                                   Dark = {StaticResource White}}"/>
 
                 <!--DESCRIPTION CANCELLINE-->
                 <controls:CancelLine  Placeholder="{Binding TextResources[Description]}"
                                       Text="{Binding Description}"
                                       FontSize="20"
+                                      TextColor="{AppThemeBinding Light = {StaticResource Black},
+                                                                  Dark = {StaticResource White}}"
+                                      PlaceholderColor="{StaticResource Gray}"
                                       BorderColor="{StaticResource Gray}"
                                       Margin="20, 0, 20,0"/>
 
@@ -106,7 +117,8 @@
                 <Label Text="{Binding TextResources[Position]}"
                        FontSize="20"
                        Margin="23, 10, 0, 0"
-                       TextColor ="{StaticResource DarkGray}"/>
+                       TextColor ="{AppThemeBinding Light = {StaticResource DarkGray},
+                                                    Dark = {StaticResource White}}"/>
 
                 <Grid Margin="20, 0, 20, 0">
                     <Grid.ColumnDefinitions>
@@ -119,6 +131,9 @@
                                          Text="{Binding Longitude}"
                                          FontSize="20"
                                          Grid.Column="0"
+                                         TextColor="{AppThemeBinding Light = {StaticResource DarkGray},
+                                                                     Dark = {StaticResource White}}"
+                                         PlaceholderColor="{StaticResource Gray}"
                                          BorderColor="{StaticResource Gray}"/>
 
                     <!--LATITUDE CANCELLINE-->
@@ -126,6 +141,9 @@
                                          Text="{Binding Latitude}"
                                          FontSize="20"
                                          Grid.Column="1"
+                                         TextColor="{AppThemeBinding Light = {StaticResource DarkGray},
+                                                                     Dark = {StaticResource White}}"
+                                         PlaceholderColor="{StaticResource Gray}"
                                          BorderColor="{StaticResource Gray}"/>
                 </Grid>
 
@@ -137,7 +155,7 @@
                                      PinsCollection="{Binding PinsList}"
                                      IsShowingUser="{Binding IsShowingUser}"
                                      InitialCameraUpdate="{Binding InitialCameraUpdate}"
-                                     CameraPosition ="{Binding CameraPosition}"
+                                     CameraCurPosition ="{Binding CameraPosition}"
                                      MyLocationButtonEnabled="False">
 
                 </controls:BindingMap>
@@ -148,7 +166,8 @@
             <!--FIND ME BUTTON-->
             <Button ImageSource="{StaticResource ic_location}"
                     FontSize="35"
-                    BackgroundColor="{StaticResource White}"
+                    BackgroundColor="{AppThemeBinding Light = {StaticResource White},
+                                                      Dark = {StaticResource BackgroundDark}}"
                     Margin="0, 0, 30, 40"
                     WidthRequest="45"
                     HeightRequest="45"

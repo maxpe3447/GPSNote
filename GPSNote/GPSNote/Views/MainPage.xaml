@@ -6,9 +6,9 @@
             xmlns:behaviors="clr-namespace:GPSNote.Behaviors"
             x:Class="GPSNote.Views.MainPage"
             Title="{Binding Title}"
-            BarBackgroundColor="#FEFEFD"
-            BarTextColor="#596EFB">
-            <!--prism:ViewModelLocator.AutowireViewModel="True"-->
+            BarBackgroundColor="{AppThemeBinding Light={StaticResource White}, 
+                                                 Dark={StaticResource BackgroundDark}}"
+            BarTextColor="{StaticResource LightBlue}">
 
     <TabbedPage.Children>
         <!--<local:MapView />

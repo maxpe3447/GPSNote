@@ -13,5 +13,7 @@ namespace GPSNote.Services.Settings
         double LastLongitude { get; set; }
 
         double CameraZoom { get; set; }
+
+        bool IsDarkTheme { get; set; }
     }
 }

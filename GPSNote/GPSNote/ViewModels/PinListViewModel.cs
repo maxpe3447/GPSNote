@@ -84,7 +84,7 @@ namespace GPSNote.ViewModels
         {
             NavigationParameters parameters = new NavigationParameters();
             parameters.Add(nameof(UserId), UserId);
-            await NavigationService.NavigateAsync($"{nameof(Views.CreatePinView)}", parameters);
+            await NavigationService.NavigateAsync($"{nameof(CreatePinView)}", parameters);
         }
 
         public ICommand SearchCommand { get; }

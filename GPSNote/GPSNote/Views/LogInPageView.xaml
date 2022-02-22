@@ -4,7 +4,9 @@
              xmlns:prism ="http://prismlibrary.com" 
              xmlns:controls="clr-namespace:GPSNote.Controls"
              prism:ViewModelLocator.AutowireViewModel="True"
-             x:Class="GPSNote.Views.LogInPageView">
+             x:Class="GPSNote.Views.LogInPageView"
+             BackgroundColor = "{AppThemeBinding Light= {StaticResource White},
+                                                 Dark = {StaticResource BackgroundDark}}">
 
     <ContentPage.Content>
         <StackLayout>
@@ -17,6 +19,8 @@
 
                 <!--LABEL LOG IN-->
                 <Label Text="{Binding TextResources[LogIn]}"
+                       TextColor="{AppThemeBinding Light= {StaticResource Black},
+                                                   Dark= {StaticResource White}}"
                        Grid.Row="0"
                        FontSize="24"
                        FontFamily="{Binding MainFont}"
@@ -46,7 +50,8 @@
                    FontSize="18"
                    FontFamily="{Binding MainFont}"
                    Text="{Binding TextResources[Email]}"
-                   TextColor="{StaticResource DarkGray}"/>
+                   TextColor="{AppThemeBinding Light={StaticResource DarkGray},
+                                               Dark ={StaticResource White}}"/>
 
             <!--ENTRY EMAIL-->
             <controls:CancelLine Margin="28, 0, 30, 0"
@@ -55,7 +60,10 @@
                                  FontFamily="{StaticResource MainFont}"
                                  Text="{Binding UserEmail}"
                                  BorderColor="{Binding ErrorColor}"
-                                 TextColor="{StaticResource Black}"/>
+                                 TextColor="{AppThemeBinding Light={StaticResource DarkGray},
+                                                             Dark ={StaticResource White}}"
+                                 PlaceholderColor="{AppThemeBinding Light= {StaticResource Black},
+                                                                    Dark= {StaticResource White}}"/>
 
             <!--LABEL ERROR EMAIL-->
             <Label Text="{Binding EmailErrorMsgText}"
@@ -68,7 +76,8 @@
                    FontSize="18"
                    Margin="30, 10, 10,10"
                    FontFamily="{StaticResource MainFont}"
-                   TextColor="{StaticResource DarkGray}"/>
+                   TextColor="{AppThemeBinding Light={StaticResource DarkGray},
+                                               Dark ={StaticResource White}}"/>
 
             <!--ENTRY PASSWORD-->
             <controls:PasswordLine FontSize="18"
@@ -76,8 +85,11 @@
                                    Margin="28, 0, 30, 0"
                                    BorderColor="{Binding ErrorColor}"
                                    TextPassword="{Binding UserPassword}"
-                                   TextColor="{StaticResource Black}"
-                                   FontFamily="{StaticResource MainFont}"/>
+                                   TextColor="{AppThemeBinding Light={StaticResource Black},
+                                                               Dark ={StaticResource White}}"
+                                   FontFamily="{StaticResource MainFont}"
+                                   PlaceholderColor="{AppThemeBinding Light= {StaticResource Black},
+                                                                      Dark= {StaticResource White}}"/>
 
             <!--LABEL ERROR PASSWORD-->
             <Label Text="{Binding PasswordErrorMsgText}"

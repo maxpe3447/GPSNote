@@ -32,5 +32,10 @@ namespace GPSNote.Services.Settings
             get => Preferences.Get(nameof(CameraZoom), 13.0);
             set => Preferences.Set(nameof(CameraZoom), value);
         }
+        public bool IsDarkTheme 
+        { 
+            get => Preferences.Get(nameof(IsDarkTheme), App.Current.RequestedTheme == Xamarin.Forms.OSAppTheme.Dark);
+            set => Preferences.Set(nameof(IsDarkTheme), value);
+        }
     }
 }

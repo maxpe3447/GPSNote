@@ -22,7 +22,7 @@ namespace GPSNote
         protected override async void OnInitialized()
         {
             InitializeComponent();
-             await NavigationService.NavigateAsync(nameof(Views.StartPageView));
+            await NavigationService.NavigateAsync(nameof(Views.StartPageView));
         }
         protected override void RegisterTypes(IContainerRegistry containerRegistry)
         {

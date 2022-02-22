@@ -5,7 +5,8 @@
              xmlns:controls="clr-namespace:GPSNote.Controls"
              prism:ViewModelLocator.AutowireViewModel="true"
              x:Class="GPSNote.Views.CreateAnAccountView"
-             Background="{StaticResource White}">
+             Background = "{AppThemeBinding Light={StaticResource White},
+                                            Dark ={StaticResource BackgroundDark}}">
 
     <ContentPage.Content>
         <StackLayout>
@@ -22,7 +23,8 @@
                        FontSize="24"
                        HorizontalTextAlignment="Center"
                        VerticalTextAlignment="Center"
-                       TextColor ="{StaticResource Black}"
+                       TextColor="{AppThemeBinding Light={StaticResource Black},
+                                                   Dark ={StaticResource White}}"
                        FontFamily="{StaticResource MainFont}"
                        Margin="0,0,0,10"/>
 
@@ -46,7 +48,8 @@
             <!--LABEL NAME-->
             <Label Text="{Binding TextResources[Name]}"
                    Margin="30, 20, 10, 0"
-                   TextColor="{StaticResource DarkGray}"
+                   TextColor="{AppThemeBinding Light={StaticResource DarkGray},
+                                               Dark ={StaticResource White}}"
                    FontFamily="{StaticResource MainFont}"
                    FontSize="18"/>
 
@@ -55,14 +58,18 @@
                                  Margin="28, 0, 30,0"
                                  FontSize="18"
                                  Text="{Binding UserName}"
-                                 TextColor="{StaticResource Black}"
+                                 TextColor="{AppThemeBinding Light={StaticResource Black},
+                                                             Dark ={StaticResource White}}"
                                  FontFamily="{StaticResource MainFont}"
-                                 BorderColor ="{StaticResource LightGray}"/>
-
+                                 BorderColor ="{StaticResource LightGray}"
+                                 PlaceholderColor="{AppThemeBinding Light= {StaticResource Black},
+                                                                    Dark= {StaticResource White}}"/>
+            
             <!--LABEL EMAIL-->
             <Label Text="{Binding TextResources[Email]}"
                    Margin="30, 10, 10,0"
-                   TextColor="{StaticResource DarkGray}"
+                   TextColor="{AppThemeBinding Light={StaticResource DarkGray},
+                                               Dark ={StaticResource White}}"
                    FontFamily="{StaticResource MainFont}"
                    FontSize="18"/>
 
@@ -74,7 +81,10 @@
                                  Text="{Binding UserEmail}"
                                  FontFamily="{StaticResource MainFont}"
                                  BorderColor ="{StaticResource LightGray}"
-                                 TextColor="{StaticResource Black}"/>
+                                 TextColor="{AppThemeBinding Light={StaticResource Black},
+                                                             Dark ={StaticResource White}}"
+                                 PlaceholderColor="{AppThemeBinding Light= {StaticResource Black},
+                                                                    Dark= {StaticResource White}}"/>
 
             <!--BUTTON NEXT-->
             <Button Text="{Binding TextResources[Next]}"

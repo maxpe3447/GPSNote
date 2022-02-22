@@ -183,5 +183,25 @@ namespace GPSNote.Controls
             var passLine = (PasswordLine)bindable;
             passLine.eText.FontFamily = newValue.ToString();
         }
+        public static readonly BindableProperty PlaceholderColorProperty = BindableProperty.Create(
+            nameof(BorderColor),
+            typeof(Color),
+            typeof(PasswordLine),
+            defaultValue: default(Color),
+            defaultBindingMode: BindingMode.TwoWay,
+            propertyChanged: PlaceholderColorChanged);
+
+        public Color PlaceholderColor
+        {
+            get => (Color)GetValue(BorderColorProperty);
+            set => SetValue(BorderColorProperty, value);
+        }
+
+        private static void PlaceholderColorChanged(BindableObject bindable, object oldValue, object newValue)
+        {
+            var control = bindable as PasswordLine;
+
+            control.eText.PlaceholderColor = (Color)newValue;
+        }
     }
 }

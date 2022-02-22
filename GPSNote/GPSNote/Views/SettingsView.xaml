@@ -3,16 +3,9 @@
              xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
              xmlns:prism="http://prismlibrary.com" 
              x:Class="GPSNote.Views.SettingsView"
-             BackgroundColor="{DynamicResource BackGround}">
-    <!--<ContentPage.Resources>
-        <Style x:Key="ButtonStyle"
-               TargetType="Button">
-            <Setter Property="BackgroundColor"
-                    Value="{AppThemeBinding Light={StaticResource LightPrimaryColor}, Dark={StaticResource DarkPrimaryColor}}" />
-            <Setter Property="TextColor"
-                    Value="{AppThemeBinding Light={StaticResource LightSecondaryColor}, Dark={StaticResource DarkSecondaryColor}}" />
-        </Style>
-    </ContentPage.Resources>-->
+             BackgroundColor="{AppThemeBinding Light={StaticResource White}, 
+                                               Dark ={StaticResource BackgroundDark}}">
+    
     <ContentPage.Content>
         
         <StackLayout>
@@ -24,8 +17,8 @@
 
                 <!--LABEL SETINGS-->
                 <Label Text="{Binding TextResources[Settings]}"
-                       TextColor="{AppThemeBinding Light={DynamicResource Black}, 
-                                                   Dark={DynamicResource White}}"
+                       TextColor="{AppThemeBinding Light={StaticResource Black}, 
+                                                   Dark={StaticResource White}}"
                        Grid.Row="0"
                        FontSize="24"
                        FontFamily="{Binding MainFont}"
@@ -56,7 +49,8 @@
             <Grid RowDefinitions="58"
                   ColumnDefinitions="*, 70">
 
-                <Label TextColor="{StaticResource Black}"
+                <Label TextColor="{AppThemeBinding Light={StaticResource Black}, 
+                                                   Dark ={StaticResource White}}"
                        Text="{Binding TextResources[DarkThem]}"
                        FontFamily="{StaticResource MainFont}"
                        FontSize="18"
@@ -68,7 +62,8 @@
                         WidthRequest="36"
                         Margin="5, 18, 16, 18"
                         OnColor="{StaticResource LightBlue}"
-                        ThumbColor="{StaticResource White}"/>
+                        ThumbColor="{StaticResource White}"
+                        IsToggled="{Binding IsDark}"/>
             </Grid>
         </StackLayout>
     </ContentPage.Content>

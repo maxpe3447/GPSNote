@@ -6,7 +6,9 @@
              prism:ViewModelLocator.AutowireViewModel="True"
              x:Class="GPSNote.Views.PinListView"
              Title="{Binding Title}"
-             IconImageSource="{StaticResource ic_pin}">
+             IconImageSource="{StaticResource ic_pin}"
+             BackgroundColor="{AppThemeBinding Light={StaticResource White}, 
+                                               Dark={StaticResource BackgroundDark}}">
     <ContentPage.Content>
         <AbsoluteLayout >
 

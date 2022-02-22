@@ -283,8 +283,8 @@ namespace GPSNote.ViewModels
                 
                 Name = _oldPin.Name;
                 Description = _oldPin.Description;
-                Longitude = _oldPin.Coordinate;
-
+                Longitude = _oldPin.Longitude.ToString("0.000000");
+                Latitude = _oldPin.Latitude.ToString("0.000000");
 
                 PinsList.Add(new Pin
                 {

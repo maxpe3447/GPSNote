@@ -39,7 +39,8 @@
                     <!--NAME LABEL-->
                     <Label x:Name="lName"
                            FontSize="25"
-                           TextColor="{StaticResource Black}"
+                           TextColor="{AppThemeBinding Light={StaticResource Black}, 
+                                                       Dark={StaticResource White}}"
                            Padding="12, 0, 15, 0"
                            Grid.Column="1"
                            Grid.Row="0"/>
@@ -48,7 +49,8 @@
                     <Label x:Name="lCoordinate"
                            FontSize="20"
                            Padding="12, 0, 0, 0"
-                           TextColor="{StaticResource DarkGray}"
+                           TextColor="{AppThemeBinding Light={StaticResource DarkGray}, 
+                                                       Dark={StaticResource White}}"
                            Grid.Column="1"
                            Grid.Row="1"/>
 

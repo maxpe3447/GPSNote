@@ -1,5 +1,6 @@
 ﻿using GPSNote.Helpers;
 using GPSNote.Resources;
+using GPSNote.Services.Settings;
 using Prism.Navigation;
 using System;
 using System.Collections.Generic;
@@ -11,10 +12,14 @@ namespace GPSNote.ViewModels
 {
     public class SettingsViewModel:ViewModelBase
     {
-        public SettingsViewModel(INavigationService navigation):base(navigation)
+        public SettingsViewModel(INavigationService navigation,
+                                 ISettingsManager settingsManager)
+            :base(navigation)
         {
+            _SettingsManager = settingsManager;
+            IsDark = _SettingsManager.IsDarkTheme;
+
             BackCommand = new Command(BackCommandRelease);
-            ThemeChangeCommand = new Command(ThemeChangeCommandRelease);
 
             TextResources = new TextResources(typeof(TextControls));
         }
@@ -26,6 +31,26 @@ namespace GPSNote.ViewModels
             get => _textResources;
             set => SetProperty(ref _textResources, value);
         }
+
+        private bool _isDark;
+        public bool IsDark
+        {
+            get => _isDark;
+            set
+            {
+                SetProperty(ref _isDark, value);
+
+                if (IsDark)
+                {
+                    App.Current.UserAppTheme = OSAppTheme.Dark;
+                }
+                else
+                {
+                    App.Current.UserAppTheme = OSAppTheme.Light;
+                }
+                _SettingsManager.IsDarkTheme = IsDark;
+            }
+        }
         #endregion
 
         #region --Command --
@@ -36,21 +61,10 @@ namespace GPSNote.ViewModels
             await NavigationService.GoBackAsync();
         }
 
-        public ICommand ThemeChangeCommand { get; }
+        #endregion
 
-        private void ThemeChangeCommandRelease()
-        {
-            //if(App.Current.UserAppTheme == OSAppTheme.Light)
-            //{
-            //    App.Current.UserAppTheme = OSAppTheme.Dark;
-            //}
-            //else if(App.Current.UserAppTheme == OSAppTheme.Dark)
-            //{
-            //    App.Current.UserAppTheme = OSAppTheme.Light;
-            //}
-
-            App.Current.Resources["BackGround"] = App.Current.Resources["Black"];
-        }
+        #region -- Private -- 
+        private ISettingsManager _SettingsManager;
         #endregion
     }
 }

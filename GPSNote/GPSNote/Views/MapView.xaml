@@ -8,7 +8,9 @@
              prism:ViewModelLocator.AutowireViewModel="True"
              x:Class="GPSNote.Views.MapView"
              Title="{Binding TextResources[Map]}"
-             IconImageSource="{StaticResource ic_map}">
+             IconImageSource="{StaticResource ic_map}"
+             BackgroundColor="{AppThemeBinding Light={StaticResource White}, 
+                                               Dark={StaticResource BackgroundDark}}">
 
     <ContentPage.Content>
 
@@ -39,7 +41,9 @@
                                      InitialCameraUpdate="{Binding InitialCameraUpdate}"
                                      CameraCurPosition ="{Binding CameraPosition}"
                                      VerticalOptions="FillAndExpand"
-                                     Margin="0,-20, 0, -13"/>
+                                     Margin="0,-20, 0, -13"
+                                     BackgroundColor="{AppThemeBinding Light={StaticResource White}, 
+                                                                   Dark={StaticResource DarkGray}}"/>
 
                 <ScrollView>
 
@@ -71,7 +75,8 @@
             <!--BUTTON LOCATION-->
             <Button ImageSource="{StaticResource ic_location}"
                    FontSize="35"
-                   BackgroundColor="{StaticResource White}"
+                   BackgroundColor="{AppThemeBinding Light={StaticResource White}, 
+                                                     Dark={StaticResource BackgroundDark}}"
                    Margin="0, 0, 30, 40"
                    WidthRequest="70"
                    HeightRequest="70"

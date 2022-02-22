@@ -4,7 +4,7 @@
              x:Class="GPSNote.Controls.TabDescription">
     <ContentView.Content>
         <ScrollView>
-            <StackLayout>
+            <StackLayout >
                 <Grid 
                       RowSpacing="3"
                       x:Name="grid">
@@ -17,7 +17,9 @@
 
                     <!--BACKGROUND OF TAG-->
                     <Frame Grid.Row="0" Grid.RowSpan="5"
-                           CornerRadius="10"/>
+                           CornerRadius="10"
+                           BackgroundColor="{AppThemeBinding Light={StaticResource White}, 
+                                                             Dark ={StaticResource BackgroundDark}}"/>
 
                     <Grid Grid.Row="0"
                           ColumnDefinitions="*, Auto">
@@ -27,7 +29,8 @@
                                Grid.Column="0"
                                FontSize="25"
                                FontFamily="{StaticResource MainFont}"
-                               TextColor="{StaticResource Black}"
+                               TextColor="{AppThemeBinding Light={StaticResource Black}, 
+                                                           Dark ={StaticResource White}}"
                                Margin="16, 16, 0, 0"/>
 
                         <!--SHARE BUTTON-->
@@ -43,10 +46,13 @@
                            FontSize="18"
                            Margin="16, 0, 0, 16"
                            FontFamily="{StaticResource MainFont}"
-                           TextColor="{StaticResource DarkGray}"/>
+                           TextColor="{AppThemeBinding Light={StaticResource DarkGray}, 
+                                                       Dark ={StaticResource White}}"
+                           />
 
                     <!--SEPARATOR-->
-                    <Frame BackgroundColor="{StaticResource White}"
+                    <Frame BackgroundColor="{AppThemeBinding Light={StaticResource DarkGray}, 
+                                                             Dark ={StaticResource White}}"
                        Margin="16, 0, 16, 0"
                        Grid.Row="2"/>
 
@@ -55,7 +61,8 @@
                            Grid.Row="3"
                            FontSize="20"
                            FontFamily="{StaticResource MainFont}"
-                           TextColor="{StaticResource Black}"
+                           TextColor="{AppThemeBinding Light={StaticResource Black}, 
+                                                       Dark={StaticResource White}}"
                            Margin="16, 0, 16, 24"/>
 
                 </Grid>
