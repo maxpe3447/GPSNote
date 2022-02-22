@@ -47,24 +47,102 @@
                            Margin="16, 0, 0, 16"
                            FontFamily="{StaticResource MainFont}"
                            TextColor="{AppThemeBinding Light={StaticResource DarkGray}, 
-                                                       Dark ={StaticResource White}}"
-                           />
+                                                       Dark ={StaticResource White}}"/>
 
                     <!--SEPARATOR-->
                     <Frame BackgroundColor="{AppThemeBinding Light={StaticResource DarkGray}, 
                                                              Dark ={StaticResource White}}"
                        Margin="16, 0, 16, 0"
                        Grid.Row="2"/>
+                    <ScrollView Grid.Row="3">
+                        <StackLayout>
+                        <Grid 
+                          ColumnDefinitions="*,*,*,*"
+                          RowDefinitions="Auto, *, Auto"
+                          RowSpacing="0"
+                          Margin="16, 0, 16, 16">
 
-                    <!--DESCRIPTION LABEL-->
-                    <Label x:Name="lDescriptions"
+                            <Label x:Name="lFirstDayName"
+                               Grid.Row="0" Grid.Column="0"
+                               HorizontalOptions="Center"
+                                   FontSize="18"
+                               FontFamily="{StaticResource MainFont}"
+                               TextColor="{AppThemeBinding Light={StaticResource DarkGray}, 
+                                           Dark ={StaticResource White}}"/>
+                            <Image x:Name="iFirstDay"
+                               Grid.Row="1" Grid.Column="0"
+                               HorizontalOptions="Fill"
+                               VerticalOptions="Fill"/>
+                            <Label x:Name="lFirstDayTemp"
+                               Grid.Row="2" Grid.Column="0"
+                                   HorizontalOptions="Center"
+                                   FontSize="18"
+                               FontFamily="{StaticResource MainFont}"
+                               TextColor="{AppThemeBinding Light={StaticResource DarkGray}, 
+                                           Dark ={StaticResource White}}"/>
+
+                            <Label x:Name="lSecondDayName"
+                               Grid.Row="0" Grid.Column="1"
+                               HorizontalOptions="Center"
+                                   FontSize="18"
+                               FontFamily="{StaticResource MainFont}"
+                               TextColor="{AppThemeBinding Light={StaticResource DarkGray}, 
+                                           Dark ={StaticResource White}}"/>
+                            <Image x:Name="iSecondDay"
+                               Grid.Row="1" Grid.Column="1"/>
+                            <Label x:Name="lSecondDayTemp"
+                               Grid.Row="2" Grid.Column="1"
+                                   HorizontalOptions="Center"
+                                   FontSize="18"
+                               FontFamily="{StaticResource MainFont}"
+                               TextColor="{AppThemeBinding Light={StaticResource DarkGray}, 
+                                           Dark ={StaticResource White}}"/>
+
+                            <Label x:Name="lThirdDayName"
+                               Grid.Row="0" Grid.Column="2"
+                               HorizontalOptions="Center"
+                                   FontSize="18"
+                               FontFamily="{StaticResource MainFont}"
+                               TextColor="{AppThemeBinding Light={StaticResource DarkGray}, 
+                                           Dark ={StaticResource White}}"/>
+                            <Image x:Name="iThirdDay"
+                               Grid.Row="1" Grid.Column="2"/>
+                            <Label x:Name="lThirdDayTemp"
+                               Grid.Row="2" Grid.Column="2"
+                                   HorizontalOptions="Center"
+                                   FontSize="18"
+                               FontFamily="{StaticResource MainFont}"
+                               TextColor="{AppThemeBinding Light={StaticResource DarkGray}, 
+                                           Dark ={StaticResource White}}"/>
+
+                            <Label x:Name="lFourDayName"
+                               Grid.Row="0" Grid.Column="3"
+                               HorizontalOptions="Center"
+                                   FontSize="18"
+                               FontFamily="{StaticResource MainFont}"
+                               TextColor="{AppThemeBinding Light={StaticResource DarkGray}, 
+                                           Dark ={StaticResource White}}"/>
+                            <Image x:Name="iFourdDay"
+                               Grid.Row="1" Grid.Column="3"/>
+                            <Label x:Name="lFourDayTemp"
+                               Grid.Row="2" Grid.Column="3"
+                                   HorizontalOptions="Center"
+                                   FontSize="18"
+                               FontFamily="{StaticResource MainFont}"
+                               TextColor="{AppThemeBinding Light={StaticResource DarkGray}, 
+                                           Dark ={StaticResource White}}"/>
+
+                        </Grid>
+                        <!--DESCRIPTION LABEL-->
+                        <Label x:Name="lDescriptions"
                            Grid.Row="3"
                            FontSize="20"
                            FontFamily="{StaticResource MainFont}"
                            TextColor="{AppThemeBinding Light={StaticResource Black}, 
                                                        Dark={StaticResource White}}"
                            Margin="16, 0, 16, 24"/>
-
+                        </StackLayout>
+                    </ScrollView>
                 </Grid>
             </StackLayout>
         </ScrollView>

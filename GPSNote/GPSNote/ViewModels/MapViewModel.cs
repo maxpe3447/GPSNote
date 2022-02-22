@@ -16,6 +16,7 @@ using GPSNote.Resources;
 using System.Collections.Specialized;
 using GPSNote.Services.Settings;
 using GPSNote.Views;
+using GPSNote.Models.Weather;
 
 namespace GPSNote.ViewModels
 {
@@ -167,6 +168,13 @@ namespace GPSNote.ViewModels
             get => _cameraPosition;
             set => SetProperty(ref _cameraPosition, value);
         }
+
+        private WeatherModel _weatherModel;
+        public WeatherModel WeatherModel
+        {
+            get => _weatherModel;
+            set => SetProperty(ref _weatherModel, value);
+        }
         #endregion
 
         #region -- Command -- 
@@ -213,6 +221,14 @@ namespace GPSNote.ViewModels
                 MyLocationButtonEnabled = false;
                 
                 ShowTabDescriptionAsync();
+            }
+            if (Connectivity.NetworkAccess == NetworkAccess.Internet)
+            {
+                WeatherModel = Weather.GetResponse(PinClick.Position.Latitude, PinClick.Position.Longitude);
+            }
+            else
+            {
+                UserDialogs.Instance.Alert(UserMsg.WrongInternetConnect);
             }
         }
         public ICommand MapClickCommand { get; }
@@ -323,7 +339,7 @@ namespace GPSNote.ViewModels
         private int _UserId { get; set; }
         private IRepository _Repository { get; }
         private ISettingsManager _SettingsManager { get; }
-        private const double _maxTabDescriptionHeight = 210;
+        private const double _maxTabDescriptionHeight = 300;
         private const int _stepTabDescriptionHeight = 30;
         
 

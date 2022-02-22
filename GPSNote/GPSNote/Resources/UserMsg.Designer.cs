@@ -185,5 +185,14 @@ namespace GPSNote.Resources {
                 return ResourceManager.GetString("WrongEmail", resourceCulture);
             }
         }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Error internet connection(((.
+        /// </summary>
+        internal static string WrongInternetConnect {
+            get {
+                return ResourceManager.GetString("WrongInternetConnect", resourceCulture);
+            }
+        }
     }
 }

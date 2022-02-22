@@ -1,4 +1,6 @@
-﻿using System;
+﻿using GPSNote.Enums;
+using GPSNote.Models.Weather;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -137,6 +139,52 @@ namespace GPSNote.Controls
             var control = (TabDescription)bindable;
 
             control.bShare.Command = (ICommand)newValue;
+        }
+
+        public static readonly BindableProperty WeatherProperty =
+            BindableProperty.Create(nameof(FontFamily),
+                                    typeof(WeatherModel),
+                                    typeof(TabDescription),
+                                    default(WeatherModel),
+                                    defaultBindingMode: BindingMode.TwoWay,
+                                    propertyChanged: OnWeatherChanged);
+
+        public WeatherModel Weather
+        {
+            get { return (WeatherModel)GetValue(WeatherProperty); }
+            set { SetValue(WeatherProperty, value); }
+        }
+        private static void OnWeatherChanged(BindableObject bindable,
+                                                object oldValue,
+                                                object newValue)
+        {
+            var desc = (TabDescription)bindable;
+
+            const byte START_CUT = 0;
+            const byte END_CUT= 3;
+
+            desc.lFirstDayName.Text  = DateTime.Now.DayOfWeek.ToString().Substring(START_CUT, END_CUT);
+            desc.lSecondDayName.Text = DateTime.Now.AddDays((byte)EDayType.SECOND_DAY).DayOfWeek.ToString().Substring(START_CUT, END_CUT);
+            desc.lThirdDayName.Text  = DateTime.Now.AddDays((byte)EDayType.THIRD_DAY).DayOfWeek.ToString().Substring(START_CUT, END_CUT);
+            desc.lFourDayName.Text   = DateTime.Now.AddDays((byte)EDayType.FOUR_DAY).DayOfWeek.ToString().Substring(START_CUT, END_CUT);
+
+            if (newValue is WeatherModel weather)
+            {
+                var firstDayInfo = weather.List[(byte)EDayType.FIRST_DAY];
+                var secondDayInfo = weather.List[(byte)EDayType.SECOND_DAY];
+                var thirdDayInfo = weather.List[(byte)EDayType.THIRD_DAY];
+                var fourthDayInfo = weather.List[(byte)EDayType.FOUR_DAY];
+
+                desc.iFirstDay.Source  = ImageSource.FromFile("_" + firstDayInfo.weather.First().Icon);
+                desc.iSecondDay.Source = ImageSource.FromFile("_" + secondDayInfo.weather.First().Icon);
+                desc.iThirdDay.Source  = ImageSource.FromFile("_" + thirdDayInfo.weather.First().Icon);
+                desc.iFourdDay.Source  = ImageSource.FromFile("_" + fourthDayInfo.weather.First().Icon);
+
+                desc.lFirstDayTemp.Text  = $"{(byte)firstDayInfo.Main.Temp_max}° {(byte)firstDayInfo.Main.Temp_min}°";
+                desc.lSecondDayTemp.Text = $"{(byte)secondDayInfo.Main.Temp_max}° {(byte)secondDayInfo.Main.Temp_min}°";
+                desc.lThirdDayTemp.Text  = $"{(byte)thirdDayInfo.Main.Temp_max}° {(byte)thirdDayInfo.Main.Temp_min}°";
+                desc.lFourDayTemp.Text   = $"{(byte)fourthDayInfo.Main.Temp_max}° {(byte)fourthDayInfo.Main.Temp_min}°";
+            }
         }
     }
 }

@@ -159,4 +159,7 @@
   <data name="WrongEmail" xml:space="preserve">
     <value>Wrong Email</value>
   </data>
+  <data name="WrongInternetConnect" xml:space="preserve">
+    <value>Error internet connection(((</value>
+  </data>
 </root>

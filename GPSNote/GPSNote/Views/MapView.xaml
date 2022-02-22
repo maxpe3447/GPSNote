@@ -54,7 +54,8 @@
                                              Name="{Binding DescName}"
                                              Coordinate="{Binding DescCoordinate}"
                                              Description ="{Binding DescDescription}"
-                                             ShareCommand="{Binding ShareCommand}"/>
+                                             ShareCommand="{Binding ShareCommand}"
+                                             Weather="{Binding WeatherModel}"/>
 
                 </ScrollView>
 
