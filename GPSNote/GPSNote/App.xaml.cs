@@ -7,6 +7,9 @@ using GPSNote.Services.Authentication;
 using GPSNote.Services.Autherization;
 using GPSNote.Services.Settings;
 using GPSNote.Services.PinManager;
+using System;
+using Prism.Navigation;
+using GPSNote.Models;
 
 namespace GPSNote
 {
@@ -24,6 +27,39 @@ namespace GPSNote
             InitializeComponent();
             await NavigationService.NavigateAsync(nameof(Views.StartPageView));
         }
+
+        protected override void OnAppLinkRequestReceived(Uri uri)
+        {
+            base.OnAppLinkRequestReceived(uri);
+
+            const char SEPARATOR = '/';
+
+            if(uri.Host.ToLower() == $"{nameof(GPSNote)}.{nameof(App)}".ToLower() && uri.Segments != null && uri.Segments.Length == 6)
+            {
+                string action = uri.Segments[1].Trim(SEPARATOR);
+                bool isActionLatValid = double.TryParse(uri.Segments[2].Trim(SEPARATOR), out double LatLatitude);
+                bool isActionLongValid = double.TryParse(uri.Segments[3].Trim(SEPARATOR), out double Longitude);
+                
+                if (action.ToLower() == "geo" && isActionLatValid && isActionLongValid)
+                {
+                    NavigationParameters parameters = new NavigationParameters();
+                    if(LatLatitude > 0 && Longitude > 0)
+                    {
+                        LinkModel linkModel = new LinkModel
+                        {
+                            Latitude = LatLatitude,
+                            Longitude = Longitude,
+                            Name = uri.Segments[4].Trim(SEPARATOR),
+                            Description = uri.Segments[5]
+
+                        };
+                        parameters.Add(nameof(LinkModel), linkModel);
+                    }
+                    NavigationService.NavigateAsync(nameof(Views.StartPageView), parameters);
+                }
+            }
+        }
+
         protected override void RegisterTypes(IContainerRegistry containerRegistry)
         {
             //containerRegistry.RegisterSingleton<AppInfo, AppInfoImplementation>();

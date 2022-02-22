@@ -12,10 +12,21 @@ using Plugin.Permissions;
 using Plugin.Permissions.Abstractions;
 using System.Collections.Generic;
 using Xamarin.Forms.GoogleMaps.Android;
+using Android.Support.Annotation;
 
 namespace GPSNote.Droid
-{//, Theme = "@style/MainTheme"
+{
+    
     [Activity(Label = "GPSNote", Icon = "@mipmap/icon", MainLauncher = true, ConfigurationChanges = ConfigChanges.ScreenSize | ConfigChanges.Orientation | ConfigChanges.UiMode | ConfigChanges.ScreenLayout | ConfigChanges.SmallestScreenSize)]
+    [IntentFilter(new[] {Android.Content.Intent.ActionView},
+                  DataSchemes =new[] { "http", "https" },
+                  DataHost = "GPSNote.App",
+                  DataPathPrefix ="/",
+                  AutoVerify =true,
+                  Categories = new[] {Android.Content.Intent.ActionView, 
+                                      Android.Content.Intent.CategoryBrowsable, 
+                                      Android.Content.Intent.CategoryDefault})]
+
     public class MainActivity : global::Xamarin.Forms.Platform.Android.FormsAppCompatActivity
     {
         protected override void OnCreate(Bundle savedInstanceState)
@@ -100,7 +111,6 @@ namespace GPSNote.Droid
         //    }
         //}
         const int RequestLocationId = 0;
-
         readonly string[] LocationPermissions =
         {
                 Manifest.Permission.AccessCoarseLocation,

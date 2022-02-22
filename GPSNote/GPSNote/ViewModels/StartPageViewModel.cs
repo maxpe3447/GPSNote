@@ -1,4 +1,5 @@
 ﻿using GPSNote.Helpers;
+using GPSNote.Models;
 using GPSNote.Services.Settings;
 using Prism.Navigation;
 using System;
@@ -28,13 +29,13 @@ namespace GPSNote.ViewModels
         public TextResources TextResources
         {
             get => _textResources;
-            set=>SetProperty(ref _textResources, value);   
+            set => SetProperty(ref _textResources, value);
         }
         #endregion
 
         #region -- Commands --
-        public ICommand LogInCommand { get;}
-        public ICommand CreateAnAccountCommand { get;}
+        public ICommand LogInCommand { get; }
+        public ICommand CreateAnAccountCommand { get; }
         #endregion
 
         #region -- Overrides --
@@ -43,6 +44,26 @@ namespace GPSNote.ViewModels
             if (_SettingsManager.IsDarkTheme)
             {
                 App.Current.UserAppTheme = OSAppTheme.Dark;
+            }
+        }
+
+        public override void OnNavigatedTo(INavigationParameters parameters)
+        {
+            base.OnNavigatedTo(parameters);
+
+            if (parameters.TryGetValue<LinkModel>(nameof(LinkModel), out var link))
+            {
+                
+                _LinkModel = link;
+            }
+        }
+
+        public override void OnNavigatedFrom(INavigationParameters parameters)
+        {
+            base.OnNavigatedFrom(parameters);
+            if(_LinkModel != null)
+            {
+                parameters.Add(nameof(LinkModel), _LinkModel);
             }
         }
         #endregion
@@ -58,6 +79,7 @@ namespace GPSNote.ViewModels
         }
 
         private ISettingsManager _SettingsManager { get; }
+        private LinkModel _LinkModel { get; set; } = null;
         #endregion
     }
 }

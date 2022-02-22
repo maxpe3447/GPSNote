@@ -1,11 +1,8 @@
 ﻿using GPSNote.Models.Weather;
 using Newtonsoft.Json;
 using System;
-using System.Collections.Generic;
 using System.IO;
 using System.Net;
-using System.Text;
-using Xamarin.Essentials;
 
 namespace GPSNote.Helpers
 {

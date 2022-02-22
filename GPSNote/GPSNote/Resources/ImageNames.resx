@@ -121,7 +121,7 @@
     <value>ic_clear</value>
   </data>
   <data name="ic_eye" xml:space="preserve">
-    <value>ic_eye.png</value>
+    <value>ic_eye</value>
   </data>
   <data name="ic_eye_off" xml:space="preserve">
     <value>ic_eye_off</value>

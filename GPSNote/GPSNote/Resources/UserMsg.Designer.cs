@@ -97,11 +97,29 @@ namespace GPSNote.Resources {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to You have a linl. Do you want show is?.
+        /// </summary>
+        internal static string HaveALink {
+            get {
+                return ResourceManager.GetString("HaveALink", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to The password is incorrect.
         /// </summary>
         internal static string IncorrectPas {
             get {
                 return ResourceManager.GetString("IncorrectPas", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to No.
+        /// </summary>
+        internal static string No {
+            get {
+                return ResourceManager.GetString("No", resourceCulture);
             }
         }
         

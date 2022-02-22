@@ -70,7 +70,7 @@ namespace GPSNote.Resources {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to ic_eye.png.
+        ///   Looks up a localized string similar to ic_eye.
         /// </summary>
         internal static string ic_eye {
             get {

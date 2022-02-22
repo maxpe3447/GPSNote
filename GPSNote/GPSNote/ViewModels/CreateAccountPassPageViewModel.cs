@@ -109,6 +109,19 @@ namespace GPSNote.ViewModels
                 throw new ArgumentNullException(nameof(_userModel));
             }
             _userModel = parameters.GetValue<UserModel>(nameof(_userModel));
+            if (parameters.TryGetValue<LinkModel>(nameof(LinkModel), out var link))
+            {
+                _LinkModel = link;
+            }
+        }
+
+        public override void OnNavigatedFrom(INavigationParameters parameters)
+        {
+            base.OnNavigatedFrom(parameters);
+            if (_LinkModel != null)
+            {
+                parameters.Add(nameof(LinkModel), _LinkModel);
+            }
         }
         #endregion
 
@@ -116,6 +129,7 @@ namespace GPSNote.ViewModels
         private UserModel _userModel;
         private IAutherization _Autherization { get; }
         private IAuthentication _Authentication { get; }
+        private LinkModel _LinkModel { get; set; } = null;
         #endregion
     }
 }

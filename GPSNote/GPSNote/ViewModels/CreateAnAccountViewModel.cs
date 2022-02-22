@@ -68,8 +68,6 @@ namespace GPSNote.ViewModels
                 Name = UserName
             };
 
-            //userModel.Id = _Repository.InsertAsync(userModel).Result;
-
             INavigationParameters keyValues = new NavigationParameters();
             keyValues.Add(nameof(_userModel), _userModel);
 
@@ -87,12 +85,28 @@ namespace GPSNote.ViewModels
 
         #region -- Overrides -- 
 
-         
+        public override void OnNavigatedTo(INavigationParameters parameters)
+        {
+            if (parameters.TryGetValue<LinkModel>(nameof(LinkModel), out var link))
+            {
+                _LinkModel = link;
+            }
+        }
+
+        public override void OnNavigatedFrom(INavigationParameters parameters)
+        {
+            base.OnNavigatedFrom(parameters);
+            if (_LinkModel != null)
+            {
+                parameters.Add(nameof(LinkModel), _LinkModel);
+            }
+        }
 
         #endregion
 
         #region -- Private -- 
         private UserModel _userModel;
+        private LinkModel _LinkModel { get; set; } = null;
         #endregion
     }
 }

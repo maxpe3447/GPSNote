@@ -203,14 +203,14 @@ namespace GPSNote.ViewModels
             }
             catch
             {
-                UserDialogs.Instance.Alert(Resources.UserMsg.PlsCheckGPS);
+                UserDialogs.Instance.Alert(UserMsg.PlsCheckGPS);
             }
         }
 
         public ICommand ExidCommand { get; }
         private void ExidCommandRelease()
         {
-            NavigationService.NavigateAsync($"/{nameof(Views.StartPageView)}");
+            NavigationService.NavigateAsync($"/{nameof(StartPageView)}");
         }
 
         public ICommand PinClickCommand { get; }
@@ -228,7 +228,7 @@ namespace GPSNote.ViewModels
             }
             else
             {
-                UserDialogs.Instance.Alert(UserMsg.WrongInternetConnect);
+                UserDialogs.Instance.AlertAsync(UserMsg.WrongInternetConnect);
             }
         }
         public ICommand MapClickCommand { get; }
@@ -250,7 +250,7 @@ namespace GPSNote.ViewModels
         {
             try
             {
-                var uri = new Uri($"geo:{PinClick.Position.Latitude},{PinClick.Position.Longitude}");
+                var uri = new Uri($"http://GPSNote.App/geo/{PinClick.Position.Latitude}/{PinClick.Position.Longitude}/{PinClick.Label}/{PinClick.Address}");
                 await Share.RequestAsync(new ShareTextRequest
                 {
                     Text = UserMsg.SharePin,
@@ -295,13 +295,11 @@ namespace GPSNote.ViewModels
                 {
                     if (e.OldItems[0] is PinModel removeObj) {
                         var pin = PinsList.FirstOrDefault(x => x.Position == removeObj.Position);
-
-                            PinsList.Remove(pin);
+                        PinsList.Remove(pin);
                     }
                 }
             };
             _ = InitPinsListAsync(); 
-            
         }
 
         public override void OnNavigatedFrom(INavigationParameters parameters)
@@ -313,24 +311,38 @@ namespace GPSNote.ViewModels
             }
             parameters.Add(nameof(PinModel.UserId), _UserId);
 
-            _SettingsManager.LastLongitude = CameraPosition.Target.Longitude;// ?? _SettingsManager.LastLongitude;
+            _SettingsManager.LastLongitude = CameraPosition?.Target.Longitude ?? _SettingsManager.LastLongitude;
             _SettingsManager.LastLatitude = CameraPosition?.Target.Latitude ?? _SettingsManager.LastLatitude;
             _SettingsManager.CameraZoom = CameraPosition?.Zoom ?? _SettingsManager.CameraZoom;
         }
 
-        public override void OnNavigatedTo(INavigationParameters parameters)
+        public override async void OnNavigatedTo(INavigationParameters parameters)
         {
             base.OnNavigatedTo(parameters);
-            
-            //if (parameters.TryGetValue<List<PinModel>>(nameof(PinModelsList), out var newCounterValue))
-            //{
-            //    PinModelsList = newCounterValue;
-            //}
+
+            if (parameters.TryGetValue<LinkModel>(nameof(LinkModel), out var link))
+            {
+                var res = await UserDialogs.Instance.ConfirmAsync(new ConfirmConfig 
+                { 
+                    Message =UserMsg.HaveALink, 
+                    OkText = UserMsg.Ok,
+                    CancelText = UserMsg.No});
+                if (res)
+                {
+                    var pos = new Position(link.Latitude, link.Longitude);
+                    PinModelsList.Add(new PinModel 
+                    { 
+                        Position = pos,
+                        Name = link.Name,
+                        Description = link.Description
+                    });
+                    GoToPosition = pos;
+                }
+            }
             if (parameters.TryGetValue<PinModel>(nameof(PinListViewModel.SelectedPin), out var pin))
             {
                 GoToPosition = pin.Position;
             }
-
         }
         #endregion
 
@@ -339,17 +351,20 @@ namespace GPSNote.ViewModels
         private int _UserId { get; set; }
         private IRepository _Repository { get; }
         private ISettingsManager _SettingsManager { get; }
-        private const double _maxTabDescriptionHeight = 300;
+        private const double _maxTabDescriptionHeight = 290;
         private const int _stepTabDescriptionHeight = 30;
         
-
+        
         private async void ShowTabDescriptionAsync()
         {
-            for (int i = 0; i < _maxTabDescriptionHeight; i += _stepTabDescriptionHeight)
-            {
-                TabDescriptionHeight = i;
-                await Task.Delay(1);
-            }
+           await Task.Run(async ()=>
+           {
+               for (int i = 0; i < _maxTabDescriptionHeight; i += _stepTabDescriptionHeight)
+               {
+                   TabDescriptionHeight = i;
+                   await Task.Delay(1);
+               }
+           });
 
         }
         private async void UnShowTabDescriptionAsync()

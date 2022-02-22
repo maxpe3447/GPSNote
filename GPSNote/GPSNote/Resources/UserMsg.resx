@@ -129,8 +129,14 @@
   <data name="ErrorEditPin" xml:space="preserve">
     <value>Error edit pin!</value>
   </data>
+  <data name="HaveALink" xml:space="preserve">
+    <value>You have a linl. Do you want show is?</value>
+  </data>
   <data name="IncorrectPas" xml:space="preserve">
     <value>The password is incorrect</value>
+  </data>
+  <data name="No" xml:space="preserve">
+    <value>No</value>
   </data>
   <data name="Ok" xml:space="preserve">
     <value>Ok</value>
