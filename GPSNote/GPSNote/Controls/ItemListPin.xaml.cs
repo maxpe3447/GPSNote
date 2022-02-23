@@ -10,29 +10,29 @@ using Xamarin.Forms;
 
 namespace GPSNote.Controls
 {
-    public partial class ItemListPin : ViewCell
+    public partial class ItemListPin : ContentView
     {
         public ItemListPin()
         {
             InitializeComponent();
 
-            bDelete.IsVisible = bEdit.IsVisible = _isMenuOpen;
+            //bDelete.IsVisible = bEdit.IsVisible = _isMenuOpen;
 
-            bMenu.Clicked += (s, e) =>
-             {
+            //bMenu.Clicked += (s, e) =>
+            // {
 
-                 if (!_isMenuOpen)
-                 {
-                     _isMenuOpen = true;
-                     ShowMenu();
-                 }
-                 else
-                 {
-                     _isMenuOpen = false;
-                     UnShowMenu();
+            //     if (!_isMenuOpen)
+            //     {
+            //         _isMenuOpen = true;
+            //         ShowMenu();
+            //     }
+            //     else
+            //     {
+            //         _isMenuOpen = false;
+            //         UnShowMenu();
 
-                 }
-             };
+            //     }
+            // };
         }
 
 
@@ -149,8 +149,8 @@ namespace GPSNote.Controls
             if (newValue is ICommand command)
             {
 
-                itemListPin.bEdit.Command = command;
-                itemListPin.bEdit.CommandParameter = itemListPin.TextCoord;
+                //itemListPin.bEdit.Command = command;
+                //itemListPin.bEdit.CommandParameter = itemListPin.TextCoord;
             }
 
         }
@@ -162,8 +162,8 @@ namespace GPSNote.Controls
             if (newValue is ICommand command)
             {
 
-                itemListPin.bDelete.Command = command;
-                itemListPin.bDelete.CommandParameter = itemListPin.TextCoord;
+                //itemListPin.bDelete.Command = command;
+                //itemListPin.bDelete.CommandParameter = itemListPin.TextCoord;
             }
 
         }
@@ -182,37 +182,37 @@ namespace GPSNote.Controls
 
         }
 
-        private async void ShowMenu()
-        {
-            bDelete.IsVisible = bEdit.IsVisible = _isMenuOpen;
-            delta = 0;
-            for (int i = 0; i <= _buttonMenuWidth; i += _animationStep)
-            {
-                grid.Margin = new Thickness(grid.Margin.Left - (delta++), 
-                                            grid.Margin.Top, 
-                                            grid.Margin.Right, 
-                                            grid.Margin.Bottom);
-                cdDelete.Width = i;
-                cdEdit.Width = i;
-                await Task.Delay(1);
-            }
+        //private async void ShowMenu()
+        //{
+        //    bDelete.IsVisible = bEdit.IsVisible = _isMenuOpen;
+        //    delta = 0;
+        //    for (int i = 0; i <= _buttonMenuWidth; i += _animationStep)
+        //    {
+        //        grid.Margin = new Thickness(grid.Margin.Left - (delta++), 
+        //                                    grid.Margin.Top, 
+        //                                    grid.Margin.Right, 
+        //                                    grid.Margin.Bottom);
+        //        cdDelete.Width = i;
+        //        cdEdit.Width = i;
+        //        await Task.Delay(1);
+        //    }
             
-        }
-        private async void UnShowMenu()
-        {
+        //}
+        //private async void UnShowMenu()
+        //{
             
-            for (int i = _buttonMenuWidth; i >= 0; i -= _animationStep)
-            {
-                grid.Margin = new Thickness(grid.Margin.Left + (--delta), 
-                                            grid.Margin.Top, 
-                                            grid.Margin.Right, 
-                                            grid.Margin.Bottom);
-                cdDelete.Width = i;
-                cdEdit.Width = i;
-                await Task.Delay(1);
-            }
-            bDelete.IsVisible = bEdit.IsVisible = _isMenuOpen;
-        }
+        //    for (int i = _buttonMenuWidth; i >= 0; i -= _animationStep)
+        //    {
+        //        grid.Margin = new Thickness(grid.Margin.Left + (--delta), 
+        //                                    grid.Margin.Top, 
+        //                                    grid.Margin.Right, 
+        //                                    grid.Margin.Bottom);
+        //        cdDelete.Width = i;
+        //        cdEdit.Width = i;
+        //        await Task.Delay(1);
+        //    }
+        //    bDelete.IsVisible = bEdit.IsVisible = _isMenuOpen;
+        //}
         private const int _buttonMenuWidth = 56;
         private bool _isMenuOpen = false;
         private const int _animationStep = 4;

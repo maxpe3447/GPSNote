@@ -137,26 +137,27 @@ namespace GPSNote.ViewModels
         public ICommand EditCommand { get; }
         private void EditCommandRelease(object obj)
         {
-            PinModel model;
-            try
-            {
-                model = PinModelsList.First(p => p.Coordinate == obj.ToString());
-            }
-            catch
-            {
-                Acr.UserDialogs.UserDialogs.Instance.Alert(UserMsg.ErrorEditPin, 
-                                                           UserMsg.Error, 
-                                                           UserMsg.Ok);
-                return;
-            }
+            Acr.UserDialogs.UserDialogs.Instance.Alert(obj.ToString());
+            //PinModel model;
+            //try
+            //{
+            //    model = PinModelsList.First(p => p.Coordinate == obj.ToString());
+            //}
+            //catch
+            //{
+            //    Acr.UserDialogs.UserDialogs.Instance.Alert(UserMsg.ErrorEditPin, 
+            //                                               UserMsg.Error, 
+            //                                               UserMsg.Ok);
+            //    return;
+            //}
 
-            _isEditPin = true;
+            //_isEditPin = true;
 
-            NavigationParameters parametrs = new NavigationParameters();
-            parametrs.Add(nameof(_isEditPin), true);
-            parametrs.Add(nameof(PinModel), model);
+            //NavigationParameters parametrs = new NavigationParameters();
+            //parametrs.Add(nameof(_isEditPin), true);
+            //parametrs.Add(nameof(PinModel), model);
 
-            NavigationService.NavigateAsync(nameof(Views.CreatePinView), parametrs);
+            //NavigationService.NavigateAsync(nameof(Views.CreatePinView), parametrs);
         }
 
         public ICommand GoToSettingsCommand { get; }

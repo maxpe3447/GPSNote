@@ -12,16 +12,17 @@
                 </Grid.RowDefinitions>
 
                 <Grid.ColumnDefinitions>
-                    <ColumnDefinition Width="40"/>
+                    <ColumnDefinition Width="52"/>
                     <ColumnDefinition x:Name="serchColumn" 
                                       Width="*"/>
-                    <ColumnDefinition Width="40"/>
+                    <ColumnDefinition Width="52"/>
                 </Grid.ColumnDefinitions>
 
                 <!--SETTINGS BUTTON-->
                 <Button x:Name="bSettingOrBack"
                         ImageSource="{StaticResource ic_settings}"
-                        Margin="20, 0,0,0"
+                        
+                        Padding="25, 0,21,0"
                         BackgroundColor="Transparent"/>
 
                 <!--BACKGROUNG OF ENTRY-->
@@ -36,7 +37,7 @@
                                          Placeholder="Search"
                                          Grid.Column="1"
                                          Grid.Row="0"
-                                         BorderColor="{StaticResource LightLightGray}"
+                                         BorderColor="Transparent"
                                          IsEnabled="True"
                                          FontFamily="{StaticResource MainFont}"
                                          BackgroundColor="{AppThemeBinding Light={StaticResource LightLightGray}, 
@@ -45,11 +46,11 @@
                                                                             Dark={StaticResource White}}"/>
                 </Frame>
 
-                <!--SEARCH BUTTON-->
-                <Button x:Name="searchButton" 
+                <!--EXIT BUTTON-->
+                <Button x:Name="bExit" 
                         Grid.Column="2"
                         Grid.Row="0"
-                        Margin="0, 0, 20,0"
+                        Padding ="15, 0, 19,0"
                         ImageSource="{StaticResource ic_exid}"
                         BackgroundColor="Transparent"/>
 

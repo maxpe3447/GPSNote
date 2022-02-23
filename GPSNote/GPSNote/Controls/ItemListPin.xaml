@@ -1,11 +1,11 @@
 ﻿<?xml version="1.0" encoding="UTF-8"?>
-<ViewCell xmlns="http://xamarin.com/schemas/2014/forms" 
+<ContentView xmlns="http://xamarin.com/schemas/2014/forms" 
           xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
           xmlns:view="clr-namespace:GPSNote.Views"
           x:Class="GPSNote.Controls.ItemListPin">
-    <ViewCell.View>
+    
         <StackLayout>
-            <StackLayout Padding="0,0,40,0">
+            <StackLayout Padding="0,0,0,0">
                 <Grid x:Name="grid"
                       ColumnSpacing ="0" 
                       RowSpacing="2">
@@ -17,12 +17,9 @@
 
                     <Grid.ColumnDefinitions>
                         <ColumnDefinition Width="68"/>
-                        <ColumnDefinition Width="*"/>
                         <ColumnDefinition Width="Auto"/>
-                        <ColumnDefinition x:Name="cdDelete"
-                                          Width="0"/>
-                        <ColumnDefinition x:Name="cdEdit"
-                                          Width="0"/>
+                        <ColumnDefinition Width="*"/>
+                        
                     </Grid.ColumnDefinitions>
 
                     <!--LIKE BUTTON-->
@@ -31,8 +28,8 @@
                             HorizontalOptions="CenterAndExpand"
                             VerticalOptions="CenterAndExpand"
                             Grid.Row="0" Grid.Column="0"
-                            Grid.RowSpan="2"
                             BackgroundColor="{StaticResource LightLightGray}"
+                            Grid.RowSpan="2"
                             Margin="16,0,0,0"
                             CornerRadius="6"/>
 
@@ -54,8 +51,17 @@
                            Grid.Column="1"
                            Grid.Row="1"/>
 
+
+                    <Image Source="{StaticResource ic_left_gray}"
+                           Grid.Row="0"
+                           Grid.Column="2" Grid.RowSpan="2"
+                           Margin="0,0,25, 0"
+                           WidthRequest="24"
+                           HeightRequest="48"
+                           VerticalOptions="Center"
+                           HorizontalOptions="End"/>
                     <!--MENU BUTTON-->
-                    <Button x:Name="bMenu" 
+                    <!--<Button x:Name="bMenu" 
                             ImageSource="{StaticResource ic_left_gray}"
                             Grid.Row="0"
                             Grid.Column="2"
@@ -64,23 +70,23 @@
                             HeightRequest="75"
                             BackgroundColor="Transparent"
                             VerticalOptions="Fill"
-                            HorizontalOptions="Fill"/>
+                            HorizontalOptions="Fill"/>-->
 
                     <!--DELETE BUTTON-->
-                    <Button x:Name="bDelete" 
+                    <!--<Button x:Name="bDelete" 
                             ImageSource="{StaticResource ic_delete}"
                             Grid.Row="0"
                             Grid.Column="3"
                             Grid.RowSpan="2"
                             BackgroundColor="{StaticResource LightRed}"/>
 
-                    <!--EDIT BUTTON-->
+                    --><!--EDIT BUTTON--><!--
                     <Button x:Name="bEdit" 
                             ImageSource="{StaticResource ic_edit}"
                             Grid.Row="0"
                             Grid.Column="4"
                             Grid.RowSpan="2"
-                            BackgroundColor="{StaticResource LightBlue}"/>
+                            BackgroundColor="{StaticResource LightBlue}"/>-->
 
                 </Grid>
             </StackLayout>
@@ -95,5 +101,5 @@
             </Grid>
 
         </StackLayout>
-    </ViewCell.View>
-</ViewCell>
+
+</ContentView>

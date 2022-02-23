@@ -1,6 +1,7 @@
 ﻿using GPSNote.Helpers;
 using GPSNote.Models;
 using GPSNote.Services.Settings;
+using Prism.Commands;
 using Prism.Navigation;
 using System;
 using System.Collections.Generic;
@@ -17,9 +18,6 @@ namespace GPSNote.ViewModels
         {
             _SettingsManager = settingsManager;
 
-            LogInCommand = new Command(LogInCommandRelease);
-            CreateAnAccountCommand = new Command(CreateAnAccountRelease);
-
             TextResources = new TextResources(typeof(Resources.TextControls));
         }
 
@@ -34,8 +32,14 @@ namespace GPSNote.ViewModels
         #endregion
 
         #region -- Commands --
-        public ICommand LogInCommand { get; }
-        public ICommand CreateAnAccountCommand { get; }
+        public ICommand LogInCommand
+        {
+            get => new DelegateCommand(LogInCommandRelease);
+        }
+        public ICommand CreateAnAccountCommand 
+        {
+            get => new DelegateCommand(CreateAnAccountRelease);
+        }
         #endregion
 
         #region -- Overrides --
@@ -71,11 +75,11 @@ namespace GPSNote.ViewModels
         #region -- Private --
         private void LogInCommandRelease()
         {
-            NavigationService.NavigateAsync(nameof(Views.LogInPageView));
+            NavigationService.NavigateAsync($"/{nameof(Views.LogInPageView)}");
         }
         private async void CreateAnAccountRelease()
         {
-            await NavigationService.NavigateAsync(nameof(Views.CreateAnAccountView));
+            await NavigationService.NavigateAsync($"/{nameof(Views.CreateAnAccountView)}");
         }
 
         private ISettingsManager _SettingsManager { get; }

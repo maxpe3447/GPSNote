@@ -5,6 +5,8 @@ using GPSNote.Resources;
 using GPSNote.Services.Authentication;
 using GPSNote.Services.Repository;
 using GPSNote.Services.Settings;
+using GPSNote.Views;
+using Prism.Commands;
 using Prism.Navigation;
 using System.Windows.Input;
 using Xamarin.Forms;
@@ -13,17 +15,16 @@ namespace GPSNote.ViewModels
 {
     class LogInPageViewModel : ViewModelBase
     {
-        public LogInPageViewModel(INavigationService navigationService,
-                                  IAuthentication authentication,
-                                  ISettingsManager settingManager) 
+        readonly private IAuthentication authentication;
+
+        public LogInPageViewModel(
+            INavigationService navigationService,
+            IAuthentication authentication,
+            ISettingsManager settingManager) 
             : base(navigationService)
         {
-            _Authentication = authentication;
+            this.authentication = authentication;
             _settingsManager = settingManager;
-
-            SigninCommand = new Command(SignInRelease);
-            BackCommand = new  Command(BackCommandRelease);
-            GoogleAuthCommand = new Command(GoogleAuthCommandRelease);
 
             TextResources = new TextResources(typeof(TextControls));
 
@@ -41,7 +42,7 @@ namespace GPSNote.ViewModels
         private string _userPassword;
         public string UserPassword
         {
-            get => _userPassword ?? _settingsManager.LastPassword;
+            get => _userPassword;
             set => SetProperty(ref _userPassword, value);
         }
 
@@ -75,7 +76,7 @@ namespace GPSNote.ViewModels
         #endregion
 
         #region -- Command --
-        public ICommand SigninCommand { get; }
+        public ICommand SigninCommand { get => new DelegateCommand(SignInRelease); }
         private async void SignInRelease()
         {
             
@@ -85,32 +86,31 @@ namespace GPSNote.ViewModels
                 Password = UserPassword
             };
 
-            if (!string.IsNullOrEmpty(UserPassword) && !string.IsNullOrEmpty(UserEmail) && _Authentication.IsExistAsync(_userModel, out int id))
+            if (!string.IsNullOrEmpty(UserPassword) && !string.IsNullOrEmpty(UserEmail) && authentication.IsExistAsync(_userModel, out int id))
             {
                 _settingsManager.LastEmail = UserEmail;
-                _settingsManager.LastPassword = UserPassword;
 
                 NavigationParameters parameters = new NavigationParameters();
                 parameters.Add(nameof(PinModel.UserId), id);
                 
-                await NavigationService.NavigateAsync($"/{nameof(Views.MainPage)}?createTab={nameof(Views.MapView)}&createTab={nameof(Views.PinListView)}", parameters);
+                await NavigationService.NavigateAsync($"/{nameof(MainPage)}?createTab={nameof(MapView)}&createTab={nameof(PinListView)}", parameters);
                 
             }
             else
             {
-                ErrorColor = (Color)App.Current.Resources[Resources.ColorsName.LightRed];
+                ErrorColor = (Color)App.Current.Resources[ColorsName.LightRed];
                 EmailErrorMsgText = UserMsg.WrongEmail;
                 PasswordErrorMsgText = UserMsg.IncorrectPas;
             }
         }
 
-        public ICommand BackCommand { get; }
+        public ICommand BackCommand { get => new DelegateCommand(BackCommandRelease); }
         private async void BackCommandRelease()
         {
-            await NavigationService.GoBackAsync();
+            await NavigationService.NavigateAsync($"/{nameof(StartPageView)}");
         }
 
-        public ICommand GoogleAuthCommand { get; }
+        public ICommand GoogleAuthCommand { get => new DelegateCommand(GoogleAuthCommandRelease); }
         private void GoogleAuthCommandRelease()
         {
             //GoogleAuth.GoogleAuthentication();
@@ -146,7 +146,7 @@ namespace GPSNote.ViewModels
 
         #region -- Private --
         private UserModel _userModel = null;
-        private IAuthentication _Authentication { get; }
+
         private ISettingsManager _settingsManager { get; }
         private LinkModel _LinkModel { get; set; } = null;
         #endregion
