@@ -3,6 +3,7 @@ using GPSNote.Controls;
 using GPSNote.iOS.Renders;
 using System;
 using System.Collections.Generic;
+using System.ComponentModel;
 using System.Linq;
 using System.Text;
 using UIKit;
@@ -21,9 +22,20 @@ namespace GPSNote.iOS.Renders
             //Configure Native control (UITextField)
             if (Control != null)
             {
-                Control.Layer.BorderWidth = 0;
-                Control.BorderStyle = UIKit.UITextBorderStyle.None;
+                Control.Layer.BorderWidth = 3;
+                Control.Layer.BorderColor = UIColor.Black.CGColor;
             }
         }
+
+        //protected override void OnElementPropertyChanged(object sender, PropertyChangedEventArgs e)
+        //{
+        //    base.OnElementPropertyChanged(sender, e);
+        //    if (e.PropertyName == nameof(BorderEntry.BorderColor))
+        //    {
+        //        var en = (BorderEntry)sender;
+        //        Control.Layer.BorderWidth = 3;
+        //        Control.Layer.BorderColor = en.BorderColor.ToCGColor();
+        //    }
+        //}
     }
 }

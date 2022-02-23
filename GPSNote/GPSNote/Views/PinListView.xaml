@@ -16,16 +16,12 @@
 
                 <!--SEARCH LINE-->
                 <controls:SearchLine TextLine="{Binding SearchPin}" 
-                                     CommandSearch="{Binding SearchCommand}"
                                      Padding="0,0,40,0"
                                      TextChangeCommand="{Binding SearchCommand}"
                                      ExidCommand="{Binding ExidCommand}"
                                      SettingsCommand="{Binding GoToSettingsCommand}"/>
 
-
                 <ScrollView >
-                    
-                    <!--PINS LIST-->
                     <controls:UnSelectedItemListView ItemsSource="{Binding PinModelsList, Mode=TwoWay}"
                                                      SelectedItem="{Binding SelectedPin, Mode=TwoWay}"
                                                      HasUnevenRows="True"
@@ -34,20 +30,47 @@
 
                         <ListView.ItemTemplate>
                             <DataTemplate>
+                                <ViewCell>
+                                    <ViewCell.View>
+                                        <SwipeView Margin="0,0,30,0">
+                                            <SwipeView.RightItems>
+                                                <SwipeItems>
 
+                                                    <SwipeItem IconImageSource="{StaticResource ic_edit}"
+                                                       BackgroundColor="{StaticResource LightBlue}"
+                                                       CommandParameter="{Binding .}"
+                                                       Command="{Binding EditCommand}"/>
+
+                                                    <SwipeItem BackgroundColor="{StaticResource LightRed}"
+                                                       Command="{Binding EditCommand}"
+                                                       CommandParameter="{Binding .}"
+                                                       IconImageSource="{StaticResource ic_delete}"/>
+                                                </SwipeItems>
+                                            </SwipeView.RightItems>
+                                            <SwipeView.Content>
+                                                <controls:ItemListPin TextName="{Binding Name}"
+                                                      TextCoord="{Binding Coordinate}"
+                                                      LikeCommand="{Binding LikeCommand}"
+                                                      
+                                                      IsFavorit="{Binding IsFavorit, Mode=TwoWay}"/>
+                                            </SwipeView.Content>
+                                        </SwipeView>
+                                    </ViewCell.View>
+                                </ViewCell>
                                 <!--PIN ITEM-->
-                                <controls:ItemListPin TextName="{Binding Name}"
+                                <!--<controls:ItemListPin TextName="{Binding Name}"
                                                       TextCoord="{Binding Coordinate}"
                                                       LikeCommand="{Binding LikeCommand}"
                                                       EditCommand="{Binding EditCommand}"
                                                       DeleteCommand="{Binding DeleteCommand}"
-                                                      IsFavorit="{Binding IsFavorit, Mode=TwoWay}"/>
+                                                      IsFavorit="{Binding IsFavorit, Mode=TwoWay}"/>-->
                             </DataTemplate>
                         </ListView.ItemTemplate>
                     </controls:UnSelectedItemListView>
+
                 </ScrollView>
             </StackLayout>
-
+            
             <!--MY LOCATION BUTTON-->
             <Button ImageSource="{StaticResource ic_plus}"
                     FontSize="35"

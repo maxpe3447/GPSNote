@@ -7,6 +7,7 @@ using GPSNote.Helpers;
 using GPSNote.Models;
 using GPSNote.Services.Autherization;
 using GPSNote.Services.Repository;
+using Prism.Commands;
 using Prism.Navigation;
 using Xamarin.Forms;
 
@@ -18,9 +19,6 @@ namespace GPSNote.ViewModels
             :base(navigationService)
         {
             TextResources = new TextResources(typeof(Resources.TextControls));
-
-            NextCommand = new Command(NextCommandRelease);
-            BackCommand = new Command(BackCommandRelease);
         }
         #region -- Properties --
         private string _userEmail;
@@ -37,19 +35,6 @@ namespace GPSNote.ViewModels
             set => SetProperty(ref _userName, value);
         }
 
-        //private string userPassword;
-        //public string UserPassword {
-        //    get => userPassword;
-        //    set => SetProperty(ref userPassword, value);
-        //}
-
-        //private string userConfirmPassword;
-        //public string UserConfirmPassword
-        //{
-        //    get => userConfirmPassword;
-        //    set => SetProperty(ref userConfirmPassword, value);
-        //}
-
         private TextResources _textResources;
         public TextResources TextResources
         {
@@ -59,7 +44,7 @@ namespace GPSNote.ViewModels
         #endregion
 
         #region -- Command --
-        public ICommand NextCommand { get; }
+        public ICommand NextCommand { get => new DelegateCommand(NextCommandRelease); }
         private void NextCommandRelease()
         {
             _userModel = new UserModel()
@@ -71,14 +56,14 @@ namespace GPSNote.ViewModels
             INavigationParameters keyValues = new NavigationParameters();
             keyValues.Add(nameof(_userModel), _userModel);
 
-            NavigationService.NavigateAsync(nameof(Views.CreateAccountPassPageView),keyValues);
+            NavigationService.NavigateAsync($"/{nameof(Views.CreateAccountPassPageView)}",keyValues);
 
         }
 
-        public ICommand BackCommand { get; }
+        public ICommand BackCommand { get => new DelegateCommand(BackCommandRelease); }
         private void BackCommandRelease()
         {
-            NavigationService.GoBackAsync();
+            NavigationService.NavigateAsync($"/{nameof(Views.StartPageView)}");
         }
 
         #endregion

@@ -4,6 +4,8 @@
              xmlns:prism ="http://prismlibrary.com"
              xmlns:controls="clr-namespace:GPSNote.Controls" 
              xmlns:viewmodels="clr-namespace:GPSNote.ViewModels" 
+             xmlns:android="clr-namespace:Xamarin.Forms.PlatformConfiguration.AndroidSpecific;assembly=Xamarin.Forms.Core"
+             android:TabbedPage.ToolbarPlacement="Bottom"
              x:DataType="viewmodels:MapViewModel"
              prism:ViewModelLocator.AutowireViewModel="True"
              x:Class="GPSNote.Views.MapView"

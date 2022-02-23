@@ -353,19 +353,15 @@ namespace GPSNote.ViewModels
         private ISettingsManager _SettingsManager { get; }
         private const double _maxTabDescriptionHeight = 290;
         private const int _stepTabDescriptionHeight = 30;
-        
-        
+
+
         private async void ShowTabDescriptionAsync()
         {
-           await Task.Run(async ()=>
-           {
-               for (int i = 0; i < _maxTabDescriptionHeight; i += _stepTabDescriptionHeight)
-               {
-                   TabDescriptionHeight = i;
-                   await Task.Delay(1);
-               }
-           });
-
+            for (int i = 0; i < _maxTabDescriptionHeight; i += _stepTabDescriptionHeight)
+            {
+                TabDescriptionHeight = i;
+                await Task.Delay(1);
+            }
         }
         private async void UnShowTabDescriptionAsync()
         {

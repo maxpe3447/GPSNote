@@ -3,6 +3,8 @@ using GPSNote.Helpers;
 using GPSNote.Models;
 using GPSNote.Services.Authentication;
 using GPSNote.Services.Autherization;
+using GPSNote.Views;
+using Prism.Commands;
 using Prism.Navigation;
 using System;
 using System.Collections.Generic;
@@ -12,18 +14,21 @@ using Xamarin.Forms;
 
 namespace GPSNote.ViewModels
 {
+
     public class CreateAccountPassPageViewModel : ViewModelBase
     {
-        public CreateAccountPassPageViewModel(INavigationService navigationService,
-                                              IAutherization autherization,
-                                              IAuthentication authentication)
+
+        readonly private IAutherization _autherization;
+        readonly private IAuthentication _authentication;
+
+        public CreateAccountPassPageViewModel(
+            INavigationService navigationService,
+            IAutherization autherization,
+            IAuthentication authentication)
             : base(navigationService)
         {
-            BackCommand = new Command(BackCommandRelease);
-            CreateAccountCommand = new Command(CreateAccountCommandRelease);
-
-            _Autherization = autherization;
-            _Authentication = authentication;
+            _autherization = autherization;
+            _authentication = authentication;
 
             TextResources = new TextResources(typeof(Resources.TextControls));
 
@@ -69,13 +74,13 @@ namespace GPSNote.ViewModels
         #endregion
 
         #region -- Commands --
-        public ICommand BackCommand { get; }
+        public ICommand BackCommand { get => new DelegateCommand(BackCommandRelease); }
         private async void BackCommandRelease()
         {
-            await NavigationService.GoBackAsync();
+            await NavigationService.NavigateAsync($"/{nameof(CreateAnAccountView)}");
         }
 
-        public ICommand CreateAccountCommand { get; }
+        public ICommand CreateAccountCommand { get=>new DelegateCommand(CreateAccountCommandRelease); }
         private async void CreateAccountCommandRelease()
         {
             if(UserPassword != UserPasswordRepeat)
@@ -90,13 +95,13 @@ namespace GPSNote.ViewModels
                 ErrorColor = (Color)App.Current.Resources[Resources.ColorsName.LightGray];
             }
             _userModel.Password = UserPassword;
-            await _Autherization.CreateAccount(_userModel);
+            await _autherization.CreateAccount(_userModel);
             
-            if(_Authentication.IsExistAsync(_userModel, out int id))
+            if(_authentication.IsExistAsync(_userModel, out int id))
             {
                 NavigationParameters parameters = new NavigationParameters();
                 parameters.Add(nameof(PinModel.UserId), id);
-                await NavigationService.NavigateAsync($"/{nameof(Views.MainPage)}?createTab={nameof(Views.MapView)}&createTab={nameof(Views.PinListView)}", parameters);
+                await NavigationService.NavigateAsync($"/{nameof(MainPage)}?createTab={nameof(MapView)}&createTab={nameof(PinListView)}", parameters);
             }
         }
         #endregion
@@ -127,8 +132,6 @@ namespace GPSNote.ViewModels
 
         #region -- Private --
         private UserModel _userModel;
-        private IAutherization _Autherization { get; }
-        private IAuthentication _Authentication { get; }
         private LinkModel _LinkModel { get; set; } = null;
         #endregion
     }

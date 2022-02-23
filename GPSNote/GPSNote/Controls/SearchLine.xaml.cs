@@ -25,13 +25,13 @@ namespace GPSNote.Controls
                                     defaultBindingMode: BindingMode.TwoWay,
                                     propertyChanged: TextLineChanged);
 
-        public static readonly BindableProperty CommandSearchProperty = 
-            BindableProperty.Create(nameof(CommandSearch),
-                                    typeof(ICommand),
-                                    typeof(SearchLine),
-                                    defaultValue: default(Command),
-                                    defaultBindingMode: BindingMode.TwoWay,
-                                    propertyChanged: CommandSearchChanged);
+        //public static readonly BindableProperty CommandSearchProperty = 
+        //    BindableProperty.Create(nameof(CommandSearch),
+        //                            typeof(ICommand),
+        //                            typeof(SearchLine),
+        //                            defaultValue: default(Command),
+        //                            defaultBindingMode: BindingMode.TwoWay,
+        //                            propertyChanged: CommandSearchChanged);
 
         public static readonly BindableProperty ItemsSourceProperty = 
             BindableProperty.Create(nameof(ItemsSource),
@@ -119,11 +119,11 @@ namespace GPSNote.Controls
             set { SetValue(KeyBoardProperty, value); }
         }
 
-        public ICommand CommandSearch
-        {
-            get => (ICommand)base.GetValue(CommandSearchProperty);
-            set => base.SetValue(CommandSearchProperty, value);
-        }
+        //public ICommand CommandSearch
+        //{
+        //    get => (ICommand)base.GetValue(CommandSearchProperty);
+        //    set => base.SetValue(CommandSearchProperty, value);
+        //}
 
         public ICommand TextChangeCommand
         {
@@ -153,12 +153,12 @@ namespace GPSNote.Controls
             control.line.Text = newValue?.ToString();
         }
 
-        private static void CommandSearchChanged(BindableObject bindable, object oldValue, object newValue)
-        {
-            var control = (SearchLine)bindable;
+        //private static void CommandSearchChanged(BindableObject bindable, object oldValue, object newValue)
+        //{
+        //    var control = (SearchLine)bindable;
 
-            control.searchButton.Command = (ICommand)newValue;
-        }
+        //    control.bExit.Command = (ICommand)newValue;
+        //}
 
         private static void OnSettingsCommandChanged(BindableObject bindable, object oldValue, object newValue)
         {
@@ -221,17 +221,20 @@ namespace GPSNote.Controls
 
             line.FocusedEv += (s, e) =>
               {
-                  const byte delta = 50;   
+                  const byte delta = 80;   
                   serchColumn.Width = Application.Current.MainPage.Width-delta;
+                  bExit.IsEnabled = false;
               };
             line.UnFocusedEv += (s, e) =>
             {
                 serchColumn.Width = GridLength.Star;
+                bExit.IsEnabled = true;
+
             };
 
             listView.HeightRequest = 0;
 
-            searchButton.Clicked += (s, e) =>
+            bExit.Clicked += (s, e) =>
               {
                   if (ExidCommand?.CanExecute(null) ?? false)
                   {

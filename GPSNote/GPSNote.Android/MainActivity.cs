@@ -17,7 +17,7 @@ using Android.Support.Annotation;
 namespace GPSNote.Droid
 {
     
-    [Activity(Label = "GPSNote", Icon = "@mipmap/icon", MainLauncher = true, ConfigurationChanges = ConfigChanges.ScreenSize | ConfigChanges.Orientation | ConfigChanges.UiMode | ConfigChanges.ScreenLayout | ConfigChanges.SmallestScreenSize)]
+    [Activity(Label = "GPSNote", Theme = "@style/MainTheme", Icon = "@mipmap/icon", MainLauncher = true, ConfigurationChanges = ConfigChanges.ScreenSize | ConfigChanges.Orientation | ConfigChanges.UiMode | ConfigChanges.ScreenLayout | ConfigChanges.SmallestScreenSize)]
     [IntentFilter(new[] {Android.Content.Intent.ActionView},
                   DataSchemes =new[] { "http", "https" },
                   DataHost = "GPSNote.App",
