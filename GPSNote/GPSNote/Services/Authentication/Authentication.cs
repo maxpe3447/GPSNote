@@ -1,5 +1,6 @@
 ﻿using GPSNote.Models;
 using GPSNote.Services.Repository;
+using GPSNote.Services.Settings;
 using System;
 using System.Collections.Generic;
 using System.Text;
@@ -8,17 +9,34 @@ namespace GPSNote.Services.Authentication
 {
     public class Authentication : IAuthentication
     {
-        public Authentication(IRepository repository)
+        private readonly IRepository _repository;
+        private readonly ISettingsManager _settingsManager;
+
+        public Authentication(
+            ISettingsManager settingsManager,
+            IRepository repository)
         {
-            _Repository = repository;
+            _repository = repository;
+            _settingsManager = settingsManager;
         }
-        public bool IsExistAsync(UserModel model, out int id)
+        public bool IsExist(UserModel model)
         {
-            return _Repository.IsExistAsync(model, out id);
+            bool isExist = _repository.IsExist(model, out var id);
+            UserId = id;
+
+            return isExist;
         }
 
-        #region -- Private --
-        IRepository _Repository { get; }
-        #endregion
+        public string LastEmail
+        {
+            get => _settingsManager.LastEmail;
+            set => _settingsManager.LastEmail = value;
+        }
+
+        public int UserId
+        {
+            get => _settingsManager.UserId;
+            set => _settingsManager.UserId = value;
+        }
     }
 }

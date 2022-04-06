@@ -8,7 +8,8 @@ namespace GPSNote.Services.PinManager
 {
     public interface IPinManager
     {
-        Task<List<PinModel>> GetAllPinsAsync(int userId);
+        List<PinDataModel> GetAllPins(int userId);
+
         Task<int> InsertAsync<T>(T entity);
         Task<int> UpdateAsync<T>(T entity) where T : IEntity;
         Task<int> DeleteAsync<T>(T entity) where T : IEntity;

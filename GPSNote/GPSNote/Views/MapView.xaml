@@ -34,7 +34,7 @@
                                      MyLocationButtonEnabled="{Binding MyLocationButtonEnabled}"
                                      MapType="Street"
                                      IsTrafficEnabled="True"
-                                     PinsCollection="{Binding PinsList}"
+                                     PinsCollection="{Binding PinViewModelList}"
                                      GoToPosition="{Binding GoToPosition}"
                                      ClickPosition="{Binding ClickPos}"
                                      PinClick="{Binding PinClick}"

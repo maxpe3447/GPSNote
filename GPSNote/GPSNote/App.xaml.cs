@@ -10,6 +10,8 @@ using GPSNote.Services.PinManager;
 using System;
 using Prism.Navigation;
 using GPSNote.Models;
+using GPSNote.Services.ThemeManager;
+using GPSNote.Services.LinkManager;
 
 namespace GPSNote
 {
@@ -65,11 +67,13 @@ namespace GPSNote
             //containerRegistry.RegisterSingleton<AppInfo, AppInfoImplementation>();
 
             //Services
+            containerRegistry.RegisterInstance<ISettingsManager>(Container.Resolve<SettingsManager>());
             containerRegistry.RegisterInstance<IRepository>(Container.Resolve<Repository>());
             containerRegistry.RegisterInstance<IAuthentication>(Container.Resolve<Authentication>());
             containerRegistry.RegisterInstance<IAutherization>(Container.Resolve<Autherization>());
-            containerRegistry.RegisterInstance<ISettingsManager>(Container.Resolve<SettingsManager>());
             containerRegistry.RegisterInstance<IPinManager>(Container.Resolve<PinManager>());
+            containerRegistry.RegisterInstance<IThemeManager>(Container.Resolve<ThemeManager>());
+            containerRegistry.RegisterInstance<ILinkManager>(Container.Resolve<LinkManager>());
 
             //Navigarion
             containerRegistry.RegisterForNavigation<NavigationPage>();

@@ -7,6 +7,10 @@ namespace GPSNote.Services.Authentication
 {
     public interface IAuthentication
     {
-        bool IsExistAsync(UserModel model, out int id);
+        bool IsExist(UserModel model);
+
+        string LastEmail { get; set; }
+
+        int UserId { get; set; }
     }
 }

@@ -1,6 +1,11 @@
 ﻿using GPSNote.Helpers;
 using GPSNote.Models;
+using GPSNote.Services.Authentication;
+using GPSNote.Services.Autherization;
+using GPSNote.Services.LinkManager;
 using GPSNote.Services.Settings;
+using GPSNote.Services.ThemeManager;
+using GPSNote.Views;
 using Prism.Commands;
 using Prism.Navigation;
 using System;
@@ -13,10 +18,20 @@ namespace GPSNote.ViewModels
 {
     public class StartPageViewModel : ViewModelBase
     {
-        public StartPageViewModel(INavigationService navigationService,
-                                  ISettingsManager settingsManager) : base(navigationService)
+        readonly private IAuthentication _authentication;
+        readonly private IThemeManager _themeManager;
+        readonly private ILinkManager _linkManager;
+
+        public StartPageViewModel(
+            INavigationService navigationService,
+            IAuthentication authentication,
+            IThemeManager themeManager,
+            ILinkManager linkManager
+            ) : base(navigationService)
         {
-            _SettingsManager = settingsManager;
+            _authentication = authentication;
+            _themeManager = themeManager;
+            _linkManager = linkManager;
 
             TextResources = new TextResources(typeof(Resources.TextControls));
         }
@@ -45,45 +60,48 @@ namespace GPSNote.ViewModels
         #region -- Overrides --
         public override void Initialize(INavigationParameters parameters)
         {
-            if (_SettingsManager.IsDarkTheme)
+            try
             {
-                App.Current.UserAppTheme = OSAppTheme.Dark;
+                if (_themeManager.IsDarkTheme != default(int))
+                {
+                    App.Current.UserAppTheme = OSAppTheme.Dark;
+                }
+            }catch (Exception ex)
+            {
+                Acr.UserDialogs.UserDialogs.Instance.Alert(ex.Message);
             }
         }
 
         public override void OnNavigatedTo(INavigationParameters parameters)
         {
             base.OnNavigatedTo(parameters);
-
+            if (_authentication.UserId != default(int))
+            {
+                NavigationService.NavigateAsync($"/{nameof(MainPage)}?createTab={nameof(MapView)}&createTab={nameof(PinListView)}");
+            }
             if (parameters.TryGetValue<LinkModel>(nameof(LinkModel), out var link))
             {
+
+                _linkManager.SetLinkModel(link);
                 
-                _LinkModel = link;
             }
         }
 
         public override void OnNavigatedFrom(INavigationParameters parameters)
         {
-            base.OnNavigatedFrom(parameters);
-            if(_LinkModel != null)
-            {
-                parameters.Add(nameof(LinkModel), _LinkModel);
-            }
+
         }
         #endregion
 
         #region -- Private --
         private void LogInCommandRelease()
         {
-            NavigationService.NavigateAsync($"/{nameof(Views.LogInPageView)}");
+            NavigationService.NavigateAsync($"/{nameof(LogInPageView)}");
         }
         private async void CreateAnAccountRelease()
         {
-            await NavigationService.NavigateAsync($"/{nameof(Views.CreateAnAccountView)}");
+            await NavigationService.NavigateAsync($"/{nameof(CreateAnAccountView)}");
         }
-
-        private ISettingsManager _SettingsManager { get; }
-        private LinkModel _LinkModel { get; set; } = null;
         #endregion
     }
 }

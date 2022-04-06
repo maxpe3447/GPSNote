@@ -12,11 +12,7 @@ namespace GPSNote.Services.Settings
             get => Preferences.Get(nameof(LastEmail), string.Empty);
             set => Preferences.Set(nameof(LastEmail), value);
         }
-        public string LastPassword
-        {
-            get => Preferences.Get(nameof(LastPassword), string.Empty);
-            set => Preferences.Set(nameof(LastPassword), value);
-        }
+
         public double LastLatitude 
         { 
             get => Preferences.Get(nameof(LastLatitude), 47.824734);
@@ -32,10 +28,15 @@ namespace GPSNote.Services.Settings
             get => Preferences.Get(nameof(CameraZoom), 13.0);
             set => Preferences.Set(nameof(CameraZoom), value);
         }
-        public bool IsDarkTheme 
+        public int IsDarkTheme 
         { 
-            get => Preferences.Get(nameof(IsDarkTheme), App.Current.RequestedTheme == Xamarin.Forms.OSAppTheme.Dark);
+            get => Preferences.Get(nameof(IsDarkTheme), Convert.ToInt32((App.Current.RequestedTheme == Xamarin.Forms.OSAppTheme.Dark)));
             set => Preferences.Set(nameof(IsDarkTheme), value);
+        }
+        public int UserId 
+        {
+            get => Preferences.Get(nameof(UserId), default(int)); 
+            set => Preferences.Set(nameof(UserId), value);
         }
     }
 }

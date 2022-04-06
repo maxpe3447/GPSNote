@@ -35,17 +35,17 @@ namespace GPSNote.Controls
 
         public static readonly BindableProperty ItemsSourceProperty = 
             BindableProperty.Create(nameof(ItemsSource),
-                                    typeof(List<PinModel>),
+                                    typeof(List<PinViewModel>),
                                     typeof(SearchLine),
-                                    defaultValue: default(List<PinModel>),
+                                    defaultValue: default(List<PinViewModel>),
                                     defaultBindingMode: BindingMode.TwoWay,
                                     propertyChanged: ItemsSourceChanged);
 
         public static readonly BindableProperty SelectedItemProperty = 
             BindableProperty.Create(nameof(SelectedItem),
-                                    typeof(PinModel),
+                                    typeof(PinViewModel),
                                     typeof(SearchLine),
-                                    defaultValue: default(PinModel),
+                                    defaultValue: default(PinViewModel),
                                     defaultBindingMode: BindingMode.TwoWay,
                                     propertyChanged: SelectedItemChanged);
 
@@ -101,15 +101,15 @@ namespace GPSNote.Controls
             set => base.SetValue(TextLineProperty, value);
         }
 
-        public List<PinModel> ItemsSource
+        public List<PinViewModel> ItemsSource
         {
-            get => (List<PinModel>)base.GetValue(ItemsSourceProperty);
+            get => (List<PinViewModel>)base.GetValue(ItemsSourceProperty);
             set => base.SetValue(ItemsSourceProperty, value);
         }
 
-        public PinModel SelectedItem
+        public PinViewModel SelectedItem
         {
-            get => (PinModel)GetValue(SelectedItemProperty);
+            get => (PinViewModel)GetValue(SelectedItemProperty);
             set => SetValue(SelectedItemProperty, value);
         }
 
@@ -153,13 +153,6 @@ namespace GPSNote.Controls
             control.line.Text = newValue?.ToString();
         }
 
-        //private static void CommandSearchChanged(BindableObject bindable, object oldValue, object newValue)
-        //{
-        //    var control = (SearchLine)bindable;
-
-        //    control.bExit.Command = (ICommand)newValue;
-        //}
-
         private static void OnSettingsCommandChanged(BindableObject bindable, object oldValue, object newValue)
         {
             var control = (SearchLine)bindable;
@@ -172,7 +165,7 @@ namespace GPSNote.Controls
             const int maxHeightForScrollView = 250;
             var control = (SearchLine)bindable;
 
-            var lst = (List<PinModel>)newValue;
+            var lst = (List<PinViewModel>)newValue;
 
             control.listView.ItemsSource = lst;
             int height = lst.Count * 50;
@@ -182,14 +175,9 @@ namespace GPSNote.Controls
         private static void SelectedItemChanged(BindableObject bindable, object oldValue, object newValue)
         {
             var control = (SearchLine)bindable;
-            control.SelectedItem = (PinModel)newValue;
+            control.SelectedItem = (PinViewModel)newValue;
         }
-        //private static void CollectionCountChanged(BindableObject bindable, object oldValue, object newValue)
-        //{
-        //    var control = (SearchLine)bindable;
-
-        //    col;
-        //}
+        
         private static void OnKeyBoardChanged(BindableObject bindable, object oldValue, object newValue)
         {
             var searckLine = (SearchLine)bindable;
@@ -212,7 +200,7 @@ namespace GPSNote.Controls
             };
             listView.ItemSelected += (s, e) =>
               {
-                  SelectedItem = (PinModel)e.SelectedItem;
+                  SelectedItem = (PinViewModel)e.SelectedItem;
                   listView.HeightRequest = 0;
                   listView.ItemsSource = null;
                   ItemsSource.Clear();

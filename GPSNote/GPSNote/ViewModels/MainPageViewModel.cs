@@ -10,7 +10,8 @@ namespace GPSNote.ViewModels
 {
     class MainPageViewModel : ViewModelBase
     {
-        public MainPageViewModel(INavigationService navigationService) : base(navigationService)
+        public MainPageViewModel(INavigationService navigationService) 
+            : base(navigationService)
         {
         }
     }

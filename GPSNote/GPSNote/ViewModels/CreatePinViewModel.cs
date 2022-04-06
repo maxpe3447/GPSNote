@@ -18,18 +18,27 @@ using Xamarin.Essentials;
 using Xamarin.Forms;
 using Xamarin.Forms.GoogleMaps;
 using Xamarin.Forms.PlatformConfiguration;
+using GPSNote.Extansion;
+using GPSNote.Services.Authentication;
 
 namespace GPSNote.ViewModels
 {
     public class CreatePinViewModel : ViewModelBase
     {
+        readonly private IAuthentication _authentication;
+        readonly private IPinManager _pinManager;
+        readonly private ISettingsManager _settingsManager;
+
+
         public CreatePinViewModel(INavigationService navigationService,
                                   IPinManager pinManager,
-                                  ISettingsManager settingsManager) 
+                                  ISettingsManager settingsManager,
+                                  IAuthentication authentication) 
             : base(navigationService)
         {
-            _PinManager = pinManager;
-            _SettingsManager = settingsManager;
+            _pinManager = pinManager;
+            _settingsManager = settingsManager;
+            _authentication = authentication;
 
             TextResources = new TextResources(typeof(Resources.TextControls));
 
@@ -39,11 +48,11 @@ namespace GPSNote.ViewModels
         }
         #region -- Propirties -- 
 
-        private ObservableCollection<Pin> _pinModelssList;
-        public ObservableCollection<Pin> PinsList
+        private List<PinViewModel> _pinViewList;
+        public List<PinViewModel> PinsList
         {
-            get => _pinModelssList ?? (_pinModelssList = new ObservableCollection<Pin>());
-            set => SetProperty(ref _pinModelssList, value);
+            get => _pinViewList ?? (_pinViewList = new List<PinViewModel>());
+            set => SetProperty(ref _pinViewList, value);
         }
 
         private Position _selectedPosition;
@@ -63,21 +72,18 @@ namespace GPSNote.ViewModels
                     return;
                 }
 
-                if(PinsList.Count >= 1)
                 {
-                    PinsList.Clear();
+                    PinsList = new List<PinViewModel> 
+                    {
+                        new PinViewModel
+                        {
+                            Name = (string.IsNullOrEmpty(Name)) ? string.Empty : Name,
+                            Position = SelectedPosition
+                        } 
+                    };
                 }
 
-                PinsList.Add(new Pin
-                {
-                    Label = (string.IsNullOrEmpty(Name)) ? string.Empty : Name,
-                    Position = SelectedPosition,
-                    Icon = BitmapDescriptorFactory.FromView(
-                        new Controls.BindingPinIconView((ImageSource)App.Current
-                                                                        .Resources[Resources
-                                                                        .ImageNames
-                                                                        .ic_placeholder]))
-                });
+                
                 GoToPosition = SelectedPosition;
             }
         }
@@ -156,8 +162,8 @@ namespace GPSNote.ViewModels
                 return;
             }
 
-            var pin = new PinModel {
-                Name = PinsList.First().Label,
+            var pin = new PinViewModel {
+                Name = PinsList.First().Name,
                 Description = PinsList.First().Address,
                 Position = PinsList.First().Position
             } ;
@@ -197,7 +203,7 @@ namespace GPSNote.ViewModels
                 return;
             }
 
-            pin.UserId = _UserId;
+            //pin.UserId = _UserId;
             
             if(Connectivity.NetworkAccess == NetworkAccess.Internet)
             {
@@ -205,7 +211,8 @@ namespace GPSNote.ViewModels
 
                 var address = (await geoCoder.GetAddressesForPositionAsync(pin.Position))
                                              .FirstOrDefault()
-                                             .Split(new[] { ' ' }, StringSplitOptions.RemoveEmptyEntries)
+                                             .Split(new[] { ' ' }, 
+                                             StringSplitOptions.RemoveEmptyEntries)
                                              .ToList();
 
                 address.Remove(address.First());
@@ -213,26 +220,26 @@ namespace GPSNote.ViewModels
 
                 pin.Address = string.Join(" ", address);
             }
-            NavigationParameters parameters = new NavigationParameters();
-            parameters.Add(nameof(PinModel), pin);
+            //NavigationParameters parameters = new NavigationParameters();
+            //parameters.Add(nameof(PinDataModel), pin);
 
             if(_oldPin != null)
             {
-                pin.Id = _oldPin.Id;
-                pin.UserId = _oldPin.UserId;
+                //pin.Id = _oldPin.Id;
+                //pin.UserId = _oldPin.UserId;
 
-                await _PinManager.UpdateAsync(pin);
+                await _pinManager.UpdateAsync(pin.PinViewToPinData(_pinManager.GetAllPins(_authentication.UserId)));
 
-                var pinForDel = _oldPin;
-                parameters.Add(nameof(pinForDel), pinForDel);
+                //var pinForDel = _oldPin;
+                //parameters.Add(nameof(pinForDel), pinForDel);
                 
             }
             else
             {
-                await _PinManager.InsertAsync(pin);
+                await _pinManager.InsertAsync(pin.PinViewToPinData(_authentication.UserId));
             }
 
-            await NavigationService.GoBackAsync(parameters);
+            await NavigationService.GoBackAsync(/*parameters*/);
         }
         public ICommand CancelCommand { get; }
         private async void CancelCommandRelease()
@@ -262,36 +269,37 @@ namespace GPSNote.ViewModels
 
         public override void Initialize(INavigationParameters parameters)
         {
-            double zoom = Convert.ToDouble(_SettingsManager.CameraZoom.ToString());
+            double zoom = Convert.ToDouble(_settingsManager.CameraZoom.ToString());
             InitialCameraUpdate = CameraUpdateFactory.NewCameraPosition(
-                new CameraPosition(new Position(_SettingsManager.LastLatitude,
-                                                _SettingsManager.LastLongitude),
+                new CameraPosition(new Position(_settingsManager.LastLatitude,
+                                                _settingsManager.LastLongitude),
                                                 zoom));
         }
 
         public override void OnNavigatedTo(INavigationParameters parameters)
         {
-            if(parameters.TryGetValue<int>(nameof(PinModel.UserId), out int id)){
-                _UserId = id;
-                Title = Resources.TextControls.AddPin;
-            }
+            Title = Resources.TextControls.AddPin;
+            
 
             if (parameters.TryGetValue(nameof(_isEditPin), out _isEditPin) && _isEditPin)
             {
 
-                _oldPin = parameters.GetValue<PinModel>(nameof(PinModel));
+                _oldPin = parameters.GetValue<PinViewModel>(nameof(PinViewModel));
                 
                 Name = _oldPin.Name;
                 Description = _oldPin.Description;
-                Longitude = _oldPin.Longitude.ToString("0.000000");
-                Latitude = _oldPin.Latitude.ToString("0.000000");
+                Longitude = _oldPin.Position.Longitude.ToString("0.000000");
+                Latitude = _oldPin.Position.Latitude.ToString("0.000000");
 
-                PinsList.Add(new Pin
-                {
-                    Label = Name,
-                    Address = Description,
-                    Position = _oldPin.Position
-                });
+                PinsList = new List<PinViewModel>
+                { 
+                    new PinViewModel
+                    {
+                        Name = Name,
+                        Address = Description,
+                        Position = _oldPin.Position
+                    }
+                };
 
                 GoToPosition = _oldPin.Position;
                 Title = Resources.TextControls.EditPin;
@@ -300,11 +308,8 @@ namespace GPSNote.ViewModels
         #endregion
 
         #region -- Private --
-        private PinModel _oldPin = null;
+        private PinViewModel _oldPin = null;
         private bool _isEditPin;
-        private IPinManager _PinManager { get; }
-        private ISettingsManager _SettingsManager { get; }
-        private int _UserId { get; set; }
         #endregion
     }
 }

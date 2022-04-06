@@ -5,7 +5,6 @@ using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.Windows.Input;
 using Xamarin.Forms;
-using GPSNote.Services.Repository;
 using Xamarin.Forms.GoogleMaps;
 using System.Threading.Tasks;
 using Xamarin.Essentials;
@@ -13,22 +12,34 @@ using System;
 using GPSNote.Helpers;
 using Acr.UserDialogs;
 using GPSNote.Resources;
-using System.Collections.Specialized;
 using GPSNote.Services.Settings;
 using GPSNote.Views;
 using GPSNote.Models.Weather;
+using GPSNote.Services.Authentication;
+using GPSNote.Services.PinManager;
+using GPSNote.Extansion;
+using GPSNote.Services.LinkManager;
 
 namespace GPSNote.ViewModels
 {
     internal class MapViewModel : ViewModelBase
     {
-        public MapViewModel(INavigationService navigationService,
-                            IRepository repository,
-                            ISettingsManager settingsManager) 
+        readonly private IAuthentication _authentication;
+        readonly private ISettingsManager _settingsManager;
+        readonly private IPinManager _pinManager;
+        readonly private ILinkManager _linkManager;
+        public MapViewModel(
+            INavigationService navigationService,
+            ISettingsManager settingsManager,
+            IAuthentication authentication,
+            IPinManager pinManager,
+            ILinkManager link)
             : base(navigationService)
         {
-            _Repository = repository;
-            _SettingsManager = settingsManager;
+            _settingsManager = settingsManager;
+            _authentication = authentication;
+            _pinManager = pinManager;
+            _linkManager = link;
 
             TabDescriptionHeight = 0;
 
@@ -42,20 +53,15 @@ namespace GPSNote.ViewModels
 
             TextResources = new TextResources(typeof(TextControls));
         }
-        
+
         #region -- Properties -- 
-        private ObservableCollection<Pin> _pinsList;
-        public ObservableCollection<Pin> PinsList 
+        private List<PinViewModel> _pinViewModelList;
+        public List<PinViewModel> PinViewModelList
         {
-            get => _pinsList ?? new ObservableCollection<Pin>();
-            set => SetProperty(ref _pinsList, value);
+            get => _pinViewModelList ?? new List<PinViewModel>();
+            set => SetProperty(ref _pinViewModelList, value);
         }
-        private ObservableCollection<PinModel> _pinModelsList;
-        public ObservableCollection<PinModel> PinModelsList
-        {
-            get => _pinModelsList ?? new ObservableCollection<PinModel>();
-            set => SetProperty(ref _pinModelsList, value);
-        }
+        
         private Position _clickPos;
         public Position ClickPos
         {
@@ -77,15 +83,15 @@ namespace GPSNote.ViewModels
             set => SetProperty(ref _searchPin, value);
         }
        
-        private List<PinModel> _findedPins;
-        public List<PinModel> FindedPins
+        private List<PinViewModel> _findedPins;
+        public List<PinViewModel> FindedPins
         {
             get => _findedPins;
             set => SetProperty(ref _findedPins, value);
         }
 
-        private PinModel _selectedSearchPin;
-        public PinModel SelectedSearchPin
+        private PinViewModel _selectedSearchPin;
+        public PinViewModel SelectedSearchPin
         {
             get => _selectedSearchPin;
             set
@@ -183,13 +189,13 @@ namespace GPSNote.ViewModels
         {
             if (string.IsNullOrEmpty(SearchPin))
             {
-                FindedPins = new List<PinModel>();
+                FindedPins = new List<PinViewModel>();
                 return;
             }
-            FindedPins = PinModelsList.Where(x => x.Name.Contains(SearchPin) || 
-                                           x.Description.Contains(SearchPin) || 
-                                           x.Coordinate.Contains(SearchPin))
-                                                       .ToList();
+            FindedPins = PinViewModelList.Where(x => x.Name.Contains(SearchPin) ||
+                                                x.Description.Contains(SearchPin) ||
+                                                x.Coordinate.Contains(SearchPin))
+                                                            .ToList();
         }
         public ICommand FindMeCommand { get; }
         private void FindMeCommandRelease()
@@ -210,6 +216,7 @@ namespace GPSNote.ViewModels
         public ICommand ExidCommand { get; }
         private void ExidCommandRelease()
         {
+            _authentication.UserId = default(int);
             NavigationService.NavigateAsync($"/{nameof(StartPageView)}");
         }
 
@@ -268,78 +275,48 @@ namespace GPSNote.ViewModels
         public override void Initialize(INavigationParameters parameters)
         {
             InitCameraUpdate();
-
-            if (parameters.ContainsKey(nameof(PinModel.UserId)))
-            {
-                _UserId = parameters.GetValue<int>(nameof(PinModel.UserId));
-            }
-
-            PinModelsList = new ObservableCollection<PinModel>(
-                _Repository.GetAllPinsAsync(_UserId).Result);
-
-            PinModelsList.CollectionChanged += (s, e) =>
-            {
-                if (e.Action == NotifyCollectionChangedAction.Add)
-                {
-                    var item = PinModelsList.Last();
-                    PinsList.Add(new Pin
-                    {
-                        Label = item.Name,
-                        Position = item.Position,
-                        Icon = BitmapDescriptorFactory.FromView(
-                            new Controls.BindingPinIconView((ImageSource)App.Current
-                                                                            .Resources[ImageNames.ic_placeholder]))
-                    });
-                }
-                else if (e.Action == NotifyCollectionChangedAction.Remove)
-                {
-                    if (e.OldItems[0] is PinModel removeObj) {
-                        var pin = PinsList.FirstOrDefault(x => x.Position == removeObj.Position);
-                        PinsList.Remove(pin);
-                    }
-                }
-            };
-            _ = InitPinsListAsync(); 
         }
 
         public override void OnNavigatedFrom(INavigationParameters parameters)
         {
             base.OnNavigatedFrom(parameters);
-            if (!initilize)
-            {
-                parameters.Add(nameof(PinModelsList), PinModelsList);
-            }
-            parameters.Add(nameof(PinModel.UserId), _UserId);
 
-            _SettingsManager.LastLongitude = CameraPosition?.Target.Longitude ?? _SettingsManager.LastLongitude;
-            _SettingsManager.LastLatitude = CameraPosition?.Target.Latitude ?? _SettingsManager.LastLatitude;
-            _SettingsManager.CameraZoom = CameraPosition?.Zoom ?? _SettingsManager.CameraZoom;
+            parameters.Add(nameof(_authentication.UserId), _authentication.UserId);
+
+            _settingsManager.LastLongitude = CameraPosition?.Target.Longitude ?? _settingsManager.LastLongitude;
+            _settingsManager.LastLatitude = CameraPosition?.Target.Latitude ?? _settingsManager.LastLatitude;
+            _settingsManager.CameraZoom = CameraPosition?.Zoom ?? _settingsManager.CameraZoom;
         }
 
         public override async void OnNavigatedTo(INavigationParameters parameters)
         {
             base.OnNavigatedTo(parameters);
 
-            if (parameters.TryGetValue<LinkModel>(nameof(LinkModel), out var link))
+            PinViewModelList = _pinManager.GetAllPins(_authentication.UserId)
+                                          .DataPinListToViewPinList();
+//TODO: LINK
+            if (_linkManager.IsHave)
             {
-                var res = await UserDialogs.Instance.ConfirmAsync(new ConfirmConfig 
-                { 
-                    Message =UserMsg.HaveALink, 
+                var res = await UserDialogs.Instance.ConfirmAsync(new ConfirmConfig
+                {
+                    Message = UserMsg.HaveALink,
                     OkText = UserMsg.Ok,
-                    CancelText = UserMsg.No});
+                    CancelText = UserMsg.No
+                });
                 if (res)
                 {
                     var pos = new Position(link.Latitude, link.Longitude);
-                    PinModelsList.Add(new PinModel 
-                    { 
-                        Position = pos,
+                    await _pinManager.InsertAsync( new PinViewModel()
+                    {
                         Name = link.Name,
-                        Description = link.Description
-                    });
+                        Description = link.Description,
+                        Position = pos
+                    }.PinViewToPinData(_authentication.UserId));
+                    
                     GoToPosition = pos;
                 }
             }
-            if (parameters.TryGetValue<PinModel>(nameof(PinListViewModel.SelectedPin), out var pin))
+            if (parameters.TryGetValue<PinViewModel>(nameof(PinListViewModel.SelectedPin), out var pin))
             {
                 GoToPosition = pin.Position;
             }
@@ -347,10 +324,6 @@ namespace GPSNote.ViewModels
         #endregion
 
         #region -- Private --
-        private bool initilize = false;
-        private int _UserId { get; set; }
-        private IRepository _Repository { get; }
-        private ISettingsManager _SettingsManager { get; }
         private const double _maxTabDescriptionHeight = 290;
         private const int _stepTabDescriptionHeight = 30;
 
@@ -377,10 +350,10 @@ namespace GPSNote.ViewModels
 
         private void InitDescription()
         {
-           PinModel model = null;
+           PinViewModel model = null;
             try
             {
-                model = PinModelsList.Where(x => x.Position == PinClick.Position).First();
+                model = PinViewModelList.Where(x => x.Position == PinClick.Position).First();
             }
             catch
             {
@@ -394,31 +367,12 @@ namespace GPSNote.ViewModels
 
         }
 
-        private async Task InitPinsListAsync()
-        {
-            await Task.Run(() =>
-            {
-                for (int i = 0; i < PinModelsList.Count; i++)
-                {
-                    PinsList.Add(new Pin
-                    {
-                        Label = PinModelsList[i].Name,
-                        Position = PinModelsList[i].Position,
-                        Icon = BitmapDescriptorFactory.FromView(
-                            new Controls.BindingPinIconView((ImageSource)App.Current
-                                                                            .Resources[ImageNames.ic_placeholder]))
-                    });
-                }
-            });
-
-        }
-
         private void InitCameraUpdate()
         {
-            double zoom = Convert.ToDouble(_SettingsManager.CameraZoom.ToString());
+            double zoom = Convert.ToDouble(_settingsManager.CameraZoom.ToString());
             InitialCameraUpdate = CameraUpdateFactory.NewCameraPosition(
-                new CameraPosition(new Position(_SettingsManager.LastLatitude,
-                                                _SettingsManager.LastLongitude),zoom));
+                new CameraPosition(new Position(_settingsManager.LastLatitude,
+                                                _settingsManager.LastLongitude),zoom));
         }
         #endregion
     }

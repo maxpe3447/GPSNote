@@ -1,5 +1,6 @@
 ﻿using GPSNote.Models;
 using GPSNote.Services.Repository;
+using GPSNote.Services.Settings;
 using System;
 using System.Collections.Generic;
 using System.Text;
@@ -9,17 +10,18 @@ namespace GPSNote.Services.Autherization
 {
     public class Autherization : IAutherization
     {
-        public Autherization(IRepository repository)
+        readonly private IRepository _repository;
+
+
+        public Autherization(
+            IRepository repository)
         {
-            _Repository = repository;
-        }
-        public Task<int> CreateAccount(UserModel user)
-        {
-            return _Repository.InsertAsync(user);
+            _repository = repository;
         }
 
-        #region -- Private --
-        private IRepository _Repository { get; }
-        #endregion
+        public Task<int> CreateAccount(UserModel user)
+        {
+            return _repository.InsertAsync(user);
+        }       
     }
 }

@@ -1,39 +1,43 @@
 ﻿using GPSNote.Models;
 using GPSNote.Services.Repository;
-using System;
+using System.Linq;
 using System.Collections.Generic;
 using System.Text;
 using System.Threading.Tasks;
+using GPSNote.Extansion;
 
 namespace GPSNote.Services.PinManager
 {
     public class PinManager : IPinManager
     {
+        private readonly IRepository _repository;
 
         public PinManager(IRepository repository)
         {
-            _Repository = repository;
+            _repository = repository;
         }
         public Task<int> DeleteAsync<T>(T entity) where T : IEntity
         {
-           return _Repository.DeleteAsync(entity);
+           return _repository.DeleteAsync(entity);
         }
 
-        public Task<List<PinModel>> GetAllPinsAsync(int userId)
+        public List<PinDataModel> GetAllPins(int userId)
         {
-            return _Repository.GetAllPinsAsync(userId);
+            return _repository.GetAllPinsAsync(userId)
+                              .Result
+                              .Where(x => x.UserId == userId)
+                              .ToList();
+
         }
 
         public Task<int> InsertAsync<T>(T entity)
         {
-            return _Repository.InsertAsync(entity);
+            return _repository.InsertAsync(entity);
         }
 
         public Task<int> UpdateAsync<T>(T entity) where T : IEntity
         {
-            return _Repository.UpdateAsync(entity);
+            return _repository.UpdateAsync(entity);
         }
-
-        private IRepository _Repository { get; }
     }
 }

@@ -97,11 +97,10 @@ namespace GPSNote.ViewModels
             _userModel.Password = UserPassword;
             await _autherization.CreateAccount(_userModel);
             
-            if(_authentication.IsExistAsync(_userModel, out int id))
+            if(_authentication.IsExist(_userModel))
             {
-                NavigationParameters parameters = new NavigationParameters();
-                parameters.Add(nameof(PinModel.UserId), id);
-                await NavigationService.NavigateAsync($"/{nameof(MainPage)}?createTab={nameof(MapView)}&createTab={nameof(PinListView)}", parameters);
+                _authentication.LastEmail = _userModel.Email;
+                await NavigationService.NavigateAsync($"/{nameof(LogInPageView)}");
             }
         }
         #endregion

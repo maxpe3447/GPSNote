@@ -118,15 +118,15 @@ namespace GPSNote.Controls
         public static BindableProperty PinsCollectionProperty =
             BindableProperty.Create(
             nameof(PinsCollection),
-            typeof(ObservableCollection<Pin>),
+            typeof(List<PinViewModel>),
             typeof(BindingMap),
-            default(ObservableCollection<Pin>),
+            default(List<PinViewModel>),
             defaultBindingMode: BindingMode.TwoWay,
             propertyChanged: OnPinsCollectionChanged);
 
-        public ObservableCollection<Pin> PinsCollection 
+        public List<PinViewModel> PinsCollection 
         {
-            get { return (ObservableCollection<Pin>)GetValue(PinsCollectionProperty); }
+            get { return (List<PinViewModel>)GetValue(PinsCollectionProperty); }
             set { SetValue(PinsCollectionProperty, value); }
         }
 
@@ -134,34 +134,35 @@ namespace GPSNote.Controls
         {
 
             var map = bindable as BindingMap;
-             if(oldValue is ObservableCollection<Pin> old)
-            {
-                old.CollectionChanged -= map.OnObsPinsCollectionChanged;
-            }
-            if (newValue is ObservableCollection<Pin> new_)
-            {
-                new_.CollectionChanged += map.OnObsPinsCollectionChanged;
-            }
+            map.Pins.RestPins(newValue as List<PinViewModel>);
+            // if(oldValue is ObservableCollection<Pin> old)
+            //{
+            //    old.CollectionChanged -= map.OnObsPinsCollectionChanged;
+            //}
+            //if (newValue is ObservableCollection<Pin> new_)
+            //{
+            //    new_.CollectionChanged += map.OnObsPinsCollectionChanged;
+            //}
 
         }
 
-        private void OnObsPinsCollectionChanged(object sender, NotifyCollectionChangedEventArgs e)
-        {
-            if (e.Action == NotifyCollectionChangedAction.Reset)
-            {
-                Pins.Clear();
-            }
-            if (e.Action == NotifyCollectionChangedAction.Add)
-            {
+        //private void OnObsPinsCollectionChanged(object sender, NotifyCollectionChangedEventArgs e)
+        //{
+        //    if (e.Action == NotifyCollectionChangedAction.Reset)
+        //    {
+        //        Pins.Clear();
+        //    }
+        //    if (e.Action == NotifyCollectionChangedAction.Add)
+        //    {
 
-                Pins.Add(e.NewItems[0] as Pin);
-            }
+        //        Pins.Add(e.NewItems[0] as Pin);
+        //    }
 
-            if (e.Action == NotifyCollectionChangedAction.Remove)
-            {
-                Pins.Remove(e.OldItems[0] as Pin);
-            }
-        }
+        //    if (e.Action == NotifyCollectionChangedAction.Remove)
+        //    {
+        //        Pins.Remove(e.OldItems[0] as Pin);
+        //    }
+        //}
 
         public static BindableProperty PinClickCommandProperty =
             BindableProperty.Create(

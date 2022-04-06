@@ -1,25 +1,30 @@
 ﻿using GPSNote.Helpers;
 using GPSNote.Resources;
 using GPSNote.Services.Settings;
+using GPSNote.Services.ThemeManager;
 using Prism.Navigation;
+using Prism.Commands;
 using System;
 using System.Collections.Generic;
 using System.Text;
-using System.Windows.Input;
 using Xamarin.Forms;
+using System.Windows.Input;
 
 namespace GPSNote.ViewModels
 {
+
     public class SettingsViewModel:ViewModelBase
     {
-        public SettingsViewModel(INavigationService navigation,
-                                 ISettingsManager settingsManager)
+
+        readonly private IThemeManager _themeManager;
+
+        public SettingsViewModel(
+            INavigationService navigation,
+            IThemeManager themeManager)
             :base(navigation)
         {
-            _SettingsManager = settingsManager;
-            IsDark = _SettingsManager.IsDarkTheme;
-
-            BackCommand = new Command(BackCommandRelease);
+            _themeManager = themeManager;
+            IsDark = Convert.ToBoolean(_themeManager.IsDarkTheme);
 
             TextResources = new TextResources(typeof(TextControls));
         }
@@ -48,23 +53,19 @@ namespace GPSNote.ViewModels
                 {
                     App.Current.UserAppTheme = OSAppTheme.Light;
                 }
-                _SettingsManager.IsDarkTheme = IsDark;
+                _themeManager.IsDarkTheme = Convert.ToInt32(IsDark);
             }
         }
         #endregion
 
         #region --Command --
-        public ICommand BackCommand { get; }
+        public ICommand BackCommand { get => new DelegateCommand(BackCommandRelease); }
 
         private async void BackCommandRelease()
         {
             await NavigationService.GoBackAsync();
         }
 
-        #endregion
-
-        #region -- Private -- 
-        private ISettingsManager _SettingsManager;
         #endregion
     }
 }

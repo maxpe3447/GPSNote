@@ -22,7 +22,7 @@
                                      SettingsCommand="{Binding GoToSettingsCommand}"/>
 
                 <ScrollView >
-                    <controls:UnSelectedItemListView ItemsSource="{Binding PinModelsList, Mode=TwoWay}"
+                    <controls:UnSelectedItemListView ItemsSource="{Binding PinViewList, Mode=TwoWay}"
                                                      SelectedItem="{Binding SelectedPin, Mode=TwoWay}"
                                                      HasUnevenRows="True"
                                                      Margin="0,0,0,60"
@@ -42,7 +42,7 @@
                                                        Command="{Binding EditCommand}"/>
 
                                                     <SwipeItem BackgroundColor="{StaticResource LightRed}"
-                                                       Command="{Binding EditCommand}"
+                                                       Command="{Binding DeleteCommand}"
                                                        CommandParameter="{Binding .}"
                                                        IconImageSource="{StaticResource ic_delete}"/>
                                                 </SwipeItems>
@@ -52,7 +52,7 @@
                                                       TextCoord="{Binding Coordinate}"
                                                       LikeCommand="{Binding LikeCommand}"
                                                       
-                                                      IsFavorit="{Binding IsFavorit, Mode=TwoWay}"/>
+                                                      IsFavorit="{Binding IsVisable, Mode=TwoWay}"/>
                                             </SwipeView.Content>
                                         </SwipeView>
                                     </ViewCell.View>
@@ -70,7 +70,7 @@
 
                 </ScrollView>
             </StackLayout>
-            
+
             <!--MY LOCATION BUTTON-->
             <Button ImageSource="{StaticResource ic_plus}"
                     FontSize="35"

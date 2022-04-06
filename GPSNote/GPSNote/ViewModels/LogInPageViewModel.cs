@@ -15,16 +15,14 @@ namespace GPSNote.ViewModels
 {
     class LogInPageViewModel : ViewModelBase
     {
-        readonly private IAuthentication authentication;
+        readonly private IAuthentication _authentication;
 
         public LogInPageViewModel(
             INavigationService navigationService,
-            IAuthentication authentication,
-            ISettingsManager settingManager) 
+            IAuthentication authentication) 
             : base(navigationService)
         {
-            this.authentication = authentication;
-            _settingsManager = settingManager;
+            _authentication = authentication;
 
             TextResources = new TextResources(typeof(TextControls));
 
@@ -35,7 +33,7 @@ namespace GPSNote.ViewModels
         private string _userEmail;
         public string UserEmail
         {
-            get => _userEmail ?? _settingsManager.LastEmail;
+            get => _userEmail ?? _authentication.LastEmail;
             set => SetProperty(ref _userEmail, value);
         }
 
@@ -80,20 +78,17 @@ namespace GPSNote.ViewModels
         private async void SignInRelease()
         {
             
-            _userModel = new UserModel
+            var userModel = new UserModel
             {
                 Email = UserEmail,
                 Password = UserPassword
             };
 
-            if (!string.IsNullOrEmpty(UserPassword) && !string.IsNullOrEmpty(UserEmail) && authentication.IsExistAsync(_userModel, out int id))
+            if (!string.IsNullOrEmpty(UserPassword) && !string.IsNullOrEmpty(UserEmail) && _authentication.IsExist(userModel))
             {
-                _settingsManager.LastEmail = UserEmail;
-
-                NavigationParameters parameters = new NavigationParameters();
-                parameters.Add(nameof(PinModel.UserId), id);
+                _authentication.LastEmail = UserEmail;
                 
-                await NavigationService.NavigateAsync($"/{nameof(MainPage)}?createTab={nameof(MapView)}&createTab={nameof(PinListView)}", parameters);
+                await NavigationService.NavigateAsync($"/{nameof(MainPage)}?createTab={nameof(MapView)}&createTab={nameof(PinListView)}");
                 
             }
             else
@@ -120,14 +115,6 @@ namespace GPSNote.ViewModels
         #region -- Override --
         public override void OnNavigatedTo(INavigationParameters parameters)
         {
-            if (parameters.ContainsKey(nameof(UserModel)))
-            {
-                var userModel = parameters.GetValue<UserModel>(nameof(UserModel));
-
-                UserEmail = userModel.Email;
-                UserPassword = userModel.Password;
-
-            }
             if (parameters.TryGetValue<LinkModel>(nameof(LinkModel), out var link))
             {
                 _LinkModel = link;
@@ -145,9 +132,6 @@ namespace GPSNote.ViewModels
         #endregion
 
         #region -- Private --
-        private UserModel _userModel = null;
-
-        private ISettingsManager _settingsManager { get; }
         private LinkModel _LinkModel { get; set; } = null;
         #endregion
     }

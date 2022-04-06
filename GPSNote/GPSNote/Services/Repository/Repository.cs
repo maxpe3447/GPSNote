@@ -17,7 +17,7 @@ namespace GPSNote.Services.Repository
             {
                 var path = Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.LocalApplicationData), "mapnote.db3");
                 var database = new SQLiteAsyncConnection(path);
-                database.CreateTableAsync<PinModel>();
+                database.CreateTableAsync<PinDataModel>();
                 database.CreateTableAsync<UserModel>();
                 return database;
             });
@@ -27,9 +27,10 @@ namespace GPSNote.Services.Repository
             return database.Value.DeleteAsync(entity);
         }
 
-        public Task<List<PinModel>> GetAllPinsAsync(int userId)
+        public Task<List<PinDataModel>> GetAllPinsAsync(int userId)
         {
-          var tables = database.Value.QueryAsync<PinModel>($"SELECT * FROM {nameof(PinModel)} WHERE {nameof(PinModel.UserId)} = ?;", userId);
+          //var tables = database.Value.QueryAsync<PinDataModel>($"SELECT * FROM {nameof(PinDataModel)} WHERE {nameof(PinDataModel.UserId)} = ?;", userId);
+        var tables = database.Value.Table<PinDataModel>().ToListAsync();
 
             return tables;
         }
@@ -43,7 +44,7 @@ namespace GPSNote.Services.Repository
         {
             return database.Value.UpdateAsync(entity);
         }
-        public bool IsExistAsync(UserModel model, out int id)
+        public bool IsExist(UserModel model, out int id)
         {
             var table = database.Value.QueryAsync<UserModel>(
                 $"SELECT * FROM {nameof(UserModel)} WHERE {nameof(UserModel.Email)} = ? AND {nameof(UserModel.Password)} = ?;",
