@@ -14,7 +14,7 @@ namespace GPSNote.Services.Settings
 
         double CameraZoom { get; set; }
 
-        int IsDarkTheme { get; set; }
+        bool IsDarkTheme { get; set; }
 
         int UserId { get; set; }
     }

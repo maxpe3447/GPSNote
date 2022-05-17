@@ -7,6 +7,6 @@ namespace GPSNote.Services.ThemeManager
 {
     public interface IThemeManager
     {
-        int IsDarkTheme { get; set; }
+        bool IsDarkTheme { get; set; }
     }
 }

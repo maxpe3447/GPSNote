@@ -1,6 +1,5 @@
 ﻿using Xamarin.Forms;
 using Prism;
-using Prism.Ioc;
 using GPSNote.Services.Repository;
 using Xamarin.Essentials;
 using GPSNote.Services.Authentication;
@@ -12,6 +11,7 @@ using Prism.Navigation;
 using GPSNote.Models;
 using GPSNote.Services.ThemeManager;
 using GPSNote.Services.LinkManager;
+using Prism.Ioc;
 
 namespace GPSNote
 {

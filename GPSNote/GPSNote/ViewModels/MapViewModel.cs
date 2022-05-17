@@ -305,11 +305,11 @@ namespace GPSNote.ViewModels
                 });
                 if (res)
                 {
-                    var pos = new Position(link.Latitude, link.Longitude);
+                    var pos = new Position(_linkManager.GetLinkModel().Latitude, _linkManager.GetLinkModel().Longitude);
                     await _pinManager.InsertAsync( new PinViewModel()
                     {
-                        Name = link.Name,
-                        Description = link.Description,
+                        Name = _linkManager.GetLinkModel().Name,
+                        Description = _linkManager.GetLinkModel().Description,
                         Position = pos
                     }.PinViewToPinData(_authentication.UserId));
                     

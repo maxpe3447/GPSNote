@@ -53,7 +53,7 @@ namespace GPSNote.ViewModels
                 {
                     App.Current.UserAppTheme = OSAppTheme.Light;
                 }
-                _themeManager.IsDarkTheme = Convert.ToInt32(IsDark);
+                _themeManager.IsDarkTheme =IsDark;
             }
         }
         #endregion

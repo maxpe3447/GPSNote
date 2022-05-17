@@ -13,7 +13,7 @@ namespace GPSNote.Services.ThemeManager
         {
             _settingsManager = settingsManager; 
         }
-        public int IsDarkTheme 
+        public bool IsDarkTheme 
         {
             get => _settingsManager.IsDarkTheme; 
             set => _settingsManager.IsDarkTheme = value; 

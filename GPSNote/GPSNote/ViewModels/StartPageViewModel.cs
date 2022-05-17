@@ -62,7 +62,7 @@ namespace GPSNote.ViewModels
         {
             try
             {
-                if (_themeManager.IsDarkTheme != default(int))
+                if (_themeManager.IsDarkTheme)
                 {
                     App.Current.UserAppTheme = OSAppTheme.Dark;
                 }
