@@ -15,11 +15,39 @@ namespace GPSNote.ViewModels
 {
     public class CreateAnAccountViewModel : ViewModelBase
     {
+        #region -- Private -- 
+        private UserModel _userModel;
+        private LinkModel _LinkModel { get; set; } = null;
+
+        private void NextCommandRelease()
+        {
+            _userModel = new UserModel()
+            {
+                Email = UserEmail,
+                Name = UserName
+            };
+
+            INavigationParameters keyValues = new NavigationParameters();
+            keyValues.Add(nameof(_userModel), _userModel);
+
+            NavigationService.NavigateAsync($"/{nameof(Views.CreateAccountPassPageView)}", keyValues);
+        }
+
+        private void BackCommandRelease()
+        {
+            NavigationService.NavigateAsync($"/{nameof(Views.StartPageView)}");
+        }
+        #endregion
+
         public CreateAnAccountViewModel(INavigationService navigationService)
             :base(navigationService)
         {
             TextResources = new TextResources(typeof(Resources.TextControls));
+
+            nextCommand = new DelegateCommand(NextCommandRelease);
+            backCommand = new DelegateCommand(BackCommandRelease);
         }
+
         #region -- Properties --
         private string _userEmail;
         public string UserEmail
@@ -44,27 +72,11 @@ namespace GPSNote.ViewModels
         #endregion
 
         #region -- Command --
-        public ICommand NextCommand { get => new DelegateCommand(NextCommandRelease); }
-        private void NextCommandRelease()
-        {
-            _userModel = new UserModel()
-            {
-                Email = UserEmail,
-                Name = UserName
-            };
+        private ICommand nextCommand;
+        public ICommand NextCommand { get => nextCommand ?? new DelegateCommand(NextCommandRelease); }
 
-            INavigationParameters keyValues = new NavigationParameters();
-            keyValues.Add(nameof(_userModel), _userModel);
-
-            NavigationService.NavigateAsync($"/{nameof(Views.CreateAccountPassPageView)}",keyValues);
-
-        }
-
-        public ICommand BackCommand { get => new DelegateCommand(BackCommandRelease); }
-        private void BackCommandRelease()
-        {
-            NavigationService.NavigateAsync($"/{nameof(Views.StartPageView)}");
-        }
+        private ICommand backCommand;
+        public ICommand BackCommand { get => backCommand ?? new DelegateCommand(BackCommandRelease); }
 
         #endregion
 
@@ -87,11 +99,6 @@ namespace GPSNote.ViewModels
             }
         }
 
-        #endregion
-
-        #region -- Private -- 
-        private UserModel _userModel;
-        private LinkModel _LinkModel { get; set; } = null;
         #endregion
     }
 }

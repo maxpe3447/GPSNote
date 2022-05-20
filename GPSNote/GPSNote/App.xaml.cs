@@ -22,7 +22,6 @@ namespace GPSNote
         {
             
         }
-
         
         protected override async void OnInitialized()
         {
@@ -36,12 +35,12 @@ namespace GPSNote
 
             const char SEPARATOR = '/';
 
-            if(uri.Host.ToLower() == $"{nameof(GPSNote)}.{nameof(App)}".ToLower() && uri.Segments != null && uri.Segments.Length == 6)
+            if (uri.Host.ToLower() == $"{nameof(GPSNote)}.{nameof(App)}".ToLower() && uri.Segments != null && uri.Segments.Length >= 5)
             {
                 string action = uri.Segments[1].Trim(SEPARATOR);
                 bool isActionLatValid = double.TryParse(uri.Segments[2].Trim(SEPARATOR), out double LatLatitude);
                 bool isActionLongValid = double.TryParse(uri.Segments[3].Trim(SEPARATOR), out double Longitude);
-                
+
                 if (action.ToLower() == "geo" && isActionLatValid && isActionLongValid)
                 {
                     NavigationParameters parameters = new NavigationParameters();
@@ -52,7 +51,7 @@ namespace GPSNote
                             Latitude = LatLatitude,
                             Longitude = Longitude,
                             Name = uri.Segments[4].Trim(SEPARATOR),
-                            Description = uri.Segments[5]
+                            Description = (uri.Segments.Length == 6)? uri.Segments[5]: string.Empty
 
                         };
                         parameters.Add(nameof(LinkModel), linkModel);

@@ -10,6 +10,8 @@ namespace GPSNote.Services.LinkManager
         LinkModel GetLinkModel();
         void SetLinkModel(LinkModel link);
 
+        void Clear();
+
         bool IsHave { get; }
     }
 }

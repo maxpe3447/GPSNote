@@ -6,6 +6,7 @@ using GPSNote.Services.Authentication;
 using GPSNote.Services.PinManager;
 using GPSNote.Services.Repository;
 using GPSNote.Views;
+using Prism.Commands;
 using Prism.Navigation;
 using System;
 using System.Collections.Generic;
@@ -19,74 +20,17 @@ namespace GPSNote.ViewModels
 {
     public class PinListViewModel : ViewModelBase
     {
+        #region -- Private --
+        private bool _isEditPin;
+        private List<PinViewModel> _mainList;
         readonly private IAuthentication _authentication;
         readonly private IPinManager _pinManager;
 
-        public PinListViewModel(INavigationService navigationService,
-                                IPinManager pinManager,
-                                IAuthentication authentication) 
-            : base(navigationService)
+        private void BindCommnad(PinViewModel model)
         {
-            Title = TextControls.Pins;
-
-            _pinManager = pinManager;
-            _authentication = authentication;
-
-            CreatePinCommand = new Command(CreatePinCommandRelease);
-            SearchCommand = new Command(SearchCommandRelease);
-            LikeCommand = new Command(LikeCommandRelease);
-            EditCommand = new Command(EditCommandRelease);
-            DeleteCommand = new Command(DeleteCommandRelease);
-            ExidCommand = new Command(ExidCommandRelease);
-            GoToSettingsCommand = new Command(GoToSettingsCommandRelease);
+            model.LikeCommand = LikeCommand;
+            model.ItemTappedCommand = ItemTappedCommand;
         }
-        #region -- Properties --
-        private List<PinViewModel> _pinViewList;
-        public List<PinViewModel> PinViewList
-        {
-            get => _pinViewList;
-            set => SetProperty(ref _pinViewList, value);
-        }
-
-        private PinViewModel _selectedPin;
-        public PinViewModel SelectedPin
-        {
-            get => _selectedPin;
-            set
-            {
-                SetProperty(ref _selectedPin, value);
-
-                if (value == null) return;
-
-                NavigationParameters keyValues = new NavigationParameters();
-                keyValues.Add(nameof(SelectedPin), SelectedPin);
-
-                _ = NavigationService.SelectTabAsync(nameof(Views.MapView), keyValues);
-            }
-        }
-
-        private string _searchPin;
-        public string SearchPin
-        {
-            get => _searchPin;
-            set => SetProperty(ref _searchPin, value);
-        }
-
-        private PinDataModel _selectedSearchPin;
-        public PinDataModel SelectedSearchPin
-        {
-            get => _selectedSearchPin;
-            set
-            {
-                SetProperty(ref _selectedSearchPin, value);
-                
-            }
-        }
-
-        #endregion
-
-        #region -- Commands --
-        public ICommand CreatePinCommand { get; }
         private async void CreatePinCommandRelease()
         {
             NavigationParameters parameters = new NavigationParameters();
@@ -94,7 +38,6 @@ namespace GPSNote.ViewModels
             await NavigationService.NavigateAsync($"{nameof(CreatePinView)}", parameters);
         }
 
-        public ICommand SearchCommand { get; }
         private void SearchCommandRelease()
         {
             if (string.IsNullOrEmpty(SearchPin))
@@ -102,24 +45,19 @@ namespace GPSNote.ViewModels
                 PinViewList = _mainList;
                 return;
             }
-            PinViewList = new List<PinViewModel>( 
-                PinViewList.Where(x => x.Name.Contains(SearchPin) || 
-                                         x.Description.Contains(SearchPin) || 
+            PinViewList = new List<PinViewModel>(
+                PinViewList.Where(x => x.Name.Contains(SearchPin) ||
+                                         x.Description.Contains(SearchPin) ||
                                          x.Coordinate.Contains(SearchPin)).ToList());
         }
 
-        public ICommand ExidCommand { get; }
         private void ExidCommandRelease()
-        {
-            NavigationService.NavigateAsync($"/{nameof(Views.StartPageView)}");
-        }
-
-
-        public ICommand LikeCommand { get; }
+            => NavigationService.NavigateAsync($"/{nameof(Views.StartPageView)}");
+        
         private void LikeCommandRelease(object obj)
         {
             var model = PinViewList.First(p => p.Coordinate == obj.ToString());
-
+           
             int index = PinViewList.IndexOf(model);
             PinViewList.Remove(model);
             model.IsVisable = !model.IsVisable;
@@ -130,7 +68,6 @@ namespace GPSNote.ViewModels
             PinViewList = new List<PinViewModel>(_mainList);
         }
 
-        public ICommand DeleteCommand { get; }
         private void DeleteCommandRelease(object obj)
         {
             var model = PinViewList.First(p => p.Coordinate == (obj as PinViewModel).Coordinate);
@@ -139,13 +76,10 @@ namespace GPSNote.ViewModels
             int index = PinViewList.IndexOf(model);
             PinViewList.Remove(model);
             _mainList = PinViewList = new List<PinViewModel>(PinViewList);
-
         }
-
-        public ICommand EditCommand { get; }
         private void EditCommandRelease(object obj)
         {
-            
+
             PinViewModel model;
             try
             {
@@ -169,11 +103,97 @@ namespace GPSNote.ViewModels
             NavigationService.NavigateAsync(nameof(CreatePinView), parametrs);
         }
 
-        public ICommand GoToSettingsCommand { get; }
         private void GoToSettingsCommandRelease()
+            => NavigationService.NavigateAsync(nameof(SettingsView));
+       
+        private void ItemTappedCommandRelease()
         {
-            NavigationService.NavigateAsync(nameof(SettingsView));
+            if (_selectedPin == null) return;
+
+            NavigationParameters keyValues = new NavigationParameters();
+            keyValues.Add(nameof(SelectedPin), SelectedPin);
+
+            _ = NavigationService.SelectTabAsync(nameof(MapView), keyValues);
         }
+        #endregion
+
+        public PinListViewModel(INavigationService navigationService,
+                                IPinManager pinManager,
+                                IAuthentication authentication) 
+            : base(navigationService)
+        {
+            Title = TextControls.Pins;
+
+            _pinManager = pinManager;
+            _authentication = authentication;
+
+            createPinCommand = new DelegateCommand(CreatePinCommandRelease);
+            searchCommand = new Command(SearchCommandRelease);
+            likeCommand = new Command(LikeCommandRelease);
+            editCommand = new Command(EditCommandRelease);
+            deleteCommand = new Command(DeleteCommandRelease);
+            exidCommand = new Command(ExidCommandRelease);
+            goToSettingsCommand = new Command(GoToSettingsCommandRelease);
+        }
+
+        #region -- Properties --
+        private List<PinViewModel> _pinViewList;
+        public List<PinViewModel> PinViewList
+        {
+            get => _pinViewList;
+            set => SetProperty(ref _pinViewList, value);
+        }
+
+        private PinViewModel _selectedPin;
+        public PinViewModel SelectedPin
+        {
+            get => _selectedPin;
+            set => SetProperty(ref _selectedPin, (value != null) ?value : _selectedPin/*, OnChangeSelectedPin*/);
+        }
+
+        private string _searchPin;
+        public string SearchPin
+        {
+            get => _searchPin;
+            set => SetProperty(ref _searchPin, value);
+        }
+
+        private PinDataModel _selectedSearchPin;
+        public PinDataModel SelectedSearchPin
+        {
+            get => _selectedSearchPin;
+            set => SetProperty(ref _selectedSearchPin, value);
+        }
+
+        #endregion
+
+        #region -- Commands --
+        private ICommand createPinCommand;
+        public ICommand CreatePinCommand { get => createPinCommand ?? new DelegateCommand(CreatePinCommandRelease); }
+
+        private ICommand searchCommand;
+        public ICommand SearchCommand { get => searchCommand ?? new DelegateCommand(SearchCommandRelease); }
+
+        private ICommand exidCommand;
+        public ICommand ExidCommand { get => exidCommand ?? new DelegateCommand(ExidCommandRelease); }
+
+        private ICommand likeCommand;
+        public ICommand LikeCommand { get => likeCommand ?? new Command(LikeCommandRelease); }
+
+        private ICommand deleteCommand;
+        public ICommand DeleteCommand { get => deleteCommand ?? new Command(DeleteCommandRelease); }
+
+
+        private ICommand editCommand;
+        public ICommand EditCommand { get => editCommand ?? new Command(EditCommandRelease); }
+
+
+        public ICommand goToSettingsCommand;
+        public ICommand GoToSettingsCommand { get => goToSettingsCommand ?? new DelegateCommand(GoToSettingsCommandRelease); }
+
+        public ICommand itemTappedCommand;
+        public ICommand ItemTappedCommand { get => itemTappedCommand ?? new DelegateCommand(ItemTappedCommandRelease); }
+
         #endregion
 
         #region -- Override --
@@ -214,18 +234,6 @@ namespace GPSNote.ViewModels
             _mainList = PinViewList;
         }
 
-        #endregion
-
-        #region -- Private --
-        private bool _isEditPin;
-        private List<PinViewModel> _mainList;
-
-        private void BindCommnad(PinViewModel model)
-        {
-            model.LikeCommand = LikeCommand;
-            model.EditCommand = EditCommand;
-            model.DeleteCommand = DeleteCommand;
-        }
         #endregion
     }
 }

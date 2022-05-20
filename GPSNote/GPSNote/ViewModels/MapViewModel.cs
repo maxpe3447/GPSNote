@@ -19,15 +19,150 @@ using GPSNote.Services.Authentication;
 using GPSNote.Services.PinManager;
 using GPSNote.Extansion;
 using GPSNote.Services.LinkManager;
+using Prism.Commands;
 
 namespace GPSNote.ViewModels
 {
     internal class MapViewModel : ViewModelBase
     {
+
+        #region -- Private --
         readonly private IAuthentication _authentication;
         readonly private ISettingsManager _settingsManager;
         readonly private IPinManager _pinManager;
         readonly private ILinkManager _linkManager;
+
+        private const double _maxTabDescriptionHeight = 290;
+        private const int _stepTabDescriptionHeight = 30;
+
+
+        private async void ShowTabDescriptionAsync()
+        {
+            for (int i = 0; i < _maxTabDescriptionHeight; i += _stepTabDescriptionHeight)
+            {
+                TabDescriptionHeight = i;
+                await Task.Delay(1);
+            }
+        }
+        private async void UnShowTabDescriptionAsync()
+        {
+            int h = (int)TabDescriptionHeight;
+            for (int i = h; i > 0; i -= _stepTabDescriptionHeight)
+            {
+                if (i < 0) i = 0;
+                TabDescriptionHeight = i;
+                await Task.Delay(1);
+            }
+            TabDescriptionHeight = 0;
+        }
+
+        private void InitDescription()
+        {
+            PinViewModel model = null;
+            try
+            {
+                model = PinViewModelList.Where(x => x.Position == PinClick.Position).First();
+            }
+            catch
+            {
+                UserDialogs.Instance.Alert(UserMsg.DataError);
+                return;
+            }
+
+            DescName = model?.Name;
+            DescCoordinate = model?.Coordinate;
+            DescDescription = model?.Description;
+        }
+
+        private void InitCameraUpdate()
+        {
+            double zoom = Convert.ToDouble(_settingsManager.CameraZoom.ToString());
+            InitialCameraUpdate = CameraUpdateFactory.NewCameraPosition(
+                new CameraPosition(new Position(_settingsManager.LastLatitude,
+                                                _settingsManager.LastLongitude), zoom));
+        }
+
+        private void SearchCommandRelease()
+        {
+            if (string.IsNullOrEmpty(SearchPin))
+            {
+                FindedPins = new List<PinViewModel>();
+                return;
+            }
+            FindedPins = PinViewModelList.Where(x => x.Name.Contains(SearchPin) ||
+                                                x.Description.Contains(SearchPin) ||
+                                                x.Coordinate.Contains(SearchPin))
+                                                            .ToList();
+        }
+
+        private void FindMeCommandRelease()
+        {
+            IsShowingUser = true;
+
+            try
+            {
+                GoToPosition = new Position(Geolocation.GetLastKnownLocationAsync().Result.Latitude,
+                                            Geolocation.GetLastKnownLocationAsync().Result.Longitude);
+            }
+            catch
+            {
+                UserDialogs.Instance.Alert(UserMsg.PlsCheckGPS);
+            }
+        }
+
+        private void ExidCommandRelease()
+        {
+            _authentication.UserId = default(int);
+            NavigationService.NavigateAsync($"/{nameof(StartPageView)}");
+        }
+
+        private void PinClickCommandRelease()
+        {
+            if (MyLocationButtonEnabled)
+            {
+                MyLocationButtonEnabled = false;
+
+                ShowTabDescriptionAsync();
+            }
+            if (Connectivity.NetworkAccess == NetworkAccess.Internet)
+            {
+                WeatherModel = Weather.GetResponse(PinClick.Position.Latitude, PinClick.Position.Longitude);
+            }
+            else
+            {
+                UserDialogs.Instance.AlertAsync(UserMsg.WrongInternetConnect);
+            }
+        }
+
+        private void MapClickCommandRelease()
+        {
+            MyLocationButtonEnabled = true;
+            UnShowTabDescriptionAsync();
+        }
+
+        private void GoToSettingsCommandRelease()
+            => NavigationService.NavigateAsync(nameof(SettingsView));
+
+        private async void ShareCommandReleaseAsync()
+        {
+            try
+            { 
+                //TODO: constants for GPSNote.App, geo
+                var uri = new Uri($"http://GPSNote.App/geo/{PinClick.Position.Latitude}/{PinClick.Position.Longitude}/{PinClick.Label}/{PinClick.Address}");
+                await Share.RequestAsync(new ShareTextRequest
+                {
+                    Text = UserMsg.SharePin,
+                    Uri = uri.ToString(),
+                    Title = UserMsg.SharePin
+                });
+            }
+            catch (Exception ex)
+            {
+                UserDialogs.Instance.Alert(ex.Message);
+            }
+        }
+        #endregion
+
         public MapViewModel(
             INavigationService navigationService,
             ISettingsManager settingsManager,
@@ -43,13 +178,13 @@ namespace GPSNote.ViewModels
 
             TabDescriptionHeight = 0;
 
-            FindMeCommand = new Command(FindMeCommandRelease);
-            SearchCommand = new  Command(SearchCommandRelease);
-            ExidCommand = new Command(ExidCommandRelease);
-            PinClickCommand = new Command(PinClickCommandRelease);
-            MapClickCommand = new Command(MapClickCommandRelease);
-            ShareCommand = new Command(ShareCommandReleaseAsync);
-            GoToSettingsCommand = new Command(GoToSettingsCommandRelease);
+            findMeCommand = new DelegateCommand(FindMeCommandRelease);
+            searchCommand = new DelegateCommand(SearchCommandRelease);
+            exidCommand = new DelegateCommand(ExidCommandRelease);
+            pinClickCommand = new DelegateCommand(PinClickCommandRelease);
+            mapClickCommand = new DelegateCommand(MapClickCommandRelease);
+            shareCommand = new DelegateCommand(ShareCommandReleaseAsync);
+            goToSettingsCommand = new DelegateCommand(GoToSettingsCommandRelease);
 
             TextResources = new TextResources(typeof(TextControls));
         }
@@ -94,11 +229,7 @@ namespace GPSNote.ViewModels
         public PinViewModel SelectedSearchPin
         {
             get => _selectedSearchPin;
-            set
-            {
-                SetProperty(ref _selectedSearchPin, value);
-                GoToPosition = SelectedSearchPin.Position;
-            }
+            set => SetProperty(ref _selectedSearchPin, value, () => { GoToPosition = SelectedSearchPin.Position; });
         }
 
         private bool _isShowingUser;
@@ -119,11 +250,7 @@ namespace GPSNote.ViewModels
         public Pin PinClick
         {
             get => _pinClick;
-            set
-            {
-                SetProperty(ref _pinClick, value);
-                InitDescription();
-            }
+            set => SetProperty(ref _pinClick, value, () => { InitDescription(); });
         }
 
         private double _tabDescriptionHeight;
@@ -184,91 +311,29 @@ namespace GPSNote.ViewModels
         #endregion
 
         #region -- Command -- 
-        public ICommand SearchCommand { get; }
-        private void SearchCommandRelease()
-        {
-            if (string.IsNullOrEmpty(SearchPin))
-            {
-                FindedPins = new List<PinViewModel>();
-                return;
-            }
-            FindedPins = PinViewModelList.Where(x => x.Name.Contains(SearchPin) ||
-                                                x.Description.Contains(SearchPin) ||
-                                                x.Coordinate.Contains(SearchPin))
-                                                            .ToList();
-        }
-        public ICommand FindMeCommand { get; }
-        private void FindMeCommandRelease()
-        {
-            IsShowingUser = true;
+        private ICommand searchCommand;
+        public ICommand SearchCommand { get => searchCommand ?? new DelegateCommand(SearchCommandRelease); }
 
-            try
-            {
-                GoToPosition = new Position(Geolocation.GetLastKnownLocationAsync().Result.Latitude, 
-                                            Geolocation.GetLastKnownLocationAsync().Result.Longitude);
-            }
-            catch
-            {
-                UserDialogs.Instance.Alert(UserMsg.PlsCheckGPS);
-            }
-        }
+        private ICommand findMeCommand;
+        public ICommand FindMeCommand { get => findMeCommand ?? new DelegateCommand(FindMeCommandRelease); }
 
-        public ICommand ExidCommand { get; }
-        private void ExidCommandRelease()
-        {
-            _authentication.UserId = default(int);
-            NavigationService.NavigateAsync($"/{nameof(StartPageView)}");
-        }
+        private ICommand exidCommand;
+        public ICommand ExidCommand { get => exidCommand ?? new DelegateCommand(ExidCommandRelease); }
 
-        public ICommand PinClickCommand { get; }
-        private void PinClickCommandRelease()
-        {
-            if (MyLocationButtonEnabled)
-            {
-                MyLocationButtonEnabled = false;
-                
-                ShowTabDescriptionAsync();
-            }
-            if (Connectivity.NetworkAccess == NetworkAccess.Internet)
-            {
-                WeatherModel = Weather.GetResponse(PinClick.Position.Latitude, PinClick.Position.Longitude);
-            }
-            else
-            {
-                UserDialogs.Instance.AlertAsync(UserMsg.WrongInternetConnect);
-            }
-        }
-        public ICommand MapClickCommand { get; }
-        private void MapClickCommandRelease()
-        {
-            MyLocationButtonEnabled = true;
-            UnShowTabDescriptionAsync();
-            
-        }
+        private ICommand pinClickCommand;
+        public ICommand PinClickCommand { get => pinClickCommand ?? new DelegateCommand(PinClickCommandRelease); }
 
-        public ICommand GoToSettingsCommand { get; }
-        private void GoToSettingsCommandRelease()
-        {
-            NavigationService.NavigateAsync(nameof(SettingsView));
-        }
+        private ICommand mapClickCommand;
+        public ICommand MapClickCommand { get => mapClickCommand ?? new DelegateCommand(MapClickCommandRelease); }
 
-        public ICommand ShareCommand { get; }
-        private async void ShareCommandReleaseAsync()
-        {
-            try
-            {
-                var uri = new Uri($"http://GPSNote.App/geo/{PinClick.Position.Latitude}/{PinClick.Position.Longitude}/{PinClick.Label}/{PinClick.Address}");
-                await Share.RequestAsync(new ShareTextRequest
-                {
-                    Text = UserMsg.SharePin,
-                    Uri = uri.ToString(),
-                    Title = UserMsg.SharePin
-                });
-            }catch(Exception ex)
-            {
-                UserDialogs.Instance.Alert(ex.Message);
-            }
-        }
+
+        private ICommand goToSettingsCommand;
+        public ICommand GoToSettingsCommand { get => goToSettingsCommand ?? new DelegateCommand(GoToSettingsCommandRelease); }
+
+
+        private ICommand shareCommand;
+        public ICommand ShareCommand { get => shareCommand ?? new DelegateCommand(ShareCommandReleaseAsync); }
+        
         #endregion
 
         #region -- Override --
@@ -292,11 +357,10 @@ namespace GPSNote.ViewModels
         {
             base.OnNavigatedTo(parameters);
 
-            PinViewModelList = _pinManager.GetAllPins(_authentication.UserId)
-                                          .DataPinListToViewPinList();
-//TODO: LINK
+            //TODO: LINK
             if (_linkManager.IsHave)
             {
+                
                 var res = await UserDialogs.Instance.ConfirmAsync(new ConfirmConfig
                 {
                     Message = UserMsg.HaveALink,
@@ -312,67 +376,21 @@ namespace GPSNote.ViewModels
                         Description = _linkManager.GetLinkModel().Description,
                         Position = pos
                     }.PinViewToPinData(_authentication.UserId));
-                    
+
                     GoToPosition = pos;
                 }
+
+                _linkManager.Clear();
+
             }
+
+            PinViewModelList = _pinManager.GetAllPins(_authentication.UserId)
+                                          .DataPinListToViewPinList();
+
             if (parameters.TryGetValue<PinViewModel>(nameof(PinListViewModel.SelectedPin), out var pin))
             {
                 GoToPosition = pin.Position;
             }
-        }
-        #endregion
-
-        #region -- Private --
-        private const double _maxTabDescriptionHeight = 290;
-        private const int _stepTabDescriptionHeight = 30;
-
-
-        private async void ShowTabDescriptionAsync()
-        {
-            for (int i = 0; i < _maxTabDescriptionHeight; i += _stepTabDescriptionHeight)
-            {
-                TabDescriptionHeight = i;
-                await Task.Delay(1);
-            }
-        }
-        private async void UnShowTabDescriptionAsync()
-        {
-            int h = (int)TabDescriptionHeight;
-            for (int i = h; i > 0; i -= _stepTabDescriptionHeight)
-            {
-                if(i < 0) i = 0;
-                TabDescriptionHeight = i;
-                await Task.Delay(1);
-            }
-            TabDescriptionHeight = 0;
-        }
-
-        private void InitDescription()
-        {
-           PinViewModel model = null;
-            try
-            {
-                model = PinViewModelList.Where(x => x.Position == PinClick.Position).First();
-            }
-            catch
-            {
-                UserDialogs.Instance.Alert(UserMsg.DataError);
-                return;
-            }
-
-            DescName = model?.Name;
-            DescCoordinate = model?.Coordinate;
-            DescDescription = model?.Description;
-
-        }
-
-        private void InitCameraUpdate()
-        {
-            double zoom = Convert.ToDouble(_settingsManager.CameraZoom.ToString());
-            InitialCameraUpdate = CameraUpdateFactory.NewCameraPosition(
-                new CameraPosition(new Position(_settingsManager.LastLatitude,
-                                                _settingsManager.LastLongitude),zoom));
         }
         #endregion
     }

@@ -51,19 +51,12 @@
                                                 <controls:ItemListPin TextName="{Binding Name}"
                                                       TextCoord="{Binding Coordinate}"
                                                       LikeCommand="{Binding LikeCommand}"
-                                                      
+                                                      ItemTappedCommand="{Binding ItemTappedCommand, Mode=TwoWay}"
                                                       IsFavorit="{Binding IsVisable, Mode=TwoWay}"/>
                                             </SwipeView.Content>
                                         </SwipeView>
                                     </ViewCell.View>
                                 </ViewCell>
-                                <!--PIN ITEM-->
-                                <!--<controls:ItemListPin TextName="{Binding Name}"
-                                                      TextCoord="{Binding Coordinate}"
-                                                      LikeCommand="{Binding LikeCommand}"
-                                                      EditCommand="{Binding EditCommand}"
-                                                      DeleteCommand="{Binding DeleteCommand}"
-                                                      IsFavorit="{Binding IsFavorit, Mode=TwoWay}"/>-->
                             </DataTemplate>
                         </ListView.ItemTemplate>
                     </controls:UnSelectedItemListView>
@@ -71,7 +64,7 @@
                 </ScrollView>
             </StackLayout>
 
-            <!--MY LOCATION BUTTON-->
+            <!--ADD PIN BUTTON-->
             <Button ImageSource="{StaticResource ic_plus}"
                     FontSize="35"
                     BackgroundColor="{StaticResource LightBlue}"

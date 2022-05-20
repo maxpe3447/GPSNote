@@ -3,103 +3,82 @@
           xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
           xmlns:view="clr-namespace:GPSNote.Views"
           x:Class="GPSNote.Controls.ItemListPin">
-    
-        <StackLayout>
-            <StackLayout Padding="0,0,0,0">
-                <Grid x:Name="grid"
-                      ColumnSpacing ="0" 
-                      RowSpacing="2">
 
-                    <Grid.RowDefinitions >
-                        <RowDefinition Height="37.5"/>
-                        <RowDefinition Height="37.5"/>
-                    </Grid.RowDefinitions>
+    <StackLayout>
+        <StackLayout Padding="0,0,0,0">
+            <Grid x:Name="grid"
+                  ColumnSpacing ="0" 
+                  RowSpacing="2">
 
-                    <Grid.ColumnDefinitions>
-                        <ColumnDefinition Width="68"/>
-                        <ColumnDefinition Width="Auto"/>
-                        <ColumnDefinition Width="*"/>
-                        
-                    </Grid.ColumnDefinitions>
-
-                    <!--LIKE BUTTON-->
-                    <Button x:Name="bLike"
-                            ImageSource="{StaticResource ic_like_gray}"
-                            HorizontalOptions="CenterAndExpand"
-                            VerticalOptions="CenterAndExpand"
-                            Grid.Row="0" Grid.Column="0"
-                            BackgroundColor="{StaticResource LightLightGray}"
-                            Grid.RowSpan="2"
-                            Margin="16,0,0,0"
-                            CornerRadius="6"/>
-
-                    <!--NAME LABEL-->
-                    <Label x:Name="lName"
-                           FontSize="25"
-                           TextColor="{AppThemeBinding Light={StaticResource Black}, 
-                                                       Dark={StaticResource White}}"
-                           Padding="12, 0, 15, 0"
-                           Grid.Column="1"
-                           Grid.Row="0"/>
-
-                    <!--COORDINATE LABEL-->
-                    <Label x:Name="lCoordinate"
-                           FontSize="20"
-                           Padding="12, 0, 0, 0"
-                           TextColor="{AppThemeBinding Light={StaticResource DarkGray}, 
-                                                       Dark={StaticResource White}}"
-                           Grid.Column="1"
-                           Grid.Row="1"/>
-
-
-                    <Image Source="{StaticResource ic_left_gray}"
-                           Grid.Row="0"
-                           Grid.Column="2" Grid.RowSpan="2"
-                           Margin="0,0,25, 0"
-                           WidthRequest="24"
-                           HeightRequest="48"
-                           VerticalOptions="Center"
-                           HorizontalOptions="End"/>
-                    <!--MENU BUTTON-->
-                    <!--<Button x:Name="bMenu" 
-                            ImageSource="{StaticResource ic_left_gray}"
-                            Grid.Row="0"
-                            Grid.Column="2"
-                            Grid.RowSpan="2"
-                            WidthRequest="56"
-                            HeightRequest="75"
-                            BackgroundColor="Transparent"
-                            VerticalOptions="Fill"
-                            HorizontalOptions="Fill"/>-->
-
-                    <!--DELETE BUTTON-->
-                    <!--<Button x:Name="bDelete" 
-                            ImageSource="{StaticResource ic_delete}"
-                            Grid.Row="0"
-                            Grid.Column="3"
-                            Grid.RowSpan="2"
-                            BackgroundColor="{StaticResource LightRed}"/>
-
-                    --><!--EDIT BUTTON--><!--
-                    <Button x:Name="bEdit" 
-                            ImageSource="{StaticResource ic_edit}"
-                            Grid.Row="0"
-                            Grid.Column="4"
-                            Grid.RowSpan="2"
-                            BackgroundColor="{StaticResource LightBlue}"/>-->
-
-                </Grid>
-            </StackLayout>
-
-            <Grid Margin="16, 0, 62,0">
-                <Grid.RowDefinitions>
-                    <RowDefinition Height="2"/>
+                <Grid.RowDefinitions >
+                    <RowDefinition Height="37.5"/>
+                    <RowDefinition Height="37.5"/>
                 </Grid.RowDefinitions>
-                <Frame Grid.Row="0"
+
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="68"/>
+                    <ColumnDefinition Width="Auto"/>
+                    <ColumnDefinition Width="*"/>
+
+                </Grid.ColumnDefinitions>
+
+                <!--LIKE BUTTON-->
+                <Button x:Name="bLike"
+                        ImageSource="{StaticResource ic_like_gray}"
+                        HorizontalOptions="CenterAndExpand"
+                        VerticalOptions="CenterAndExpand"
+                        Grid.Row="0" Grid.Column="0"
+                        BackgroundColor="{StaticResource LightLightGray}"
+                        Grid.RowSpan="2"
+                        Margin="16,0,0,0"
+                        CornerRadius="6"/>
+                
+                <!--SHOW SELECT PIN BUTTON-->
+                <Button x:Name ="bShowSelectPin"
+                        BackgroundColor="Transparent"
+                        Grid.Column="1" Grid.Row="0"
+                        Grid.RowSpan="2" Grid.ColumnSpan="2"/>
+
+                <!--NAME LABEL-->
+                <Label x:Name="lName"
+                       FontSize="25"
+                       TextColor="{AppThemeBinding Light={StaticResource Black}, 
+                                                   Dark={StaticResource White}}"
+                       Padding="12, 0, 15, 0"
+                       Grid.Column="1"
+                       Grid.Row="0"/>
+
+                <!--COORDINATE LABEL-->
+                <Label x:Name="lCoordinate"
+                       FontSize="20"
+                       Padding="12, 0, 0, 0"
+                       TextColor="{AppThemeBinding Light={StaticResource DarkGray}, 
+                                                   Dark={StaticResource White}}"
+                       Grid.Column="1"
+                       Grid.Row="1"/>
+
+
+                <Image Source="{StaticResource ic_left_gray}"
+                       Grid.Row="0"
+                       Grid.Column="2" Grid.RowSpan="2"
+                       Margin="0,0,25, 0"
+                       WidthRequest="24"
+                       HeightRequest="48"
+                       VerticalOptions="Center"
+                       HorizontalOptions="End"/>
+
+            </Grid>
+        </StackLayout>
+
+        <Grid Margin="16, 0, 62,0">
+            <Grid.RowDefinitions>
+                <RowDefinition Height="2"/>
+            </Grid.RowDefinitions>
+            <Frame Grid.Row="0"
                        BackgroundColor="{StaticResource LightLightGray}"
                        HeightRequest="2"/>
-            </Grid>
+        </Grid>
 
-        </StackLayout>
+    </StackLayout>
 
 </ContentView>

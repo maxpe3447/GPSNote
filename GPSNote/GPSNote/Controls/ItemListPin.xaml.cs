@@ -15,24 +15,6 @@ namespace GPSNote.Controls
         public ItemListPin()
         {
             InitializeComponent();
-
-            //bDelete.IsVisible = bEdit.IsVisible = _isMenuOpen;
-
-            //bMenu.Clicked += (s, e) =>
-            // {
-
-            //     if (!_isMenuOpen)
-            //     {
-            //         _isMenuOpen = true;
-            //         ShowMenu();
-            //     }
-            //     else
-            //     {
-            //         _isMenuOpen = false;
-            //         UnShowMenu();
-
-            //     }
-            // };
         }
 
 
@@ -78,30 +60,18 @@ namespace GPSNote.Controls
             set { SetValue(LikeCommandProperty, value); }
         }
 
-        public static readonly BindableProperty EditCommandProperty =
-            BindableProperty.Create(nameof(EditCommand),
+        public static readonly BindableProperty ItemTappedCommandProperty =
+            BindableProperty.Create(nameof(ItemTappedCommand),
                                     typeof(ICommand),
                                     typeof(ItemListPin),
                                     default(Command),
                                     defaultBindingMode: BindingMode.TwoWay,
-                                    propertyChanged: EditCommandChanged);
-        public ICommand EditCommand
+                                    propertyChanged: OnItemTappedCommandChanged
+                );
+        public ICommand ItemTappedCommand
         {
-            get { return (ICommand)GetValue(EditCommandProperty); }
-            set { SetValue(EditCommandProperty, value); }
-        }
-
-        public static readonly BindableProperty DeleteCommandProperty =
-            BindableProperty.Create(nameof(DeleteCommand),
-                                    typeof(ICommand),
-                                    typeof(ItemListPin),
-                                    default(Command),
-                                    defaultBindingMode: BindingMode.TwoWay,
-                                    propertyChanged: DeleteCommandChanged);
-        public ICommand DeleteCommand
-        {
-            get { return (ICommand)GetValue(DeleteCommandProperty); }
-            set { SetValue(DeleteCommandProperty, value); }
+            get { return (ICommand)GetValue(ItemTappedCommandProperty); }
+            set { SetValue(ItemTappedCommandProperty, value); }
         }
 
         public static readonly BindableProperty IsFavoritProperty =
@@ -142,31 +112,43 @@ namespace GPSNote.Controls
             }
 
         }
-        private static void EditCommandChanged(BindableObject bindable, object oldValue, object newValue)
+
+        private static void OnItemTappedCommandChanged(BindableObject bindable, object oldValue, object newValue)
         {
             var itemListPin = bindable as ItemListPin;
 
             if (newValue is ICommand command)
             {
-
-                //itemListPin.bEdit.Command = command;
-                //itemListPin.bEdit.CommandParameter = itemListPin.TextCoord;
+                itemListPin.bShowSelectPin.Command = command;
             }
 
         }
 
-        private static void DeleteCommandChanged(BindableObject bindable, object oldValue, object newValue)
-        {
-            var itemListPin = bindable as ItemListPin;
+        //private static void EditCommandChanged(BindableObject bindable, object oldValue, object newValue)
+        //{
+        //    var itemListPin = bindable as ItemListPin;
 
-            if (newValue is ICommand command)
-            {
+        //    if (newValue is ICommand command)
+        //    {
 
-                //itemListPin.bDelete.Command = command;
-                //itemListPin.bDelete.CommandParameter = itemListPin.TextCoord;
-            }
+        //        //itemListPin.bEdit.Command = command;
+        //        //itemListPin.bEdit.CommandParameter = itemListPin.TextCoord;
+        //    }
 
-        }
+        //}
+
+        //private static void DeleteCommandChanged(BindableObject bindable, object oldValue, object newValue)
+        //{
+        //    var itemListPin = bindable as ItemListPin;
+
+        //    if (newValue is ICommand command)
+        //    {
+
+        //        //itemListPin.bDelete.Command = command;
+        //        //itemListPin.bDelete.CommandParameter = itemListPin.TextCoord;
+        //    }
+
+        //}
         private static void OnIsFavoritChanged(BindableObject bindable, object oldValue, object newValue)
         {
             var itemListPin = bindable as ItemListPin;
@@ -213,10 +195,10 @@ namespace GPSNote.Controls
         //    }
         //    bDelete.IsVisible = bEdit.IsVisible = _isMenuOpen;
         //}
-        private const int _buttonMenuWidth = 56;
-        private bool _isMenuOpen = false;
-        private const int _animationStep = 4;
-        private int delta = 0;
+        //private const int _buttonMenuWidth = 56;
+        //private bool _isMenuOpen = false;
+        //private const int _animationStep = 4;
+        //private int delta = 0;
         #endregion
     }
 }

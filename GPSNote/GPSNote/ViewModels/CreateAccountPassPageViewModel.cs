@@ -17,9 +17,40 @@ namespace GPSNote.ViewModels
 
     public class CreateAccountPassPageViewModel : ViewModelBase
     {
-
+        #region Private
         readonly private IAutherization _autherization;
         readonly private IAuthentication _authentication;
+
+        private UserModel _userModel;
+        private LinkModel _LinkModel { get; set; } = null;
+
+        private async void BackCommandRelease()
+        {
+            await NavigationService.NavigateAsync($"/{nameof(CreateAnAccountView)}");
+        }
+        private async void CreateAccountCommandRelease()
+        {
+            if (UserPassword != UserPasswordRepeat)
+            {
+                ErrorColor = (Color)App.Current.Resources[Resources.ColorsName.LightRed];
+                PasswordErrorMsgText = Resources.UserMsg.PasswordMismatch;
+                return;
+            }
+            else
+            {
+                PasswordErrorMsgText = string.Empty;
+                ErrorColor = (Color)App.Current.Resources[Resources.ColorsName.LightGray];
+            }
+            _userModel.Password = UserPassword;
+            await _autherization.CreateAccount(_userModel);
+
+            if (_authentication.IsExist(_userModel))
+            {
+                _authentication.LastEmail = _userModel.Email;
+                await NavigationService.NavigateAsync($"/{nameof(LogInPageView)}");
+            }
+        }
+        #endregion
 
         public CreateAccountPassPageViewModel(
             INavigationService navigationService,
@@ -33,6 +64,9 @@ namespace GPSNote.ViewModels
             TextResources = new TextResources(typeof(Resources.TextControls));
 
             ErrorColor = (Color)App.Current.Resources[Resources.ColorsName.LightGray];
+
+            backCommand = new DelegateCommand(BackCommandRelease);
+            createAccountCommand = new DelegateCommand(CreateAccountCommandRelease);
         }
 
         #region -- Properties -- 
@@ -74,35 +108,11 @@ namespace GPSNote.ViewModels
         #endregion
 
         #region -- Commands --
-        public ICommand BackCommand { get => new DelegateCommand(BackCommandRelease); }
-        private async void BackCommandRelease()
-        {
-            await NavigationService.NavigateAsync($"/{nameof(CreateAnAccountView)}");
-        }
+        private ICommand backCommand;
+        public ICommand BackCommand { get => backCommand ?? new DelegateCommand(BackCommandRelease); }
 
-        public ICommand CreateAccountCommand { get=>new DelegateCommand(CreateAccountCommandRelease); }
-        private async void CreateAccountCommandRelease()
-        {
-            if(UserPassword != UserPasswordRepeat)
-            {
-                ErrorColor = (Color)App.Current.Resources[Resources.ColorsName.LightRed];
-                PasswordErrorMsgText = Resources.UserMsg.PasswordMismatch;
-                return;
-            }
-            else
-            {
-                PasswordErrorMsgText = string.Empty;
-                ErrorColor = (Color)App.Current.Resources[Resources.ColorsName.LightGray];
-            }
-            _userModel.Password = UserPassword;
-            await _autherization.CreateAccount(_userModel);
-            
-            if(_authentication.IsExist(_userModel))
-            {
-                _authentication.LastEmail = _userModel.Email;
-                await NavigationService.NavigateAsync($"/{nameof(LogInPageView)}");
-            }
-        }
+        private ICommand createAccountCommand;
+        public ICommand CreateAccountCommand { get=>createAccountCommand ?? new DelegateCommand(CreateAccountCommandRelease); }
         #endregion
 
         #region -- Overrides
@@ -129,9 +139,5 @@ namespace GPSNote.ViewModels
         }
         #endregion
 
-        #region -- Private --
-        private UserModel _userModel;
-        private LinkModel _LinkModel { get; set; } = null;
-        #endregion
     }
 }

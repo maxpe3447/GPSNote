@@ -18,9 +18,21 @@ namespace GPSNote.ViewModels
 {
     public class StartPageViewModel : ViewModelBase
     {
+
+        #region -- Private --
         readonly private IAuthentication _authentication;
         readonly private IThemeManager _themeManager;
         readonly private ILinkManager _linkManager;
+
+        private void LogInCommandRelease()
+        {
+            NavigationService.NavigateAsync($"/{nameof(LogInPageView)}");
+        }
+        private async void CreateAnAccountRelease()
+        {
+            await NavigationService.NavigateAsync($"/{nameof(CreateAnAccountView)}");
+        }
+        #endregion
 
         public StartPageViewModel(
             INavigationService navigationService,
@@ -72,35 +84,22 @@ namespace GPSNote.ViewModels
             }
         }
 
-        public override void OnNavigatedTo(INavigationParameters parameters)
+        public async override void OnNavigatedTo(INavigationParameters parameters)
         {
             base.OnNavigatedTo(parameters);
-            if (_authentication.UserId != default(int))
-            {
-                NavigationService.NavigateAsync($"/{nameof(MainPage)}?createTab={nameof(MapView)}&createTab={nameof(PinListView)}");
-            }
             if (parameters.TryGetValue<LinkModel>(nameof(LinkModel), out var link))
             {
-
                 _linkManager.SetLinkModel(link);
-                
+            }
+            if (_authentication.UserId != default(int))
+            {
+                await NavigationService.NavigateAsync($"/{nameof(MainPage)}?createTab={nameof(MapView)}&createTab={nameof(PinListView)}");
             }
         }
 
         public override void OnNavigatedFrom(INavigationParameters parameters)
         {
 
-        }
-        #endregion
-
-        #region -- Private --
-        private void LogInCommandRelease()
-        {
-            NavigationService.NavigateAsync($"/{nameof(LogInPageView)}");
-        }
-        private async void CreateAnAccountRelease()
-        {
-            await NavigationService.NavigateAsync($"/{nameof(CreateAnAccountView)}");
         }
         #endregion
     }

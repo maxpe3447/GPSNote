@@ -32,12 +32,8 @@ namespace GPSNote.Models
             get => $"{position.Latitude:0.00000} {position.Longitude:0.000000}";
         }
 
-        //public int Id { get; private set; }
-        //public int UserId { get; private set; }
-
         public ICommand LikeCommand { get; set; } = null;
-        public ICommand EditCommand { get; set; } = null;
-        public ICommand DeleteCommand { get; set; } = null;
+        public ICommand ItemTappedCommand { get; set; } = null;
 
         public PinType PinType { get; set; }
         #endregion

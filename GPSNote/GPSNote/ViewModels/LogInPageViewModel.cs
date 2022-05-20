@@ -15,7 +15,38 @@ namespace GPSNote.ViewModels
 {
     class LogInPageViewModel : ViewModelBase
     {
+        #region -- Private --
         readonly private IAuthentication _authentication;
+        private LinkModel _LinkModel { get; set; } = null;
+
+        private async void SignInRelease()
+        {
+            var userModel = new UserModel
+            {
+                Email = UserEmail,
+                Password = UserPassword
+            };
+
+            if (!string.IsNullOrEmpty(UserPassword) && !string.IsNullOrEmpty(UserEmail) && _authentication.IsExist(userModel))
+            {
+                _authentication.LastEmail = UserEmail;
+
+                await NavigationService.NavigateAsync($"/{nameof(MainPage)}?createTab={nameof(MapView)}&createTab={nameof(PinListView)}");
+            }
+            else
+            {
+                ErrorColor = (Color)App.Current.Resources[ColorsName.LightRed];
+                EmailErrorMsgText = UserMsg.WrongEmail;
+                PasswordErrorMsgText = UserMsg.IncorrectPas;
+            }
+        }
+        private async void BackCommandRelease()
+            => await NavigationService.NavigateAsync($"/{nameof(StartPageView)}");
+        private void GoogleAuthCommandRelease()
+        {
+            //GoogleAuth.GoogleAuthentication();
+        }
+        #endregion
 
         public LogInPageViewModel(
             INavigationService navigationService,
@@ -27,6 +58,10 @@ namespace GPSNote.ViewModels
             TextResources = new TextResources(typeof(TextControls));
 
             ErrorColor = (Color)App.Current.Resources[ColorsName.LightGray];
+            
+            signinCommand = new DelegateCommand(SignInRelease);
+            backCommand = new DelegateCommand(BackCommandRelease);
+            googleAuthCommand = new DelegateCommand(GoogleAuthCommandRelease);
         }
 
         #region -- Properties -- 
@@ -74,42 +109,15 @@ namespace GPSNote.ViewModels
         #endregion
 
         #region -- Command --
-        public ICommand SigninCommand { get => new DelegateCommand(SignInRelease); }
-        private async void SignInRelease()
-        {
-            
-            var userModel = new UserModel
-            {
-                Email = UserEmail,
-                Password = UserPassword
-            };
+        public ICommand signinCommand;
+        public ICommand SigninCommand { get => signinCommand ?? new DelegateCommand(SignInRelease); }
 
-            if (!string.IsNullOrEmpty(UserPassword) && !string.IsNullOrEmpty(UserEmail) && _authentication.IsExist(userModel))
-            {
-                _authentication.LastEmail = UserEmail;
-                
-                await NavigationService.NavigateAsync($"/{nameof(MainPage)}?createTab={nameof(MapView)}&createTab={nameof(PinListView)}");
-                
-            }
-            else
-            {
-                ErrorColor = (Color)App.Current.Resources[ColorsName.LightRed];
-                EmailErrorMsgText = UserMsg.WrongEmail;
-                PasswordErrorMsgText = UserMsg.IncorrectPas;
-            }
-        }
+        public ICommand backCommand;
+        public ICommand BackCommand { get => backCommand ?? new DelegateCommand(BackCommandRelease); }
 
-        public ICommand BackCommand { get => new DelegateCommand(BackCommandRelease); }
-        private async void BackCommandRelease()
-        {
-            await NavigationService.NavigateAsync($"/{nameof(StartPageView)}");
-        }
 
-        public ICommand GoogleAuthCommand { get => new DelegateCommand(GoogleAuthCommandRelease); }
-        private void GoogleAuthCommandRelease()
-        {
-            //GoogleAuth.GoogleAuthentication();
-        }
+        public ICommand googleAuthCommand;
+        public ICommand GoogleAuthCommand { get => googleAuthCommand ?? new DelegateCommand(GoogleAuthCommandRelease); }
         #endregion
 
         #region -- Override --
@@ -129,10 +137,6 @@ namespace GPSNote.ViewModels
                 parameters.Add(nameof(LinkModel), _LinkModel);
             }
         }
-        #endregion
-
-        #region -- Private --
-        private LinkModel _LinkModel { get; set; } = null;
         #endregion
     }
 }

@@ -12,14 +12,20 @@ namespace GPSNote.Services.LinkManager
 
         public bool IsHave => _isHave;
 
+        public void Clear()
+        {
+            _linkModel = null;
+            _isHave = false;
+        }
+
         public LinkModel GetLinkModel()
         {
-            _isHave = true;
             return _linkModel;
         }
 
         public void SetLinkModel(LinkModel link)
         {
+            _isHave = true;
             _linkModel = link;
         }
     }
