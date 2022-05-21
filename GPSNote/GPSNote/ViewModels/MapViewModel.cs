@@ -74,12 +74,11 @@ namespace GPSNote.ViewModels
             DescDescription = model?.Description;
         }
 
-        private void InitCameraUpdate()
+        private void MapCameraUpdate(Position position)
         {
             double zoom = Convert.ToDouble(_settingsManager.CameraZoom.ToString());
             InitialCameraUpdate = CameraUpdateFactory.NewCameraPosition(
-                new CameraPosition(new Position(_settingsManager.LastLatitude,
-                                                _settingsManager.LastLongitude), zoom));
+                new CameraPosition(position, zoom));
         }
 
         private void SearchCommandRelease()
@@ -147,8 +146,8 @@ namespace GPSNote.ViewModels
         {
             try
             { 
-                //TODO: constants for GPSNote.App, geo
-                var uri = new Uri($"http://GPSNote.App/geo/{PinClick.Position.Latitude}/{PinClick.Position.Longitude}/{PinClick.Label}/{PinClick.Address}");
+                
+                var uri = new Uri($"{Constants.LINK_PROTOCOL_HTTP}://{Constants.LINK_DOMEN}/{Constants.LINK_GEO}/{PinClick.Position.Latitude}/{PinClick.Position.Longitude}/{PinClick.Label}/{PinClick.Address}");
                 await Share.RequestAsync(new ShareTextRequest
                 {
                     Text = UserMsg.SharePin,
@@ -339,7 +338,45 @@ namespace GPSNote.ViewModels
         #region -- Override --
         public override void Initialize(INavigationParameters parameters)
         {
-            InitCameraUpdate();
+
+            MapCameraUpdate(new Position(_settingsManager.LastLatitude,
+                                          _settingsManager.LastLongitude));
+
+            PinViewModelList = _pinManager.GetAllPins(_authentication.UserId)
+                              .DataPinListToViewPinList();
+
+            //TODO: LINK
+            if (_linkManager.IsHave)
+            {
+                var pos = new Position(_linkManager.GetLinkModel().Latitude, _linkManager.GetLinkModel().Longitude);
+
+                if (_pinManager.GetAllPins(_authentication.UserId)
+                                                  .Where(x => x.Latitude == _linkManager.GetLinkModel().Latitude &&
+                                                  x.Longitude == _linkManager.GetLinkModel().Longitude)
+                                                  .Count() == 0)
+                {
+                    var res = UserDialogs.Instance.ConfirmAsync(new ConfirmConfig
+                    {
+                        Message = UserMsg.HaveALink,
+                        OkText = UserMsg.Ok,
+                        CancelText = UserMsg.No
+                    }).Result;
+                    if (res)
+                    {
+                        _pinManager.InsertAsync(new PinViewModel()
+                        {
+                            Name = _linkManager.GetLinkModel().Name,
+                            Description = _linkManager.GetLinkModel().Description,
+                            Position = pos
+                        }.PinViewToPinData(_authentication.UserId));
+                    }
+                }
+
+                MapCameraUpdate(pos);
+
+                _linkManager.Clear();
+            }
+
         }
 
         public override void OnNavigatedFrom(INavigationParameters parameters)
@@ -351,41 +388,16 @@ namespace GPSNote.ViewModels
             _settingsManager.LastLongitude = CameraPosition?.Target.Longitude ?? _settingsManager.LastLongitude;
             _settingsManager.LastLatitude = CameraPosition?.Target.Latitude ?? _settingsManager.LastLatitude;
             _settingsManager.CameraZoom = CameraPosition?.Zoom ?? _settingsManager.CameraZoom;
+
         }
 
         public override async void OnNavigatedTo(INavigationParameters parameters)
         {
             base.OnNavigatedTo(parameters);
 
-            //TODO: LINK
-            if (_linkManager.IsHave)
-            {
-                
-                var res = await UserDialogs.Instance.ConfirmAsync(new ConfirmConfig
-                {
-                    Message = UserMsg.HaveALink,
-                    OkText = UserMsg.Ok,
-                    CancelText = UserMsg.No
-                });
-                if (res)
-                {
-                    var pos = new Position(_linkManager.GetLinkModel().Latitude, _linkManager.GetLinkModel().Longitude);
-                    await _pinManager.InsertAsync( new PinViewModel()
-                    {
-                        Name = _linkManager.GetLinkModel().Name,
-                        Description = _linkManager.GetLinkModel().Description,
-                        Position = pos
-                    }.PinViewToPinData(_authentication.UserId));
-
-                    GoToPosition = pos;
-                }
-
-                _linkManager.Clear();
-
-            }
-
-            PinViewModelList = _pinManager.GetAllPins(_authentication.UserId)
-                                          .DataPinListToViewPinList();
+            PinViewModelList = (PinViewModelList == null)? _pinManager.GetAllPins(_authentication.UserId)
+                                          .DataPinListToViewPinList()
+                                          : PinViewModelList;
 
             if (parameters.TryGetValue<PinViewModel>(nameof(PinListViewModel.SelectedPin), out var pin))
             {

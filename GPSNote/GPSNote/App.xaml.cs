@@ -12,6 +12,7 @@ using GPSNote.Models;
 using GPSNote.Services.ThemeManager;
 using GPSNote.Services.LinkManager;
 using Prism.Ioc;
+using GPSNote.Helpers;
 
 namespace GPSNote
 {
@@ -33,15 +34,13 @@ namespace GPSNote
         {
             base.OnAppLinkRequestReceived(uri);
 
-            const char SEPARATOR = '/';
-
-            if (uri.Host.ToLower() == $"{nameof(GPSNote)}.{nameof(App)}".ToLower() && uri.Segments != null && uri.Segments.Length >= 5)
+            if (uri.Host.ToLower() == Constants.LINK_DOMEN.ToLower() && uri.Segments != null && uri.Segments.Length >= 5)
             {
-                string action = uri.Segments[1].Trim(SEPARATOR);
-                bool isActionLatValid = double.TryParse(uri.Segments[2].Trim(SEPARATOR), out double LatLatitude);
-                bool isActionLongValid = double.TryParse(uri.Segments[3].Trim(SEPARATOR), out double Longitude);
+                string action = uri.Segments[1].Trim(Constants.LINK_SEPARATOR[0]);
+                bool isActionLatValid = double.TryParse(uri.Segments[2].Trim(Constants.LINK_SEPARATOR[0]), out double LatLatitude);
+                bool isActionLongValid = double.TryParse(uri.Segments[3].Trim(Constants.LINK_SEPARATOR[0]), out double Longitude);
 
-                if (action.ToLower() == "geo" && isActionLatValid && isActionLongValid)
+                if (action.ToLower() == Constants.LINK_GEO && isActionLatValid && isActionLongValid)
                 {
                     NavigationParameters parameters = new NavigationParameters();
                     if(LatLatitude > 0 && Longitude > 0)
@@ -50,13 +49,13 @@ namespace GPSNote
                         {
                             Latitude = LatLatitude,
                             Longitude = Longitude,
-                            Name = uri.Segments[4].Trim(SEPARATOR),
-                            Description = (uri.Segments.Length == 6)? uri.Segments[5]: string.Empty
+                            Name = uri.Segments[4].Trim(Constants.LINK_SEPARATOR[0]),
+                            Description = (uri.Segments.Length == Constants.LINK_MAX_COUNT_SECTION)? uri.Segments[5]: string.Empty
 
                         };
                         parameters.Add(nameof(LinkModel), linkModel);
                     }
-                    NavigationService.NavigateAsync(nameof(Views.StartPageView), parameters);
+                    NavigationService.NavigateAsync($"/{nameof(Views.StartPageView)}", parameters);
                 }
             }
         }

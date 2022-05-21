@@ -74,13 +74,13 @@ namespace GPSNote.ViewModels
         {
             try
             {
-                if (_themeManager.IsDarkTheme)
+                if (_themeManager.IsDarkTheme != default(int))
                 {
                     App.Current.UserAppTheme = OSAppTheme.Dark;
                 }
             }catch (Exception ex)
             {
-                Acr.UserDialogs.UserDialogs.Instance.Alert(ex.Message);
+                Acr.UserDialogs.UserDialogs.Instance.AlertAsync(ex.Message);
             }
         }
 

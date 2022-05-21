@@ -13,15 +13,16 @@ using Plugin.Permissions.Abstractions;
 using System.Collections.Generic;
 using Xamarin.Forms.GoogleMaps.Android;
 using Android.Support.Annotation;
+using GPSNote.Helpers;
 
 namespace GPSNote.Droid
 {
     
-    [Activity(Label = "GPSNote", Theme = "@style/MainTheme", Icon = "@mipmap/icon", MainLauncher = true, ConfigurationChanges = ConfigChanges.ScreenSize | ConfigChanges.Orientation | ConfigChanges.UiMode | ConfigChanges.ScreenLayout | ConfigChanges.SmallestScreenSize)]
+    [Activity(Label = nameof(GpsNote), Theme = "@style/MainTheme", Icon = "@mipmap/icon", MainLauncher = true, ConfigurationChanges = ConfigChanges.ScreenSize | ConfigChanges.Orientation | ConfigChanges.UiMode | ConfigChanges.ScreenLayout | ConfigChanges.SmallestScreenSize)]
     [IntentFilter(new[] {Android.Content.Intent.ActionView},
-                  DataSchemes =new[] { "http", "https" },
-                  DataHost = "GPSNote.App",
-                  DataPathPrefix ="/",
+                  DataSchemes =new[] { Constants.LINK_PROTOCOL_HTTP, Constants.LINK_PROTOCOL_HTTPS },
+                  DataHost = Constants.LINK_DOMEN,
+                  DataPathPrefix = Constants.LINK_SEPARATOR,
                   AutoVerify =true,
                   Categories = new[] {Android.Content.Intent.ActionView, 
                                       Android.Content.Intent.CategoryBrowsable, 
@@ -43,7 +44,7 @@ namespace GPSNote.Droid
 
 
             UserDialogs.Init(this);
-
+            global::Xamarin.Forms.Forms.SetFlags("SwipeView_Experimental");
             Xamarin.Essentials.Platform.Init(this, savedInstanceState);
             global::Xamarin.Forms.Forms.Init(this, savedInstanceState);
             LoadApplication(new App(new AndroidInitializer()));

@@ -34,6 +34,8 @@ namespace GPSNote.Models
 
         public ICommand LikeCommand { get; set; } = null;
         public ICommand ItemTappedCommand { get; set; } = null;
+        public ICommand DeleteCommand { get; set; } = null;
+        public ICommand EditCommand { get; set; } = null;
 
         public PinType PinType { get; set; }
         #endregion

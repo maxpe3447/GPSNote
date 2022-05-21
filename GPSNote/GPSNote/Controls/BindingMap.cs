@@ -106,11 +106,17 @@ namespace GPSNote.Controls
         {
             var map = (BindingMap)bindable;
 
-            if (newValue is Position pos && pos != null)
+            if (newValue is Position pos && pos != default(Position))
             {
-                Distance distance = new MapSpan(pos, 0.01, 0.01).Radius;
+                try
+                {
+                    Distance distance = new MapSpan(pos, 0.01, 0.01).Radius;
                 MapSpan region = MapSpan.FromCenterAndRadius(pos, distance);
                 map.MoveToRegion(region);
+                }catch(Exception ex)
+                {
+                    Acr.UserDialogs.UserDialogs.Instance.Alert(ex.Message);
+                }
 
             }
 

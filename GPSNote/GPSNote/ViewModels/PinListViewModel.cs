@@ -30,6 +30,8 @@ namespace GPSNote.ViewModels
         {
             model.LikeCommand = LikeCommand;
             model.ItemTappedCommand = ItemTappedCommand;
+            model.EditCommand = EditCommand;
+            model.DeleteCommand = DeleteCommand;
         }
         private async void CreatePinCommandRelease()
         {
@@ -79,7 +81,6 @@ namespace GPSNote.ViewModels
         }
         private void EditCommandRelease(object obj)
         {
-
             PinViewModel model;
             try
             {
@@ -127,13 +128,13 @@ namespace GPSNote.ViewModels
             _pinManager = pinManager;
             _authentication = authentication;
 
-            createPinCommand = new DelegateCommand(CreatePinCommandRelease);
-            searchCommand = new Command(SearchCommandRelease);
-            likeCommand = new Command(LikeCommandRelease);
-            editCommand = new Command(EditCommandRelease);
-            deleteCommand = new Command(DeleteCommandRelease);
-            exidCommand = new Command(ExidCommandRelease);
-            goToSettingsCommand = new Command(GoToSettingsCommandRelease);
+            //createPinCommand = new DelegateCommand(CreatePinCommandRelease);
+            //searchCommand = new Command(SearchCommandRelease);
+            //likeCommand = new Command(LikeCommandRelease);
+            //editCommand = new Command(EditCommandRelease);
+            //deleteCommand = new Command(DeleteCommandRelease);
+            //exidCommand = new Command(ExidCommandRelease);
+            //goToSettingsCommand = new Command(GoToSettingsCommandRelease);
         }
 
         #region -- Properties --
@@ -183,15 +184,13 @@ namespace GPSNote.ViewModels
         private ICommand deleteCommand;
         public ICommand DeleteCommand { get => deleteCommand ?? new Command(DeleteCommandRelease); }
 
-
         private ICommand editCommand;
         public ICommand EditCommand { get => editCommand ?? new Command(EditCommandRelease); }
 
-
-        public ICommand goToSettingsCommand;
+        private ICommand goToSettingsCommand;
         public ICommand GoToSettingsCommand { get => goToSettingsCommand ?? new DelegateCommand(GoToSettingsCommandRelease); }
 
-        public ICommand itemTappedCommand;
+        private ICommand itemTappedCommand;
         public ICommand ItemTappedCommand { get => itemTappedCommand ?? new DelegateCommand(ItemTappedCommandRelease); }
 
         #endregion

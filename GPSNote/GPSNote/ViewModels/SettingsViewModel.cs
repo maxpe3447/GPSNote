@@ -23,7 +23,7 @@ namespace GPSNote.ViewModels
 
         private void ActionSetPropertyIsDark()
         {
-            if (IsDark)
+            if (IsDark != default(int))
             {
                 App.Current.UserAppTheme = OSAppTheme.Dark;
             }
@@ -41,7 +41,7 @@ namespace GPSNote.ViewModels
             :base(navigation)
         {
             _themeManager = themeManager;
-            IsDark = Convert.ToBoolean(_themeManager.IsDarkTheme);
+            IsDark = _themeManager.IsDarkTheme;
 
             TextResources = new TextResources(typeof(TextControls));
         }
@@ -54,8 +54,8 @@ namespace GPSNote.ViewModels
             set => SetProperty(ref _textResources, value);
         }
 
-        private bool _isDark;
-        public bool IsDark
+        private int _isDark;
+        public int IsDark
         {
             get => _isDark;
             set => SetProperty(ref _isDark, value, ActionSetPropertyIsDark);

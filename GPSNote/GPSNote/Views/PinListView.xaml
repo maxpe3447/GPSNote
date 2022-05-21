@@ -4,6 +4,7 @@
              xmlns:prism ="http://prismlibrary.com" 
              xmlns:controls="clr-namespace:GPSNote.Controls"
              prism:ViewModelLocator.AutowireViewModel="True"
+
              x:Class="GPSNote.Views.PinListView"
              Title="{Binding Title}"
              IconImageSource="{StaticResource ic_pin}"
@@ -27,26 +28,11 @@
                                                      HasUnevenRows="True"
                                                      Margin="0,0,0,60"
                                                      SeparatorVisibility="None">
-
                         <ListView.ItemTemplate>
                             <DataTemplate>
                                 <ViewCell>
                                     <ViewCell.View>
                                         <SwipeView Margin="0,0,30,0">
-                                            <SwipeView.RightItems>
-                                                <SwipeItems>
-
-                                                    <SwipeItem IconImageSource="{StaticResource ic_edit}"
-                                                       BackgroundColor="{StaticResource LightBlue}"
-                                                       CommandParameter="{Binding .}"
-                                                       Command="{Binding EditCommand}"/>
-
-                                                    <SwipeItem BackgroundColor="{StaticResource LightRed}"
-                                                       Command="{Binding DeleteCommand}"
-                                                       CommandParameter="{Binding .}"
-                                                       IconImageSource="{StaticResource ic_delete}"/>
-                                                </SwipeItems>
-                                            </SwipeView.RightItems>
                                             <SwipeView.Content>
                                                 <controls:ItemListPin TextName="{Binding Name}"
                                                       TextCoord="{Binding Coordinate}"
@@ -54,6 +40,20 @@
                                                       ItemTappedCommand="{Binding ItemTappedCommand, Mode=TwoWay}"
                                                       IsFavorit="{Binding IsVisable, Mode=TwoWay}"/>
                                             </SwipeView.Content>
+                                            <SwipeView.RightItems>
+                                                <SwipeItems>
+
+                                                    <SwipeItem IconImageSource="{StaticResource ic_edit}"
+                                                       BackgroundColor="{StaticResource LightBlue}"
+                                                       Command="{Binding EditCommand}"
+                                                       CommandParameter="{Binding .}"/>
+
+                                                    <SwipeItem BackgroundColor="{StaticResource LightRed}"
+                                                       Command="{Binding DeleteCommand}"
+                                                       CommandParameter="{Binding .}"
+                                                       IconImageSource="{StaticResource ic_delete}"/>
+                                                </SwipeItems>
+                                            </SwipeView.RightItems>
                                         </SwipeView>
                                     </ViewCell.View>
                                 </ViewCell>
