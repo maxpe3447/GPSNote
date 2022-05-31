@@ -61,56 +61,23 @@ namespace GPSNote.Droid
             base.OnStart();
             if ((int)Build.VERSION.SdkInt >= 23)
             {
-                //if (CheckSelfPermission(Manifest.Permission.AccessFineLocation) != Permission.Granted ||
-                //    CheckSelfPermission(Manifest.Permission.AccessCoarseLocation) != Permission.Granted ||
-                //    CheckSelfPermission(Manifest.Permission.Internet) != Permission.Granted ||
-                //    CheckSelfPermission(Manifest.Permission.AccessNetworkState) != Permission.Granted ||
-                //    CheckSelfPermission(Manifest.Permission.ControlLocationUpdates) != Permission.Granted)
-                //{
-                //    RequestPermissions(LocationPermissions, RequestLocationId);
-                //}
-
-                //else
-                //{
-                //    Acr.UserDialogs.UserDialogs.Instance.Alert("all good");
-                //    // Permissions already granted - display a message.
-                //}
-
-                var status =  CrossPermissions.Current.CheckPermissionStatusAsync(Plugin.Permissions.Abstractions.Permission.Location).Result;
-                if (status != Plugin.Permissions.Abstractions.PermissionStatus.Granted)
+                if (CheckSelfPermission(Manifest.Permission.AccessFineLocation) != Android.Content.PM.Permission.Granted ||
+                    CheckSelfPermission(Manifest.Permission.AccessCoarseLocation) != Android.Content.PM.Permission.Granted ||
+                    CheckSelfPermission(Manifest.Permission.Internet) != Android.Content.PM.Permission.Granted ||
+                    CheckSelfPermission(Manifest.Permission.AccessNetworkState) != Android.Content.PM.Permission.Granted ||
+                    CheckSelfPermission(Manifest.Permission.ControlLocationUpdates) != Android.Content.PM.Permission.Granted)
                 {
-                    if ( CrossPermissions.Current.ShouldShowRequestPermissionRationaleAsync(Plugin.Permissions.Abstractions.Permission.Location).Result)
-                    {
-                         Acr.UserDialogs.UserDialogs.Instance.Alert("Need location", "Gunna need that location", "OK");
-                    }
-
-                    var results =  CrossPermissions.Current.RequestPermissionsAsync(new[] { Plugin.Permissions.Abstractions.Permission.Location });
-                    status = results.Result[Plugin.Permissions.Abstractions.Permission.Location];
+                    RequestPermissions(LocationPermissions, RequestLocationId);
                 }
 
-                if (status == PermissionStatus.Granted)
+                else
                 {
-                }
-                else if (status != Plugin.Permissions.Abstractions.PermissionStatus.Unknown)
-                {
-                    Acr.UserDialogs.UserDialogs.Instance.Alert("Location Denied", "Can not continue, try again.", "OK");
+                    Acr.UserDialogs.UserDialogs.Instance.Alert("all good");
+                    // Permissions already granted - display a message.
                 }
             }
         }
-        //public override void OnRequestPermissionsResult(int requestCode, string[] permissions, [GeneratedEnum] Permission[] grantResults)
-        //{
-        //    if (requestCode == RequestLocationId)
-        //    {
-        //        if ((grantResults.Length == 1) && (grantResults[0] == (int)Permission.Granted))
-        //            Console.WriteLine("Location permissions granted.");
-        //        else
-        //            Console.WriteLine("Location permissions denied.");
-        //    }
-        //    else
-        //    {
-        //        base.OnRequestPermissionsResult(requestCode, permissions, grantResults);
-        //    }
-        //}
+
         const int RequestLocationId = 0;
         readonly string[] LocationPermissions =
         {

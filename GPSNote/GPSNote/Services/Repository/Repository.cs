@@ -10,43 +10,39 @@ namespace GPSNote.Services.Repository
 {
     public class Repository : IRepository
     {
-        private Lazy<SQLiteAsyncConnection> database;
+        private SQLiteAsyncConnection database;
         public Repository()
         {
-            database = new Lazy<SQLiteAsyncConnection>(() =>
-            {
-                var path = Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.LocalApplicationData), "mapnote.db3");
-                var database = new SQLiteAsyncConnection(path);
-                database.CreateTableAsync<PinDataModel>();
-                database.CreateTableAsync<UserModel>();
-                return database;
-            });
+            var path = Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.LocalApplicationData), "mapnote.db3");
+            database = new SQLiteAsyncConnection(path);
+            database.CreateTableAsync<PinDataModel>();
+            database.CreateTableAsync<UserModel>();
         }
         public Task<int> DeleteAsync<T>(T entity) where T : IEntity
         {
-            return database.Value.DeleteAsync(entity);
+            return database.DeleteAsync(entity);
         }
 
         public Task<List<PinDataModel>> GetAllPinsAsync(int userId)
         {
           //var tables = database.Value.QueryAsync<PinDataModel>($"SELECT * FROM {nameof(PinDataModel)} WHERE {nameof(PinDataModel.UserId)} = ?;", userId);
-        var tables = database.Value.Table<PinDataModel>().ToListAsync();
+        var tables = database.Table<PinDataModel>().ToListAsync();
 
             return tables;
         }
 
         public Task<int> InsertAsync<T>(T entity)
         {
-            return database.Value.InsertAsync(entity);
+            return database.InsertAsync(entity);
         }
 
         public Task<int> UpdateAsync<T>(T entity) where T: IEntity
         {
-            return database.Value.UpdateAsync(entity);
+            return database.UpdateAsync(entity);
         }
         public bool IsExist(UserModel model, out int id)
         {
-            var table = database.Value.QueryAsync<UserModel>(
+            var table = database.QueryAsync<UserModel>(
                 $"SELECT * FROM {nameof(UserModel)} WHERE {nameof(UserModel.Email)} = ? AND {nameof(UserModel.Password)} = ?;",
                 model.Email, model.Password);
 

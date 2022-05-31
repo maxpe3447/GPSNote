@@ -21,6 +21,8 @@ namespace GPSNote.Services.Autherization
 
         public Task<int> CreateAccount(UserModel user)
         {
+            if (_repository == null)
+                Acr.UserDialogs.UserDialogs.Instance.Alert("_repository is NUll");
             return _repository.InsertAsync(user);
         }       
     }

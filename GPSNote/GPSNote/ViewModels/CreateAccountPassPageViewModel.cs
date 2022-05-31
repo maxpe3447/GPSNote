@@ -42,7 +42,7 @@ namespace GPSNote.ViewModels
                 ErrorColor = (Color)App.Current.Resources[Resources.ColorsName.LightGray];
             }
             _userModel.Password = UserPassword;
-            await _autherization.CreateAccount(_userModel);
+            await _autherization?.CreateAccount(_userModel);
 
             if (_authentication.IsExist(_userModel))
             {
