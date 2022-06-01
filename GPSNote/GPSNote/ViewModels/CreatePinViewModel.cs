@@ -56,13 +56,8 @@ namespace GPSNote.ViewModels
                                                       Resources.UserMsg.DataError);
                 return;
             }
-            pin.Description = Description;
-            if (string.IsNullOrEmpty(pin.Description))
-            {
-                await UserDialogs.Instance.AlertAsync(Resources.UserMsg.PlsEnterDescroption,
-                                                      Resources.UserMsg.DataError);
-                return;
-            }
+            pin.Description = Description ?? string.Empty;
+            
             if (string.IsNullOrEmpty(Longitude) ||
                string.IsNullOrEmpty(Latitude) ||
                !double.TryParse(Longitude, out var longitude) ||
