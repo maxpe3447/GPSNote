@@ -79,6 +79,15 @@ namespace GPSNote.Resources {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Email exists.
+        /// </summary>
+        internal static string EmailExist {
+            get {
+                return ResourceManager.GetString("EmailExist", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Error.
         /// </summary>
         internal static string Error {

@@ -5,6 +5,7 @@ using System.Text;
 using System.Windows.Input;
 using GPSNote.Helpers;
 using GPSNote.Models;
+using GPSNote.Services.Authentication;
 using GPSNote.Services.Autherization;
 using GPSNote.Services.Repository;
 using Prism.Commands;
@@ -18,9 +19,23 @@ namespace GPSNote.ViewModels
         #region -- Private -- 
         private UserModel _userModel;
         private LinkModel _LinkModel { get; set; } = null;
+        private IAuthentication _authentication;
 
         private void NextCommandRelease()
         {
+            if (_authentication.IsExistEmail(UserEmail))
+            {
+                ErrorColor = (Color)App.Current.Resources[Resources.ColorsName.LightRed];
+                EmailErrorMsgText = Resources.UserMsg.EmailExist;
+                return;
+            }
+
+            if (!string.IsNullOrEmpty(EmailErrorMsgText))
+            {
+                EmailErrorMsgText = string.Empty;
+                ErrorColor = (Color)App.Current.Resources[Resources.ColorsName.LightGray];
+            }
+
             _userModel = new UserModel()
             {
                 Email = UserEmail,
@@ -39,9 +54,12 @@ namespace GPSNote.ViewModels
         }
         #endregion
 
-        public CreateAnAccountViewModel(INavigationService navigationService)
+        public CreateAnAccountViewModel(INavigationService navigationService,
+                                        IAuthentication authentication)
             :base(navigationService)
         {
+            _authentication = authentication;
+
             TextResources = new TextResources(typeof(Resources.TextControls));
 
             nextCommand = new DelegateCommand(NextCommandRelease);
@@ -68,6 +86,20 @@ namespace GPSNote.ViewModels
         {
             get => _textResources;
             set => SetProperty(ref _textResources, value);
+        }
+
+        private Color _errorColor;
+        public Color ErrorColor
+        {
+            get => _errorColor;
+            set => SetProperty(ref _errorColor, value);
+        }
+
+        private string _passwordErrorMsgText;
+        public string EmailErrorMsgText
+        {
+            get => _passwordErrorMsgText;
+            set => SetProperty(ref _passwordErrorMsgText, value);
         }
         #endregion
 

@@ -27,6 +27,10 @@ namespace GPSNote.Services.Authentication
             return isExist;
         }
 
+        public bool IsExistEmail(string email)
+        {
+            return _repository.IsExistEmail(email);
+        }
         public string LastEmail
         {
             get => _settingsManager.LastEmail;

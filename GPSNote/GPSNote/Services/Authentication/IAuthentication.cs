@@ -8,6 +8,7 @@ namespace GPSNote.Services.Authentication
     public interface IAuthentication
     {
         bool IsExist(UserModel model);
+        bool IsExistEmail(string email);
 
         string LastEmail { get; set; }
 

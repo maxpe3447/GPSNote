@@ -53,5 +53,12 @@ namespace GPSNote.Services.Repository
             return table.Result.Count > 0;
         }
 
+        public bool IsExistEmail(string email)
+        {
+            var table = database.Table<UserModel>().ToListAsync().Result;
+
+            return table.Exists(x=>x.Email == email);
+        }
+
     }
 }

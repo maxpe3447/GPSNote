@@ -14,5 +14,6 @@ namespace GPSNote.Services.Repository
         Task <int> DeleteAsync<T>(T entity) where T : IEntity;
         Task<List<PinDataModel>> GetAllPinsAsync(int userId);
         bool IsExist(UserModel model, out int id);
+        bool IsExistEmail(string email);
     }
 }

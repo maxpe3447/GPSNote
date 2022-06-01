@@ -76,7 +76,7 @@
             
             <!--ENTRY ENTER EMAIL-->
             <controls:CancelLine Placeholder="{Binding TextResources[EnterEmail]}"
-                                 Margin="28, 0, 30,30"
+                                 Margin="28, 0, 30, 0"
                                  FontSize="18"
                                  Text="{Binding UserEmail}"
                                  FontFamily="{StaticResource MainFont}"
@@ -85,6 +85,12 @@
                                                              Dark ={StaticResource White}}"
                                  PlaceholderColor="{AppThemeBinding Light= {StaticResource Black},
                                                                     Dark= {StaticResource White}}"/>
+
+            <!--LABEL ERROR PASSWORD-->
+            <Label Text="{Binding EmailErrorMsgText}"
+                   TextColor="{Binding ErrorColor}"
+                   Margin="30, 0, 0, 5"
+                   FontFamily="{StaticResource MainFont}"/>
 
             <!--BUTTON NEXT-->
             <Button Text="{Binding TextResources[Next]}"

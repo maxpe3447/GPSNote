@@ -96,6 +96,13 @@ namespace GPSNote.ViewModels
 
         private void FindMeCommandRelease()
         {
+            if(Permissions.CheckStatusAsync<Permissions.LocationAlways>().Result != PermissionStatus.Granted)
+            {
+                Permissions.RequestAsync<Permissions.LocationAlways>();
+                return;
+            }
+            
+
             IsShowingUser = true;
 
             try

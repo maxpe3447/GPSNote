@@ -123,6 +123,9 @@
   <data name="DataError" xml:space="preserve">
     <value>Data Error</value>
   </data>
+  <data name="EmailExist" xml:space="preserve">
+    <value>Email exists</value>
+  </data>
   <data name="Error" xml:space="preserve">
     <value>Error</value>
   </data>
