@@ -64,7 +64,7 @@ namespace GPSNote.ViewModels
             PinViewList.Remove(model);
             model.IsVisable = !model.IsVisable;
             PinViewList.Insert(index, model);
-            _pinManager.UpdateAsync(model.PinViewToPinData(_pinManager.GetAllPins(_authentication.UserId)));
+            _pinManager.UpdateAsync(model.PinViewToPinData(_pinManager.GetAllPins()));
 
             _mainList = PinViewList;
             PinViewList = new List<PinViewModel>(_mainList);
@@ -74,7 +74,7 @@ namespace GPSNote.ViewModels
         {
             var model = PinViewList.First(p => p.Coordinate == (obj as PinViewModel).Coordinate);
 
-            _pinManager.DeleteAsync(model.PinViewToPinData(_pinManager.GetAllPins(_authentication.UserId)));
+            _pinManager.DeleteAsync(model.PinViewToPinData(_pinManager.GetAllPins()));
             int index = PinViewList.IndexOf(model);
             PinViewList.Remove(model);
             _mainList = PinViewList = new List<PinViewModel>(PinViewList);
@@ -111,6 +111,9 @@ namespace GPSNote.ViewModels
         {
             if (_selectedPin == null) return;
 
+            SelectedPin.IsVisable = true;
+            _pinManager.UpdateAsync(SelectedPin.PinViewToPinData(_pinManager.GetAllPins()));
+
             NavigationParameters keyValues = new NavigationParameters();
             keyValues.Add(nameof(SelectedPin), SelectedPin);
 
@@ -127,14 +130,6 @@ namespace GPSNote.ViewModels
 
             _pinManager = pinManager;
             _authentication = authentication;
-
-            //createPinCommand = new DelegateCommand(CreatePinCommandRelease);
-            //searchCommand = new Command(SearchCommandRelease);
-            //likeCommand = new Command(LikeCommandRelease);
-            //editCommand = new Command(EditCommandRelease);
-            //deleteCommand = new Command(DeleteCommandRelease);
-            //exidCommand = new Command(ExidCommandRelease);
-            //goToSettingsCommand = new Command(GoToSettingsCommandRelease);
         }
 
         #region -- Properties --
@@ -198,7 +193,7 @@ namespace GPSNote.ViewModels
         #region -- Override --
         public override void Initialize(INavigationParameters parameters)
         {
-            PinViewList = _pinManager.GetAllPins(_authentication.UserId)
+            PinViewList = _pinManager.GetAllPins()
                                      .DataPinListToViewPinList();
             for (int i = 0; i < PinViewList.Count; i++)
             {
@@ -219,7 +214,7 @@ namespace GPSNote.ViewModels
         {
             base.OnNavigatedTo(parameters);
 
-            PinViewList = _pinManager.GetAllPins(_authentication.UserId)
+            PinViewList = _pinManager.GetAllPins()
                                      .DataPinListToViewPinList();
             
 

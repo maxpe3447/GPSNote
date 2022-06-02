@@ -349,15 +349,15 @@ namespace GPSNote.ViewModels
             MapCameraUpdate(new Position(_settingsManager.LastLatitude,
                                           _settingsManager.LastLongitude));
 
-            PinViewModelList = _pinManager.GetAllPins(_authentication.UserId)
-                              .DataPinListToViewPinList();
+            PinViewModelList = _pinManager.GetAllPins()
+                                          .DataPinListToViewPinList();
 
-            //TODO: LINK
+            
             if (_linkManager.IsHave)
             {
                 var pos = new Position(_linkManager.GetLinkModel().Latitude, _linkManager.GetLinkModel().Longitude);
 
-                if (_pinManager.GetAllPins(_authentication.UserId)
+                if (_pinManager.GetAllPins()
                                                   .Where(x => x.Latitude == _linkManager.GetLinkModel().Latitude &&
                                                   x.Longitude == _linkManager.GetLinkModel().Longitude)
                                                   .Count() == 0)
@@ -402,9 +402,8 @@ namespace GPSNote.ViewModels
         {
             base.OnNavigatedTo(parameters);
 
-            PinViewModelList = (PinViewModelList == null)? _pinManager.GetAllPins(_authentication.UserId)
-                                          .DataPinListToViewPinList()
-                                          : PinViewModelList;
+            PinViewModelList = _pinManager.GetAllPins().DataPinListToViewPinList();
+                                                            
 
             if (parameters.TryGetValue<PinViewModel>(nameof(PinListViewModel.SelectedPin), out var pin))
             {

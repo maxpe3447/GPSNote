@@ -27,18 +27,21 @@ namespace GPSNote.ViewModels
                 Password = UserPassword
             };
 
-            if (!string.IsNullOrEmpty(UserPassword) && !string.IsNullOrEmpty(UserEmail) && _authentication.IsExist(userModel))
+            if (!string.IsNullOrEmpty(UserEmail) && !_authentication.IsExistEmail(userModel.Email))
             {
-                _authentication.LastEmail = UserEmail;
-
-                await NavigationService.NavigateAsync($"/{nameof(MainPage)}?createTab={nameof(MapView)}&createTab={nameof(PinListView)}");
+                ErrorColorEmail = (Color)App.Current.Resources[ColorsName.LightRed];
+                EmailErrorMsgText = UserMsg.WrongEmail;
+                return;
             }
-            else
+            if (!string.IsNullOrEmpty(UserPassword) && !_authentication.IsExist(userModel))
             {
                 ErrorColor = (Color)App.Current.Resources[ColorsName.LightRed];
-                EmailErrorMsgText = UserMsg.WrongEmail;
                 PasswordErrorMsgText = UserMsg.IncorrectPas;
+                return;
             }
+
+            _authentication.LastEmail = UserEmail;
+            await NavigationService.NavigateAsync($"/{nameof(MainPage)}?createTab={nameof(MapView)}&createTab={nameof(PinListView)}");
         }
         private async void BackCommandRelease()
             => await NavigationService.NavigateAsync($"/{nameof(StartPageView)}");
@@ -57,7 +60,7 @@ namespace GPSNote.ViewModels
 
             TextResources = new TextResources(typeof(TextControls));
 
-            ErrorColor = (Color)App.Current.Resources[ColorsName.LightGray];
+            ErrorColorEmail = ErrorColor = (Color)App.Current.Resources[ColorsName.LightGray];
             
             signinCommand = new DelegateCommand(SignInRelease);
             backCommand = new DelegateCommand(BackCommandRelease);
@@ -84,6 +87,13 @@ namespace GPSNote.ViewModels
         {
             get => _errorColor;
             set => SetProperty(ref _errorColor, value);
+        }
+
+        private Color _errorColorEmail;
+        public Color ErrorColorEmail
+        {
+            get => _errorColorEmail;
+            set => SetProperty(ref _errorColorEmail, value);
         }
 
         private string _emailErrorMsgText;

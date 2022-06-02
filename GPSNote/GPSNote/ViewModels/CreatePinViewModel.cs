@@ -92,14 +92,15 @@ namespace GPSNote.ViewModels
             }
             if (_oldPin != null)
             {
-                await _pinManager.UpdateAsync(pin.PinViewToPinData(_pinManager.GetAllPins(_authentication.UserId)));
+                await _pinManager.UpdateAsync(pin.PinViewToPinData(_pinManager.GetAllPins()));
             }
             else
             {
+                pin.IsVisable = true;
                 await _pinManager.InsertAsync(pin.PinViewToPinData(_authentication.UserId));
             }
 
-            await NavigationService.GoBackAsync(/*parameters*/);
+            await NavigationService.GoBackAsync();
         }
 
         private async void CancelCommandRelease()

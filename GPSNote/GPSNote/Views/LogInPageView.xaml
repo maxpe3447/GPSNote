@@ -59,7 +59,7 @@
                                  FontSize="18"
                                  FontFamily="{StaticResource MainFont}"
                                  Text="{Binding UserEmail}"
-                                 BorderColor="{Binding ErrorColor}"
+                                 BorderColor="{Binding ErrorColorEmail}"
                                  TextColor="{AppThemeBinding Light={StaticResource DarkGray},
                                                              Dark ={StaticResource White}}"
                                  PlaceholderColor="{AppThemeBinding Light= {StaticResource Black},
@@ -67,7 +67,7 @@
 
             <!--LABEL ERROR EMAIL-->
             <Label Text="{Binding EmailErrorMsgText}"
-                   TextColor="{Binding ErrorColor}"
+                   TextColor="{Binding ErrorColorEmail}"
                    FontFamily="{StaticResource MainFont}"
                    Margin="30, 0, 0, 0"/>
 
