@@ -16,43 +16,9 @@ namespace GPSNote.ViewModels
 {
     public class CreateAnAccountViewModel : ViewModelBase
     {
-        #region -- Private -- 
         private UserModel _userModel;
         private LinkModel _LinkModel { get; set; } = null;
         private IAuthentication _authentication;
-
-        private void NextCommandRelease()
-        {
-            if (_authentication.IsExistEmail(UserEmail))
-            {
-                ErrorColor = (Color)App.Current.Resources[Resources.ColorsName.LightRed];
-                EmailErrorMsgText = Resources.UserMsg.EmailExist;
-                return;
-            }
-
-            if (!string.IsNullOrEmpty(EmailErrorMsgText))
-            {
-                EmailErrorMsgText = string.Empty;
-                ErrorColor = (Color)App.Current.Resources[Resources.ColorsName.LightGray];
-            }
-
-            _userModel = new UserModel()
-            {
-                Email = UserEmail,
-                Name = UserName
-            };
-
-            INavigationParameters keyValues = new NavigationParameters();
-            keyValues.Add(nameof(_userModel), _userModel);
-
-            NavigationService.NavigateAsync($"/{nameof(Views.CreateAccountPassPageView)}", keyValues);
-        }
-
-        private void BackCommandRelease()
-        {
-            NavigationService.NavigateAsync($"/{nameof(Views.StartPageView)}");
-        }
-        #endregion
 
         public CreateAnAccountViewModel(INavigationService navigationService,
                                         IAuthentication authentication)
@@ -101,9 +67,7 @@ namespace GPSNote.ViewModels
             get => _passwordErrorMsgText;
             set => SetProperty(ref _passwordErrorMsgText, value);
         }
-        #endregion
 
-        #region -- Command --
         private ICommand nextCommand;
         public ICommand NextCommand { get => nextCommand ?? new DelegateCommand(NextCommandRelease); }
 
@@ -131,6 +95,40 @@ namespace GPSNote.ViewModels
             }
         }
 
+        #endregion
+
+        #region -- Private -- 
+        private void NextCommandRelease()
+        {
+            if (_authentication.IsExistEmail(UserEmail))
+            {
+                ErrorColor = (Color)App.Current.Resources[Resources.ColorsName.LightRed];
+                EmailErrorMsgText = Resources.UserMsg.EmailExist;
+                return;
+            }
+
+            if (!string.IsNullOrEmpty(EmailErrorMsgText))
+            {
+                EmailErrorMsgText = string.Empty;
+                ErrorColor = (Color)App.Current.Resources[Resources.ColorsName.LightGray];
+            }
+
+            _userModel = new UserModel()
+            {
+                Email = UserEmail,
+                Name = UserName
+            };
+
+            INavigationParameters keyValues = new NavigationParameters();
+            keyValues.Add(nameof(_userModel), _userModel);
+
+            NavigationService.NavigateAsync($"/{nameof(Views.CreateAccountPassPageView)}", keyValues);
+        }
+
+        private void BackCommandRelease()
+        {
+            NavigationService.NavigateAsync($"/{nameof(Views.StartPageView)}");
+        }
         #endregion
     }
 }

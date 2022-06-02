@@ -11,6 +11,7 @@ namespace GPSNote.Services.Repository
     public class Repository : IRepository
     {
         private SQLiteAsyncConnection database;
+
         public Repository()
         {
             var path = Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.LocalApplicationData), "mapnote.db3");
@@ -25,7 +26,6 @@ namespace GPSNote.Services.Repository
 
         public Task<List<PinDataModel>> GetAllPinsAsync(int userId)
         {
-          //var tables = database.Value.QueryAsync<PinDataModel>($"SELECT * FROM {nameof(PinDataModel)} WHERE {nameof(PinDataModel.UserId)} = ?;", userId);
         var tables = database.Table<PinDataModel>().ToListAsync();
 
             return tables;
@@ -45,8 +45,6 @@ namespace GPSNote.Services.Repository
             var table = database.QueryAsync<UserModel>(
                 $"SELECT * FROM {nameof(UserModel)} WHERE {nameof(UserModel.Email)} = ? AND {nameof(UserModel.Password)} = ?;",
                 model.Email, model.Password);
-
-            //var lst = database.Value.Table<UserModel>();
 
             id = (table.Result.Count > 0) ? table.Result[0].Id : 0;
             

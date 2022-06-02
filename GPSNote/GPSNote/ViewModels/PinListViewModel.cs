@@ -20,106 +20,10 @@ namespace GPSNote.ViewModels
 {
     public class PinListViewModel : ViewModelBase
     {
-        #region -- Private --
         private bool _isEditPin;
         private List<PinViewModel> _mainList;
         readonly private IAuthentication _authentication;
         readonly private IPinManager _pinManager;
-
-        private void BindCommnad(PinViewModel model)
-        {
-            model.LikeCommand = LikeCommand;
-            model.ItemTappedCommand = ItemTappedCommand;
-            model.EditCommand = EditCommand;
-            model.DeleteCommand = DeleteCommand;
-        }
-        private async void CreatePinCommandRelease()
-        {
-            NavigationParameters parameters = new NavigationParameters();
-            parameters.Add(nameof(_authentication.UserId), _authentication.UserId);
-            await NavigationService.NavigateAsync($"{nameof(CreatePinView)}", parameters);
-        }
-
-        private void SearchCommandRelease()
-        {
-            if (string.IsNullOrEmpty(SearchPin))
-            {
-                PinViewList = _mainList;
-                return;
-            }
-            PinViewList = new List<PinViewModel>(
-                PinViewList.Where(x => x.Name.Contains(SearchPin) ||
-                                         x.Description.Contains(SearchPin) ||
-                                         x.Coordinate.Contains(SearchPin)).ToList());
-        }
-
-        private void ExidCommandRelease()
-            => NavigationService.NavigateAsync($"/{nameof(Views.StartPageView)}");
-        
-        private void LikeCommandRelease(object obj)
-        {
-            var model = PinViewList.First(p => p.Coordinate == obj.ToString());
-           
-            int index = PinViewList.IndexOf(model);
-            PinViewList.Remove(model);
-            model.IsVisable = !model.IsVisable;
-            PinViewList.Insert(index, model);
-            _pinManager.UpdateAsync(model.PinViewToPinData(_pinManager.GetAllPins()));
-
-            _mainList = PinViewList;
-            PinViewList = new List<PinViewModel>(_mainList);
-        }
-
-        private void DeleteCommandRelease(object obj)
-        {
-            var model = PinViewList.First(p => p.Coordinate == (obj as PinViewModel).Coordinate);
-
-            _pinManager.DeleteAsync(model.PinViewToPinData(_pinManager.GetAllPins()));
-            int index = PinViewList.IndexOf(model);
-            PinViewList.Remove(model);
-            _mainList = PinViewList = new List<PinViewModel>(PinViewList);
-        }
-        private void EditCommandRelease(object obj)
-        {
-            PinViewModel model;
-            try
-            {
-                model = PinViewList.First(p => p.Coordinate == (obj as PinViewModel).Coordinate);
-            }
-            catch
-            {
-                Acr.UserDialogs.UserDialogs.Instance.Alert(UserMsg.ErrorEditPin,
-                                                           UserMsg.Error,
-                                                           UserMsg.Ok);
-                return;
-            }
-
-            _isEditPin = true;
-
-            NavigationParameters parametrs = new NavigationParameters();
-            parametrs.Add(nameof(_isEditPin), true);
-            parametrs.Add(nameof(PinViewModel), model);
-            parametrs.Add(nameof(_authentication.UserId), _authentication.UserId);
-
-            NavigationService.NavigateAsync(nameof(CreatePinView), parametrs);
-        }
-
-        private void GoToSettingsCommandRelease()
-            => NavigationService.NavigateAsync(nameof(SettingsView));
-       
-        private void ItemTappedCommandRelease()
-        {
-            if (_selectedPin == null) return;
-
-            SelectedPin.IsVisable = true;
-            _pinManager.UpdateAsync(SelectedPin.PinViewToPinData(_pinManager.GetAllPins()));
-
-            NavigationParameters keyValues = new NavigationParameters();
-            keyValues.Add(nameof(SelectedPin), SelectedPin);
-
-            _ = NavigationService.SelectTabAsync(nameof(MapView), keyValues);
-        }
-        #endregion
 
         public PinListViewModel(INavigationService navigationService,
                                 IPinManager pinManager,
@@ -161,9 +65,6 @@ namespace GPSNote.ViewModels
             set => SetProperty(ref _selectedSearchPin, value);
         }
 
-        #endregion
-
-        #region -- Commands --
         private ICommand createPinCommand;
         public ICommand CreatePinCommand { get => createPinCommand ?? new DelegateCommand(CreatePinCommandRelease); }
 
@@ -228,6 +129,102 @@ namespace GPSNote.ViewModels
             _mainList = PinViewList;
         }
 
+        #endregion
+
+        #region -- Private --
+        private void BindCommnad(PinViewModel model)
+        {
+            model.LikeCommand = LikeCommand;
+            model.ItemTappedCommand = ItemTappedCommand;
+            model.EditCommand = EditCommand;
+            model.DeleteCommand = DeleteCommand;
+        }
+        private async void CreatePinCommandRelease()
+        {
+            NavigationParameters parameters = new NavigationParameters();
+            parameters.Add(nameof(_authentication.UserId), _authentication.UserId);
+            await NavigationService.NavigateAsync($"{nameof(CreatePinView)}", parameters);
+        }
+
+        private void SearchCommandRelease()
+        {
+            if (string.IsNullOrEmpty(SearchPin))
+            {
+                PinViewList = _mainList;
+                return;
+            }
+            PinViewList = new List<PinViewModel>(
+                PinViewList.Where(x => x.Name.Contains(SearchPin) ||
+                                         x.Description.Contains(SearchPin) ||
+                                         x.Coordinate.Contains(SearchPin)).ToList());
+        }
+
+        private void ExidCommandRelease()
+            => NavigationService.NavigateAsync($"/{nameof(Views.StartPageView)}");
+
+        private void LikeCommandRelease(object obj)
+        {
+            var model = PinViewList.First(p => p.Coordinate == obj.ToString());
+
+            int index = PinViewList.IndexOf(model);
+            PinViewList.Remove(model);
+            model.IsVisable = !model.IsVisable;
+            PinViewList.Insert(index, model);
+            _pinManager.UpdateAsync(model.PinViewToPinData(_pinManager.GetAllPins()));
+
+            _mainList = PinViewList;
+            PinViewList = new List<PinViewModel>(_mainList);
+        }
+
+        private void DeleteCommandRelease(object obj)
+        {
+            var model = PinViewList.First(p => p.Coordinate == (obj as PinViewModel).Coordinate);
+
+            _pinManager.DeleteAsync(model.PinViewToPinData(_pinManager.GetAllPins()));
+            int index = PinViewList.IndexOf(model);
+            PinViewList.Remove(model);
+            _mainList = PinViewList = new List<PinViewModel>(PinViewList);
+        }
+        private void EditCommandRelease(object obj)
+        {
+            PinViewModel model;
+            try
+            {
+                model = PinViewList.First(p => p.Coordinate == (obj as PinViewModel).Coordinate);
+            }
+            catch
+            {
+                Acr.UserDialogs.UserDialogs.Instance.Alert(UserMsg.ErrorEditPin,
+                                                           UserMsg.Error,
+                                                           UserMsg.Ok);
+                return;
+            }
+
+            _isEditPin = true;
+
+            NavigationParameters parametrs = new NavigationParameters();
+            parametrs.Add(nameof(_isEditPin), true);
+            parametrs.Add(nameof(PinViewModel), model);
+            parametrs.Add(nameof(_authentication.UserId), _authentication.UserId);
+
+            NavigationService.NavigateAsync(nameof(CreatePinView), parametrs);
+        }
+
+        private void GoToSettingsCommandRelease()
+            => NavigationService.NavigateAsync(nameof(SettingsView));
+
+        private void ItemTappedCommandRelease()
+        {
+            if (_selectedPin == null) return;
+
+            SelectedPin.IsVisable = true;
+            _pinManager.UpdateAsync(SelectedPin.PinViewToPinData(_pinManager.GetAllPins()));
+
+            NavigationParameters keyValues = new NavigationParameters();
+            keyValues.Add(nameof(SelectedPin), SelectedPin);
+
+            _ = NavigationService.SelectTabAsync(nameof(MapView), keyValues);
+        }
         #endregion
     }
 }

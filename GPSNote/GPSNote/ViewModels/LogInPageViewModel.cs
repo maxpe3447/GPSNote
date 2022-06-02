@@ -15,41 +15,8 @@ namespace GPSNote.ViewModels
 {
     class LogInPageViewModel : ViewModelBase
     {
-        #region -- Private --
         readonly private IAuthentication _authentication;
         private LinkModel _LinkModel { get; set; } = null;
-
-        private async void SignInRelease()
-        {
-            var userModel = new UserModel
-            {
-                Email = UserEmail,
-                Password = UserPassword
-            };
-
-            if (!string.IsNullOrEmpty(UserEmail) && !_authentication.IsExistEmail(userModel.Email))
-            {
-                ErrorColorEmail = (Color)App.Current.Resources[ColorsName.LightRed];
-                EmailErrorMsgText = UserMsg.WrongEmail;
-                return;
-            }
-            if (!string.IsNullOrEmpty(UserPassword) && !_authentication.IsExist(userModel))
-            {
-                ErrorColor = (Color)App.Current.Resources[ColorsName.LightRed];
-                PasswordErrorMsgText = UserMsg.IncorrectPas;
-                return;
-            }
-
-            _authentication.LastEmail = UserEmail;
-            await NavigationService.NavigateAsync($"/{nameof(MainPage)}?createTab={nameof(MapView)}&createTab={nameof(PinListView)}");
-        }
-        private async void BackCommandRelease()
-            => await NavigationService.NavigateAsync($"/{nameof(StartPageView)}");
-        private void GoogleAuthCommandRelease()
-        {
-            //GoogleAuth.GoogleAuthentication();
-        }
-        #endregion
 
         public LogInPageViewModel(
             INavigationService navigationService,
@@ -116,9 +83,7 @@ namespace GPSNote.ViewModels
             get => _textResources;
             set => SetProperty(ref _textResources, value);
         }
-        #endregion
 
-        #region -- Command --
         public ICommand signinCommand;
         public ICommand SigninCommand { get => signinCommand ?? new DelegateCommand(SignInRelease); }
 
@@ -146,6 +111,42 @@ namespace GPSNote.ViewModels
             {
                 parameters.Add(nameof(LinkModel), _LinkModel);
             }
+        }
+        #endregion
+
+        #region -- Private --
+        private async void SignInRelease()
+        {
+            var userModel = new UserModel
+            {
+                Email = UserEmail,
+                Password = UserPassword
+            };
+
+            PasswordErrorMsgText = EmailErrorMsgText = string.Empty;
+            ErrorColorEmail = ErrorColor = (Color)App.Current.Resources[ColorsName.LightGray];
+
+            if (!string.IsNullOrEmpty(UserEmail) && !_authentication.IsExistEmail(userModel.Email))
+            {
+                ErrorColorEmail = (Color)App.Current.Resources[ColorsName.LightRed];
+                EmailErrorMsgText = UserMsg.WrongEmail;
+                return;
+            }
+            if (!string.IsNullOrEmpty(UserPassword) && !_authentication.IsExist(userModel))
+            {
+                ErrorColor = (Color)App.Current.Resources[ColorsName.LightRed];
+                PasswordErrorMsgText = UserMsg.IncorrectPas;
+                return;
+            }
+
+            _authentication.LastEmail = UserEmail;
+            await NavigationService.NavigateAsync($"/{nameof(MainPage)}?createTab={nameof(MapView)}&createTab={nameof(PinListView)}");
+        }
+        private async void BackCommandRelease()
+            => await NavigationService.NavigateAsync($"/{nameof(StartPageView)}");
+        private void GoogleAuthCommandRelease()
+        {
+            //GoogleAuth.GoogleAuthentication();
         }
         #endregion
     }

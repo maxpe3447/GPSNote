@@ -26,7 +26,6 @@ namespace GPSNote.ViewModels
     internal class MapViewModel : ViewModelBase
     {
 
-        #region -- Private --
         readonly private IAuthentication _authentication;
         readonly private ISettingsManager _settingsManager;
         readonly private IPinManager _pinManager;
@@ -34,140 +33,6 @@ namespace GPSNote.ViewModels
 
         private const double _maxTabDescriptionHeight = 290;
         private const int _stepTabDescriptionHeight = 30;
-
-
-        private async void ShowTabDescriptionAsync()
-        {
-            for (int i = 0; i < _maxTabDescriptionHeight; i += _stepTabDescriptionHeight)
-            {
-                TabDescriptionHeight = i;
-                await Task.Delay(1);
-            }
-        }
-        private async void UnShowTabDescriptionAsync()
-        {
-            int h = (int)TabDescriptionHeight;
-            for (int i = h; i > 0; i -= _stepTabDescriptionHeight)
-            {
-                if (i < 0) i = 0;
-                TabDescriptionHeight = i;
-                await Task.Delay(1);
-            }
-            TabDescriptionHeight = 0;
-        }
-
-        private void InitDescription()
-        {
-            PinViewModel model = null;
-            try
-            {
-                model = PinViewModelList.Where(x => x.Position == PinClick.Position).First();
-            }
-            catch
-            {
-                UserDialogs.Instance.Alert(UserMsg.DataError);
-                return;
-            }
-
-            DescName = model?.Name;
-            DescCoordinate = model?.Coordinate;
-            DescDescription = model?.Description;
-        }
-
-        private void MapCameraUpdate(Position position)
-        {
-            double zoom = Convert.ToDouble(_settingsManager.CameraZoom.ToString());
-            InitialCameraUpdate = CameraUpdateFactory.NewCameraPosition(
-                new CameraPosition(position, zoom));
-        }
-
-        private void SearchCommandRelease()
-        {
-            if (string.IsNullOrEmpty(SearchPin))
-            {
-                FindedPins = new List<PinViewModel>();
-                return;
-            }
-            FindedPins = PinViewModelList.Where(x => x.Name.Contains(SearchPin) ||
-                                                x.Description.Contains(SearchPin) ||
-                                                x.Coordinate.Contains(SearchPin))
-                                                            .ToList();
-        }
-
-        private void FindMeCommandRelease()
-        {
-            if(Permissions.CheckStatusAsync<Permissions.LocationAlways>().Result != PermissionStatus.Granted)
-            {
-                Permissions.RequestAsync<Permissions.LocationAlways>();
-                return;
-            }
-            
-
-            IsShowingUser = true;
-
-            try
-            {
-                GoToPosition = new Position(Geolocation.GetLastKnownLocationAsync().Result.Latitude,
-                                            Geolocation.GetLastKnownLocationAsync().Result.Longitude);
-            }
-            catch
-            {
-                UserDialogs.Instance.Alert(UserMsg.PlsCheckGPS);
-            }
-        }
-
-        private void ExidCommandRelease()
-        {
-            _authentication.UserId = default(int);
-            NavigationService.NavigateAsync($"/{nameof(StartPageView)}");
-        }
-
-        private void PinClickCommandRelease()
-        {
-            if (MyLocationButtonEnabled)
-            {
-                MyLocationButtonEnabled = false;
-
-                ShowTabDescriptionAsync();
-            }
-            if (Connectivity.NetworkAccess == NetworkAccess.Internet)
-            {
-                WeatherModel = Weather.GetResponse(PinClick.Position.Latitude, PinClick.Position.Longitude);
-            }
-            else
-            {
-                UserDialogs.Instance.AlertAsync(UserMsg.WrongInternetConnect);
-            }
-        }
-
-        private void MapClickCommandRelease()
-        {
-            MyLocationButtonEnabled = true;
-            UnShowTabDescriptionAsync();
-        }
-
-        private void GoToSettingsCommandRelease()
-            => NavigationService.NavigateAsync(nameof(SettingsView));
-
-        private async void ShareCommandReleaseAsync()
-        {
-            try
-            { 
-                
-                var uri = new Uri($"{Constants.LINK_PROTOCOL_HTTP}://{Constants.LINK_DOMEN}/{Constants.LINK_GEO}/{PinClick.Position.Latitude}/{PinClick.Position.Longitude}/{PinClick.Label}/{PinClick.Address}");
-                await Share.RequestAsync(new ShareTextRequest
-                {
-                    Text = UserMsg.SharePin,
-                    Uri = uri.ToString(),
-                    Title = UserMsg.SharePin
-                });
-            }
-            catch (Exception ex)
-            {
-                UserDialogs.Instance.Alert(ex.Message);
-            }
-        }
-        #endregion
 
         public MapViewModel(
             INavigationService navigationService,
@@ -314,9 +179,7 @@ namespace GPSNote.ViewModels
             get => _weatherModel;
             set => SetProperty(ref _weatherModel, value);
         }
-        #endregion
 
-        #region -- Command -- 
         private ICommand searchCommand;
         public ICommand SearchCommand { get => searchCommand ?? new DelegateCommand(SearchCommandRelease); }
 
@@ -408,6 +271,140 @@ namespace GPSNote.ViewModels
             if (parameters.TryGetValue<PinViewModel>(nameof(PinListViewModel.SelectedPin), out var pin))
             {
                 GoToPosition = pin.Position;
+            }
+        }
+        #endregion
+
+        #region -- Private --
+        private async void ShowTabDescriptionAsync()
+        {
+            for (int i = 0; i < _maxTabDescriptionHeight; i += _stepTabDescriptionHeight)
+            {
+                TabDescriptionHeight = i;
+                await Task.Delay(1);
+            }
+        }
+        private async void UnShowTabDescriptionAsync()
+        {
+            int h = (int)TabDescriptionHeight;
+            for (int i = h; i > 0; i -= _stepTabDescriptionHeight)
+            {
+                if (i < 0) i = 0;
+                TabDescriptionHeight = i;
+                await Task.Delay(1);
+            }
+            TabDescriptionHeight = 0;
+        }
+
+        private void InitDescription()
+        {
+            PinViewModel model = null;
+            try
+            {
+                model = PinViewModelList.Where(x => x.Position == PinClick.Position).First();
+            }
+            catch
+            {
+                UserDialogs.Instance.Alert(UserMsg.DataError);
+                return;
+            }
+
+            DescName = model?.Name;
+            DescCoordinate = model?.Coordinate;
+            DescDescription = model?.Description;
+        }
+
+        private void MapCameraUpdate(Position position)
+        {
+            double zoom = Convert.ToDouble(_settingsManager.CameraZoom.ToString());
+            InitialCameraUpdate = CameraUpdateFactory.NewCameraPosition(
+                new CameraPosition(position, zoom));
+        }
+
+        private void SearchCommandRelease()
+        {
+            if (string.IsNullOrEmpty(SearchPin))
+            {
+                FindedPins = new List<PinViewModel>();
+                return;
+            }
+            FindedPins = PinViewModelList.Where(x => x.Name.Contains(SearchPin) ||
+                                                x.Description.Contains(SearchPin) ||
+                                                x.Coordinate.Contains(SearchPin))
+                                                            .ToList();
+        }
+
+        private void FindMeCommandRelease()
+        {
+            if (Permissions.CheckStatusAsync<Permissions.LocationAlways>().Result != PermissionStatus.Granted)
+            {
+                Permissions.RequestAsync<Permissions.LocationAlways>();
+                return;
+            }
+
+
+            IsShowingUser = true;
+
+            try
+            {
+                GoToPosition = new Position(Geolocation.GetLastKnownLocationAsync().Result.Latitude,
+                                            Geolocation.GetLastKnownLocationAsync().Result.Longitude);
+            }
+            catch
+            {
+                UserDialogs.Instance.Alert(UserMsg.PlsCheckGPS);
+            }
+        }
+
+        private void ExidCommandRelease()
+        {
+            _authentication.UserId = default(int);
+            NavigationService.NavigateAsync($"/{nameof(StartPageView)}");
+        }
+
+        private void PinClickCommandRelease()
+        {
+            if (MyLocationButtonEnabled)
+            {
+                MyLocationButtonEnabled = false;
+
+                ShowTabDescriptionAsync();
+            }
+            if (Connectivity.NetworkAccess == NetworkAccess.Internet)
+            {
+                WeatherModel = Weather.GetResponse(PinClick.Position.Latitude, PinClick.Position.Longitude);
+            }
+            else
+            {
+                UserDialogs.Instance.AlertAsync(UserMsg.WrongInternetConnect);
+            }
+        }
+
+        private void MapClickCommandRelease()
+        {
+            MyLocationButtonEnabled = true;
+            UnShowTabDescriptionAsync();
+        }
+
+        private void GoToSettingsCommandRelease()
+            => NavigationService.NavigateAsync(nameof(SettingsView));
+
+        private async void ShareCommandReleaseAsync()
+        {
+            try
+            {
+
+                var uri = new Uri($"{Constants.LINK_PROTOCOL_HTTP}://{Constants.LINK_DOMEN}/{Constants.LINK_GEO}/{PinClick.Position.Latitude}/{PinClick.Position.Longitude}/{PinClick.Label}/{PinClick.Address}");
+                await Share.RequestAsync(new ShareTextRequest
+                {
+                    Text = UserMsg.SharePin,
+                    Uri = uri.ToString(),
+                    Title = UserMsg.SharePin
+                });
+            }
+            catch (Exception ex)
+            {
+                UserDialogs.Instance.Alert(ex.Message);
             }
         }
         #endregion

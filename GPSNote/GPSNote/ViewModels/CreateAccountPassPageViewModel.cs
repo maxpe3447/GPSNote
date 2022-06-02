@@ -17,40 +17,11 @@ namespace GPSNote.ViewModels
 
     public class CreateAccountPassPageViewModel : ViewModelBase
     {
-        #region Private
         readonly private IAutherization _autherization;
         readonly private IAuthentication _authentication;
 
         private UserModel _userModel;
         private LinkModel _LinkModel { get; set; } = null;
-
-        private async void BackCommandRelease()
-        {
-            await NavigationService.NavigateAsync($"/{nameof(CreateAnAccountView)}");
-        }
-        private async void CreateAccountCommandRelease()
-        {
-            if (UserPassword != UserPasswordRepeat)
-            {
-                ErrorColor = (Color)App.Current.Resources[Resources.ColorsName.LightRed];
-                PasswordErrorMsgText = Resources.UserMsg.PasswordMismatch;
-                return;
-            }
-            else
-            {
-                PasswordErrorMsgText = string.Empty;
-                ErrorColor = (Color)App.Current.Resources[Resources.ColorsName.LightGray];
-            }
-            _userModel.Password = UserPassword;
-            await _autherization?.CreateAccount(_userModel);
-
-            if (_authentication.IsExist(_userModel))
-            {
-                _authentication.LastEmail = _userModel.Email;
-                await NavigationService.NavigateAsync($"/{nameof(LogInPageView)}");
-            }
-        }
-        #endregion
 
         public CreateAccountPassPageViewModel(
             INavigationService navigationService,
@@ -105,9 +76,7 @@ namespace GPSNote.ViewModels
             get => _userPasswordRepeat;
             set => SetProperty(ref _userPasswordRepeat, value);
         }
-        #endregion
 
-        #region -- Commands --
         private ICommand backCommand;
         public ICommand BackCommand { get => backCommand ?? new DelegateCommand(BackCommandRelease); }
 
@@ -139,5 +108,33 @@ namespace GPSNote.ViewModels
         }
         #endregion
 
+        #region Private
+        private async void BackCommandRelease()
+        {
+            await NavigationService.NavigateAsync($"/{nameof(CreateAnAccountView)}");
+        }
+        private async void CreateAccountCommandRelease()
+        {
+            if (UserPassword != UserPasswordRepeat)
+            {
+                ErrorColor = (Color)App.Current.Resources[Resources.ColorsName.LightRed];
+                PasswordErrorMsgText = Resources.UserMsg.PasswordMismatch;
+                return;
+            }
+            else
+            {
+                PasswordErrorMsgText = string.Empty;
+                ErrorColor = (Color)App.Current.Resources[Resources.ColorsName.LightGray];
+            }
+            _userModel.Password = UserPassword;
+            await _autherization?.CreateAccount(_userModel);
+
+            if (_authentication.IsExist(_userModel))
+            {
+                _authentication.LastEmail = _userModel.Email;
+                await NavigationService.NavigateAsync($"/{nameof(LogInPageView)}");
+            }
+        }
+        #endregion
     }
 }

@@ -15,25 +15,7 @@ namespace GPSNote.ViewModels
 
     public class SettingsViewModel:ViewModelBase
     {
-        #region -- Private -- 
         readonly private IThemeManager _themeManager;
-
-        private async void BackCommandRelease()
-            => await NavigationService.GoBackAsync();
-
-        private void ActionSetPropertyIsDark()
-        {
-            if (IsDark != default(int))
-            {
-                App.Current.UserAppTheme = OSAppTheme.Dark;
-            }
-            else
-            {
-                App.Current.UserAppTheme = OSAppTheme.Light;
-            }
-            _themeManager.IsDarkTheme = IsDark;
-        }
-        #endregion
 
         public SettingsViewModel(
             INavigationService navigation,
@@ -61,11 +43,26 @@ namespace GPSNote.ViewModels
             set => SetProperty(ref _isDark, value, ActionSetPropertyIsDark);
         }
 
-        #endregion
-
-        #region --Command --
         private ICommand backCommand;
         public ICommand BackCommand { get => backCommand ?? new DelegateCommand(BackCommandRelease); }
+        #endregion
+
+        #region -- Private -- 
+        private async void BackCommandRelease()
+            => await NavigationService.GoBackAsync();
+
+        private void ActionSetPropertyIsDark()
+        {
+            if (IsDark != default(int))
+            {
+                App.Current.UserAppTheme = OSAppTheme.Dark;
+            }
+            else
+            {
+                App.Current.UserAppTheme = OSAppTheme.Light;
+            }
+            _themeManager.IsDarkTheme = IsDark;
+        }
         #endregion
     }
 }

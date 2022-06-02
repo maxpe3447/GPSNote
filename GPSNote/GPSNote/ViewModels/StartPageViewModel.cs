@@ -19,20 +19,9 @@ namespace GPSNote.ViewModels
     public class StartPageViewModel : ViewModelBase
     {
 
-        #region -- Private --
         readonly private IAuthentication _authentication;
         readonly private IThemeManager _themeManager;
         readonly private ILinkManager _linkManager;
-
-        private void LogInCommandRelease()
-        {
-            NavigationService.NavigateAsync($"/{nameof(LogInPageView)}");
-        }
-        private async void CreateAnAccountRelease()
-        {
-            await NavigationService.NavigateAsync($"/{nameof(CreateAnAccountView)}");
-        }
-        #endregion
 
         public StartPageViewModel(
             INavigationService navigationService,
@@ -56,9 +45,7 @@ namespace GPSNote.ViewModels
             get => _textResources;
             set => SetProperty(ref _textResources, value);
         }
-        #endregion
 
-        #region -- Commands --
         public ICommand LogInCommand
         {
             get => new DelegateCommand(LogInCommandRelease);
@@ -100,6 +87,17 @@ namespace GPSNote.ViewModels
         public override void OnNavigatedFrom(INavigationParameters parameters)
         {
 
+        }
+        #endregion
+
+        #region -- Private --
+        private void LogInCommandRelease()
+        {
+            NavigationService.NavigateAsync($"/{nameof(LogInPageView)}");
+        }
+        private async void CreateAnAccountRelease()
+        {
+            await NavigationService.NavigateAsync($"/{nameof(CreateAnAccountView)}");
         }
         #endregion
     }
