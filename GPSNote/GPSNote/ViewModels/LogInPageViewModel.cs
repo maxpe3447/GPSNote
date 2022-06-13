@@ -15,23 +15,20 @@ namespace GPSNote.ViewModels
 {
     class LogInPageViewModel : ViewModelBase
     {
-        readonly private IAuthentication _authentication;
+        readonly private IAuthenticationService _authentication;
         private LinkModel _LinkModel { get; set; } = null;
 
         public LogInPageViewModel(
             INavigationService navigationService,
-            IAuthentication authentication) 
+            IAuthenticationService authentication) 
             : base(navigationService)
         {
             _authentication = authentication;
 
-            TextResources = new TextResources(typeof(TextControls));
+            TextControlsResources = new TextResources(typeof(TextControls));
+            TextUserMsgResources = new TextResources(typeof(UserMsg));
 
-            ErrorColorEmail = ErrorColor = (Color)App.Current.Resources[ColorsName.LightGray];
-            
-            signinCommand = new DelegateCommand(SignInRelease);
-            backCommand = new DelegateCommand(BackCommandRelease);
-            googleAuthCommand = new DelegateCommand(GoogleAuthCommandRelease);
+            IsPasswordValid = IsEmailValid = true;
         }
 
         #region -- Properties -- 
@@ -49,50 +46,43 @@ namespace GPSNote.ViewModels
             set => SetProperty(ref _userPassword, value);
         }
 
-        private Color _errorColor;
-        public Color ErrorColor
+        private bool _isEmailValid;
+        public bool IsEmailValid
         {
-            get => _errorColor;
-            set => SetProperty(ref _errorColor, value);
+            get => _isEmailValid;
+            set => SetProperty(ref _isEmailValid, value);
         }
 
-        private Color _errorColorEmail;
-        public Color ErrorColorEmail
+        private bool _isPasswordValid;
+        public bool IsPasswordValid
         {
-            get => _errorColorEmail;
-            set => SetProperty(ref _errorColorEmail, value);
+            get => _isPasswordValid;
+            set => SetProperty(ref _isPasswordValid, value);
         }
 
-        private string _emailErrorMsgText;
-        public string EmailErrorMsgText
+        private TextResources _textControlsResources;
+        public TextResources TextControlsResources
         {
-            get => _emailErrorMsgText;
-            set => SetProperty(ref _emailErrorMsgText, value);
+            get => _textControlsResources;
+            set => SetProperty(ref _textControlsResources, value);
         }
 
-        private string _passwordErrorMsgText;
-        public string PasswordErrorMsgText
+        private TextResources _textUserMsgResources;
+        public TextResources TextUserMsgResources
         {
-            get => _passwordErrorMsgText;
-            set => SetProperty(ref _passwordErrorMsgText, value);
-        }
-
-        private TextResources _textResources;
-        public TextResources TextResources
-        {
-            get => _textResources;
-            set => SetProperty(ref _textResources, value);
+            get => _textUserMsgResources;
+            set => SetProperty(ref _textUserMsgResources, value);
         }
 
         public ICommand signinCommand;
-        public ICommand SigninCommand { get => signinCommand ?? new DelegateCommand(SignInRelease); }
+        public ICommand SigninCommand { get => signinCommand ??= new DelegateCommand(SignInRelease); }
 
         public ICommand backCommand;
-        public ICommand BackCommand { get => backCommand ?? new DelegateCommand(BackCommandRelease); }
+        public ICommand BackCommand { get => backCommand ??= new DelegateCommand(BackCommandRelease); }
 
 
         public ICommand googleAuthCommand;
-        public ICommand GoogleAuthCommand { get => googleAuthCommand ?? new DelegateCommand(GoogleAuthCommandRelease); }
+        public ICommand GoogleAuthCommand { get => googleAuthCommand ??= new DelegateCommand(GoogleAuthCommandRelease); }
         #endregion
 
         #region -- Override --
@@ -123,19 +113,11 @@ namespace GPSNote.ViewModels
                 Password = UserPassword
             };
 
-            PasswordErrorMsgText = EmailErrorMsgText = string.Empty;
-            ErrorColorEmail = ErrorColor = (Color)App.Current.Resources[ColorsName.LightGray];
-
-            if (!string.IsNullOrEmpty(UserEmail) && !_authentication.IsExistEmail(userModel.Email))
+            IsEmailValid = !string.IsNullOrEmpty(UserEmail) && _authentication.IsExistEmail(userModel.Email);
+            IsPasswordValid = !string.IsNullOrEmpty(UserPassword) && _authentication.IsExist(userModel);
+            
+            if(!(IsEmailValid && IsPasswordValid))
             {
-                ErrorColorEmail = (Color)App.Current.Resources[ColorsName.LightRed];
-                EmailErrorMsgText = UserMsg.WrongEmail;
-                return;
-            }
-            if (!string.IsNullOrEmpty(UserPassword) && !_authentication.IsExist(userModel))
-            {
-                ErrorColor = (Color)App.Current.Resources[ColorsName.LightRed];
-                PasswordErrorMsgText = UserMsg.IncorrectPas;
                 return;
             }
 

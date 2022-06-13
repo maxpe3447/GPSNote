@@ -8,13 +8,13 @@ using System.Threading.Tasks;
 
 namespace GPSNote.Services.Autherization
 {
-    public class Autherization : IAutherization
+    public class AutherizationService : IAutherizationService
     {
-        readonly private IRepository _repository;
+        readonly private IRepositoryService _repository;
 
 
-        public Autherization(
-            IRepository repository)
+        public AutherizationService(
+            IRepositoryService repository)
         {
             _repository = repository;
         }

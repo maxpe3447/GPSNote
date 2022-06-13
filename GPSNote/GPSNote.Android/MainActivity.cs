@@ -34,10 +34,7 @@ namespace GPSNote.Droid
         {
             base.OnCreate(savedInstanceState);
 
-            var platformConfig = new PlatformConfig
-            {
-                BitmapDescriptorFactory = new CachingNativeBitmapDescriptorFactory()
-            };
+            var platformConfig = new PlatformConfig { BitmapDescriptorFactory = new CachingNativeBitmapDescriptorFactory() };
             Xamarin.FormsGoogleMaps.Init(this,
                                          savedInstanceState,
                                          config: platformConfig);
@@ -67,18 +64,12 @@ namespace GPSNote.Droid
                     CheckSelfPermission(Manifest.Permission.AccessNetworkState) != Android.Content.PM.Permission.Granted ||
                     CheckSelfPermission(Manifest.Permission.ControlLocationUpdates) != Android.Content.PM.Permission.Granted)
                 {
+                    const int RequestLocationId = 0;
                     RequestPermissions(LocationPermissions, RequestLocationId);
-                }
-
-                else
-                {
-                    Acr.UserDialogs.UserDialogs.Instance.Alert("all good");
-                    // Permissions already granted - display a message.
                 }
             }
         }
 
-        const int RequestLocationId = 0;
         readonly string[] LocationPermissions =
         {
                 Manifest.Permission.AccessCoarseLocation,

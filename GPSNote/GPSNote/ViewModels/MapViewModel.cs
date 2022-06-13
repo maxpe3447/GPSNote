@@ -20,42 +20,38 @@ using GPSNote.Services.PinManager;
 using GPSNote.Extansion;
 using GPSNote.Services.LinkManager;
 using Prism.Commands;
+using GPSNote.Services.Weather;
 
 namespace GPSNote.ViewModels
 {
     internal class MapViewModel : ViewModelBase
     {
 
-        readonly private IAuthentication _authentication;
-        readonly private ISettingsManager _settingsManager;
-        readonly private IPinManager _pinManager;
-        readonly private ILinkManager _linkManager;
+        readonly private IAuthenticationService _authentication;
+        readonly private ISettingsManagerService _settingsManager;
+        readonly private IPinManagerService _pinManager;
+        readonly private ILinkManagerService _linkManager;
+        readonly private IWeatherService _weatherService;
 
         private const double _maxTabDescriptionHeight = 290;
         private const int _stepTabDescriptionHeight = 30;
 
         public MapViewModel(
             INavigationService navigationService,
-            ISettingsManager settingsManager,
-            IAuthentication authentication,
-            IPinManager pinManager,
-            ILinkManager link)
+            ISettingsManagerService settingsManager,
+            IAuthenticationService authentication,
+            IPinManagerService pinManager,
+            ILinkManagerService link,
+            IWeatherService weatherService)
             : base(navigationService)
         {
             _settingsManager = settingsManager;
             _authentication = authentication;
             _pinManager = pinManager;
             _linkManager = link;
+            _weatherService = weatherService;
 
             TabDescriptionHeight = 0;
-
-            findMeCommand = new DelegateCommand(FindMeCommandRelease);
-            searchCommand = new DelegateCommand(SearchCommandRelease);
-            exidCommand = new DelegateCommand(ExidCommandRelease);
-            pinClickCommand = new DelegateCommand(PinClickCommandRelease);
-            mapClickCommand = new DelegateCommand(MapClickCommandRelease);
-            shareCommand = new DelegateCommand(ShareCommandReleaseAsync);
-            goToSettingsCommand = new DelegateCommand(GoToSettingsCommandRelease);
 
             TextResources = new TextResources(typeof(TextControls));
         }
@@ -64,7 +60,7 @@ namespace GPSNote.ViewModels
         private List<PinViewModel> _pinViewModelList;
         public List<PinViewModel> PinViewModelList
         {
-            get => _pinViewModelList ?? new List<PinViewModel>();
+            get => _pinViewModelList ??= new List<PinViewModel>();
             set => SetProperty(ref _pinViewModelList, value);
         }
         
@@ -181,27 +177,27 @@ namespace GPSNote.ViewModels
         }
 
         private ICommand searchCommand;
-        public ICommand SearchCommand { get => searchCommand ?? new DelegateCommand(SearchCommandRelease); }
+        public ICommand SearchCommand { get => searchCommand ??= new DelegateCommand(SearchCommandRelease); }
 
         private ICommand findMeCommand;
-        public ICommand FindMeCommand { get => findMeCommand ?? new DelegateCommand(FindMeCommandRelease); }
+        public ICommand FindMeCommand { get => findMeCommand ??= new DelegateCommand(FindMeCommandRelease); }
 
         private ICommand exidCommand;
-        public ICommand ExidCommand { get => exidCommand ?? new DelegateCommand(ExidCommandRelease); }
+        public ICommand ExidCommand { get => exidCommand ??= new DelegateCommand(ExidCommandRelease); }
 
         private ICommand pinClickCommand;
-        public ICommand PinClickCommand { get => pinClickCommand ?? new DelegateCommand(PinClickCommandRelease); }
+        public ICommand PinClickCommand { get => pinClickCommand ??= new DelegateCommand(PinClickCommandRelease); }
 
         private ICommand mapClickCommand;
-        public ICommand MapClickCommand { get => mapClickCommand ?? new DelegateCommand(MapClickCommandRelease); }
+        public ICommand MapClickCommand { get => mapClickCommand ??= new DelegateCommand(MapClickCommandRelease); }
 
 
         private ICommand goToSettingsCommand;
-        public ICommand GoToSettingsCommand { get => goToSettingsCommand ?? new DelegateCommand(GoToSettingsCommandRelease); }
+        public ICommand GoToSettingsCommand { get => goToSettingsCommand ??= new DelegateCommand(GoToSettingsCommandRelease); }
 
 
         private ICommand shareCommand;
-        public ICommand ShareCommand { get => shareCommand ?? new DelegateCommand(ShareCommandReleaseAsync); }
+        public ICommand ShareCommand { get => shareCommand ??= new DelegateCommand(ShareCommandReleaseAsync); }
         
         #endregion
 
@@ -213,6 +209,7 @@ namespace GPSNote.ViewModels
                                           _settingsManager.LastLongitude));
 
             PinViewModelList = _pinManager.GetAllPins()
+                                          .Result
                                           .DataPinListToViewPinList();
 
             
@@ -220,10 +217,10 @@ namespace GPSNote.ViewModels
             {
                 var pos = new Position(_linkManager.GetLinkModel().Latitude, _linkManager.GetLinkModel().Longitude);
 
-                if (_pinManager.GetAllPins()
-                                                  .Where(x => x.Latitude == _linkManager.GetLinkModel().Latitude &&
-                                                  x.Longitude == _linkManager.GetLinkModel().Longitude)
-                                                  .Count() == 0)
+                if (_pinManager.GetAllPins().Result
+                                            .Where(x => x.Latitude == _linkManager.GetLinkModel().Latitude &&
+                                            x.Longitude == _linkManager.GetLinkModel().Longitude)
+                                            .Count() == 0)
                 {
                     var res = UserDialogs.Instance.ConfirmAsync(new ConfirmConfig
                     {
@@ -261,12 +258,12 @@ namespace GPSNote.ViewModels
 
         }
 
-        public override async void OnNavigatedTo(INavigationParameters parameters)
+        public override void OnNavigatedTo(INavigationParameters parameters)
         {
             base.OnNavigatedTo(parameters);
 
-            PinViewModelList = _pinManager.GetAllPins().DataPinListToViewPinList();
-                                                            
+            var pins = _pinManager.GetAllPins().Result;
+            PinViewModelList = pins.DataPinListToViewPinList();
 
             if (parameters.TryGetValue<PinViewModel>(nameof(PinListViewModel.SelectedPin), out var pin))
             {
@@ -372,7 +369,7 @@ namespace GPSNote.ViewModels
             }
             if (Connectivity.NetworkAccess == NetworkAccess.Internet)
             {
-                WeatherModel = Weather.GetResponse(PinClick.Position.Latitude, PinClick.Position.Longitude);
+                WeatherModel = _weatherService.GetWeatherInPosition(PinClick.Position);
             }
             else
             {

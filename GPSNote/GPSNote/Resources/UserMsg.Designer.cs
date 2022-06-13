@@ -106,6 +106,15 @@ namespace GPSNote.Resources {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Error going to area.
+        /// </summary>
+        internal static string ErrorGoingToArea {
+            get {
+                return ResourceManager.GetString("ErrorGoingToArea", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to You have a linl. Do you want show is?.
         /// </summary>
         internal static string HaveALink {
@@ -169,7 +178,7 @@ namespace GPSNote.Resources {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Please, enter \&apos;Description\&apos; of marker.
+        ///   Looks up a localized string similar to Please, enter &apos;Description&apos; of marker.
         /// </summary>
         internal static string PlsEnterDescroption {
             get {
@@ -178,7 +187,7 @@ namespace GPSNote.Resources {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Please, enter \&apos;Name\&apos; of marker.
+        ///   Looks up a localized string similar to Please, enter &apos;Name&apos; of marker.
         /// </summary>
         internal static string PlsEnterName {
             get {

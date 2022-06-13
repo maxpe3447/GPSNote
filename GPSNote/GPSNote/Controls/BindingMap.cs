@@ -4,13 +4,13 @@ using System.Collections.ObjectModel;
 using System.Text;
 using System.Linq;
 using Xamarin.Forms;
-//using Xamarin.Forms.Maps;
 using GPSNote.Models;
 using Xamarin.Forms.GoogleMaps;
 using GPSNote.Extansion;
 using System.Collections.Specialized;
 using System.Collections;
 using System.Windows.Input;
+using GPSNote.Resources;
 
 namespace GPSNote.Controls
 {
@@ -19,27 +19,14 @@ namespace GPSNote.Controls
         [Obsolete]
         public BindingMap() : base()
         {
-            MapClicked += (s, e) =>
-            {
-                ClickPosition = e.Point;
-                if (MapClickCommand?.CanExecute(null) ?? false)
-                {
-                    MapClickCommand.Execute(null);
-                }
-            };
+            MapClicked += OnMapClicked;
+            PinClicked += OnPinClicked;
+            CameraChanged += OnCameraChanged;
 
-            PinClicked += (s, e) =>
-            {
-                PinClick = e.Pin;
-                if (PinClickCommand?.CanExecute(null) ?? false)
-                {
-                    PinClickCommand.Execute(null);
-                }
-            };
-            CameraChanged += (s, e) => CameraCurPosition = new CameraPosition(e.Position.Target, e.Position.Zoom);
- 
             UiSettings.ZoomControlsEnabled = false;
         }
+
+        #region  -- Public Properties -- 
         public static readonly BindableProperty CameraCurPositionProperty =
             BindableProperty.Create(
             nameof(CameraCurPosition),
@@ -81,10 +68,7 @@ namespace GPSNote.Controls
         public Position ClickPosition
         {
             get => (Position)GetValue(ClickPositionProperty);
-            set
-            {
-                SetValue(ClickPositionProperty, value);
-            }
+            set => SetValue(ClickPositionProperty, value);
         }
 
         public static BindableProperty GoToPositionProperty =
@@ -102,25 +86,6 @@ namespace GPSNote.Controls
             set { SetValue(GoToPositionProperty, value); }
         }
 
-        private static void OnGoToPositionChanged(BindableObject bindable, object oldValue, object newValue)
-        {
-            var map = (BindingMap)bindable;
-
-            if (newValue is Position pos && pos != default(Position))
-            {
-                try
-                {
-                    Distance distance = new MapSpan(pos, 0.01, 0.01).Radius;
-                MapSpan region = MapSpan.FromCenterAndRadius(pos, distance);
-                map.MoveToRegion(region);
-                }catch(Exception ex)
-                {
-                    Acr.UserDialogs.UserDialogs.Instance.Alert(ex.Message);
-                }
-
-            }
-
-        }
         public static BindableProperty PinsCollectionProperty =
             BindableProperty.Create(
             nameof(PinsCollection),
@@ -135,40 +100,6 @@ namespace GPSNote.Controls
             get { return (List<PinViewModel>)GetValue(PinsCollectionProperty); }
             set { SetValue(PinsCollectionProperty, value); }
         }
-
-        private static void OnPinsCollectionChanged(BindableObject bindable, object oldValue, object newValue)
-        {
-
-            var map = bindable as BindingMap;
-            map.Pins.RestPins(newValue as List<PinViewModel>);
-            // if(oldValue is ObservableCollection<Pin> old)
-            //{
-            //    old.CollectionChanged -= map.OnObsPinsCollectionChanged;
-            //}
-            //if (newValue is ObservableCollection<Pin> new_)
-            //{
-            //    new_.CollectionChanged += map.OnObsPinsCollectionChanged;
-            //}
-
-        }
-
-        //private void OnObsPinsCollectionChanged(object sender, NotifyCollectionChangedEventArgs e)
-        //{
-        //    if (e.Action == NotifyCollectionChangedAction.Reset)
-        //    {
-        //        Pins.Clear();
-        //    }
-        //    if (e.Action == NotifyCollectionChangedAction.Add)
-        //    {
-
-        //        Pins.Add(e.NewItems[0] as Pin);
-        //    }
-
-        //    if (e.Action == NotifyCollectionChangedAction.Remove)
-        //    {
-        //        Pins.Remove(e.OldItems[0] as Pin);
-        //    }
-        //}
 
         public static BindableProperty PinClickCommandProperty =
             BindableProperty.Create(
@@ -211,5 +142,58 @@ namespace GPSNote.Controls
             get { return (ICommand)GetValue(MapClickCommandProperty); }
             set { SetValue(MapClickCommandProperty, value); }
         }
+        #endregion
+
+        #region  -- Private --  
+
+        private static void OnGoToPositionChanged(BindableObject bindable, object oldValue, object newValue)
+        {
+            var map = (BindingMap)bindable;
+
+            if (newValue is Position pos && pos != default(Position))
+            {
+                try
+                {
+                    Distance distance = new MapSpan(pos, 0.01, 0.01).Radius;
+                    MapSpan region = MapSpan.FromCenterAndRadius(pos, distance);
+                    map.MoveToRegion(region);
+                }
+                catch (Exception ex)
+                {
+                    Acr.UserDialogs.UserDialogs.Instance.Alert(UserMsg.ErrorGoingToArea);
+                    System.Diagnostics.Debug.WriteLine(ex.Message);
+                }
+            }
+        }
+        private static void OnPinsCollectionChanged(BindableObject bindable, object oldValue, object newValue)
+        {
+            var map = bindable as BindingMap;
+            map.Pins.RestPins(newValue as List<PinViewModel>);
+        }
+
+        private void OnCameraChanged(object sender, CameraChangedEventArgs e)
+        {
+            CameraCurPosition = new CameraPosition(e.Position.Target, e.Position.Zoom);
+        }
+
+        private void OnPinClicked(object sender, PinClickedEventArgs e)
+        {
+            PinClick = e.Pin;
+            if (PinClickCommand?.CanExecute(null) ?? false)
+            {
+                PinClickCommand.Execute(null);
+            }
+        }
+
+        private void OnMapClicked(object sender, MapClickedEventArgs e)
+        {
+            ClickPosition = e.Point;
+            if (MapClickCommand?.CanExecute(null) ?? false)
+            {
+                MapClickCommand.Execute(null);
+            }
+        }
+
+        #endregion
     }
 }

@@ -17,32 +17,12 @@ namespace GPSNote.Controls
         {
             InitializeComponent();
 
-            bIsClear.ImageSource = (ImageSource)App.Current.Resources[ImageNames.ic_clear];
+            bIsClear.ImageSource = (ImageSource.FromFile("ic_clear"));
 
-            bIsClear.Clicked += (s, e) =>
-            {
-                Text = string.Empty;
-            };
-
-            eText.TextChanged += (s, e) =>
-            {
-                Text = e.NewTextValue;
-                bIsClear.IsVisible = bIsClear.IsEnabled = !string.IsNullOrEmpty(Text);
-                TextChangedEv?.Invoke(this,  new TextChangedEventArgs(e.OldTextValue, e.NewTextValue));
-            };
-
-
-            eText.Unfocused += (s, e) =>
-            {
-                bIsClear.IsVisible = bIsClear.IsEnabled = false;
-                UnFocusedEv?.Invoke(this, new FocusEventArgs(e.VisualElement, e.IsFocused));
-            };
-
-            eText.Focused += (s, e) =>
-              {
-                  bIsClear.IsVisible = bIsClear.IsEnabled = !string.IsNullOrEmpty(Text);
-                  FocusedEv?.Invoke(this, new FocusEventArgs(e.VisualElement, e.IsFocused));
-              };
+            bIsClear.Clicked += ONBIsClearClicked;
+            eText.TextChanged += OnEText_TextChanged;
+            eText.Unfocused += OnEText_Unfocused;
+            eText.Focused += OnEText_Focused; 
         }
 
         public delegate void TextChangedHandler(object sender, TextChangedEventArgs e);
@@ -68,13 +48,6 @@ namespace GPSNote.Controls
             set => SetValue(TextProperty, value);
         }
 
-        private static void TextChanged(BindableObject bindable, object oldValue, object newValue)
-        {
-            var control = bindable as CancelLine;
-
-            control.eText.Text = newValue?.ToString();
-        }
-
         public static readonly BindableProperty FontSizeProperty = BindableProperty.Create(
             nameof(FontSize),
             typeof(double),
@@ -87,13 +60,6 @@ namespace GPSNote.Controls
         {
             get => (double)GetValue(FontSizeProperty);
             set => SetValue(FontSizeProperty, value);
-        }
-
-        private static void FontSizeChanged(BindableObject bindable, object oldValue, object newValue)
-        {
-            var control = bindable as CancelLine;
-
-            control.eText.FontSize = (double)newValue;
         }
 
         public static readonly BindableProperty PlaceholderProperty = BindableProperty.Create(
@@ -110,13 +76,6 @@ namespace GPSNote.Controls
             set => SetValue(PlaceholderProperty, value);
         }
 
-        private static void PlaceholderChanged(BindableObject bindable, object oldValue, object newValue)
-        {
-            var control = bindable as CancelLine;
-
-            control.eText.Placeholder = newValue?.ToString(); ;
-        }
-
         public static new readonly BindableProperty MarginProperty = BindableProperty.Create(
             nameof(Margin),
             typeof(Thickness),
@@ -129,13 +88,6 @@ namespace GPSNote.Controls
         {
             get => (Thickness)GetValue(MarginProperty);
             set => SetValue(MarginProperty, value);
-        }
-
-        private static void MarginChanged(BindableObject bindable, object oldValue, object newValue)
-        {
-            var control = bindable as CancelLine;
-            var mrg = (Thickness)newValue;
-            control.grid.Margin = mrg;//new Thickness(mrg.Left, mrg.Top, mrg.Right - 40, mrg.Bottom);
         }
 
         public static readonly BindableProperty BorderColorProperty = BindableProperty.Create(
@@ -151,14 +103,21 @@ namespace GPSNote.Controls
             get => (Color)GetValue(BorderColorProperty);
             set => SetValue(BorderColorProperty, value);
         }
-
-        private static void BorderColorChanged(BindableObject bindable, object oldValue, object newValue)
-        {
-            var control = bindable as CancelLine;
-
-            control.eText.BorderColor = (Color)newValue;
-        }
         
+        public static readonly BindableProperty StrokeWidthProperty = BindableProperty.Create(
+            nameof(StrokeWidth),
+            typeof(int),
+            typeof(CancelLine),
+            defaultValue: default(int),
+            defaultBindingMode: BindingMode.TwoWay,
+            propertyChanged: StrokeWidthChanged);
+
+        public int StrokeWidth
+        {
+            get => (int)GetValue(StrokeWidthProperty);
+            set => SetValue(StrokeWidthProperty, value);
+        }
+
         public static readonly BindableProperty TextColorProperty = 
             BindableProperty.Create(nameof(TextColor),
                                     typeof(Color),
@@ -171,13 +130,6 @@ namespace GPSNote.Controls
         {
             get => (Color)GetValue(TextColorProperty);
             set => SetValue(TextColorProperty, value);
-        }
-
-        private static void TextColorChanged(BindableObject bindable, object oldValue, object newValue)
-        {
-            var control = bindable as CancelLine;
-
-            control.eText.TextColor = (Color)newValue;
         }
 
         public static readonly BindableProperty KeyBoardProperty =
@@ -207,11 +159,6 @@ namespace GPSNote.Controls
             get { return (string)GetValue(FontFamilyProperty); }
             set { SetValue(FontFamilyProperty, value); }
         }
-        private static void OnFontFamilyChanged(BindableObject bindable, object oldValue, object newValue)
-        {
-            var cancelLine = (CancelLine)bindable;
-            cancelLine.eText.FontFamily= newValue.ToString();
-        }
 
         public static readonly BindableProperty PlaceholderColorProperty = BindableProperty.Create(
             nameof(BorderColor),
@@ -227,17 +174,96 @@ namespace GPSNote.Controls
             set => SetValue(BorderColorProperty, value);
         }
 
+        #region -- Private properties -- 
+
+        private static void TextChanged(BindableObject bindable, object oldValue, object newValue)
+        {
+            var control = bindable as CancelLine;
+
+            control.eText.Text = newValue?.ToString();
+        }
+
+        private static void FontSizeChanged(BindableObject bindable, object oldValue, object newValue)
+        {
+            var control = bindable as CancelLine;
+
+            control.eText.FontSize = (double)newValue;
+        }
+
+        private static void PlaceholderChanged(BindableObject bindable, object oldValue, object newValue)
+        {
+            var control = bindable as CancelLine;
+
+            control.eText.Placeholder = newValue?.ToString(); ;
+        }
+
+        private static void MarginChanged(BindableObject bindable, object oldValue, object newValue)
+        {
+            var control = bindable as CancelLine;
+            var mrg = (Thickness)newValue;
+            control.grid.Margin = mrg;
+        }
+
+        private static void BorderColorChanged(BindableObject bindable, object oldValue, object newValue)
+        {
+            var control = bindable as CancelLine;
+
+            control.eText.BorderColor = (Color)newValue;
+        }
+
+        private static void StrokeWidthChanged(BindableObject bindable, object oldValue, object newValue)
+        {
+            (bindable as CancelLine).eText.StrokeWidth = (int)newValue;
+        }
+
+        private static void TextColorChanged(BindableObject bindable, object oldValue, object newValue)
+        {
+            var control = bindable as CancelLine;
+
+            control.eText.TextColor = (Color)newValue;
+        }
+
+        private static void OnKeyBoardChanged(BindableObject bindable, object oldValue, object newValue)
+        {
+            var cancelLine = (CancelLine)bindable;
+            cancelLine.eText.KeyBoard = (Keyboard)newValue;
+        }
+
+        private static void OnFontFamilyChanged(BindableObject bindable, object oldValue, object newValue)
+        {
+            var cancelLine = (CancelLine)bindable;
+            cancelLine.eText.FontFamily= newValue.ToString();
+        }
+
         private static void PlaceholderColorChanged(BindableObject bindable, object oldValue, object newValue)
         {
             var control = bindable as CancelLine;
 
             control.eText.PlaceholderColor = (Color)newValue;
         }
-        #region -- Private properties -- 
-        private static void OnKeyBoardChanged(BindableObject bindable, object oldValue, object newValue)
+
+        private void OnEText_Focused(object sender, FocusEventArgs e)
         {
-            var cancelLine = (CancelLine)bindable;
-            cancelLine.eText.KeyBoard = (Keyboard)newValue;
+            bIsClear.IsVisible = bIsClear.IsEnabled = !string.IsNullOrEmpty(Text);
+            FocusedEv?.Invoke(this, new FocusEventArgs(e.VisualElement, e.IsFocused));
+        }
+
+        private void OnEText_Unfocused(object sender, FocusEventArgs e)
+        {
+            bIsClear.IsVisible = bIsClear.IsEnabled = false;
+            UnFocusedEv?.Invoke(this, new FocusEventArgs(e.VisualElement, e.IsFocused));
+        }
+
+        private void OnEText_TextChanged(object sender, TextChangedEventArgs e)
+        {
+            Text = e.NewTextValue;
+            bIsClear.IsVisible = bIsClear.IsEnabled = !string.IsNullOrEmpty(Text);
+            TextChangedEv?.Invoke(this, new TextChangedEventArgs(e.OldTextValue, e.NewTextValue));
+        }
+
+        private void ONBIsClearClicked(object sender, EventArgs e)
+        {
+            Text = string.Empty;
         }
 
         #endregion

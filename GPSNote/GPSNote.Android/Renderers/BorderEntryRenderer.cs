@@ -20,39 +20,30 @@ namespace Droid.Renderers
         {
             base.OnElementChanged(e);
 
-            //Configure native control (TextBox)
             if (Control != null)
             {
-                //Control.Background = null;
-                var en = e.NewElement as BorderEntry;
+                var newElement = e.NewElement as BorderEntry;
                 var nativeEditText = (global::Android.Widget.EditText)Control;
                 var shape = new ShapeDrawable(new Android.Graphics.Drawables.Shapes.RectShape());
-                shape.Paint.Color = en.BorderColor.ToAndroid();
+                shape.Paint.Color = newElement.BorderColor.ToAndroid();
                 shape.Paint.SetStyle(Paint.Style.Stroke);
-                shape.Paint.StrokeWidth = 3;
+                shape.Paint.StrokeWidth = (int)newElement?.StrokeWidth;
                 nativeEditText.Background = shape;
 
             }
-
-            // Configure Entry properties
-            if (e.NewElement != null)
-            {
-                //e.NewElement.la
-            }
         }
-            protected override void OnElementPropertyChanged(object sender, PropertyChangedEventArgs e)
+        protected override void OnElementPropertyChanged(object sender, PropertyChangedEventArgs e)
         {
             base.OnElementPropertyChanged(sender, e);
-
-            if (e.PropertyName == nameof(BorderEntry.BorderColor))
+            if (e.PropertyName == nameof(BorderEntry.BorderColor) ||
+               e.PropertyName == nameof(BorderEntry.StrokeWidth))
             {
-                var en = (BorderEntry)sender;
+                var newElement = (BorderEntry)sender;
                 var nativeEditText = (global::Android.Widget.EditText)Control;
-                var fr = new Frame();
                 var shape = new ShapeDrawable(new Android.Graphics.Drawables.Shapes.RectShape());
-                shape.Paint.Color = en.BorderColor.ToAndroid();
+                shape.Paint.Color = newElement.BorderColor.ToAndroid();
                 shape.Paint.SetStyle(Paint.Style.Stroke);
-                shape.Paint.StrokeWidth = 3;
+                shape.Paint.StrokeWidth = (int)newElement?.StrokeWidth;
                 nativeEditText.Background = shape;
             }
         }

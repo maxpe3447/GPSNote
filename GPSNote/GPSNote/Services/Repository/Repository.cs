@@ -5,14 +5,15 @@ using SQLite;
 using System.Threading.Tasks;
 using System.IO;
 using GPSNote.Models;
+using System.Linq;
 
 namespace GPSNote.Services.Repository
 {
-    public class Repository : IRepository
+    public class RepositoryService : IRepositoryService
     {
         private SQLiteAsyncConnection database;
 
-        public Repository()
+        public RepositoryService()
         {
             var path = Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.LocalApplicationData), "mapnote.db3");
             database = new SQLiteAsyncConnection(path);
@@ -42,13 +43,10 @@ namespace GPSNote.Services.Repository
         }
         public bool IsExist(UserModel model, out int id)
         {
-            var table = database.QueryAsync<UserModel>(
-                $"SELECT * FROM {nameof(UserModel)} WHERE {nameof(UserModel.Email)} = ? AND {nameof(UserModel.Password)} = ?;",
-                model.Email, model.Password);
-
-            id = (table.Result.Count > 0) ? table.Result[0].Id : 0;
-            
-            return table.Result.Count > 0;
+            var table = database.Table<UserModel>().ToListAsync().Result;
+            bool isExist = table.Exists(x => x.Email == model.Email && x.Password == model.Password);
+            id = (isExist) ? table.Where(x => x.Email == model.Email && x.Password == model.Password).First().Id : 0;
+            return isExist;
         }
 
         public bool IsExistEmail(string email)

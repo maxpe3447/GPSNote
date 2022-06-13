@@ -13,6 +13,7 @@ using GPSNote.Services.ThemeManager;
 using GPSNote.Services.LinkManager;
 using Prism.Ioc;
 using GPSNote.Helpers;
+using GPSNote.Services.Weather;
 
 namespace GPSNote
 {
@@ -65,13 +66,14 @@ namespace GPSNote
             //containerRegistry.RegisterSingleton<AppInfo, AppInfoImplementation>();
 
             //Services
-            containerRegistry.RegisterInstance<ISettingsManager>(Container.Resolve<SettingsManager>());
-            containerRegistry.RegisterInstance<IRepository>(Container.Resolve<Repository>());
-            containerRegistry.RegisterInstance<IAuthentication>(Container.Resolve<Authentication>());
-            containerRegistry.RegisterInstance<IAutherization>(Container.Resolve<Autherization>());
-            containerRegistry.RegisterInstance<IPinManager>(Container.Resolve<PinManager>());
-            containerRegistry.RegisterInstance<IThemeManager>(Container.Resolve<ThemeManager>());
-            containerRegistry.RegisterInstance<ILinkManager>(Container.Resolve<LinkManager>());
+            containerRegistry.RegisterInstance<ISettingsManagerService>(Container.Resolve<SettingsManagerService>());
+            containerRegistry.RegisterInstance<IRepositoryService>(Container.Resolve<RepositoryService>());
+            containerRegistry.RegisterInstance<IAuthenticationService>(Container.Resolve<AuthenticationService>());
+            containerRegistry.RegisterInstance<IAutherizationService>(Container.Resolve<AutherizationService>());
+            containerRegistry.RegisterInstance<IPinManagerService>(Container.Resolve<PinManagerService>());
+            containerRegistry.RegisterInstance<IThemeManagerService>(Container.Resolve<ThemeManagerService>());
+            containerRegistry.RegisterInstance<ILinkManagerService>(Container.Resolve<LinkManagerService>());
+            containerRegistry.RegisterInstance<IWeatherService>(Container.Resolve<WeatherService>());
 
             //Navigarion
             containerRegistry.RegisterForNavigation<NavigationPage>();

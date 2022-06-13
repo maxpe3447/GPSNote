@@ -5,7 +5,7 @@ using Xamarin.Forms;
 
 namespace GPSNote.Services.ThemeManager
 {
-    public interface IThemeManager
+    public interface IThemeManagerService
     {
         int IsDarkTheme { get; set; }
     }

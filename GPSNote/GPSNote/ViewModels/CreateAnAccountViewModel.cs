@@ -1,13 +1,7 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Windows.Input;
+﻿using System.Windows.Input;
 using GPSNote.Helpers;
 using GPSNote.Models;
 using GPSNote.Services.Authentication;
-using GPSNote.Services.Autherization;
-using GPSNote.Services.Repository;
 using Prism.Commands;
 using Prism.Navigation;
 using Xamarin.Forms;
@@ -18,18 +12,18 @@ namespace GPSNote.ViewModels
     {
         private UserModel _userModel;
         private LinkModel _LinkModel { get; set; } = null;
-        private IAuthentication _authentication;
+        private IAuthenticationService _authentication;
 
         public CreateAnAccountViewModel(INavigationService navigationService,
-                                        IAuthentication authentication)
+                                        IAuthenticationService authentication)
             :base(navigationService)
         {
             _authentication = authentication;
 
-            TextResources = new TextResources(typeof(Resources.TextControls));
+            IsEmailValid = true;
 
-            nextCommand = new DelegateCommand(NextCommandRelease);
-            backCommand = new DelegateCommand(BackCommandRelease);
+            TextControlsResources = new TextResources(typeof(Resources.TextControls));
+            TextUserMsgResources = new TextResources(typeof(Resources.UserMsg));
         }
 
         #region -- Properties --
@@ -47,32 +41,32 @@ namespace GPSNote.ViewModels
             set => SetProperty(ref _userName, value);
         }
 
-        private TextResources _textResources;
-        public TextResources TextResources
+        private TextResources _textControlsResources;
+        public TextResources TextControlsResources
         {
-            get => _textResources;
-            set => SetProperty(ref _textResources, value);
+            get => _textControlsResources;
+            set => SetProperty(ref _textControlsResources, value);
         }
 
-        private Color _errorColor;
-        public Color ErrorColor
+        private TextResources _textUserMsgResources;
+        public TextResources TextUserMsgResources
         {
-            get => _errorColor;
-            set => SetProperty(ref _errorColor, value);
+            get => _textUserMsgResources;
+            set => SetProperty(ref _textUserMsgResources, value);
         }
 
-        private string _passwordErrorMsgText;
-        public string EmailErrorMsgText
+        private bool _isEmailValid;
+        public bool IsEmailValid
         {
-            get => _passwordErrorMsgText;
-            set => SetProperty(ref _passwordErrorMsgText, value);
+            get => _isEmailValid;
+            set => SetProperty(ref _isEmailValid, value);
         }
 
         private ICommand nextCommand;
-        public ICommand NextCommand { get => nextCommand ?? new DelegateCommand(NextCommandRelease); }
+        public ICommand NextCommand { get => nextCommand ??= new DelegateCommand(NextCommandRelease); }
 
         private ICommand backCommand;
-        public ICommand BackCommand { get => backCommand ?? new DelegateCommand(BackCommandRelease); }
+        public ICommand BackCommand { get => backCommand ??= new DelegateCommand(BackCommandRelease); }
 
         #endregion
 
@@ -100,19 +94,9 @@ namespace GPSNote.ViewModels
         #region -- Private -- 
         private void NextCommandRelease()
         {
-            if (_authentication.IsExistEmail(UserEmail))
-            {
-                ErrorColor = (Color)App.Current.Resources[Resources.ColorsName.LightRed];
-                EmailErrorMsgText = Resources.UserMsg.EmailExist;
-                return;
-            }
-
-            if (!string.IsNullOrEmpty(EmailErrorMsgText))
-            {
-                EmailErrorMsgText = string.Empty;
-                ErrorColor = (Color)App.Current.Resources[Resources.ColorsName.LightGray];
-            }
-
+            IsEmailValid = !_authentication.IsExistEmail(UserEmail);
+            if (!IsEmailValid) return;
+            
             _userModel = new UserModel()
             {
                 Email = UserEmail,

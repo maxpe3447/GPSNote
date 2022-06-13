@@ -124,81 +124,20 @@ namespace GPSNote.Controls
 
         }
 
-        //private static void EditCommandChanged(BindableObject bindable, object oldValue, object newValue)
-        //{
-        //    var itemListPin = bindable as ItemListPin;
-
-        //    if (newValue is ICommand command)
-        //    {
-
-        //        //itemListPin.bEdit.Command = command;
-        //        //itemListPin.bEdit.CommandParameter = itemListPin.TextCoord;
-        //    }
-
-        //}
-
-        //private static void DeleteCommandChanged(BindableObject bindable, object oldValue, object newValue)
-        //{
-        //    var itemListPin = bindable as ItemListPin;
-
-        //    if (newValue is ICommand command)
-        //    {
-
-        //        //itemListPin.bDelete.Command = command;
-        //        //itemListPin.bDelete.CommandParameter = itemListPin.TextCoord;
-        //    }
-
-        //}
         private static void OnIsFavoritChanged(BindableObject bindable, object oldValue, object newValue)
         {
             var itemListPin = bindable as ItemListPin;
 
             if ((bool)newValue)
             {
-                itemListPin.bLike.ImageSource = (ImageSource)App.Current.Resources[ImageNames.ic_like_blue];
+                itemListPin.bLike.ImageSource = ImageSource.FromFile("ic_like_blue");
             }
             else
             {
-                itemListPin.bLike.ImageSource = (ImageSource)App.Current.Resources[ImageNames.ic_like_gray];
+                itemListPin.bLike.ImageSource = ImageSource.FromFile("ic_like_gray");
             }
 
         }
-
-        //private async void ShowMenu()
-        //{
-        //    bDelete.IsVisible = bEdit.IsVisible = _isMenuOpen;
-        //    delta = 0;
-        //    for (int i = 0; i <= _buttonMenuWidth; i += _animationStep)
-        //    {
-        //        grid.Margin = new Thickness(grid.Margin.Left - (delta++), 
-        //                                    grid.Margin.Top, 
-        //                                    grid.Margin.Right, 
-        //                                    grid.Margin.Bottom);
-        //        cdDelete.Width = i;
-        //        cdEdit.Width = i;
-        //        await Task.Delay(1);
-        //    }
-            
-        //}
-        //private async void UnShowMenu()
-        //{
-            
-        //    for (int i = _buttonMenuWidth; i >= 0; i -= _animationStep)
-        //    {
-        //        grid.Margin = new Thickness(grid.Margin.Left + (--delta), 
-        //                                    grid.Margin.Top, 
-        //                                    grid.Margin.Right, 
-        //                                    grid.Margin.Bottom);
-        //        cdDelete.Width = i;
-        //        cdEdit.Width = i;
-        //        await Task.Delay(1);
-        //    }
-        //    bDelete.IsVisible = bEdit.IsVisible = _isMenuOpen;
-        //}
-        //private const int _buttonMenuWidth = 56;
-        //private bool _isMenuOpen = false;
-        //private const int _animationStep = 4;
-        //private int delta = 0;
         #endregion
     }
 }

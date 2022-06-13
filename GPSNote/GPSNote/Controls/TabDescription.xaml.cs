@@ -32,12 +32,6 @@ namespace GPSNote.Controls
             set { SetValue(HeightProperty, value); }
         }
 
-        private static void OnHeightChanged(BindableObject bindable, object oldValue, object newValue)
-        {
-            var tabDesc = (TabDescription)bindable;
-             tabDesc.grid.HeightRequest= (double)newValue;
-            
-        }
         public static readonly BindableProperty NameProperty =
             BindableProperty.Create(nameof(Name),
                                     typeof(string),
@@ -50,13 +44,6 @@ namespace GPSNote.Controls
         {
             get { return (string)GetValue(NameProperty); }
             set { SetValue(NameProperty, value); }
-        }
-
-        private static void OnNameChanged(BindableObject bindable, object oldValue, object newValue)
-        {
-            var tabDesc = (TabDescription)bindable;
-            tabDesc.lName.Text = newValue.ToString();
-
         }
 
         public static readonly BindableProperty CoordinateProperty =
@@ -73,11 +60,6 @@ namespace GPSNote.Controls
             set { SetValue(CoordinateProperty, value); }
         }
 
-        private static void OnCoordinateChanged(BindableObject bindable, object oldValue, object newValue)
-        {
-            var tabDesc = (TabDescription)bindable;
-            tabDesc.lCoordinate.Text = newValue.ToString();
-        }
         public static readonly BindableProperty DescriptionProperty =
             BindableProperty.Create(nameof(Description),
                                     typeof(string),
@@ -90,12 +72,6 @@ namespace GPSNote.Controls
         {
             get { return (string)GetValue(DescriptionProperty); }
             set { SetValue(DescriptionProperty, value); }
-        }
-
-        private static void OnDescriptionChanged(BindableObject bindable, object oldValue, object newValue)
-        {
-            var tabDesc = (TabDescription)bindable;
-            tabDesc.lDescriptions.Text = newValue.ToString();
         }
 
         public static readonly BindableProperty FontFamilyProperty =
@@ -111,16 +87,7 @@ namespace GPSNote.Controls
             get { return (string)GetValue(FontFamilyProperty); }
             set { SetValue(FontFamilyProperty, value); }
         }
-        private static void OnFontFamilyChanged(BindableObject bindable, 
-                                                object oldValue, 
-                                                object newValue)
-        {
-            var desc = (TabDescription)bindable;
-            desc.lCoordinate.FontFamily = 
-                desc.lCoordinate.FontFamily = 
-                desc.lName.FontFamily = newValue.ToString();
-        }
-
+        
         public static readonly BindableProperty ShareCommandProperty =
             BindableProperty.Create(nameof(ShareCommand),
                                     typeof(ICommand),
@@ -132,13 +99,6 @@ namespace GPSNote.Controls
         {
             get => (ICommand)base.GetValue(ShareCommandProperty);
             set => base.SetValue(ShareCommandProperty, value);
-        }
-
-        private static void ShareCommandChanged(BindableObject bindable, object oldValue, object newValue)
-        {
-            var control = (TabDescription)bindable;
-
-            control.bShare.Command = (ICommand)newValue;
         }
 
         public static readonly BindableProperty WeatherProperty =
@@ -154,6 +114,52 @@ namespace GPSNote.Controls
             get { return (WeatherModel)GetValue(WeatherProperty); }
             set { SetValue(WeatherProperty, value); }
         }
+
+        #region -- Private --
+
+        private static void OnHeightChanged(BindableObject bindable, object oldValue, object newValue)
+        {
+            var tabDesc = (TabDescription)bindable;
+            tabDesc.grid.HeightRequest = (double)newValue;
+
+        }
+
+        private static void OnNameChanged(BindableObject bindable, object oldValue, object newValue)
+        {
+            var tabDesc = (TabDescription)bindable;
+            tabDesc.lName.Text = newValue.ToString();
+
+        }
+
+        private static void OnCoordinateChanged(BindableObject bindable, object oldValue, object newValue)
+        {
+            var tabDesc = (TabDescription)bindable;
+            tabDesc.lCoordinate.Text = newValue.ToString();
+        }
+
+        private static void OnDescriptionChanged(BindableObject bindable, object oldValue, object newValue)
+        {
+            var tabDesc = (TabDescription)bindable;
+            tabDesc.lDescriptions.Text = newValue.ToString();
+        }
+
+        private static void OnFontFamilyChanged(BindableObject bindable,
+                                                object oldValue,
+                                                object newValue)
+        {
+            var desc = (TabDescription)bindable;
+            desc.lCoordinate.FontFamily =
+                desc.lCoordinate.FontFamily =
+                desc.lName.FontFamily = newValue.ToString();
+        }
+
+        private static void ShareCommandChanged(BindableObject bindable, object oldValue, object newValue)
+        {
+            var control = (TabDescription)bindable;
+
+            control.bShare.Command = (ICommand)newValue;
+        }
+
         private static void OnWeatherChanged(BindableObject bindable,
                                                 object oldValue,
                                                 object newValue)
@@ -186,5 +192,6 @@ namespace GPSNote.Controls
                 desc.lFourDayTemp.Text   = $"{(byte)fourthDayInfo.Main.Temp_max}° {(byte)fourthDayInfo.Main.Temp_min}°";
             }
         }
+        #endregion
     }
 }

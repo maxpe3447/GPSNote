@@ -5,11 +5,11 @@ using System.Text;
 
 namespace GPSNote.Services.ThemeManager
 {
-    public class ThemeManager : IThemeManager
+    public class ThemeManagerService : IThemeManagerService
     {
-        private readonly ISettingsManager _settingsManager;
+        private readonly ISettingsManagerService _settingsManager;
 
-        public ThemeManager(ISettingsManager settingsManager)
+        public ThemeManagerService(ISettingsManagerService settingsManager)
         {
             _settingsManager = settingsManager; 
         }

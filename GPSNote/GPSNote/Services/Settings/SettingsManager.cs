@@ -5,7 +5,7 @@ using Xamarin.Essentials;
 
 namespace GPSNote.Services.Settings
 {
-    public class SettingsManager : ISettingsManager
+    public class SettingsManagerService : ISettingsManagerService
     {
         public string LastEmail
         {

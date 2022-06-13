@@ -18,7 +18,7 @@
                 </Grid.RowDefinitions>
 
                 <!--LABEL LOG IN-->
-                <Label Text="{Binding TextResources[CreateAnAccount]}"
+                <Label Text="{Binding TextControlsResources[CreateAnAccount]}"
                        Grid.Row="0"
                        TextColor="{AppThemeBinding Light= {StaticResource Black},
                                                    Dark = {StaticResource White}}"
@@ -46,7 +46,7 @@
             </Grid>
 
             <!--LABEL PASSWORD-->
-            <Label Text="{Binding TextResources[Password]}"
+            <Label Text="{Binding TextControlsResources[Password]}"
                    FontSize="18"
                    FontFamily="{StaticResource MainFont}"
                    Margin="30, 20, 10, 0"
@@ -55,8 +55,9 @@
 
             <!--ENTRY PASSWORD-->
             <controls:PasswordLine Margin="28, 0, 30, 0"
-                                   Placeholder="{Binding TextResources[CreatePassword]}"
+                                   Placeholder="{Binding TextControlsResources[CreatePassword]}"
                                    FontSize="18"
+                                   StrokeWidth="3"
                                    FontFamily="{StaticResource MainFont}"
                                    TextPassword="{Binding UserPassword}"
                                    TextColor="{StaticResource Black}"
@@ -65,7 +66,7 @@
                                                                       Dark= {StaticResource White}}"/>
 
             <!--LABEL PASSWORD CONFIRM-->
-            <Label Text="{Binding TextResources[ConfirmPassword]}"
+            <Label Text="{Binding TextControlsResources[ConfirmPassword]}"
                    FontSize="18"
                    FontFamily="{StaticResource MainFont}"
                    Margin="30, 10, 10,10"
@@ -73,24 +74,54 @@
                                                Dark = {StaticResource White}}"/>
 
             <!--ENTRY PASSWORD-->
+                                   <!--BorderColor="{Binding ErrorColor}"-->
             <controls:PasswordLine FontSize="18"
-                                   Placeholder="{Binding TextResources[RepeatPassword]}"
+                                   Placeholder="{Binding TextControlsResources[RepeatPassword]}"
                                    Margin="28, 0, 30, 0"
+                                   StrokeWidth="3"
                                    FontFamily="{StaticResource MainFont}"
-                                   BorderColor="{Binding ErrorColor}"
                                    TextPassword="{Binding UserPasswordRepeat}"
                                    TextColor="{StaticResource Black}"
                                    PlaceholderColor="{AppThemeBinding Light= {StaticResource Black},
-                                                                      Dark= {StaticResource White}}"/>
+                                                                      Dark= {StaticResource White}}">
+                <controls:PasswordLine.Triggers>
+                    <DataTrigger TargetType="controls:PasswordLine"
+                                 Binding="{Binding IsPasswordValid}"
+                                 Value="True">
+                        <Setter Property="BorderColor" Value="{StaticResource LightGray}"/>
+                    </DataTrigger>
+
+                    <DataTrigger TargetType="controls:PasswordLine"
+                                 Binding="{Binding IsPasswordValid}"
+                                 Value="False">
+                        <Setter Property="BorderColor" Value="{StaticResource LightRed}"/>
+                    </DataTrigger>
+                </controls:PasswordLine.Triggers>
+            </controls:PasswordLine>
 
             <!--LABEL ERROR PASSWORD-->
-            <Label Text="{Binding PasswordErrorMsgText}"
-                   TextColor="{Binding ErrorColor}"
-                   Margin="30, 0, 0, 5"
-                   FontFamily="{StaticResource MainFont}"/>
+                <!--Text="{Binding PasswordErrorMsgText}"
+                   TextColor="{Binding ErrorColor}"-->
+            <Label Margin="30, 0, 0, 5"
+                   FontFamily="{StaticResource MainFont}">
+                <Label.Triggers>
+                    <DataTrigger TargetType="Label"
+                                 Binding="{Binding IsPasswordValid}"
+                                 Value="True">
+                        <Setter Property="TextColor" Value="Transparent"/>
+                    </DataTrigger>
+
+                    <DataTrigger TargetType="Label"
+                                 Binding="{Binding IsPasswordValid}"
+                                 Value="False">
+                        <Setter Property="Text" Value="{Binding TextUserMsgResources[PasswordMismatch]}"/>
+                        <Setter Property="TextColor" Value="{StaticResource LightRed}"/>
+                    </DataTrigger>
+                </Label.Triggers>
+            </Label>
 
             <!--BUTTON LOG IN-->
-            <Button Text="{Binding TextResources[CreateAccount]}"
+            <Button Text="{Binding TextControlsResources[CreateAccount]}"
                     FontSize="14"
                     Margin="16, 0, 16, 0"
                     BackgroundColor="{StaticResource LightBlue }"
@@ -119,7 +150,7 @@
                       Margin="5, 10, 16, 0"/>
 
                 <!--LABEL OR-->
-                <Label Text="{Binding TextResources[SeparatorOr]}"
+                <Label Text="{Binding TextControlsResources[SeparatorOr]}"
                        Grid.Column ="1" 
                        HorizontalOptions="Center"
                        FontFamily="{StaticResource MainFont}"

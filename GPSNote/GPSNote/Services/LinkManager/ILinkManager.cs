@@ -5,7 +5,7 @@ using System.Text;
 
 namespace GPSNote.Services.LinkManager
 {
-    public interface ILinkManager
+    public interface ILinkManagerService
     {
         LinkModel GetLinkModel();
         void SetLinkModel(LinkModel link);

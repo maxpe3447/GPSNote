@@ -7,14 +7,14 @@ using System.Text;
 
 namespace GPSNote.Services.Authentication
 {
-    public class Authentication : IAuthentication
+    public class AuthenticationService : IAuthenticationService
     {
-        private readonly IRepository _repository;
-        private readonly ISettingsManager _settingsManager;
+        private readonly IRepositoryService _repository;
+        private readonly ISettingsManagerService _settingsManager;
 
-        public Authentication(
-            ISettingsManager settingsManager,
-            IRepository repository)
+        public AuthenticationService(
+            ISettingsManagerService settingsManager,
+            IRepositoryService repository)
         {
             _repository = repository;
             _settingsManager = settingsManager;

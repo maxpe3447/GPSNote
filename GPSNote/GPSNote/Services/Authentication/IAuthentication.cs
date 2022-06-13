@@ -5,7 +5,7 @@ using System.Text;
 
 namespace GPSNote.Services.Authentication
 {
-    public interface IAuthentication
+    public interface IAuthenticationService
     {
         bool IsExist(UserModel model);
         bool IsExistEmail(string email);

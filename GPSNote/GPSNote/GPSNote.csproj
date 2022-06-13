@@ -1,13 +1,22 @@
-<Project Sdk="Microsoft.NET.Sdk">
+﻿<Project Sdk="Microsoft.NET.Sdk">
 
   <PropertyGroup>
-	  <TargetFramework>netstandard2.0</TargetFramework>
+      <TargetFramework>netstandard2.0</TargetFramework>
     <ProduceReferenceAssembly>true</ProduceReferenceAssembly>
   </PropertyGroup>
 
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|AnyCPU'">
     <DebugType>portable</DebugType>
     <DebugSymbols>true</DebugSymbols>
+    <CheckForOverflowUnderflow>False</CheckForOverflowUnderflow>
+  </PropertyGroup>
+
+    <PropertyGroup>
+        <LangVersion>10.0</LangVersion>
+    </PropertyGroup>
+
+    <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|AnyCPU'">
+    <CheckForOverflowUnderflow>False</CheckForOverflowUnderflow>
   </PropertyGroup>
 
   <ItemGroup>
@@ -40,11 +49,6 @@
       <DesignTime>True</DesignTime>
       <AutoGen>True</AutoGen>
       <DependentUpon>ColorsName.resx</DependentUpon>
-    </Compile>
-    <Compile Update="Resources\ImageNames.Designer.cs">
-      <DesignTime>True</DesignTime>
-      <AutoGen>True</AutoGen>
-      <DependentUpon>ImageNames.resx</DependentUpon>
     </Compile>
     <Compile Update="Resources\TextControls.Designer.cs">
       <DesignTime>True</DesignTime>
@@ -86,10 +90,6 @@
     <EmbeddedResource Update="Resources\ColorsName.resx">
       <Generator>ResXFileCodeGenerator</Generator>
       <LastGenOutput>ColorsName.Designer.cs</LastGenOutput>
-    </EmbeddedResource>
-    <EmbeddedResource Update="Resources\ImageNames.resx">
-      <Generator>ResXFileCodeGenerator</Generator>
-      <LastGenOutput>ImageNames.Designer.cs</LastGenOutput>
     </EmbeddedResource>
     <EmbeddedResource Update="Resources\TextControls.resx">
       <Generator>ResXFileCodeGenerator</Generator>

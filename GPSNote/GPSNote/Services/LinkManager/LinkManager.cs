@@ -5,7 +5,7 @@ using System.Text;
 
 namespace GPSNote.Services.LinkManager
 {
-    public class LinkManager : ILinkManager
+    public class LinkManagerService : ILinkManagerService
     {
         private LinkModel _linkModel;
         private bool _isHave = false;

@@ -132,6 +132,9 @@
   <data name="ErrorEditPin" xml:space="preserve">
     <value>Error edit pin!</value>
   </data>
+  <data name="ErrorGoingToArea" xml:space="preserve">
+    <value>Error going to area</value>
+  </data>
   <data name="HaveALink" xml:space="preserve">
     <value>You have a linl. Do you want show is?</value>
   </data>
@@ -154,10 +157,10 @@
     <value>Please, check your GPS settings</value>
   </data>
   <data name="PlsEnterDescroption" xml:space="preserve">
-    <value>Please, enter \'Description\' of marker</value>
+    <value>Please, enter 'Description' of marker</value>
   </data>
   <data name="PlsEnterName" xml:space="preserve">
-    <value>Please, enter \'Name\' of marker</value>
+    <value>Please, enter 'Name' of marker</value>
   </data>
   <data name="PlsSelectPin" xml:space="preserve">
     <value>Please, select marker!</value>

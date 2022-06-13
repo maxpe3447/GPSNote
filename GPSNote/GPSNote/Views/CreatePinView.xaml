@@ -89,6 +89,7 @@
                 <!--NAME CANCELLINE-->
                 <controls:CancelLine Text="{Binding Name}"
                                      FontSize="20"
+                                     StrokeWidth="3"
                                      BorderColor="{StaticResource Gray}"
                                      Placeholder="{Binding TextResources[EnterLabel]}"
                                      TextColor="{AppThemeBinding Light = {StaticResource Black},
@@ -107,6 +108,7 @@
                 <controls:CancelLine  Placeholder="{Binding TextResources[Description]}"
                                       Text="{Binding Description}"
                                       FontSize="20"
+                                      StrokeWidth="3"
                                       TextColor="{AppThemeBinding Light = {StaticResource Black},
                                                                   Dark = {StaticResource White}}"
                                       PlaceholderColor="{StaticResource Gray}"
@@ -131,6 +133,7 @@
                                          Text="{Binding Longitude}"
                                          FontSize="20"
                                          Grid.Column="0"
+                                         StrokeWidth="3"
                                          TextColor="{AppThemeBinding Light = {StaticResource DarkGray},
                                                                      Dark = {StaticResource White}}"
                                          PlaceholderColor="{StaticResource Gray}"
@@ -141,6 +144,7 @@
                                          Text="{Binding Latitude}"
                                          FontSize="20"
                                          Grid.Column="1"
+                                         StrokeWidth="3"
                                          TextColor="{AppThemeBinding Light = {StaticResource DarkGray},
                                                                      Dark = {StaticResource White}}"
                                          PlaceholderColor="{StaticResource Gray}"

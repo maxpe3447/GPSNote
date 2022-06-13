@@ -6,9 +6,9 @@ using System.Threading.Tasks;
 
 namespace GPSNote.Services.PinManager
 {
-    public interface IPinManager
+    public interface IPinManagerService
     {
-        List<PinDataModel> GetAllPins();
+        Task<List<PinDataModel>> GetAllPins();
 
         Task<int> InsertAsync<T>(T entity);
         Task<int> UpdateAsync<T>(T entity) where T : IEntity;

@@ -67,8 +67,7 @@ namespace GPSNote.Extansion
                      Label = pin.Name,
                      Position = pin.Position,
                     Icon = BitmapDescriptorFactory.FromView(
-                            new Controls.BindingPinIconView((ImageSource)App.Current
-                                                                            .Resources[ImageNames.ic_placeholder]))
+                            new Controls.BindingPinIconView(ImageSource.FromFile("ic_placeholder")))
                 });
             }
         }

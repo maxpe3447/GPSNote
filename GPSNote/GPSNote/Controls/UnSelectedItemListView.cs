@@ -10,10 +10,12 @@ namespace GPSNote.Controls
     {
         public UnSelectedItemListView():base()
         {
-            this.ItemSelected += (s, e) =>
-            {
-                SelectedItem = null;
-            };
+            this.ItemSelected += OnUnSelectedItemListView_ItemSelected;
+        }
+
+        private void OnUnSelectedItemListView_ItemSelected(object sender, SelectedItemChangedEventArgs e)
+        {
+            SelectedItem = null;
         }
     }
 }

@@ -46,18 +46,18 @@ namespace GPSNote.Controls
             set { SetValue(KeyBoardProperty, value); }
         }
 
-        //public static readonly BindableProperty CornerRadiusProperty =
-        //    BindableProperty.Create(nameof(CornerRadius),
-        //                            typeof(Color),
-        //                            typeof(BorderEntry),
-        //                            default(Color),
-        //                            defaultBindingMode: BindingMode.TwoWay);
+        public static readonly BindableProperty StrokeWidthProperty =
+            BindableProperty.Create(nameof(BorderColor),
+                                    typeof(int),
+                                    typeof(BorderEntry),
+                                    default(int),
+                                    defaultBindingMode: BindingMode.TwoWay);
 
-        //public Color CornerRadius
-        //{
-        //    get { return (Color)GetValue(CornerRadiusProperty); }
-        //    set { SetValue(CornerRadiusProperty, value); }
-        //}
+        public int StrokeWidth
+        {
+            get { return (int)GetValue(StrokeWidthProperty); }
+            set { SetValue(StrokeWidthProperty, value); }
+        }
         #endregion
 
         #region -- Private properties -- 

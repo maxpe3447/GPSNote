@@ -16,6 +16,19 @@ namespace GPSNote.Controls
 
     public partial class SearchLine : ContentView
     {
+        public SearchLine()
+        {
+            InitializeComponent();
+
+            line.TextChangedEv += OnLine_TextChangedEv;
+            listView.ItemSelected += OnListView_ItemSelected;
+            line.FocusedEv += OnLine_FocusedEv;
+            line.UnFocusedEv += OnLine_UnFocusedEv;
+            bExit.Clicked += BExit_Clicked;
+
+            listView.HeightRequest = 0;
+        }
+
         #region -- BindableProperty --
         public static readonly BindableProperty TextLineProperty = 
             BindableProperty.Create(nameof(TextLine),
@@ -24,14 +37,6 @@ namespace GPSNote.Controls
                                     defaultValue: string.Empty,
                                     defaultBindingMode: BindingMode.TwoWay,
                                     propertyChanged: TextLineChanged);
-
-        //public static readonly BindableProperty CommandSearchProperty = 
-        //    BindableProperty.Create(nameof(CommandSearch),
-        //                            typeof(ICommand),
-        //                            typeof(SearchLine),
-        //                            defaultValue: default(Command),
-        //                            defaultBindingMode: BindingMode.TwoWay,
-        //                            propertyChanged: CommandSearchChanged);
 
         public static readonly BindableProperty ItemsSourceProperty = 
             BindableProperty.Create(nameof(ItemsSource),
@@ -119,12 +124,6 @@ namespace GPSNote.Controls
             set { SetValue(KeyBoardProperty, value); }
         }
 
-        //public ICommand CommandSearch
-        //{
-        //    get => (ICommand)base.GetValue(CommandSearchProperty);
-        //    set => base.SetValue(CommandSearchProperty, value);
-        //}
-
         public ICommand TextChangeCommand
         {
             get => (ICommand)GetValue(TextChangeCommandProperty);
@@ -184,59 +183,54 @@ namespace GPSNote.Controls
             searckLine.KeyBoard = (Keyboard)newValue;
 
         }
-        #endregion
-        public SearchLine()
-        {
-            InitializeComponent();
 
-            line.TextChangedEv += (s, e) =>
-            {
-                TextLine = e.NewTextValue;
-
-                if (TextChangeCommand?.CanExecute(null) ?? false)
-                {
-                    TextChangeCommand.Execute(null);
-                }
-            };
-            listView.ItemSelected += (s, e) =>
-              {
-                  SelectedItem = (PinViewModel)e.SelectedItem;
-                  listView.HeightRequest = 0;
-                  listView.ItemsSource = null;
-                  ItemsSource.Clear();
-                  line.Text = SelectedItem.Name;
-              };
-
-            line.FocusedEv += (s, e) =>
-              {
-                  const byte delta = 80;   
-                  serchColumn.Width = Application.Current.MainPage.Width-delta;
-                  bExit.IsEnabled = false;
-              };
-            line.UnFocusedEv += (s, e) =>
-            {
-                serchColumn.Width = GridLength.Star;
-                bExit.IsEnabled = true;
-
-            };
-
-            listView.HeightRequest = 0;
-
-            bExit.Clicked += (s, e) =>
-              {
-                  if (ExidCommand?.CanExecute(null) ?? false)
-                  {
-                      ExidCommand.Execute(null);
-                  }
-              };
-
-            
-        }
-        
         private static void OnFontFamilyChanged(BindableObject bindable, object oldValue, object newValue)
         {
             var passLine = (SearchLine)bindable;
             passLine.line.FontFamily = newValue.ToString();
         }
+
+        private void BExit_Clicked(object sender, EventArgs e)
+        {
+            if (ExidCommand?.CanExecute(null) ?? false)
+            {
+                ExidCommand.Execute(null);
+            }
+        }
+
+        private void OnLine_UnFocusedEv(object sender, FocusEventArgs e)
+        {
+            serchColumn.Width = GridLength.Star;
+            bExit.IsEnabled = true;
+        }
+
+        private void OnLine_FocusedEv(object sender, FocusEventArgs e)
+        {
+            const byte delta = 80;
+            serchColumn.Width = Application.Current.MainPage.Width - delta;
+            bExit.IsEnabled = false;
+        }
+
+        private void OnListView_ItemSelected(object sender, SelectedItemChangedEventArgs e)
+        {
+            SelectedItem = (PinViewModel)e.SelectedItem;
+            listView.HeightRequest = 0;
+            listView.ItemsSource = null;
+            ItemsSource.Clear();
+            line.Text = SelectedItem.Name;
+        }
+
+        private void OnLine_TextChangedEv(object sender, TextChangedEventArgs e)
+        {
+            TextLine = e.NewTextValue;
+
+            if (TextChangeCommand?.CanExecute(null) ?? false)
+            {
+                TextChangeCommand.Execute(null);
+            }
+        }
+
+        #endregion
+
     }
 }

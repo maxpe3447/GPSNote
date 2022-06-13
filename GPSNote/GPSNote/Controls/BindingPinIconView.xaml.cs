@@ -2,7 +2,7 @@
 
 namespace GPSNote.Controls
 {
-    public partial class BindingPinIconView : StackLayout
+    public partial class BindingPinIconView : ContentView
     {
         public BindingPinIconView(ImageSource ico)
         {

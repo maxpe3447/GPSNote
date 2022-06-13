@@ -9,13 +9,9 @@
             </Grid.RowDefinitions>
 
             <Grid Grid.Row="0" 
-                  ColumnSpacing="0">
+                  ColumnSpacing="0"
+                  ColumnDefinitions="*,0">
 
-                <Grid.ColumnDefinitions>
-                    <ColumnDefinition Width="*" />
-                    <ColumnDefinition Width="0"/>
-                </Grid.ColumnDefinitions>
-                
                 <!--ENTRY-->
                 <controls:BorderEntry x:Name="eText"/>
 

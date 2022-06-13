@@ -18,7 +18,7 @@
                 </Grid.RowDefinitions>
 
                 <!--LABEL LOG IN-->
-                <Label Text="{Binding TextResources[LogIn]}"
+                <Label Text="{Binding TextControlsResources[LogIn]}"
                        TextColor="{AppThemeBinding Light= {StaticResource Black},
                                                    Dark= {StaticResource White}}"
                        Grid.Row="0"
@@ -54,25 +54,53 @@
                                                Dark ={StaticResource White}}"/>
 
             <!--ENTRY EMAIL-->
+                                 <!--BorderColor="{Binding ErrorColorEmail}"-->
             <controls:CancelLine Margin="28, 0, 30, 0"
-                                 Placeholder="{Binding TextResources[EnterEmail]}"
+                                 Placeholder="{Binding TextControlsResources[EnterEmail]}"
                                  FontSize="18"
+                                 StrokeWidth="3"
                                  FontFamily="{StaticResource MainFont}"
                                  Text="{Binding UserEmail}"
-                                 BorderColor="{Binding ErrorColorEmail}"
                                  TextColor="{AppThemeBinding Light={StaticResource DarkGray},
                                                              Dark ={StaticResource White}}"
                                  PlaceholderColor="{AppThemeBinding Light= {StaticResource Black},
-                                                                    Dark= {StaticResource White}}"/>
+                                                                    Dark= {StaticResource White}}">
+                <controls:CancelLine.Triggers>
+                    <DataTrigger TargetType="controls:CancelLine"
+                                 Binding="{Binding IsEmailValid}"
+                                 Value="True">
+                        <Setter Property="BorderColor" Value="{StaticResource LightGray}"/>
+                    </DataTrigger>
+
+                    <DataTrigger TargetType="controls:CancelLine"
+                                 Binding="{Binding IsEmailValid}"
+                                 Value="False">
+                        <Setter Property="BorderColor" Value="{StaticResource LightRed}"/>
+                    </DataTrigger>
+                </controls:CancelLine.Triggers>
+            </controls:CancelLine>
 
             <!--LABEL ERROR EMAIL-->
-            <Label Text="{Binding EmailErrorMsgText}"
-                   TextColor="{Binding ErrorColorEmail}"
-                   FontFamily="{StaticResource MainFont}"
-                   Margin="30, 0, 0, 0"/>
+            <Label FontFamily="{StaticResource MainFont}"
+                   Margin="30, 0, 0, 0">
+                <Label.Triggers>
+                    <DataTrigger TargetType="Label"
+                                 Binding="{Binding IsEmailValid}"
+                                 Value="True">
+                        <Setter Property="TextColor" Value="Transparent"/>
+                    </DataTrigger>
+
+                    <DataTrigger TargetType="Label"
+                                 Binding="{Binding IsEmailValid}"
+                                 Value="False">
+                        <Setter Property="Text" Value="{Binding TextUserMsgResources[WrongEmail]}"/>
+                        <Setter Property="TextColor" Value="{StaticResource LightRed}"/>
+                    </DataTrigger>
+                </Label.Triggers>
+            </Label>
 
             <!--LABEL PASSWORD-->
-            <Label Text="{Binding TextResources[Password]}"
+            <Label Text="{Binding TextControlsResources[Password]}"
                    FontSize="18"
                    Margin="30, 10, 10,10"
                    FontFamily="{StaticResource MainFont}"
@@ -80,25 +108,55 @@
                                                Dark ={StaticResource White}}"/>
 
             <!--ENTRY PASSWORD-->
+                                   <!--BorderColor="{Binding ErrorColor}"-->
             <controls:PasswordLine FontSize="18"
-                                   Placeholder="{Binding TextResources[Password]}"
+                                   Placeholder="{Binding TextControlsResources[Password]}"
                                    Margin="28, 0, 30, 0"
-                                   BorderColor="{Binding ErrorColor}"
+                                   StrokeWidth="3"
                                    TextPassword="{Binding UserPassword}"
                                    TextColor="{AppThemeBinding Light={StaticResource Black},
                                                                Dark ={StaticResource White}}"
                                    FontFamily="{StaticResource MainFont}"
                                    PlaceholderColor="{AppThemeBinding Light= {StaticResource Black},
-                                                                      Dark= {StaticResource White}}"/>
+                                                                      Dark= {StaticResource White}}">
+                <controls:PasswordLine.Triggers>
+                    <DataTrigger TargetType="controls:PasswordLine"
+                                 Binding="{Binding IsPasswordValid}"
+                                 Value="True">
+                        <Setter Property="BorderColor" Value="{StaticResource LightGray}"/>
+                    </DataTrigger>
+
+                    <DataTrigger TargetType="controls:PasswordLine"
+                                 Binding="{Binding IsPasswordValid}"
+                                 Value="False">
+                        <Setter Property="BorderColor" Value="{StaticResource LightRed}"/>
+                    </DataTrigger>
+                </controls:PasswordLine.Triggers>
+            </controls:PasswordLine>
 
             <!--LABEL ERROR PASSWORD-->
             <Label Text="{Binding PasswordErrorMsgText}"
                    TextColor="{Binding ErrorColor}"
                    Margin="30, 0, 0, 5"
-                   FontFamily="{StaticResource MainFont}"/>
+                   FontFamily="{StaticResource MainFont}">
+                <Label.Triggers>
+                    <DataTrigger TargetType="Label"
+                                 Binding="{Binding IsPasswordValid}"
+                                 Value="True">
+                        <Setter Property="TextColor" Value="Transparent"/>
+                    </DataTrigger>
+
+                    <DataTrigger TargetType="Label"
+                                 Binding="{Binding IsPasswordValid}"
+                                 Value="False">
+                        <Setter Property="Text" Value="{Binding TextUserMsgResources[IncorrectPas]}"/>
+                        <Setter Property="TextColor" Value="{StaticResource LightRed}"/>
+                    </DataTrigger>
+                </Label.Triggers>
+            </Label>
 
             <!--BUTTON LOG IN-->
-            <Button Text="{Binding TextResources[LogIn]}"
+            <Button Text="{Binding TextControlsResources[LogIn]}"
                     FontSize="14"
                     Margin="16, 0, 16, 0"
                     Command="{Binding SigninCommand}"
@@ -128,7 +186,7 @@
                       Margin="5, 10, 16, 0"/>
 
                 <!--LABEL OR-->
-                <Label Text="{Binding TextResources[SeparatorOr]}"
+                <Label Text="{Binding TextControlsResources[SeparatorOr]}"
                        Grid.Column ="1" 
                        HorizontalOptions="Center"
                        FontFamily="{StaticResource MainFont}"

@@ -7,14 +7,10 @@ using Xamarin.Forms;
 
 namespace GPSNote.Behaviors
 {
-    public class TabbedPageNavigationBehavior : BehaviorBase<MainPage>
+    public class TabbedPageNavigationBehavior : BehaviorBase<TabbedPage>
     {
         private Page CurrentPage;
 
-        //protected override void OnAttachedTo(BindableObject bindable)
-        //{
-        //    base.OnAttachedTo(bindable);
-        //}
         protected override void OnAttachedTo(BindableObject bindable)
         {
             (bindable as TabbedPage).CurrentPageChanged += this.OnCurrentPageChanged;

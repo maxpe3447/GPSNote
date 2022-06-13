@@ -30,14 +30,14 @@ namespace GPSNote.ViewModels
         private PinViewModel _oldPin = null;
         private bool _isEditPin;
 
-        readonly private IAuthentication _authentication;
-        readonly private IPinManager _pinManager;
-        readonly private ISettingsManager _settingsManager;
+        readonly private IAuthenticationService _authentication;
+        readonly private IPinManagerService _pinManager;
+        readonly private ISettingsManagerService _settingsManager;
 
         public CreatePinViewModel(INavigationService navigationService,
-                                  IPinManager pinManager,
-                                  ISettingsManager settingsManager,
-                                  IAuthentication authentication) 
+                                  IPinManagerService pinManager,
+                                  ISettingsManagerService settingsManager,
+                                  IAuthenticationService authentication) 
             : base(navigationService)
         {
             _pinManager = pinManager;
@@ -45,10 +45,6 @@ namespace GPSNote.ViewModels
             _authentication = authentication;
 
             TextResources = new TextResources(typeof(Resources.TextControls));
-
-            saveCommand = new DelegateCommand(SaveCommandRelease);
-            cancelCommand = new DelegateCommand(CancelCommandRelease);
-            findMeCommand = new DelegateCommand(FindMeCommandRelease);
         }
         #region -- Propirties -- 
 
@@ -130,14 +126,14 @@ namespace GPSNote.ViewModels
         }
 
         private ICommand saveCommand;
-        public ICommand SaveCommand { get => saveCommand ?? new DelegateCommand(SaveCommandRelease); }
+        public ICommand SaveCommand { get => saveCommand ??= new DelegateCommand(SaveCommandRelease); }
 
         private ICommand cancelCommand;
-        public ICommand CancelCommand { get => cancelCommand ?? new DelegateCommand(CancelCommandRelease); }
+        public ICommand CancelCommand { get => cancelCommand ??= new DelegateCommand(CancelCommandRelease); }
 
 
         private ICommand findMeCommand;
-        public ICommand FindMeCommand { get => findMeCommand ?? new DelegateCommand(FindMeCommandRelease); }
+        public ICommand FindMeCommand { get => findMeCommand ??= new DelegateCommand(FindMeCommandRelease); }
         #endregion
 
         #region -- Overrides --
@@ -240,7 +236,7 @@ namespace GPSNote.ViewModels
             }
             if (_oldPin != null)
             {
-                await _pinManager.UpdateAsync(pin.PinViewToPinData(_pinManager.GetAllPins()));
+                await _pinManager.UpdateAsync(pin.PinViewToPinData(_pinManager.GetAllPins().Result));
             }
             else
             {

@@ -7,7 +7,7 @@ using System.Threading.Tasks;
 
 namespace GPSNote.Services.Repository
 {
-    public interface IRepository
+    public interface IRepositoryService
     {
         Task<int> InsertAsync<T>(T entity);
         Task<int> UpdateAsync<T>(T entity) where T : IEntity;

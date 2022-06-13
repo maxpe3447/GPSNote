@@ -5,7 +5,7 @@ using AndroidBitmapDescriptor = Android.Gms.Maps.Model.BitmapDescriptor;
 
 namespace GPSNote.Droid
 {
-    internal class CachingNativeBitmapDescriptorFactory : IBitmapDescriptorFactory
+    public class CachingNativeBitmapDescriptorFactory : IBitmapDescriptorFactory
     {
         private readonly ConcurrentDictionary<string, AndroidBitmapDescriptor> _cache
             = new ConcurrentDictionary<string, AndroidBitmapDescriptor>();

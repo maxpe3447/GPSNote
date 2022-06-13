@@ -19,15 +19,15 @@ namespace GPSNote.ViewModels
     public class StartPageViewModel : ViewModelBase
     {
 
-        readonly private IAuthentication _authentication;
-        readonly private IThemeManager _themeManager;
-        readonly private ILinkManager _linkManager;
+        readonly private IAuthenticationService _authentication;
+        readonly private IThemeManagerService _themeManager;
+        readonly private ILinkManagerService _linkManager;
 
         public StartPageViewModel(
             INavigationService navigationService,
-            IAuthentication authentication,
-            IThemeManager themeManager,
-            ILinkManager linkManager
+            IAuthenticationService authentication,
+            IThemeManagerService themeManager,
+            ILinkManagerService linkManager
             ) : base(navigationService)
         {
             _authentication = authentication;
@@ -46,28 +46,25 @@ namespace GPSNote.ViewModels
             set => SetProperty(ref _textResources, value);
         }
 
+        private ICommand logInCommand;
         public ICommand LogInCommand
         {
-            get => new DelegateCommand(LogInCommandRelease);
+            get => logInCommand ??= new DelegateCommand(LogInCommandRelease);
         }
+
+        private ICommand createAnAccountCommand;
         public ICommand CreateAnAccountCommand 
         {
-            get => new DelegateCommand(CreateAnAccountRelease);
+            get => createAnAccountCommand ??= new DelegateCommand(CreateAnAccountRelease);
         }
         #endregion
 
         #region -- Overrides --
         public override void Initialize(INavigationParameters parameters)
         {
-            try
+            if (_themeManager.IsDarkTheme != default(int))
             {
-                if (_themeManager.IsDarkTheme != default(int))
-                {
-                    App.Current.UserAppTheme = OSAppTheme.Dark;
-                }
-            }catch (Exception ex)
-            {
-                Acr.UserDialogs.UserDialogs.Instance.AlertAsync(ex.Message);
+                App.Current.UserAppTheme = OSAppTheme.Dark;
             }
         }
 

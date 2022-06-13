@@ -4,7 +4,7 @@ using System.Text;
 
 namespace GPSNote.Services.Settings
 {
-    public interface ISettingsManager
+    public interface ISettingsManagerService
     {
         string LastEmail { get; set; }
 

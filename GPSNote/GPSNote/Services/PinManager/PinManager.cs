@@ -9,13 +9,13 @@ using GPSNote.Services.Settings;
 
 namespace GPSNote.Services.PinManager
 {
-    public class PinManager : IPinManager
+    public class PinManagerService : IPinManagerService
     {
-        private readonly IRepository _repository;
-        private readonly ISettingsManager _settingsManager;
+        private readonly IRepositoryService _repository;
+        private readonly ISettingsManagerService _settingsManager;
 
-        public PinManager(IRepository repository,
-                          ISettingsManager settingsManager)
+        public PinManagerService(IRepositoryService repository,
+                          ISettingsManagerService settingsManager)
         {
             _repository = repository;
             _settingsManager = settingsManager;
@@ -25,12 +25,13 @@ namespace GPSNote.Services.PinManager
            return _repository.DeleteAsync(entity);
         }
 
-        public List<PinDataModel> GetAllPins()
+        public async Task<List<PinDataModel>> GetAllPins()
         {
-            return _repository.GetAllPinsAsync(_settingsManager.UserId)
-                              .Result
-                              .Where(x => x.UserId == _settingsManager.UserId)
-                              .ToList();
+            var pins = _repository.GetAllPinsAsync(_settingsManager.UserId);
+
+            return pins.Result
+                       .Where(x => x.UserId == _settingsManager.UserId)
+                       .ToList();
 
         }
 

@@ -5,22 +5,12 @@
           x:Class="GPSNote.Controls.ItemListPin">
 
     <StackLayout>
-        <StackLayout Padding="0,0,0,0">
+        <StackLayout Padding="0">
             <Grid x:Name="grid"
                   ColumnSpacing ="0" 
-                  RowSpacing="2">
-
-                <Grid.RowDefinitions >
-                    <RowDefinition Height="37.5"/>
-                    <RowDefinition Height="37.5"/>
-                </Grid.RowDefinitions>
-
-                <Grid.ColumnDefinitions>
-                    <ColumnDefinition Width="68"/>
-                    <ColumnDefinition Width="Auto"/>
-                    <ColumnDefinition Width="*"/>
-
-                </Grid.ColumnDefinitions>
+                  RowSpacing="2"
+                  RowDefinitions="37.5, 37.5"
+                  ColumnDefinitions="68, Auto, *">
 
                 <!--LIKE BUTTON-->
                 <Button x:Name="bLike"

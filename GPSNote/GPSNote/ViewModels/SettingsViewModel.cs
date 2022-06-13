@@ -15,11 +15,11 @@ namespace GPSNote.ViewModels
 
     public class SettingsViewModel:ViewModelBase
     {
-        readonly private IThemeManager _themeManager;
+        readonly private IThemeManagerService _themeManager;
 
         public SettingsViewModel(
             INavigationService navigation,
-            IThemeManager themeManager)
+            IThemeManagerService themeManager)
             :base(navigation)
         {
             _themeManager = themeManager;
@@ -44,7 +44,7 @@ namespace GPSNote.ViewModels
         }
 
         private ICommand backCommand;
-        public ICommand BackCommand { get => backCommand ?? new DelegateCommand(BackCommandRelease); }
+        public ICommand BackCommand { get => backCommand ??= new DelegateCommand(BackCommandRelease); }
         #endregion
 
         #region -- Private -- 

@@ -17,51 +17,64 @@ namespace GPSNote.ViewModels
 
     public class CreateAccountPassPageViewModel : ViewModelBase
     {
-        readonly private IAutherization _autherization;
-        readonly private IAuthentication _authentication;
+        readonly private IAutherizationService _autherization;
+        readonly private IAuthenticationService _authentication;
 
         private UserModel _userModel;
         private LinkModel _LinkModel { get; set; } = null;
 
         public CreateAccountPassPageViewModel(
             INavigationService navigationService,
-            IAutherization autherization,
-            IAuthentication authentication)
+            IAutherizationService autherization,
+            IAuthenticationService authentication)
             : base(navigationService)
         {
             _autherization = autherization;
             _authentication = authentication;
 
-            TextResources = new TextResources(typeof(Resources.TextControls));
+            TextControlsResources = new TextResources(typeof(Resources.TextControls));
+            TextUserMsgResources = new TextResources(typeof(Resources.UserMsg));
 
-            ErrorColor = (Color)App.Current.Resources[Resources.ColorsName.LightGray];
-
-            backCommand = new DelegateCommand(BackCommandRelease);
-            createAccountCommand = new DelegateCommand(CreateAccountCommandRelease);
+            IsPasswordValid = true;
+            //ErrorColor = (Color)App.Current.Resources[Resources.ColorsName.LightGray];
         }
 
         #region -- Properties -- 
 
-        private TextResources _textResources;
-        public TextResources TextResources
+        private TextResources _textControlsResources;
+        public TextResources TextControlsResources
         {
-            get => _textResources;
-            set => SetProperty(ref _textResources, value);
+            get => _textControlsResources;
+            set => SetProperty(ref _textControlsResources, value);
         }
 
-        private string _passwordErrorMsgText;
-        public string PasswordErrorMsgText
+        private TextResources _textUserMsgResources;
+        public TextResources TextUserMsgResources
         {
-            get => _passwordErrorMsgText;
-            set => SetProperty(ref _passwordErrorMsgText, value);
+            get => _textUserMsgResources;
+            set => SetProperty(ref _textUserMsgResources, value);
         }
 
-        private Color _errorColor;
-        public Color ErrorColor
+        private bool _isPasswordValid;
+        public bool IsPasswordValid
         {
-            get => _errorColor;
-            set => SetProperty(ref _errorColor, value);
+            get => _isPasswordValid;
+            set => SetProperty(ref _isPasswordValid, value);
         }
+
+        //private string _passwordErrorMsgText;
+        //public string PasswordErrorMsgText
+        //{
+        //    get => _passwordErrorMsgText;
+        //    set => SetProperty(ref _passwordErrorMsgText, value);
+        //}
+
+        //private Color _errorColor;
+        //public Color ErrorColor
+        //{
+        //    get => _errorColor;
+        //    set => SetProperty(ref _errorColor, value);
+        //}
 
         private string _userPassword;
         public string UserPassword
@@ -78,10 +91,10 @@ namespace GPSNote.ViewModels
         }
 
         private ICommand backCommand;
-        public ICommand BackCommand { get => backCommand ?? new DelegateCommand(BackCommandRelease); }
+        public ICommand BackCommand { get => backCommand ??= new DelegateCommand(BackCommandRelease); }
 
         private ICommand createAccountCommand;
-        public ICommand CreateAccountCommand { get=>createAccountCommand ?? new DelegateCommand(CreateAccountCommandRelease); }
+        public ICommand CreateAccountCommand { get=>createAccountCommand ??= new DelegateCommand(CreateAccountCommandRelease); }
         #endregion
 
         #region -- Overrides
@@ -115,17 +128,20 @@ namespace GPSNote.ViewModels
         }
         private async void CreateAccountCommandRelease()
         {
-            if (UserPassword != UserPasswordRepeat)
-            {
-                ErrorColor = (Color)App.Current.Resources[Resources.ColorsName.LightRed];
-                PasswordErrorMsgText = Resources.UserMsg.PasswordMismatch;
-                return;
-            }
-            else
-            {
-                PasswordErrorMsgText = string.Empty;
-                ErrorColor = (Color)App.Current.Resources[Resources.ColorsName.LightGray];
-            }
+            //if (UserPassword != UserPasswordRepeat)
+            //{
+            //    ErrorColor = (Color)App.Current.Resources[Resources.ColorsName.LightRed];
+            //    PasswordErrorMsgText = Resources.UserMsg.PasswordMismatch;
+            //    return;
+            //}
+            //else
+            //{
+            //    PasswordErrorMsgText = string.Empty;
+            //    ErrorColor = (Color)App.Current.Resources[Resources.ColorsName.LightGray];
+            //}
+            IsPasswordValid = !(UserPassword != UserPasswordRepeat);
+            if (!IsPasswordValid) return;
+
             _userModel.Password = UserPassword;
             await _autherization?.CreateAccount(_userModel);
 

@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace GPSNote.Services.Autherization
 {
-    public interface IAutherization
+    public interface IAutherizationService
     {
         Task<int> CreateAccount(UserModel user);
     }
