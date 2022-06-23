@@ -29,13 +29,13 @@ namespace GPSNote.Services.PinManager
         {
             var pins = _repository.GetAllPinsAsync(_settingsManager.UserId);
 
-            return pins.Result
+            return (await pins)
                        .Where(x => x.UserId == _settingsManager.UserId)
                        .ToList();
 
         }
 
-        public Task<int> InsertAsync<T>(T entity)
+        public Task<int> AddAsync<T>(T entity)
         {
             return _repository.InsertAsync(entity);
         }

@@ -92,9 +92,9 @@ namespace GPSNote.ViewModels
         #endregion
 
         #region -- Private -- 
-        private void NextCommandRelease()
+        private async void NextCommandRelease()
         {
-            IsEmailValid = !_authentication.IsExistEmail(UserEmail);
+            IsEmailValid = !(await _authentication.IsExistEmailAsync(UserEmail));
             if (!IsEmailValid) return;
             
             _userModel = new UserModel()
@@ -106,7 +106,7 @@ namespace GPSNote.ViewModels
             INavigationParameters keyValues = new NavigationParameters();
             keyValues.Add(nameof(_userModel), _userModel);
 
-            NavigationService.NavigateAsync($"/{nameof(Views.CreateAccountPassPageView)}", keyValues);
+            await NavigationService.NavigateAsync($"/{nameof(Views.CreateAccountPassPageView)}", keyValues);
         }
 
         private void BackCommandRelease()

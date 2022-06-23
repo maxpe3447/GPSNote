@@ -36,7 +36,6 @@ namespace GPSNote.ViewModels
             TextUserMsgResources = new TextResources(typeof(Resources.UserMsg));
 
             IsPasswordValid = true;
-            //ErrorColor = (Color)App.Current.Resources[Resources.ColorsName.LightGray];
         }
 
         #region -- Properties -- 
@@ -61,20 +60,6 @@ namespace GPSNote.ViewModels
             get => _isPasswordValid;
             set => SetProperty(ref _isPasswordValid, value);
         }
-
-        //private string _passwordErrorMsgText;
-        //public string PasswordErrorMsgText
-        //{
-        //    get => _passwordErrorMsgText;
-        //    set => SetProperty(ref _passwordErrorMsgText, value);
-        //}
-
-        //private Color _errorColor;
-        //public Color ErrorColor
-        //{
-        //    get => _errorColor;
-        //    set => SetProperty(ref _errorColor, value);
-        //}
 
         private string _userPassword;
         public string UserPassword
@@ -128,24 +113,13 @@ namespace GPSNote.ViewModels
         }
         private async void CreateAccountCommandRelease()
         {
-            //if (UserPassword != UserPasswordRepeat)
-            //{
-            //    ErrorColor = (Color)App.Current.Resources[Resources.ColorsName.LightRed];
-            //    PasswordErrorMsgText = Resources.UserMsg.PasswordMismatch;
-            //    return;
-            //}
-            //else
-            //{
-            //    PasswordErrorMsgText = string.Empty;
-            //    ErrorColor = (Color)App.Current.Resources[Resources.ColorsName.LightGray];
-            //}
             IsPasswordValid = !(UserPassword != UserPasswordRepeat);
             if (!IsPasswordValid) return;
 
             _userModel.Password = UserPassword;
             await _autherization?.CreateAccount(_userModel);
 
-            if (_authentication.IsExist(_userModel))
+            if (await _authentication.IsExistAsync(_userModel))
             {
                 _authentication.LastEmail = _userModel.Email;
                 await NavigationService.NavigateAsync($"/{nameof(LogInPageView)}");

@@ -236,12 +236,12 @@ namespace GPSNote.ViewModels
             }
             if (_oldPin != null)
             {
-                await _pinManager.UpdateAsync(pin.PinViewToPinData(_pinManager.GetAllPins().Result));
+                await _pinManager.UpdateAsync(pin.PinViewToPinData(await _pinManager.GetAllPins()));
             }
             else
             {
                 pin.IsVisable = true;
-                await _pinManager.InsertAsync(pin.PinViewToPinData(_authentication.UserId));
+                await _pinManager.AddAsync(pin.PinViewToPinData(_authentication.UserId));
             }
 
             await NavigationService.GoBackAsync();
@@ -252,15 +252,15 @@ namespace GPSNote.ViewModels
             await NavigationService.GoBackAsync();
         }
 
-        private void FindMeCommandRelease()
+        private async void FindMeCommandRelease()
         {
             IsShowingUser = true;
 
             try
             {
-                GoToPosition = new Position(
-                    Geolocation.GetLastKnownLocationAsync().Result.Latitude,
-                    Geolocation.GetLastKnownLocationAsync().Result.Longitude);
+                var position = await Geolocation.GetLastKnownLocationAsync();
+
+                GoToPosition = new Position(position.Latitude, position.Longitude);
             }
             catch
             {

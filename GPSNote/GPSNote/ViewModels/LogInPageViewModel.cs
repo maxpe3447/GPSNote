@@ -113,8 +113,8 @@ namespace GPSNote.ViewModels
                 Password = UserPassword
             };
 
-            IsEmailValid = !string.IsNullOrEmpty(UserEmail) && _authentication.IsExistEmail(userModel.Email);
-            IsPasswordValid = !string.IsNullOrEmpty(UserPassword) && _authentication.IsExist(userModel);
+            IsEmailValid = !string.IsNullOrEmpty(UserEmail) && await _authentication.IsExistEmailAsync(userModel.Email);
+            IsPasswordValid = !string.IsNullOrEmpty(UserPassword) && await _authentication.IsExistAsync(userModel);
             
             if(!(IsEmailValid && IsPasswordValid))
             {

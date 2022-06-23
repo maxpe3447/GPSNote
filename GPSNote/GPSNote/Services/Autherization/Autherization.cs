@@ -19,9 +19,9 @@ namespace GPSNote.Services.Autherization
             _repository = repository;
         }
 
-        public Task<int> CreateAccount(UserModel user)
+        public async Task<int> CreateAccount(UserModel user)
         {
-            return _repository.InsertAsync(user);
+            return await _repository.InsertAsync(user);
         }       
     }
 }

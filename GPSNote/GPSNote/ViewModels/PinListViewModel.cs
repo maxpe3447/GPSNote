@@ -92,11 +92,9 @@ namespace GPSNote.ViewModels
         #endregion
 
         #region -- Override --
-        public override void Initialize(INavigationParameters parameters)
+        public async override void Initialize(INavigationParameters parameters)
         {
-            PinViewList = _pinManager.GetAllPins()
-                                     .Result
-                                     .DataPinListToViewPinList();
+            PinViewList = (await _pinManager.GetAllPins()).DataPinListToViewPinList();
             for (int i = 0; i < PinViewList.Count; i++)
             {
                 BindCommnad(PinViewList[i]);
@@ -106,20 +104,17 @@ namespace GPSNote.ViewModels
         {
             base.OnNavigatedFrom(parameters);
             
-
             if (!string.IsNullOrEmpty(SearchPin))
             {
                 SearchPin = string.Empty;
             }
         }
-        public override void OnNavigatedTo(INavigationParameters parameters)
+        public async override void OnNavigatedTo(INavigationParameters parameters)
         {
             base.OnNavigatedTo(parameters);
 
-            PinViewList = _pinManager.GetAllPins()
-                                     .Result
+            PinViewList = (await _pinManager.GetAllPins())
                                      .DataPinListToViewPinList();
-            
 
             if (PinViewList.Count == 0 || PinViewList[0].LikeCommand != null) return;
 
@@ -164,7 +159,7 @@ namespace GPSNote.ViewModels
         private void ExidCommandRelease()
             => NavigationService.NavigateAsync($"/{nameof(Views.StartPageView)}");
 
-        private void LikeCommandRelease(object obj)
+        private async void LikeCommandRelease(object obj)
         {
             var model = PinViewList.First(p => p.Coordinate == obj.ToString());
 
@@ -172,17 +167,17 @@ namespace GPSNote.ViewModels
             PinViewList.Remove(model);
             model.IsVisable = !model.IsVisable;
             PinViewList.Insert(index, model);
-            _pinManager.UpdateAsync(model.PinViewToPinData(_pinManager.GetAllPins().Result));
+            await _pinManager.UpdateAsync(model.PinViewToPinData(await _pinManager.GetAllPins()));
 
             _mainList = PinViewList;
             PinViewList = new List<PinViewModel>(_mainList);
         }
 
-        private void DeleteCommandRelease(object obj)
+        private async void DeleteCommandRelease(object obj)
         {
             var model = PinViewList.First(p => p.Coordinate == (obj as PinViewModel).Coordinate);
 
-            _pinManager.DeleteAsync(model.PinViewToPinData(_pinManager.GetAllPins().Result));
+            await _pinManager.DeleteAsync(model.PinViewToPinData(await _pinManager.GetAllPins()));
             int index = PinViewList.IndexOf(model);
             PinViewList.Remove(model);
             _mainList = PinViewList = new List<PinViewModel>(PinViewList);
@@ -215,12 +210,12 @@ namespace GPSNote.ViewModels
         private void GoToSettingsCommandRelease()
             => NavigationService.NavigateAsync(nameof(SettingsView));
 
-        private void ItemTappedCommandRelease()
+        private async void ItemTappedCommandRelease()
         {
             if (_selectedPin == null) return;
 
             SelectedPin.IsVisable = true;
-            _pinManager.UpdateAsync(SelectedPin.PinViewToPinData(_pinManager.GetAllPins().Result));
+            await _pinManager.UpdateAsync(SelectedPin.PinViewToPinData(await _pinManager.GetAllPins()));
 
             NavigationParameters keyValues = new NavigationParameters();
             keyValues.Add(nameof(SelectedPin), SelectedPin);

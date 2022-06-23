@@ -41,20 +41,27 @@ namespace GPSNote.Services.Repository
         {
             return database.UpdateAsync(entity);
         }
-        public bool IsExist(UserModel model, out int id)
+
+        public async Task<int> GetId(UserModel model)
         {
-            var table = database.Table<UserModel>().ToListAsync().Result;
+            var table = await database.Table<UserModel>().ToListAsync();
+
+            return (await IsExistAsync(model))? table.Where(x => x.Email == model.Email && 
+                                                x.Password == model.Password).First().Id : 0;
+        }
+
+        public async Task<bool> IsExistAsync(UserModel model)
+        {
+            var table = await database.Table<UserModel>().ToListAsync();
             bool isExist = table.Exists(x => x.Email == model.Email && x.Password == model.Password);
-            id = (isExist) ? table.Where(x => x.Email == model.Email && x.Password == model.Password).First().Id : 0;
             return isExist;
         }
 
-        public bool IsExistEmail(string email)
+        public async Task<bool> IsExistEmailAsync(string email)
         {
-            var table = database.Table<UserModel>().ToListAsync().Result;
+            var table = await database.Table<UserModel>().ToListAsync();
 
             return table.Exists(x=>x.Email == email);
         }
-
     }
 }

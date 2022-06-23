@@ -202,35 +202,32 @@ namespace GPSNote.ViewModels
         #endregion
 
         #region -- Override --
-        public override void Initialize(INavigationParameters parameters)
+        public async override void Initialize(INavigationParameters parameters)
         {
 
             MapCameraUpdate(new Position(_settingsManager.LastLatitude,
                                           _settingsManager.LastLongitude));
 
-            PinViewModelList = _pinManager.GetAllPins()
-                                          .Result
-                                          .DataPinListToViewPinList();
+            PinViewModelList = (await _pinManager.GetAllPins()).DataPinListToViewPinList();
 
             
             if (_linkManager.IsHave)
             {
                 var pos = new Position(_linkManager.GetLinkModel().Latitude, _linkManager.GetLinkModel().Longitude);
 
-                if (_pinManager.GetAllPins().Result
-                                            .Where(x => x.Latitude == _linkManager.GetLinkModel().Latitude &&
-                                            x.Longitude == _linkManager.GetLinkModel().Longitude)
-                                            .Count() == 0)
+                if ((await _pinManager.GetAllPins()).Where(x => x.Latitude == _linkManager.GetLinkModel().Latitude &&
+                                                    x.Longitude == _linkManager.GetLinkModel().Longitude)
+                                                    .Count() == 0)
                 {
-                    var res = UserDialogs.Instance.ConfirmAsync(new ConfirmConfig
+                    var res = await UserDialogs.Instance.ConfirmAsync(new ConfirmConfig
                     {
                         Message = UserMsg.HaveALink,
                         OkText = UserMsg.Ok,
                         CancelText = UserMsg.No
-                    }).Result;
+                    });
                     if (res)
                     {
-                        _pinManager.InsertAsync(new PinViewModel()
+                        await _pinManager.AddAsync(new PinViewModel()
                         {
                             Name = _linkManager.GetLinkModel().Name,
                             Description = _linkManager.GetLinkModel().Description,
@@ -258,11 +255,11 @@ namespace GPSNote.ViewModels
 
         }
 
-        public override void OnNavigatedTo(INavigationParameters parameters)
+        public async override void OnNavigatedTo(INavigationParameters parameters)
         {
             base.OnNavigatedTo(parameters);
 
-            var pins = _pinManager.GetAllPins().Result;
+            var pins = await _pinManager.GetAllPins();
             PinViewModelList = pins.DataPinListToViewPinList();
 
             if (parameters.TryGetValue<PinViewModel>(nameof(PinListViewModel.SelectedPin), out var pin))
@@ -331,11 +328,11 @@ namespace GPSNote.ViewModels
                                                             .ToList();
         }
 
-        private void FindMeCommandRelease()
+        private async void FindMeCommandRelease()
         {
-            if (Permissions.CheckStatusAsync<Permissions.LocationAlways>().Result != PermissionStatus.Granted)
+            if ((await Permissions.CheckStatusAsync<Permissions.LocationAlways>()) != PermissionStatus.Granted)
             {
-                Permissions.RequestAsync<Permissions.LocationAlways>();
+                await Permissions.RequestAsync<Permissions.LocationAlways>();
                 return;
             }
 
@@ -344,8 +341,8 @@ namespace GPSNote.ViewModels
 
             try
             {
-                GoToPosition = new Position(Geolocation.GetLastKnownLocationAsync().Result.Latitude,
-                                            Geolocation.GetLastKnownLocationAsync().Result.Longitude);
+                var position = (await Geolocation.GetLastKnownLocationAsync());
+                GoToPosition = new Position(position.Latitude, position.Longitude);
             }
             catch
             {

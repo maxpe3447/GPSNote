@@ -4,6 +4,7 @@ using GPSNote.Services.Settings;
 using System;
 using System.Collections.Generic;
 using System.Text;
+using System.Threading.Tasks;
 
 namespace GPSNote.Services.Authentication
 {
@@ -19,17 +20,17 @@ namespace GPSNote.Services.Authentication
             _repository = repository;
             _settingsManager = settingsManager;
         }
-        public bool IsExist(UserModel model)
+        public async Task<bool> IsExistAsync(UserModel model)
         {
-            bool isExist = _repository.IsExist(model, out var id);
-            UserId = id;
+            bool isExist = await _repository.IsExistAsync(model);
+            UserId = await _repository.GetId(model);
 
             return isExist;
         }
 
-        public bool IsExistEmail(string email)
+        public async Task<bool> IsExistEmailAsync(string email)
         {
-            return _repository.IsExistEmail(email);
+            return await _repository.IsExistEmailAsync(email);
         }
         public string LastEmail
         {
