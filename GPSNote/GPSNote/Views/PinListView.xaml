@@ -1,0 +1,80 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<ContentPage xmlns="http://xamarin.com/schemas/2014/forms"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             xmlns:prism ="http://prismlibrary.com" 
+             xmlns:controls="clr-namespace:GPSNote.Controls"
+             prism:ViewModelLocator.AutowireViewModel="True"
+
+             x:Class="GPSNote.Views.PinListView"
+             Title="{Binding Title}"
+             IconImageSource="{StaticResource ic_pin}"
+             BackgroundColor="{AppThemeBinding Light={StaticResource White}, 
+                                               Dark={StaticResource BackgroundDark}}">
+    <ContentPage.Content>
+        <AbsoluteLayout >
+
+            <StackLayout >
+
+                <!--SEARCH LINE-->
+                <controls:SearchLine TextLine="{Binding SearchPin}" 
+                                     Padding="0,0,40,0"
+                                     TextChangeCommand="{Binding SearchCommand}"
+                                     ExidCommand="{Binding ExidCommand}"
+                                     SettingsCommand="{Binding GoToSettingsCommand}"/>
+
+                <ScrollView >
+                    <controls:UnSelectedItemListView ItemsSource="{Binding PinViewList, Mode=TwoWay}"
+                                                     SelectedItem="{Binding SelectedPin, Mode=TwoWay}"
+                                                     HasUnevenRows="True"
+                                                     Margin="0,0,0,60"
+                                                     SeparatorVisibility="None">
+                        <ListView.ItemTemplate>
+                            <DataTemplate>
+                                <ViewCell>
+                                    <ViewCell.View>
+                                        <SwipeView Margin="0,0,30,0">
+                                            <SwipeView.Content>
+                                                <controls:ItemListPin TextName="{Binding Name}"
+                                                      TextCoord="{Binding Coordinate}"
+                                                      LikeCommand="{Binding LikeCommand}"
+                                                      ItemTappedCommand="{Binding ItemTappedCommand, Mode=TwoWay}"
+                                                      IsFavorit="{Binding IsVisable, Mode=TwoWay}"/>
+                                            </SwipeView.Content>
+                                            <SwipeView.RightItems>
+                                                <SwipeItems>
+
+                                                    <SwipeItem IconImageSource="{StaticResource ic_edit}"
+                                                       BackgroundColor="{StaticResource LightBlue}"
+                                                       Command="{Binding EditCommand}"
+                                                       CommandParameter="{Binding .}"/>
+
+                                                    <SwipeItem BackgroundColor="{StaticResource LightRed}"
+                                                       Command="{Binding DeleteCommand}"
+                                                       CommandParameter="{Binding .}"
+                                                       IconImageSource="{StaticResource ic_delete}"/>
+                                                </SwipeItems>
+                                            </SwipeView.RightItems>
+                                        </SwipeView>
+                                    </ViewCell.View>
+                                </ViewCell>
+                            </DataTemplate>
+                        </ListView.ItemTemplate>
+                    </controls:UnSelectedItemListView>
+
+                </ScrollView>
+            </StackLayout>
+
+            <!--ADD PIN BUTTON-->
+            <Button ImageSource="{StaticResource ic_plus}"
+                    FontSize="35"
+                    BackgroundColor="{StaticResource LightBlue}"
+                    AbsoluteLayout.LayoutBounds="1,1"
+                    AbsoluteLayout.LayoutFlags="PositionProportional"
+                    Margin="0, 0, 30, 70"
+                    WidthRequest="70"
+                    HeightRequest="70"
+                    CornerRadius="35"
+                    Command="{Binding CreatePinCommand}"/>
+        </AbsoluteLayout>
+    </ContentPage.Content>
+</ContentPage>

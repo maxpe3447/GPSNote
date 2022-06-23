@@ -1,0 +1,186 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<ContentPage xmlns="http://xamarin.com/schemas/2014/forms"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             xmlns:prism="http://prismlibrary.com"
+             xmlns:controls="clr-namespace:GPSNote.Controls" 
+             xmlns:maps="clr-namespace:Xamarin.Forms.GoogleMaps;assembly=Xamarin.Forms.GoogleMaps" 
+             xmlns:viewmodels="clr-namespace:GPSNote.ViewModels" 
+             x:DataType="viewmodels:CreatePinViewModel"
+             prism:ViewModelLocator.AutowireViewModel="True"
+             x:Class="GPSNote.Views.CreatePinView"
+             BackgroundColor="{AppThemeBinding Light = {StaticResource White},
+                                               Dark = {StaticResource BackgroundDark}}">
+
+    <ContentPage.Content>
+
+        <Grid>
+
+            <Grid.RowDefinitions>
+                <RowDefinition Height="*" />
+            </Grid.RowDefinitions>
+
+
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="*"/>
+            </Grid.ColumnDefinitions>
+
+            <StackLayout>
+
+                <Grid>
+                    <Grid.RowDefinitions>
+                        <RowDefinition Height="50"/>
+                    </Grid.RowDefinitions>
+
+                    <!--LABEL Add pin-->
+                    <Label Text="{Binding Title}"
+                           Grid.Row="0"
+                           TextColor="{AppThemeBinding Light = {StaticResource Black},
+                                                       Dark = {StaticResource White}}"
+                           FontSize="20"
+                           FontFamily="{StaticResource MainFont}"
+                           HorizontalTextAlignment="Center"
+                           VerticalTextAlignment="Center"
+                           Margin="0,0,0,10"/>
+
+                    <Grid>
+                        <Grid.ColumnDefinitions >
+                            <ColumnDefinition Width="50"/>
+                            <ColumnDefinition Width="*"/>
+                            <ColumnDefinition Width="50"/>
+                        </Grid.ColumnDefinitions>
+
+                        <Grid.RowDefinitions>
+                            <RowDefinition Height="*"/>
+                            <RowDefinition Height="1"/>
+                        </Grid.RowDefinitions>
+                        
+                        <!--BUTTON BACK-->
+                        <Button ImageSource="{StaticResource ic_left_blue}"
+                                Grid.Row="0" Grid.Column="0"
+                                BackgroundColor="Transparent"
+                                VerticalOptions="Center"
+                                HorizontalOptions="Center"
+                                Command="{Binding CancelCommand}"/>
+
+                        <!--BUTTON SAVE-->
+                        <Button ImageSource="{StaticResource ic_save}"
+                                Grid.Row="0" Grid.Column="2"
+                                BackgroundColor="Transparent"
+                                VerticalOptions="Center"
+                                HorizontalOptions="Center"
+                                Command="{Binding SaveCommand}"/>
+
+                        <!--FRAME-->
+                        <Frame WidthRequest="2"
+                               HeightRequest="2"
+                               BackgroundColor="{StaticResource LightLightGray}"
+                               Grid.Row="1" Grid.ColumnSpan="3"/>
+                        
+                    </Grid>
+                </Grid>
+
+                <!--LABEL LABEL-->
+                <Label Text="{Binding TextResources[Label]}"
+                       FontSize="20"
+                       Margin="23, 8.5,0,0"
+                       TextColor="{AppThemeBinding Light = {StaticResource DarkGray},
+                                                   Dark = {StaticResource White}}"/>
+
+                <!--NAME CANCELLINE-->
+                <controls:CancelLine Text="{Binding Name}"
+                                     FontSize="20"
+                                     StrokeWidth="3"
+                                     BorderColor="{StaticResource Gray}"
+                                     Placeholder="{Binding TextResources[EnterLabel]}"
+                                     TextColor="{AppThemeBinding Light = {StaticResource Black},
+                                                                 Dark = {StaticResource White}}"
+                                     PlaceholderColor="{StaticResource Gray}"
+                                     Margin="20, 0, 20,0"/>
+
+                <!--DESCRIPTION LABEL-->
+                <Label Text="{Binding TextResources[Description]}"
+                       FontSize="20"
+                       Margin="23, 10, 0,0"
+                       TextColor="{AppThemeBinding Light = {StaticResource DarkGray},
+                                                   Dark = {StaticResource White}}"/>
+
+                <!--DESCRIPTION CANCELLINE-->
+                <controls:CancelLine  Placeholder="{Binding TextResources[Description]}"
+                                      Text="{Binding Description}"
+                                      FontSize="20"
+                                      StrokeWidth="3"
+                                      TextColor="{AppThemeBinding Light = {StaticResource Black},
+                                                                  Dark = {StaticResource White}}"
+                                      PlaceholderColor="{StaticResource Gray}"
+                                      BorderColor="{StaticResource Gray}"
+                                      Margin="20, 0, 20,0"/>
+
+                <!--POSITION LABEL-->
+                <Label Text="{Binding TextResources[Position]}"
+                       FontSize="20"
+                       Margin="23, 10, 0, 0"
+                       TextColor ="{AppThemeBinding Light = {StaticResource DarkGray},
+                                                    Dark = {StaticResource White}}"/>
+
+                <Grid Margin="20, 0, 20, 0">
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition Width="*"/>
+                        <ColumnDefinition Width="*"/>
+                    </Grid.ColumnDefinitions>
+
+                    <!--LONGITUDE CANCELLINE-->
+                    <controls:CancelLine Placeholder="{Binding TextResources[Longitude]}"
+                                         Text="{Binding Longitude}"
+                                         FontSize="20"
+                                         Grid.Column="0"
+                                         StrokeWidth="3"
+                                         TextColor="{AppThemeBinding Light = {StaticResource DarkGray},
+                                                                     Dark = {StaticResource White}}"
+                                         PlaceholderColor="{StaticResource Gray}"
+                                         BorderColor="{StaticResource Gray}"/>
+
+                    <!--LATITUDE CANCELLINE-->
+                    <controls:CancelLine Placeholder="{Binding TextResources[Latitude]}"
+                                         Text="{Binding Latitude}"
+                                         FontSize="20"
+                                         Grid.Column="1"
+                                         StrokeWidth="3"
+                                         TextColor="{AppThemeBinding Light = {StaticResource DarkGray},
+                                                                     Dark = {StaticResource White}}"
+                                         PlaceholderColor="{StaticResource Gray}"
+                                         BorderColor="{StaticResource Gray}"/>
+                </Grid>
+
+                <!--MAP-->
+                <controls:BindingMap IsTrafficEnabled="True"
+                                     MapType="Street"
+                                     GoToPosition="{Binding GoToPosition}"
+                                     ClickPosition="{Binding SelectedPosition}"
+                                     PinsCollection="{Binding PinsList}"
+                                     IsShowingUser="{Binding IsShowingUser}"
+                                     InitialCameraUpdate="{Binding InitialCameraUpdate}"
+                                     CameraCurPosition ="{Binding CameraPosition}"
+                                     MyLocationButtonEnabled="False">
+
+                </controls:BindingMap>
+
+
+            </StackLayout>
+
+            <!--FIND ME BUTTON-->
+            <Button ImageSource="{StaticResource ic_location}"
+                    FontSize="35"
+                    BackgroundColor="{AppThemeBinding Light = {StaticResource White},
+                                                      Dark = {StaticResource BackgroundDark}}"
+                    Margin="0, 0, 30, 40"
+                    WidthRequest="45"
+                    HeightRequest="45"
+                    CornerRadius="35"
+                    Grid.Row="0"
+                    HorizontalOptions="End"
+                    VerticalOptions="End"
+                    Command="{Binding FindMeCommand}"/>
+        </Grid>
+    </ContentPage.Content>
+
+</ContentPage>

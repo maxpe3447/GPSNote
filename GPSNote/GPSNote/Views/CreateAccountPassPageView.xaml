@@ -1,0 +1,169 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<ContentPage xmlns="http://xamarin.com/schemas/2014/forms"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             xmlns:prism="http://prismlibrary.com" 
+             xmlns:controls="clr-namespace:GPSNote.Controls"
+             prism:ViewModelLocator.AutowireViewModel="True"
+             x:Class="GPSNote.Views.CreateAccountPassPageView"
+             BackgroundColor="{AppThemeBinding Light= {StaticResource White},
+                                               Dark = {StaticResource BackgroundDark}}">
+
+    <ContentPage.Content>
+        <StackLayout>
+
+            <!--HEADER-->
+            <Grid>
+                <Grid.RowDefinitions>
+                    <RowDefinition Height="60"/>
+                </Grid.RowDefinitions>
+
+                <!--LABEL LOG IN-->
+                <Label Text="{Binding TextControlsResources[CreateAnAccount]}"
+                       Grid.Row="0"
+                       TextColor="{AppThemeBinding Light= {StaticResource Black},
+                                                   Dark = {StaticResource White}}"
+                       FontSize="24"
+                       FontFamily="{StaticResource MainFont}"
+                       HorizontalTextAlignment="Center"
+                       VerticalTextAlignment="Center"
+                       Margin="0,0,0,10"/>
+
+                <Grid>
+                    <Grid.ColumnDefinitions >
+                        <ColumnDefinition Width="50"/>
+                        <ColumnDefinition Width="*"/>
+                    </Grid.ColumnDefinitions>
+
+                    <!--BUTTON BACK-->
+                    <Button ImageSource="{StaticResource ic_left_blue}"
+                            Grid.Row="0" Grid.Column="0"
+                            BackgroundColor="Transparent"
+                            VerticalOptions="Center"
+                            HorizontalOptions="Center"
+                            Command="{Binding BackCommand}"/>
+
+                </Grid>
+            </Grid>
+
+            <!--LABEL PASSWORD-->
+            <Label Text="{Binding TextControlsResources[Password]}"
+                   FontSize="18"
+                   FontFamily="{StaticResource MainFont}"
+                   Margin="30, 20, 10, 0"
+                   TextColor="{AppThemeBinding Light= {StaticResource DarkGray},
+                                                Dark= {StaticResource White}}"/>
+
+            <!--ENTRY PASSWORD-->
+            <controls:PasswordLine Margin="28, 0, 30, 0"
+                                   Placeholder="{Binding TextControlsResources[CreatePassword]}"
+                                   FontSize="18"
+                                   StrokeWidth="3"
+                                   FontFamily="{StaticResource MainFont}"
+                                   TextPassword="{Binding UserPassword}"
+                                   TextColor="{StaticResource Black}"
+                                   BorderColor="{StaticResource LightGray}"
+                                   PlaceholderColor="{AppThemeBinding Light= {StaticResource Black},
+                                                                      Dark= {StaticResource White}}"/>
+
+            <!--LABEL PASSWORD CONFIRM-->
+            <Label Text="{Binding TextControlsResources[ConfirmPassword]}"
+                   FontSize="18"
+                   FontFamily="{StaticResource MainFont}"
+                   Margin="30, 10, 10,10"
+                   TextColor="{AppThemeBinding Light= {StaticResource DarkGray},
+                                               Dark = {StaticResource White}}"/>
+
+            <!--ENTRY PASSWORD-->
+                                   <!--BorderColor="{Binding ErrorColor}"-->
+            <controls:PasswordLine FontSize="18"
+                                   Placeholder="{Binding TextControlsResources[RepeatPassword]}"
+                                   Margin="28, 0, 30, 0"
+                                   StrokeWidth="3"
+                                   FontFamily="{StaticResource MainFont}"
+                                   TextPassword="{Binding UserPasswordRepeat}"
+                                   TextColor="{StaticResource Black}"
+                                   PlaceholderColor="{AppThemeBinding Light= {StaticResource Black},
+                                                                      Dark= {StaticResource White}}">
+                <controls:PasswordLine.Triggers>
+                    <DataTrigger TargetType="controls:PasswordLine"
+                                 Binding="{Binding IsPasswordValid}"
+                                 Value="True">
+                        <Setter Property="BorderColor" Value="{StaticResource LightGray}"/>
+                    </DataTrigger>
+
+                    <DataTrigger TargetType="controls:PasswordLine"
+                                 Binding="{Binding IsPasswordValid}"
+                                 Value="False">
+                        <Setter Property="BorderColor" Value="{StaticResource LightRed}"/>
+                    </DataTrigger>
+                </controls:PasswordLine.Triggers>
+            </controls:PasswordLine>
+
+            <!--LABEL ERROR PASSWORD-->
+                <!--Text="{Binding PasswordErrorMsgText}"
+                   TextColor="{Binding ErrorColor}"-->
+            <Label Margin="30, 0, 0, 5"
+                   FontFamily="{StaticResource MainFont}">
+                <Label.Triggers>
+                    <DataTrigger TargetType="Label"
+                                 Binding="{Binding IsPasswordValid}"
+                                 Value="True">
+                        <Setter Property="TextColor" Value="Transparent"/>
+                    </DataTrigger>
+
+                    <DataTrigger TargetType="Label"
+                                 Binding="{Binding IsPasswordValid}"
+                                 Value="False">
+                        <Setter Property="Text" Value="{Binding TextUserMsgResources[PasswordMismatch]}"/>
+                        <Setter Property="TextColor" Value="{StaticResource LightRed}"/>
+                    </DataTrigger>
+                </Label.Triggers>
+            </Label>
+
+            <!--BUTTON LOG IN-->
+            <Button Text="{Binding TextControlsResources[CreateAccount]}"
+                    FontSize="14"
+                    Margin="16, 0, 16, 0"
+                    BackgroundColor="{StaticResource LightBlue }"
+                    TextColor="White"
+                    Command="{Binding CreateAccountCommand}"
+                    FontFamily="{StaticResource MainFont}"/>
+
+            <!--SEPARATOR-->
+            <Grid Margin="0, 10">
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="*"/>
+                    <ColumnDefinition Width="20"/>
+                    <ColumnDefinition Width="*"/>
+                </Grid.ColumnDefinitions>
+
+                <!--LINE RIGHT-->
+                <Line Grid.Column="0"
+                      X2="1000"
+                      Stroke="{StaticResource LightGray}"
+                      Margin="16, 10, 0, 0"/>
+
+                <!--LINE LEFT-->
+                <Line Grid.Column="2"
+                      X2="1000"
+                      Stroke="{StaticResource LightGray}"
+                      Margin="5, 10, 16, 0"/>
+
+                <!--LABEL OR-->
+                <Label Text="{Binding TextControlsResources[SeparatorOr]}"
+                       Grid.Column ="1" 
+                       HorizontalOptions="Center"
+                       FontFamily="{StaticResource MainFont}"
+                       TextColor="{StaticResource LightGray}"/>
+            </Grid>
+
+            <!--BUTTON GOOGLE-->
+            <Button BackgroundColor="{StaticResource White}"
+                    Margin="16, 0, 16, 0"
+                    BorderColor="{StaticResource LightGray}" 
+                    BorderWidth="1.5"
+                    ImageSource="{StaticResource ic_google}"/>
+
+        </StackLayout>
+    </ContentPage.Content>
+</ContentPage>

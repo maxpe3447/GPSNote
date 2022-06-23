@@ -1,0 +1,115 @@
+﻿<?xml version="1.0" encoding="UTF-8"?>
+<ContentView xmlns="http://xamarin.com/schemas/2014/forms" 
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml" xmlns:controls="clr-namespace:GPSNote.Controls"
+             x:Class="GPSNote.Controls.SearchLine">
+    <ContentView.Content>
+        <StackLayout BackgroundColor="{AppThemeBinding Light={StaticResource White}, 
+                                                       Dark={StaticResource BackgroundDark}}">
+            <Grid Margin="0, 10, 0, 0">
+
+                <Grid.RowDefinitions>
+                    <RowDefinition Height="40"/>
+                </Grid.RowDefinitions>
+
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="52"/>
+                    <ColumnDefinition x:Name="serchColumn" 
+                                      Width="*"/>
+                    <ColumnDefinition Width="52"/>
+                </Grid.ColumnDefinitions>
+
+                <!--SETTINGS BUTTON-->
+                <Button x:Name="bSettingOrBack"
+                        ImageSource="{StaticResource ic_settings}"
+                        
+                        Padding="25, 0,21,0"
+                        BackgroundColor="Transparent"/>
+
+                <!--BACKGROUNG OF ENTRY-->
+                <Frame Padding = "0"
+                       CornerRadius="5"
+                       IsClippedToBounds="true"
+                       Grid.Column="1"
+                       Grid.Row="0">
+
+                    <!--CANCEL LINE-->
+                    <controls:CancelLine x:Name="line"
+                                         Placeholder="Search"
+                                         Grid.Column="1"
+                                         Grid.Row="0"
+                                         BorderColor="Transparent"
+                                         IsEnabled="True"
+                                         FontFamily="{StaticResource MainFont}"
+                                         BackgroundColor="{AppThemeBinding Light={StaticResource LightLightGray}, 
+                                                                           Dark={StaticResource BackgroundDark}}"
+                                         PlaceholderColor="{AppThemeBinding Light={StaticResource Gray}, 
+                                                                            Dark={StaticResource White}}"/>
+                </Frame>
+
+                <!--EXIT BUTTON-->
+                <Button x:Name="bExit" 
+                        Grid.Column="2"
+                        Grid.Row="0"
+                        Padding ="15, 0, 19,0"
+                        ImageSource="{StaticResource ic_exid}"
+                        BackgroundColor="Transparent"/>
+
+            </Grid>
+
+            <!--RESULT SERCH LIST-->
+            <ListView x:Name="listView"
+                      SeparatorVisibility="Default">
+
+                <ListView.ItemTemplate>
+                    <DataTemplate>
+                        <ViewCell>
+                            <Grid RowSpacing="1">
+
+                                <Grid.RowDefinitions>
+                                    <RowDefinition Height="18"/>
+                                    <RowDefinition Height="25"/>
+                                </Grid.RowDefinitions>
+
+                                <Grid.ColumnDefinitions>
+                                    <ColumnDefinition Width="48"/>
+                                    <ColumnDefinition Width="*"/>
+                                </Grid.ColumnDefinitions>
+
+                                <!--PIN IMAGE-->
+                                <Image Source="{StaticResource ic_pin_gray}"
+                                       Grid.Column="0"
+                                       Grid.Row="0"
+                                       Grid.RowSpan="2"
+                                       Margin="20, 0, 0, 0"/>
+
+                                <!--PIN NAME LABEL-->
+                                <Label FontFamily="{StaticResource MainFont}"
+                                       Grid.Column="1"
+                                       Grid.Row="0"
+                                       FontSize="15"
+                                       TextColor="{AppThemeBinding Light={StaticResource DarkGray}, 
+                                                                   Dark={StaticResource White}}"
+                                       BackgroundColor="Transparent"
+                                       Margin="10, 0,0,0"
+                                       Text="{Binding Name}"/>
+
+                                <!--PIN ADDRESS LABEL-->
+                                <Label FontFamily="{StaticResource MainFont}"
+                                       LineBreakMode="TailTruncation"
+                                       Grid.Column="1"
+                                       Grid.Row="1"
+                                       FontSize="15"
+                                       TextColor="{AppThemeBinding Light={StaticResource DarkGray}, 
+                                                                   Dark={StaticResource White}}"
+                                       BackgroundColor="Transparent"
+                                       Margin="10, 0,0,0"
+                                       Text="{Binding Address}"/>
+
+                            </Grid>
+                        </ViewCell>
+                    </DataTemplate>
+                </ListView.ItemTemplate>
+            </ListView>
+        </StackLayout>
+    </ContentView.Content>
+</ContentView>

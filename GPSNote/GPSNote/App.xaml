@@ -1,9 +1,45 @@
 ﻿<?xml version="1.0" encoding="utf-8" ?>
 <prism:PrismApplication xmlns="http://xamarin.com/schemas/2014/forms"
              xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
-             xmlns:prism="http://prismlibrary.com"
+             xmlns:prism="clr-namespace:Prism.Unity;assembly=Prism.Unity.Forms"
              x:Class="GPSNote.App">
     <Application.Resources>
+        
+        <!--Colors-->
+        <Color x:Key="White">#FEFEFD</Color>
+        <Color x:Key="BackgroundDark">#33374E</Color>
+        <Color x:Key="LightBlue">#596EFB</Color>
+        <Color x:Key="LightGray">#D7DDE8</Color>    <!--Borders-->
+        <Color x:Key="Gray">#858E9E</Color>
+        <Color x:Key="DarkGray">#3D4E61</Color>     <!--Labels-->
+        <Color x:Key="Black">#1E242B</Color>        <!--Titles-->
+        <Color x:Key="LightLightGray">#F1F3FD</Color>
+        <Color x:Key="LightRed">#F24545</Color>
 
+        <!--Images-->
+        <ImageSource x:Key="pic_enter_page_big">pic_enter_page2x.png</ImageSource>
+        <ImageSource x:Key="ic_google">ic_google.png</ImageSource>
+        <ImageSource x:Key="ic_left_blue">ic_left_blue.png</ImageSource>
+        <ImageSource x:Key="ic_map">ic_map.png</ImageSource>
+        <ImageSource x:Key="ic_location">ic_location.png</ImageSource>
+        <ImageSource x:Key="ic_plus">ic_plus.png</ImageSource>
+        <ImageSource x:Key="ic_pin">ic_pin.png</ImageSource>
+        <ImageSource x:Key="ic_save">ic_save.png</ImageSource>
+        <ImageSource x:Key="ic_left_gray">ic_left_gray.png</ImageSource>
+        <ImageSource x:Key="ic_delete">ic_delete.png</ImageSource>
+        <ImageSource x:Key="ic_edit">ic_edit.png</ImageSource>
+        <ImageSource x:Key="ic_share">ic_share.png</ImageSource>
+        <ImageSource x:Key="ic_settings">ic_settings.png</ImageSource>
+        <ImageSource x:Key="ic_exid">ic_exid.png</ImageSource>
+        <ImageSource x:Key="ic_pin_gray">ic_pin_gray.png</ImageSource>
+        <ImageSource x:Key="ic_placeholder">ic_placeholder.png</ImageSource>
+        <ImageSource x:Key="ic_clear">ic_clear.png</ImageSource>
+        <ImageSource x:Key="ic_like_blue">ic_like_blue.png</ImageSource>
+        <ImageSource x:Key="ic_like_gray">ic_like_gray.png</ImageSource>
+        <ImageSource x:Key="ic_eye">ic_eye.png</ImageSource>
+        <ImageSource x:Key="ic_eye_off">ic_eye_off.png</ImageSource>
+        
+        <!--Fonts-->
+        <x:String x:Key="MainFont">Montserrat</x:String>
     </Application.Resources>
 </prism:PrismApplication>

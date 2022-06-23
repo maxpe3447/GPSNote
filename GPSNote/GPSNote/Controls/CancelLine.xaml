@@ -1,0 +1,34 @@
+﻿<?xml version="1.0" encoding="UTF-8"?>
+<ContentView xmlns="http://xamarin.com/schemas/2014/forms" 
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml" xmlns:controls="clr-namespace:GPSNote.Controls"
+             x:Class="GPSNote.Controls.CancelLine">
+  <ContentView.Content>
+        <Grid x:Name="grid">
+            <Grid.RowDefinitions>
+                <RowDefinition/>
+            </Grid.RowDefinitions>
+
+            <Grid Grid.Row="0" 
+                  ColumnSpacing="0"
+                  ColumnDefinitions="*,0">
+
+                <!--ENTRY-->
+                <controls:BorderEntry x:Name="eText"/>
+
+                <!--CANCEL BUTTON-->
+                <Button x:Name="bIsClear"
+                        IsEnabled="False"
+                        IsVisible="False"
+                        HeightRequest="20"
+                        WidthRequest="20"
+                        Grid.Column="1"
+                        Grid.Row="0"
+                        Margin="-40,0,0,0"
+                        BackgroundColor="Transparent"/>
+
+                
+
+            </Grid>
+        </Grid>
+    </ContentView.Content>
+</ContentView>
