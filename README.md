@@ -1,5 +1,5 @@
 # GPSNote
-![GPSNote Logo](url_to_logo_image)
+![GPSNote Logo](https://github.com/maxpe3447/GPSNote/blob/master/images/logo.png)
 ## Description
 GPSNote is a mobile application designed to provide users with a convenient way to create and manage location-based notes. This application allows users to attach notes to specific GPS coordinates, ensuring that important information is associated with particular places. Whether it's a reminder for a particular location, a list of things to do when you're in a specific area, or any other context-specific note, GPSNote offers an intuitive platform to keep your notes organized based on your physical surroundings.
 
@@ -31,6 +31,8 @@ GPSNote employs Dependency Injection, a design pattern that enables the separati
 1. Clone the repository: `git clone https://github.com/maxpe3447/GPSNote.git`
 2. Open the project in your preferred Xamarin development environment.
 3. Build and run the application on your emulator or physical device.
+
+![Getting Started](https://github.com/maxpe3447/GPSNote/blob/master/images/use.png)
 
 ## Contributions
 Contributions to GPSNote are welcome! Feel free to fork the repository, make improvements, and submit pull requests. Please ensure that you follow best practices and maintain the existing architecture and patterns.
