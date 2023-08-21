@@ -1,4 +1,4 @@
-# GPSNote
+# Map Notepad
 ![GPSNote Logo](https://github.com/maxpe3447/GPSNote/blob/master/images/logo.png)
 ## Description
 GPSNote is a mobile application designed to provide users with a convenient way to create and manage location-based notes. This application allows users to attach notes to specific GPS coordinates, ensuring that important information is associated with particular places. Whether it's a reminder for a particular location, a list of things to do when you're in a specific area, or any other context-specific note, GPSNote offers an intuitive platform to keep your notes organized based on your physical surroundings.
