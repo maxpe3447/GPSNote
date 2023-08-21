@@ -41,7 +41,7 @@ Contributions to GPSNote are welcome! Feel free to fork the repository, make imp
 This project is under the [MIT License](https://github.com/maxpe3447/GPSNote/blob/main/LICENSE).
 
 ## Contact
-For any questions or concerns, you can contact the project owner, Max Peterson, at max.peterson@email.com.
+For any questions or concerns, you can contact the project owner, Max Pecherskyi, at m.pech.pr@email.com.
 
 **Note:**
 GPSNote is designed to showcase the implementation of various technologies, patterns, and libraries in mobile app development. It's intended for educational purposes and as a starting point for developers looking to build similar applications.
